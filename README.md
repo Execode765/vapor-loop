@@ -4,16 +4,17 @@ Development of an original musical instrument firmware for the M-VAVE FM-1, with
 
 **Status: planning. No project firmware has been implemented, built, flashed, or hardware-tested.**
 
-psychic-octo-spork is the working code name, not the final firmware name. The musical concept is still undecided.
+psychic-octo-spork is the working code name, not the final firmware name. The first prototype will explore ECHOLOG: melodic conversation.
 
 ## Vision
 Create something creative, unusual, and musically useful that FM-1 owners want to install and play. The aim goes beyond another Juno clone, conventional virtual analog synth, basic sampler, or ordinary groovebox.
 
-Initial candidates are GENOME (musical evolution), ECHOLOG (musical memory and response), and GRAVITY (physics-based composition). ECHOLOG is the assistant's initial recommendation, not a final decision. Originality and feasibility require further investigation.
+Initial candidates are GENOME (musical evolution), ECHOLOG (musical memory and response), and GRAVITY (physics-based composition). The owner selected ECHOLOG's melodic conversation interaction for the first prototype; the final product scope remains open. Originality and feasibility require further investigation.
 
 This project is separate from the completed Local LLM Infrastructure Lab.
 
 ## Documentation
+- [First prototype specification](docs/PROTOTYPE_SPEC.md)
 - [Project plan and milestones](docs/PROJECT_PLAN.md)
 - [Development log](docs/DEVELOPMENT_LOG.md)
 - [Hardware testing and recovery record](docs/HARDWARE_TESTING.md)
