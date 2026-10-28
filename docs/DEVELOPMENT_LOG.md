@@ -82,3 +82,8 @@ Never record a planned test as a passed test.
 - The rule is deterministic and integer-only: `reply = 2 × first pitch + 7 − captured pitch`, clamped to MIDI 0–127.
 - Native sanitizer tests verify the expected transformed pitches and preserved velocities. Compiled WASM, worklet, and existing regression checks pass locally.
 - Rebuilt the standalone browser preview. Real-Chrome CI and owner musical evaluation are pending. No plugin or hardware image was built or flashed.
+
+### 0.0.3 browser checks completed
+- Workflow 40753333474 passed native sanitizer, compiled WASM, worklet, served-Chrome, and direct-file Chrome checks for source commit `17352a2c28203ac4bd246ac9e69d8bb7ed37a78c`.
+- Both browser forms produced audio from Reply and returned to phrase-ready state without JavaScript errors.
+- Owner musical evaluation of the reply remains pending.
