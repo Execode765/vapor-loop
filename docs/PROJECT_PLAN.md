@@ -49,3 +49,6 @@ Work in small, explainable steps. Each meaningful change includes relevant docum
 ## Browser foundation selected
 Use the pinned foma browser subset described in [BROWSER_BUILD.md](BROWSER_BUILD.md). A portable integer C voice now builds to WebAssembly and passes local signal/integration checks. No installer is bundled. See [validation](BROWSER_VALIDATION.md) for browser versus host evidence. Phrase capture and replies remain the next musical-engine work.
 
+
+## Capture/replay milestone — 0.0.2
+The first memory engine captures and replays one monophonic phrase with original pitches and recorded event timing. It enforces 32-note/eight-second limits, retains a partial take on Stop, and provides Clear. See [FIRST_MEMORY.md](FIRST_MEMORY.md). Local C/WASM checks pass; browser validation is tracked separately. Musical response generation remains the next stage, after owner listening feedback.

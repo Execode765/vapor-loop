@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: first browser sound-check implementation. Native C, WebAssembly, and worklet bridge signal checks pass locally. Real Chrome audio/control tests also pass in GitHub Actions. No hardware firmware build or flashing has occurred.**
+**Status: browser capture/replay implemented. Local C and WASM memory checks pass; browser results are recorded in the validation log. No hardware firmware build or flashing has occurred.**
 
 psychic-octo-spork is the working code name, not the final firmware name. The first prototype will explore ECHOLOG: melodic conversation.
 
@@ -13,11 +13,13 @@ Initial candidates are GENOME (musical evolution), ECHOLOG (musical memory and r
 
 This project is separate from the completed Local LLM Infrastructure Lab.
 
-## First sound check
+## First memory — browser prototype 0.0.2
 
-[Downloadable browser sound check](preview/echolog-soundcheck.html) — use GitHub’s Download raw file control, open the saved HTML in a modern desktop browser, and select Enable sound. Browser validation status is recorded below.
+[Downloadable browser preview](preview/echolog-soundcheck.html) — use GitHub’s Download raw file control, open the saved HTML in Chrome, and select Enable sound.
 
-The browser prototype plays a monophonic sine voice with keys, volume, and Stop. Phrase capture and replies are not implemented yet. [Build and play instructions](docs/BROWSER_BUILD.md) · [validation record](docs/BROWSER_VALIDATION.md).
+Capture a monophonic phrase, Finish, then Replay its stored notes and timing. Stop preserves it; Clear or a new capture erases it. Maximum 32 notes/eight seconds; session memory only. Musical replies and variations are not implemented yet.
+
+[First-memory guide](docs/FIRST_MEMORY.md) · [build instructions](docs/BROWSER_BUILD.md) · [validation record](docs/BROWSER_VALIDATION.md).
 
 ## Documentation
 - [First prototype specification](docs/PROTOTYPE_SPEC.md)

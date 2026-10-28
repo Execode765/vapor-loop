@@ -56,3 +56,11 @@ Never record a planned test as a passed test.
 - This is owner-reported hands-on evidence, separate from automated Chrome signal/control checks.
 - Exact browser/OS and individual Stop/volume checks were not recorded.
 - Next musical milestone: implement capture and replay of one short monophonic phrase, then add a recognizable melodic response. No hardware flashing.
+
+## 2026-10-28 — First phrase memory, 0.0.2
+- Implemented a portable C capture/replay state machine with relative audio-frame timestamps, durations, velocities, fixed capacity, and no heap allocation.
+- Added Capture, Finish, Replay, Clear, status/progress, and a visibly bounded take. Stop retains partial capture; live playing interrupts replay.
+- Local address/undefined-behavior sanitizer checks passed (leak detection disabled locally because this runtime restricts process inspection; the memory engine does not allocate). Existing voice, WASM, and bridge checks still pass, plus the new WASM memory integration test.
+- Native tests confirm identical replay samples across single-frame and larger render chunks, both capacity limits, overlap/retrigger behavior, and Stop/Clear handling.
+- Browser and owner listening results for this new milestone are pending at implementation time. Prior owner approval was for 0.0.1 only.
+- Rebuilt the single-file preview. No hardware image produced or flashed.

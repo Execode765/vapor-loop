@@ -39,3 +39,15 @@ The browser check verifies worklet startup, nonzero audio samples after key inpu
 ## Owner feedback — 2026-10-28
 
 The owner tested the browser sound check and reported: “It works from the keyboard, it works from the mouse.” This confirms audible playback and both input methods in the owner's session. Browser version, OS, Stop/volume behavior, and extended-session results were not individually recorded; do not infer those details from the general positive report. No hardware test or phrase-response evaluation occurred.
+
+## First-memory milestone — 0.0.2
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Native memory engine | PASS locally | Address/undefined-behavior sanitizer build; stored event timing, deterministic render across chunk sizes, empty takes, overlap, both limits, Stop/Clear |
+| Actual compiled WASM memory path | PASS locally | Capture/replay via foma buttons/keys, nonzero replay signal, Stop/Clear, 32-note and eight-second caps |
+| Existing voice/WASM/worklet regression checks | PASS locally | Existing automated checks still pass |
+| Chrome served and standalone capture/replay | PENDING | Extended CI test includes keyboard/mouse recording and audible replay |
+| Owner listening for capture/replay | NOT TESTED | Prior owner report covers 0.0.1 only |
+
+The new browser test is not yet a claim of cross-browser/macOS/Windows support. No hardware flashing or plugin implementation occurred.

@@ -11,7 +11,30 @@ function sync() {
   send({type:'keys',mask});
   keyButtons.forEach((b,i)=>b.classList.toggle('held', !!(mask & (1 << i))));
 }
-function releaseAll() { held.clear(); sync(); send({type:'buttons',mask:1<<12}); send({type:'buttons',mask:0}); }
+function releaseKeys() { held.clear(); sync(); }
+function pulse(id) { send({type:'buttons',mask:1<<id});send({type:'buttons',mask:0}); }
+function releaseAll() { releaseKeys(); pulse(12); }
+function action(id) { releaseKeys(); pulse(id); }
+$('capture').onclick=()=>action(13);
+$('finish').onclick=()=>action(3);
+$('replay').onclick=()=>action(11);
+$('clear').onclick=()=>action(8);
+function phraseStatus(p) {
+  const capturing=p.mode===1 || p.mode===2;
+  $('capture').disabled=!ready || capturing;
+  $('capture').classList.toggle('recording',capturing);
+  $('finish').disabled=!ready || !capturing;
+  $('replay').disabled=!ready || !p.count || capturing;
+  $('clear').disabled=!ready || (!p.count && !capturing);
+  const duration=((p.mode===2?p.position:p.length)/44100).toFixed(2);
+  const limit=p.limit===1?' · 32-note limit reached':p.limit===2?' · 8-second limit reached':'';
+  $('phrase-status').textContent=p.mode===1?'Armed · play your first note':
+    p.mode===2?`Recording · ${p.count} notes · ${duration}s`:
+    p.mode===3?`Replaying · ${p.count} notes · ${duration}s`:
+    p.count?`Phrase ready · ${p.count} notes · ${duration}s${limit}`:'No phrase yet · press Capture';
+  $('phrase-progress').max=p.mode===2 || p.mode===1 ? 352800 : Math.max(p.length,1);
+  $('phrase-progress').value=p.mode===2 || p.mode===3?p.position:0;
+}
 const names=['F3','F♯3','G3','G♯3','A3','A♯3','B3','C4','C♯4','D4','D♯4','E4','F4'];
 names.forEach((name,i)=>{
   const b=document.createElement('button');
@@ -47,8 +70,8 @@ $('start').onclick=async()=>{
     const wasm=await response.arrayBuffer();
     node=new AudioWorkletNode(ctx,'fm1',{numberOfInputs:0,numberOfOutputs:1,outputChannelCount:[2]});
     node.port.onmessage=({data:m})=>{
-      if(m.type==='ready'){ready=true;$('status').textContent='Ready · 44.1 kHz · one voice';$('start').textContent='Sound enabled';$('stop').disabled=false;keyButtons.forEach(b=>b.disabled=false);}
-      if(m.type==='frame' && m.fb)draw(m.fb);
+      if(m.type==='ready'){ready=true;$('status').textContent='Ready · 44.1 kHz · one voice';$('start').textContent='Sound enabled';$('stop').disabled=false;keyButtons.forEach(b=>b.disabled=false);phraseStatus({mode:0,count:0,length:0,position:0,limit:0});}
+      if(m.type==='frame'){if(m.fb)draw(m.fb);if(m.phrase)phraseStatus(m.phrase);}
       if(m.type==='crash'){ready=false;$('status').textContent='Audio stopped: '+m.message;node.disconnect();}
     };
     node.onprocessorerror=()=>{ready=false;$('status').textContent='Audio processor failed. Reload to retry.';};

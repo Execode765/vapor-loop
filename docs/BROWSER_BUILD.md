@@ -1,6 +1,6 @@
-# First browser sound check — 0.0.1
+# Browser prototype build — 0.0.2
 
-This milestone plays one sine voice. Phrase capture, replies, Adventure and Keep are not implemented yet.
+This milestone captures and replays one phrase using the sine voice. See [FIRST_MEMORY.md](FIRST_MEMORY.md). Replies, Adventure and Keep are not implemented yet.
 
 ## Foundation decision
 
@@ -14,6 +14,7 @@ This is a **source-compiled browser simulation**, not an emulation of the AC791N
 
 | Path | Purpose |
 | --- | --- |
+| `src/memory.c`, `src/memory.h` | Capture/replay state machine and event scheduler |
 | `src/voice.c`, `src/voice.h` | Portable monophonic integer oscillator and envelope |
 | `src/voice_tables.h` | Generated constants; C audio processing needs no floating point |
 | `src/main.c` | foma adapter: keys/MIDI, note display, Stop |
@@ -41,6 +42,7 @@ python3 tests/test_voice.py
 python3 tools/build_web.py
 node tests/test_wasm.mjs
 node tests/test_worklet.mjs
+node tests/test_memory_wasm.mjs
 python3 -m http.server 8000 --directory build/web
 ```
 
@@ -55,6 +57,8 @@ The Browser sound check workflow builds/tests on pushes to main and uploads `ech
 No public website deployment is configured. Keeping the repository private does not require changing its visibility to run the local preview.
 
 ## Play
+
+Capture/Finish/Replay/Clear instructions are in [FIRST_MEMORY.md](FIRST_MEMORY.md). The build still supports ordinary live playing:
 
 1. Select **Enable sound** (browsers require a user gesture).
 2. Click and hold a key, or play `A W S E D F T G Y H U J K` on the computer keyboard.
