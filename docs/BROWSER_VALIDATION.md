@@ -137,8 +137,12 @@ The owner supplied a screen recording using **C major** and **MPC Live III USB-C
 | Compiled WASM control/counter | PASS locally | Adventure setter/getter and successive variation counter reach the actual compiled engine |
 | Previous voice/memory/MIDI regressions | PASS locally | Existing native, WASM, worklet, limits, controls, and MIDI checks remain green |
 | Real Chrome UI/audio | PASS | Served and direct-file Chrome set Adventure 80, completed variations 1 and 2, and passed Replay/MIDI/UI regressions |
-| Owner musical evaluation | NOT TESTED | Probability curve and high-setting usefulness require listening |
+| Owner audiovisual functional test | PASS (owner supplied) | Physical MPC/C-major test exercised Adventure 0 and raised settings through 80; exact Replay, distinct in-scale contours, protected anchor/register/cadence; subjective verdict pending |
 
 Adventure changes interior scale degrees only. Passing scale/cadence constraints does not prove that the variations feel tasteful. Keep and rhythmic mutation are not implemented.
 
 [Successful 0.2.0 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40773797192) validates source commit `a80f68f07abe283f40bb862dda0b12886c513dbf`. Native sanitizer, Adventure constraints, all 48 harmony contexts, compiled WASM, worklet, served Chrome, and direct-file Chrome checks passed. Owner musical evaluation remains pending.
+
+## Owner audiovisual test — Adventure 0.2.0 — 2026-10-28
+
+The owner supplied a physical-MIDI screen recording using **C major** and **MPC Live III USB-C In 1**. The captured 15-note phrase reaches the eight-second limit and consists of the C-major contour C–D–E–G–E–D–C repeated, with a final C at the boundary. Replay is exact. Adventure 0 produces the approved scale-aware baseline. The recording visibly exercises raised Adventure settings through 80; generated pitch sequences differ, remain in C major, retain the G answer anchor, stay inside the protected register, and end on C-major tonic-triad tones. Higher Adventure produces wider and lower-register movement as intended. The video validates physical operation and audible variation, but the owner's subjective assessment of the curve remains pending.
