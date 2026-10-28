@@ -65,7 +65,9 @@ The owner tested the downloaded standalone build and confirmed that Capture, Fin
 | Native reply transformation | PASS locally | Exact expected pitches, preserved velocities/timing, and safe playback lifecycle under address/undefined-behavior sanitizers |
 | Compiled WASM reply command | PASS locally | Reply command enters transformed playback and produces nonzero audio through the real foma interface |
 | Existing voice/memory/worklet regressions | PASS locally | Native voice, WASM, worklet, capture/replay, limits, Stop, and Clear checks remain green |
-| Real Chrome UI/audio | PENDING | GitHub Actions will test served and direct-file builds after commit |
+| Real Chrome UI/audio | PASS | Served and direct-file builds completed Reply with nonzero audio and returned to phrase-ready state |
 | Owner musical evaluation | NOT TESTED | Owner has not yet heard or rated the transformed reply |
 
 The transformation begins seven semitones above the captured first note and mirrors each captured interval while retaining the recorded rhythm, durations, and velocities. This is a browser prototype result, not hardware or plugin validation.
+
+[Successful 0.0.3 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40753333474) validates source commit `17352a2c28203ac4bd246ac9e69d8bb7ed37a78c`. Native sanitizer, compiled WASM, worklet, served Chrome, and direct-file Chrome checks all passed. Owner musical evaluation remains pending.
