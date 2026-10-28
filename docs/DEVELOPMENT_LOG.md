@@ -131,3 +131,9 @@ Never record a planned test as a passed test.
 - Workflow 40761057791 passed native harmony/memory sanitizer checks, compiled WASM, worklet, and real Chrome for both served and downloaded builds.
 - Chrome changed the Reply context to D natural minor, produced audible Reply, completed playback, and retained all MIDI/UI protections without JavaScript errors.
 - Owner musical evaluation remains pending and is the next gate.
+
+## 2026-10-28 — Owner audiovisual test of scale-aware Reply
+- Owner supplied a C-major/MPC screen recording with C5–D5–E5–D5–C5 repeated twice in an eight-second, ten-note take.
+- Exact Replay reproduced the source. Reply produced G5–F5–E5–F5–G5 twice, confirming in-scale contrary motion and a tonic-triad ending.
+- The prior chromatic E-flat problem is absent; E natural is retained in C major.
+- Functional audiovisual validation passed. The owner's subjective judgment of musical usefulness remains intentionally unrecorded until stated.
