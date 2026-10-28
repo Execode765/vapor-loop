@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: browser capture/replay, physical Web MIDI, scale-aware Reply, Adventure, groove shaping, Phrase Architecture, and three-slot Candidate Memory are implemented. Native C checks for 0.5.0 pass; compiled WASM, real-Chrome CI, and owner validation are pending. No hardware firmware build or flashing has occurred.**
+**Status: browser capture/replay, physical Web MIDI, scale-aware Reply, Adventure, groove shaping, Phrase Architecture, and three-slot Candidate Memory are implemented. Native C, compiled WASM, and real-Chrome checks for 0.5.0 pass; owner validation is pending. No hardware firmware build or flashing has occurred.**
 
 psychic-octo-spork is the working code name, not the final firmware name. The first prototype will explore ECHOLOG: melodic conversation.
 
@@ -14,6 +14,8 @@ Initial candidates are GENOME (musical evolution), ECHOLOG (musical memory and r
 This project is separate from the completed Local LLM Infrastructure Lab.
 
 ## Keep and Candidate Memory — prototype 0.5.0
+
+[Versioned downloadable preview](preview/echolog-keep-v0.5.0.html) — download and open in current Chrome or Edge, generate a Reply, then keep and compare candidates A, B, and C.
 
 Keep the exact latest generated Reply in session slots A, B, or C, continue exploring, then audition, replace, or forget each candidate independently. The saved phrase is a deep copy, so later variations and control changes cannot mutate it. Clearing the source does not erase kept candidates.
 

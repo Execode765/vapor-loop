@@ -220,3 +220,20 @@ The interface consistently retains 24 source notes while showing generated reply
 **Functional result: PASS. Melodic coherence: PASS. Audible groove: PASS. Direction: STRONGLY VALIDATED.** The owner reported: “It's definitely grooving now. It grooves and it's melodic. We are definitely on track.”
 
 This is the first owner validation that ECHOLOG creates a convincing audible groove rather than merely applying technically correct timing changes. It validates the phrase-architecture direction, not universal genre authenticity. The video does not establish plugin behavior, MIDI-clock synchronization, polyphony, sound-design quality, or FM-1 hardware compatibility.
+
+
+## Keep and Candidate Memory — 0.5.0
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Three slot bounds | PASS | Invalid slots are rejected; A/B/C report independent occupancy and note counts |
+| Deep-copy isolation | PASS | Candidate A remains byte-for-byte stable after new Reply generation and control changes |
+| Independent audition | PASS | Kept phrase enters a distinct playback mode with its own count, length, pitch, velocity, onset, and duration arrays |
+| Replace/forget behavior | PASS | Keeping into a slot replaces only that slot; Forget empties only the selected slot |
+| Source independence | PASS | Exact Replay remains untouched and source Clear does not erase candidates |
+| Native safety/lifecycle | PASS | Address/undefined-behavior sanitizer checks cover save, regenerate, audition, stop, clear, and persistence |
+| Compiled WASM API | PASS | Keep/play/forget, mask, selected slot, note counts, and last-Reply validity reach the actual engine |
+| Real Chrome workflow | PASS | Served and direct-file Chrome keep variation 1 in A, generate variation 2, audition A, keep B, forget B, retain A, and exact-Replay the source |
+| Owner validation | NOT TESTED | Hands-on workflow and usefulness remain pending |
+
+[Successful 0.5.0 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40789153651) validates source commit `ffab5d25077c2d544224bb710c4015c47eb3832e`. Candidate memory is session-only. This is not preset-file persistence, plugin validation, or physical FM-1 storage validation.

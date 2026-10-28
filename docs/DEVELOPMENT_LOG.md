@@ -220,3 +220,9 @@ Never record a planned test as a passed test.
 - Native address/undefined-behavior sanitizer tests pass for slot bounds, deep-copy isolation, playback, clearing, and persistence.
 - Recorded **Bass Companion** as a later second-voice/sub-oscillator milestone and **Vapor Loop** as the owner's leading name candidate. Neither is implemented or final.
 - Compiled WASM, real-Chrome CI, and owner validation are pending. No plugin or hardware firmware image was built or flashed.
+
+
+### 0.5.0 browser checks completed
+- Workflow 40789153651 passed native sanitizer, compiled WASM, worklet, served-Chrome, and direct-file Chrome checks for source commit `ffab5d25077c2d544224bb710c4015c47eb3832e`.
+- Chrome kept variation 1 in A, generated variation 2, auditioned the unchanged A, kept the newer response in B, forgot only B, retained A, and exact-Replayed the source.
+- Packaged a versioned standalone preview. Owner workflow/usefulness validation remains pending.
