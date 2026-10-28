@@ -159,3 +159,9 @@ Never record a planned test as a passed test.
 - Owner supplied an MPC/C-major recording of a 15-note, eight-second phrase, exact Replay, Adventure 0 baseline, and raised settings through 80.
 - Raised settings produced audibly and analytically distinct C-major contours. The G opening anchor, MIDI register bound, and tonic-triad ending held; high Adventure traveled farther into the lower register.
 - Physical functional behavior passed. The owner's subjective judgment of the Adventure probability curve remains intentionally pending until stated.
+
+### Owner same-setting Adventure and style assessment
+- Follow-up MPC video held C major / Adventure 10 and repeatedly pressed Reply. Variation numbers advanced through multiple generations, and answers changed without moving the slider.
+- Same-setting generation behavior passes on the owner's physical setup.
+- Owner judged the output musically acceptable but closer to a nursery rhyme than modern trap, R&B, melodic techno, or contemporary electronic phrasing.
+- Treat 0.2.0 as a coherent variation foundation, not a genre-ready generator. The style gap points to rhythm, chord progression/context, phrase-shape rules, and sound design rather than simply increasing pitch randomness.
