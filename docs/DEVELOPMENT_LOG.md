@@ -112,3 +112,9 @@ Never record a planned test as a passed test.
 - Workflow 40757919690 passed the full simulated-controller test in both served Chrome and the downloaded local HTML.
 - Permission request options, selection, note/channel/velocity routing, audio, phrase capture, Replay, disconnect panic, and absence of JavaScript errors were verified.
 - Physical SMK Pro Elite validation remains pending.
+
+## 2026-10-28 — Owner physical MIDI validation
+- Owner confirmed that the SMK Pro Elite running custom Vector firmware is detected and works; Chrome displays the firmware-provided name “Vector.”
+- Owner supplied video evidence using MPC Live III USB-C In 1: velocity status, seven-note Capture/Finish, exact Replay, and diagnostic Reply all worked.
+- Recorded source/replay pitches were MIDI 60–61–62–63–62–61–60; Reply was 67–66–65–64–65–66–67, exactly matching the current rule.
+- Browser MIDI 0.0.4 is owner-validated with physical controllers. This does not validate an FM-1 hardware build or improve the already-failed musical assessment of the Reply algorithm.
