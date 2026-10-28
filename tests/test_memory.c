@@ -78,6 +78,25 @@ int main(void) {
     echo_memory_set_adventure(&m,80); assert(m.adventure==80 && m.variation==0);
     echo_memory_set_adventure(&m,200); assert(m.adventure==100);
     echo_memory_set_adventure(&m,-1); assert(m.adventure==0);
+    uint32_t go[3]={0,7000,15000}, gd[3]={3000,4000,5000};
+    uint32_t ro[3]={0}, rd[3]={0}, gl=0;
+    echo_groove_apply(go,gd,ro,rd,3,22000,120,ECHO_GROOVE_ORIGINAL,100,&gl);
+    for(int i=0;i<3;i++) assert(ro[i]==go[i] && rd[i]==gd[i]);
+    assert(gl==22000);
+    echo_groove_apply(go,gd,ro,rd,3,22000,120,ECHO_GROOVE_PULSE,100,&gl);
+    assert(ro[0]==0 && ro[1]==5512 && ro[2]==16536 && rd[0]==4134);
+    uint32_t swing_o[3]={0,5512,11024};
+    echo_groove_apply(swing_o,gd,ro,rd,3,16000,120,ECHO_GROOVE_SWING,100,&gl);
+    assert(ro[1]==7349 && ro[0]<ro[1] && ro[1]<ro[2]);
+    echo_groove_apply(go,gd,ro,rd,3,22000,120,ECHO_GROOVE_HALF_TIME,100,&gl);
+    assert(ro[1]==14000 && ro[2]==30000 && rd[2]==10000 && gl==44000);
+    for(int style=0;style<ECHO_GROOVE_COUNT;style++) for(int amount=0;amount<=100;amount+=10) {
+        echo_groove_apply(go,gd,ro,rd,3,22000,97,style,amount,&gl);
+        assert(ro[0]<ro[1] && ro[1]<ro[2] && rd[0] && rd[1] && rd[2]);
+        assert(gl<=ECHO_MAX_REPLY_FRAMES);
+    }
+    echo_memory_set_groove(&m,96,ECHO_GROOVE_POCKET,70);
+    assert(m.bpm==96 && m.groove_style==ECHO_GROOVE_POCKET && m.groove_amount==70 && m.variation==0);
     /* Same-pitch retrigger and overlapping input close the old event. */
     echo_memory_capture(&m); echo_memory_on(&m,60,100); advance(&m,100);
     echo_memory_on(&m,60,90); advance(&m,100); echo_memory_on(&m,65,90);
@@ -110,5 +129,5 @@ int main(void) {
     advance(&m,4096); assert(m.voice.level==0);
     echo_memory_clear(&m); assert(!m.count && !m.length && !echo_memory_replay(&m));
     echo_memory_on(&m,-1,100); echo_memory_on(&m,128,100); assert(m.voice.note==-1);
-    puts("PASS memory/harmony: faithful baseline, distinct Adventure variants, 48 key/scale contexts, protected anchor/cadence/register, timing/velocity and lifecycle");
+    puts("PASS memory/harmony/groove: faithful baseline, Adventure variants, 48 contexts, five groove profiles, BPM/amount bounds, timing/velocity and lifecycle");
 }

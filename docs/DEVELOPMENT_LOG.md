@@ -165,3 +165,11 @@ Never record a planned test as a passed test.
 - Same-setting generation behavior passes on the owner's physical setup.
 - Owner judged the output musically acceptable but closer to a nursery rhyme than modern trap, R&B, melodic techno, or contemporary electronic phrasing.
 - Treat 0.2.0 as a coherent variation foundation, not a genre-ready generator. The style gap points to rhythm, chord progression/context, phrase-shape rules, and sound design rather than simply increasing pitch randomness.
+
+## 2026-10-28 — Groove and phrase-shaping engine, 0.3.0
+- Separated Reply timing into portable `src/groove.c`, independent from phrase memory and harmony/Adventure pitch generation.
+- Added manual BPM 40–240, Shape 0–100, and Original, Pulse, Swing, Pocket, and Half-time profiles.
+- Original preserves timing; Pulse quantizes/gates; Swing delays odd 16ths; Pocket adds alternating laid-back placement/articulation; Half-time scales onset/duration/length up to 2×.
+- Exact Replay remains untouched. Event order, positive durations, note count, velocity, and a 16-second reply bound are enforced.
+- Native sanitizer tests cover profile math and all amount values. Compiled WASM/worklet and previous regression suites pass locally.
+- Real-Chrome CI and owner musical evaluation are pending. The profiles are timing foundations, not claims of finished genre modeling.

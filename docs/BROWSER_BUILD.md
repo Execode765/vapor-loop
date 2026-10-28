@@ -1,6 +1,6 @@
-# Browser prototype build — 0.2.0
+# Browser prototype build — 0.3.0
 
-This milestone adds controlled Adventure variations to the portable scale-aware Reply strategy, phrase memory, exact Replay, and Web MIDI. See [ADVENTURE.md](ADVENTURE.md). Keep, chord progressions, rhythmic mutation, and automatic key detection are not implemented yet.
+This milestone adds portable groove and phrase-timing transformations to scale-aware Reply, Adventure, phrase memory, exact Replay, and Web MIDI. See [GROOVE.md](GROOVE.md). Keep, chord progressions, genre grammar, added/removed events, and automatic key detection are not implemented yet.
 
 ## Foundation decision
 

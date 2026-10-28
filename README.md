@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: browser capture/replay, physical Web MIDI, scale-aware Reply, and controlled Adventure variation are implemented. Native C and compiled WASM checks pass; real-Chrome CI and owner musical evaluation for 0.2.0 are pending. No hardware firmware build or flashing has occurred.**
+**Status: browser capture/replay, physical Web MIDI, scale-aware Reply, Adventure, and the first groove/phrase-shaping engine are implemented. Native C and compiled WASM checks pass; real-Chrome CI and owner musical evaluation for 0.3.0 are pending. No hardware firmware build or flashing has occurred.**
 
 psychic-octo-spork is the working code name, not the final firmware name. The first prototype will explore ECHOLOG: melodic conversation.
 
@@ -13,13 +13,13 @@ Initial candidates are GENOME (musical evolution), ECHOLOG (musical memory and r
 
 This project is separate from the completed Local LLM Infrastructure Lab.
 
-## Adventure — prototype 0.2.0
+## Groove and phrase shaping — prototype 0.3.0
 
-[Versioned downloadable preview](preview/echolog-adventure-v0.2.0.html) — open the saved HTML in Chrome, select Enable sound, choose a key/scale and Adventure amount, and optionally enable a physical MIDI controller.
+[Versioned downloadable preview](preview/echolog-groove-v0.3.0.html) — open the saved HTML in Chrome, select Enable sound, choose musical and groove settings, and optionally enable a physical MIDI controller.
 
-Adventure 0 preserves the musically approved 0.1.0 baseline. Higher values make increasingly frequent one- or two-scale-step changes to interior notes; each Reply press advances to another deterministic variation. Rhythm, duration, velocity, opening anchor, selected scale, safe register, and tonic-triad cadence remain protected.
+Version 0.3.0 separates pitch generation from rhythm shaping. Original preserves captured timing; Pulse quantizes and tightens; Swing delays off-sixteenths; Pocket alternates laid-back placement and articulation; Half-time stretches toward twice the duration. BPM and Shape amount are manual. Replay always remains exact.
 
-[Adventure guide](docs/ADVENTURE.md) · [Musical Reply guide](docs/MUSICAL_REPLY.md) · [Browser MIDI guide](docs/BROWSER_MIDI.md) · [first-memory design](docs/FIRST_MEMORY.md) · [build instructions](docs/BROWSER_BUILD.md) · [validation record](docs/BROWSER_VALIDATION.md).
+[Groove guide](docs/GROOVE.md) · [Adventure guide](docs/ADVENTURE.md) · [Musical Reply guide](docs/MUSICAL_REPLY.md) · [Browser MIDI guide](docs/BROWSER_MIDI.md) · [build instructions](docs/BROWSER_BUILD.md) · [validation record](docs/BROWSER_VALIDATION.md).
 
 ## Documentation
 - [First prototype specification](docs/PROTOTYPE_SPEC.md)

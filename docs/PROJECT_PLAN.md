@@ -61,3 +61,6 @@ The first musical strategy is isolated in `src/harmony.c` so response rules can 
 
 ## Controlled variation milestone — 0.2.0
 Adventure makes successive Replies vary while retaining the approved scale-aware baseline at zero. It changes interior scale degrees probabilistically and protects timing, expression, scale, register, opening anchor, and tonic-triad cadence. The sequence is deterministic for testing. Musical evaluation must determine whether the probability curve is useful before adding Keep or rhythm mutation. See [ADVENTURE.md](ADVENTURE.md).
+
+## Groove/phrase-shaping milestone — 0.3.0
+Reply timing is now a separate portable stage with manual BPM, blend amount, and five profiles: Original, Pulse, Swing, Pocket, and Half-time. Exact Replay remains source-faithful. The engine transforms existing event timing only; MIDI clock, bar awareness, ratchets, dropped/repeated notes, chord/style grammar, and richer sound remain future work. See [GROOVE.md](GROOVE.md).

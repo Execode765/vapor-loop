@@ -152,3 +152,20 @@ The owner supplied a physical-MIDI screen recording using **C major** and **MPC 
 A follow-up physical-MIDI recording holds **C major / Adventure 10** while repeatedly pressing Reply. The interface visibly advances through successive variation numbers, including 1, 2, 3, 5, and 7, and the audible pitch sequences change without moving the slider. This completes owner validation of the generation counter and same-setting variation behavior.
 
 **Functional result: PASS. Musical coherence: PASS, limited. Style target: FAIL/PENDING.** The owner described the output as “okay” and “more nursery rhyme” than melodic techno, modern trap, or R&B. This is consistent with the present design: copied source rhythm, static scale, no chord progression, simple contrary motion, monophony, and a sine voice. Further random pitch variation alone is unlikely to solve the style gap; rhythmic vocabulary, chord context, phrase-shape rules, and sound design are the relevant next layers.
+
+## Groove and phrase shaping — 0.3.0
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Original profile compatibility | PASS locally | Reply onset/duration arrays exactly equal captured timing |
+| Pulse | PASS locally | Maximum Shape quantizes to the 16th-note grid and targets 3/4-grid duration |
+| Swing | PASS locally | Odd 16ths receive the expected one-third-grid delay at maximum Shape |
+| Pocket | PASS locally | Alternating laid-back placement/duration retains strict event order |
+| Half-time | PASS locally | Onsets, durations, and phrase length reach 2× at maximum; reply remains bounded to 16 seconds |
+| All profile/amount combinations | PASS locally | Address/undefined-behavior sanitizer checks nonzero duration, strict order, and length bounds |
+| Compiled WASM controls | PASS locally | BPM/profile/Shape setters and getters reach the actual engine; Half-time play length exceeds source |
+| Previous harmony/Adventure/MIDI regressions | PASS locally | Existing native, WASM, worklet, controls, limits, and MIDI checks remain green |
+| Real Chrome UI/audio | PENDING | Workflow will test 128 BPM / Swing / Shape 80 with successive replies in served/direct-file builds |
+| Owner musical evaluation | NOT TESTED | Groove character and style usefulness require listening |
+
+These profiles establish timing transformation, not finished genre emulation. BPM is manual; no MIDI clock, bar model, event addition/removal, or sound-design improvement is claimed.

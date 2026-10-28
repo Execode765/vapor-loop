@@ -32,6 +32,19 @@ function syncAdventure() {
   send({type:'adventure',value});
 }
 $('adventure').oninput=syncAdventure;
+const grooveNames=['Original','Pulse','Swing','Pocket','Half-time'];
+function syncGroove() {
+  let bpm=Math.max(40,Math.min(240,Number($('bpm').value)||120));
+  $('bpm').value=String(bpm);
+  const style=Number($('groove-style').value), amount=Number($('groove-amount').value);
+  const character=amount===0?'Unshaped':amount<=30?'Light':amount<=60?'Medium':amount<=80?'Strong':'Maximum';
+  $('groove-value').textContent=`${amount} · ${character}`;
+  $('groove-status').textContent=`Reply groove · ${grooveNames[style]} at ${bpm} BPM`;
+  send({type:'groove',bpm,style,amount});
+}
+$('bpm').onchange=syncGroove;
+$('groove-style').onchange=syncGroove;
+$('groove-amount').oninput=syncGroove;
 function midiNoteName(n) {
   const names=['C','C♯','D','E♭','E','F','F♯','G','A♭','A','B♭','B'];
   return `${names[n%12]}${Math.floor(n/12)-1}`;
@@ -110,13 +123,14 @@ function phraseStatus(p) {
   $('replay').disabled=!ready || !p.count || capturing;
   $('reply').disabled=!ready || !p.count || capturing;
   $('clear').disabled=!ready || (!p.count && !capturing);
-  const duration=((p.mode===2?p.position:p.length)/44100).toFixed(2);
+  const shownLength=p.mode===2?p.position:p.mode===3?(p.playLength||p.length):p.length;
+  const duration=(shownLength/44100).toFixed(2);
   const limit=p.limit===1?' · 32-note limit reached':p.limit===2?' · 8-second limit reached':'';
   $('phrase-status').textContent=p.mode===1?'Armed · play your first note':
     p.mode===2?`Recording · ${p.count} notes · ${duration}s`:
-    p.mode===3?`${p.playback===2?`Replying · Adventure ${p.adventure||0} · variation ${p.variation||1}`:'Replaying'} · ${p.count} notes · ${duration}s`:
+    p.mode===3?`${p.playback===2?`Replying · ${grooveNames[p.grooveStyle||0]} ${p.grooveAmount||0} · Adventure ${p.adventure||0} · variation ${p.variation||1}`:'Replaying'} · ${p.count} notes · ${duration}s`:
     p.count?`Phrase ready · ${p.count} notes · ${duration}s${limit}`:'No phrase yet · press Capture';
-  $('phrase-progress').max=p.mode===2 || p.mode===1 ? 352800 : Math.max(p.length,1);
+  $('phrase-progress').max=p.mode===2 || p.mode===1 ? 352800 : p.mode===3?Math.max(p.playLength||p.length,1):Math.max(p.length,1);
   $('phrase-progress').value=p.mode===2 || p.mode===3?p.position:0;
 }
 const names=['F3','F♯3','G3','G♯3','A3','A♯3','B3','C4','C♯4','D4','D♯4','E4','F4'];
@@ -154,7 +168,7 @@ $('start').onclick=async()=>{
     const wasm=await response.arrayBuffer();
     node=new AudioWorkletNode(ctx,'fm1',{numberOfInputs:0,numberOfOutputs:1,outputChannelCount:[2]});
     node.port.onmessage=({data:m})=>{
-      if(m.type==='ready'){ready=true;$('status').textContent='Ready · 44.1 kHz · one voice';$('start').textContent='Sound enabled';$('stop').disabled=false;keyButtons.forEach(b=>b.disabled=false);syncHarmony();syncAdventure();phraseStatus({mode:0,count:0,length:0,position:0,limit:0,playback:0,root:Number($('root').value),scale:Number($('scale').value),adventure:Number($('adventure').value),variation:0});}
+      if(m.type==='ready'){ready=true;$('status').textContent='Ready · 44.1 kHz · one voice';$('start').textContent='Sound enabled';$('stop').disabled=false;keyButtons.forEach(b=>b.disabled=false);syncHarmony();syncAdventure();syncGroove();phraseStatus({mode:0,count:0,length:0,playLength:0,position:0,limit:0,playback:0,root:Number($('root').value),scale:Number($('scale').value),adventure:Number($('adventure').value),variation:0,grooveStyle:Number($('groove-style').value),grooveAmount:Number($('groove-amount').value)});}
       if(m.type==='frame'){if(m.fb)draw(m.fb);if(m.phrase)phraseStatus(m.phrase);}
       if(m.type==='crash'){ready=false;$('status').textContent='Audio stopped: '+m.message;node.disconnect();}
     };

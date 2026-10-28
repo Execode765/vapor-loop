@@ -7,7 +7,7 @@ void setup(void) {
     echo_memory_init(&memory);
     clear(RGB(10, 20, 24));
     text(24, 24, "ECHOLOG", RGB(141, 238, 192), FONT_BIG);
-    text(24, 66, "ADVENTURE 0.2.0", WHITE, FONT_SMALL);
+    text(24, 66, "GROOVE 0.3.0", WHITE, FONT_SMALL);
     text(24, 198, "32 NOTES / 8 SEC", WHITE, FONT_SMALL);
 }
 void loop(void) {
@@ -58,10 +58,17 @@ ECHO_EXPORT(echo_root) int echo_root(void) { return memory.root; }
 ECHO_EXPORT(echo_scale) int echo_scale(void) { return memory.scale; }
 ECHO_EXPORT(echo_adventure) int echo_adventure(void) { return memory.adventure; }
 ECHO_EXPORT(echo_variation) uint32_t echo_variation(void) { return memory.variation; }
+ECHO_EXPORT(echo_play_length) uint32_t echo_play_length(void) { return memory.play_length; }
+ECHO_EXPORT(echo_bpm) int echo_bpm(void) { return memory.bpm; }
+ECHO_EXPORT(echo_groove_style) int echo_groove_style(void) { return memory.groove_style; }
+ECHO_EXPORT(echo_groove_amount) int echo_groove_amount(void) { return memory.groove_amount; }
 ECHO_EXPORT(echo_set_harmony) void echo_set_harmony(int root, int scale) {
     echo_memory_set_harmony(&memory, root, scale);
 }
 ECHO_EXPORT(echo_set_adventure) void echo_set_adventure(int adventure) {
     echo_memory_set_adventure(&memory, adventure);
+}
+ECHO_EXPORT(echo_set_groove) void echo_set_groove(int bpm, int style, int amount) {
+    echo_memory_set_groove(&memory, bpm, style, amount);
 }
 #endif
