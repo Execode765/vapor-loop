@@ -173,3 +173,8 @@ Never record a planned test as a passed test.
 - Exact Replay remains untouched. Event order, positive durations, note count, velocity, and a 16-second reply bound are enforced.
 - Native sanitizer tests cover profile math and all amount values. Compiled WASM/worklet and previous regression suites pass locally.
 - Real-Chrome CI and owner musical evaluation are pending. The profiles are timing foundations, not claims of finished genre modeling.
+
+### 0.3.0 browser checks completed
+- Workflow 40778697465 passed native groove/harmony/memory sanitizer tests, compiled WASM, worklet, and real Chrome in served and downloaded forms.
+- Chrome used 128 BPM / Swing / Shape 80, completed successive Adventure replies, and retained exact Replay, Web MIDI, disconnect, mobile layout, and no-error behavior.
+- Owner musical/style evaluation remains pending.
