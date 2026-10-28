@@ -111,8 +111,12 @@ The supplied MPC screen recording shows **MPC Live III USB-C In 1** selected, li
 | Compiled WASM harmony controls | PASS locally | Root/scale setters and getters reach the actual compiled engine; audible Reply completes |
 | Previous voice/memory/MIDI regressions | PASS locally | Existing native, WASM, worklet, limits, Stop/Clear, and MIDI checks remain green |
 | Real Chrome UI/audio | PASS | Served and direct-file Chrome selected D natural minor, produced audible Reply, completed playback, and passed MIDI/UI regressions |
-| Owner musical evaluation | NOT TESTED | Musical usefulness must be judged by listening, not pitch-validity tests |
+| Owner audiovisual functional test | PASS (owner supplied) | C5–D5–E5–D5–C5 repeated twice; exact Replay; scale-aware Reply G5–F5–E5–F5–G5 repeated twice; subjective musical verdict pending |
 
 This strategy is deterministic and manually keyed. Passing automated music-theory constraints does not establish that the response feels musical. No plugin or physical FM-1 result is claimed.
 
 [Successful 0.1.0 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40761057791) validates source commit `39202a2c9da499012002cdc71589a077496c60f2`. Native sanitizer, all 48 harmony contexts, compiled WASM, worklet, served Chrome, and direct-file Chrome checks passed. Owner musical evaluation remains pending.
+
+## Owner audiovisual test — 0.1.0 — 2026-10-28
+
+The owner supplied a screen recording using **C major** and **MPC Live III USB-C In 1**. The take contains ten notes over eight seconds: MIDI `72, 74, 76, 74, 72` repeated twice. Replay reproduces all ten notes exactly. Reply produces MIDI `79, 77, 76, 77, 79` repeated twice: G5–F5–E5–F5–G5. The generated E natural remains inside C major, and the final G is a tonic-triad tone. Capture, the time limit, Replay, Reply, Web MIDI, and repeated playback all functioned. This proves the implemented theory rule and audio path; it does not establish the owner's subjective musical approval, which remains pending.
