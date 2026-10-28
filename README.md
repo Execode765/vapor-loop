@@ -15,6 +15,8 @@ This project is separate from the completed Local LLM Infrastructure Lab.
 
 ## Phrase Architecture — prototype 0.4.0
 
+[Versioned downloadable preview](preview/echolog-phrase-v0.4.0.html) — download and open in current Chrome or Edge, enable sound, capture a phrase, then compare Original, Trap Pocket, R&B Flow, and Techno Motion.
+
 Version 0.4.0 gives Reply its own event structure. Experimental Trap Pocket, R&B Flow, and Techno Motion personalities can remove notes, create rests, repeat motifs, change accents and note lengths, and add ratchets. This directly addresses the owner's finding that 0.3.0 timing offsets worked technically but did not create a convincing groove.
 
 These names are design targets, not claims of authentic genre emulation. See the [Phrase Architecture guide](docs/PHRASE_ARCHITECTURE.md).

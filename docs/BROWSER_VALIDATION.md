@@ -182,3 +182,20 @@ The owner supplied a physical-MIDI screen recording using **MPC Live III USB-C I
 **Functional result: PASS. Groove result: FAIL. Directional value: PARTIAL PASS.** The owner reported that the grooves “didn't really change a whole lot” and did not meaningfully groove. Tempo/Half-time changes were clearly perceptible, but Pulse, Swing, and Pocket did not create convincing contemporary rhythmic feel. Version 0.3.0 therefore validates the separated timing architecture and controls, not musical pocket or genre authenticity.
 
 The next refinement should not merely add more timing offsets. It should reshape phrase structure using rests, density, motif repetition, syncopation, pickups, ratchets, accents, and strategically lengthened notes. Tempo scaling must remain independent from pitch; any pitch-shift impression is perceptual because the synthesized notes themselves are not resampled.
+
+
+## Phrase Architecture — 0.4.0
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Independent Reply event count | PASS | A three-note captured source generates a ten-event Trap Pocket reply while exact Replay remains three notes |
+| Original compatibility | PASS | Original or Intensity 0 preserves source count, pitches, velocities, onsets, durations, and length |
+| Trap Pocket structure | PASS | Sparse one-bar pattern, explicit rests, accent hierarchy, and threshold-added ratchets |
+| R&B Flow structure | PASS | Mixed note lengths, response gaps, and softer intervening velocities |
+| Techno Motion structure | PASS | Repeating four-note motif, cyclical accents, and intensity-added events |
+| Bounds and lifecycle | PASS | Native sanitizers cover all styles/intensities, strict event order, positive duration/velocity, capacity, and 16-second reply bound |
+| Compiled WASM controls | PASS | Architecture style/intensity exports and independent reply count reach the actual engine |
+| Real Chrome UI/audio | PASS | Served and direct-file Chrome selected Trap Pocket 100, produced a ten-event reply from a three-note source, completed two variations, then replayed the untouched source |
+| Owner musical evaluation | NOT TESTED | Contemporary feel and usefulness require listening |
+
+[Successful 0.4.0 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40786013924) validates source commit `d7329c22e2e54a8798f90324e3ca1cac0af945e8`. The names Trap Pocket, R&B Flow, and Techno Motion describe experimental design targets, not verified genre authenticity. No plugin or hardware firmware result is claimed.

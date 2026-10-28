@@ -195,3 +195,9 @@ Never record a planned test as a passed test.
 - Added experimental Original, Trap Pocket, R&B Flow, and Techno Motion structural personalities. They can create rests, remove/repeat notes, add intensity-dependent ratchets, establish motif repetition, vary note lengths, and apply accent hierarchy.
 - Native address/undefined-behavior sanitizer tests pass across all styles and intensity values, including event order, nonzero durations/velocities, capacity, and reply-length bounds.
 - Compiled WASM, real-Chrome CI, and owner musical evaluation are pending. The genre labels are design targets, not authenticity claims. No plugin or hardware image was built or flashed.
+
+
+### 0.4.0 browser checks completed
+- Workflow 40786013924 passed native sanitizer, compiled WASM, worklet, served-Chrome, and direct-file Chrome checks for source commit `d7329c22e2e54a8798f90324e3ca1cac0af945e8`.
+- Chrome generated a ten-event Trap Pocket reply from a three-note source, completed successive variations, and then replayed the untouched three-note performance.
+- Packaged a versioned standalone preview for owner listening. Musical feel remains intentionally pending until the owner reports it.
