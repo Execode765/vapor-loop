@@ -7,7 +7,9 @@ const assert=require('node:assert/strict');
     args:['--no-sandbox','--autoplay-policy=no-user-gesture-required']});
   try {
     const page=await browser.newPage({viewport:{width:1100,height:1000}});
-    const errors=[];page.on('pageerror',e=>errors.push(e.message));
+    const errors=[];page.on('pageerror',e=>{errors.push(e.message);console.error('PAGE ERROR',e.message);});
+    page.on('console',m=>{if(m.type()==='error')console.error('CONSOLE',m.text());});
+    page.setDefaultTimeout(15000);
     await page.addInitScript(()=>{
       const Original=window.AudioWorkletNode;
       window.AudioWorkletNode=class extends Original {
@@ -16,7 +18,8 @@ const assert=require('node:assert/strict');
     });
     await page.goto(process.env.TEST_URL || 'http://127.0.0.1:8000');
     await page.getByRole('button',{name:'Enable sound',exact:true}).click();
-    await page.waitForFunction(()=>document.getElementById('status').textContent.startsWith('Ready'));
+    await page.waitForFunction(()=>{const t=document.getElementById('status').textContent;return t.startsWith('Ready') || t!=='Sound is off.';});
+    assert((await page.locator('#status').textContent()).startsWith('Ready'),await page.locator('#status').textContent());
     await page.keyboard.down('a');
     await page.waitForFunction(()=>{
       const a=window.__audioProbe,x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return x.some(v=>Math.abs(v)>.01);

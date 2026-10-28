@@ -32,7 +32,7 @@ Rebuild it after `tools/build_web.py` with `python3 tools/build_standalone.py`. 
 
 ## Build locally
 
-Required: Python 3, Clang with its WebAssembly backend, LLD, Node.js, and GCC for the native check. Codex installation is optional. On Debian/Ubuntu, the compiler packages are `clang`, `lld`, and `gcc`.
+Required: Python 3, Clang with its WebAssembly backend, LLD, Node.js 20 or later for browser automation, and GCC for the native check. Codex installation is optional. On Debian/Ubuntu, the compiler packages are `clang`, `lld`, and `gcc`.
 
 From the repository root:
 
