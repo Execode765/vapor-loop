@@ -107,3 +107,8 @@ Never record a planned test as a passed test.
 - Device change/disconnect detaches the old handler and sends All Notes Off across all channels to prevent stuck notes.
 - Added browser automation with a simulated SMK Pro Elite covering permission options, device selection, live audio, velocity status, phrase capture, Replay, and disconnect safety.
 - Native/WASM/worklet regressions pass locally. Real-Chrome CI and physical owner testing are pending. No hardware firmware image was produced or flashed.
+
+### 0.0.4 browser checks completed
+- Workflow 40757919690 passed the full simulated-controller test in both served Chrome and the downloaded local HTML.
+- Permission request options, selection, note/channel/velocity routing, audio, phrase capture, Replay, disconnect panic, and absence of JavaScript errors were verified.
+- Physical SMK Pro Elite validation remains pending.
