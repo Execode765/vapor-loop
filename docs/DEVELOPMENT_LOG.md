@@ -69,3 +69,9 @@ Never record a planned test as a passed test.
 - Workflow 40738989216 passed native voice/memory sanitizer tests, WASM integration, worklet regression checks, and real Chrome recording/replay tests.
 - Both the served page and downloaded HTML recorded keyboard/mouse input and replayed a two-note phrase with nonzero audio; Stop preserved it and Clear erased it.
 - Inspected desktop/mobile screenshots. No user listening test for 0.0.2 is claimed.
+
+## 2026-10-28 — Owner validation of first phrase memory
+- Owner tested the downloaded 0.0.2 standalone browser build.
+- Owner confirmed that Capture, Finish, Replay, and Clear all work.
+- This establishes hands-on validation of the complete first-memory interaction, separate from automated Chrome checks.
+- Browser capture/replay is now the validated foundation for the next musical milestone: generating a transformed reply. No hardware flashing occurred.
