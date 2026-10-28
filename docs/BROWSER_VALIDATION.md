@@ -136,7 +136,9 @@ The owner supplied a screen recording using **C major** and **MPC Live III USB-C
 | Timing and expression preservation | PASS locally | Source onsets, rests, durations, velocities, length, and count remain owned by the unchanged memory scheduler |
 | Compiled WASM control/counter | PASS locally | Adventure setter/getter and successive variation counter reach the actual compiled engine |
 | Previous voice/memory/MIDI regressions | PASS locally | Existing native, WASM, worklet, limits, controls, and MIDI checks remain green |
-| Real Chrome UI/audio | PENDING | Workflow will test Adventure 80 and successive replies in served/direct-file builds |
+| Real Chrome UI/audio | PASS | Served and direct-file Chrome set Adventure 80, completed variations 1 and 2, and passed Replay/MIDI/UI regressions |
 | Owner musical evaluation | NOT TESTED | Probability curve and high-setting usefulness require listening |
 
 Adventure changes interior scale degrees only. Passing scale/cadence constraints does not prove that the variations feel tasteful. Keep and rhythmic mutation are not implemented.
+
+[Successful 0.2.0 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40773797192) validates source commit `a80f68f07abe283f40bb862dda0b12886c513dbf`. Native sanitizer, Adventure constraints, all 48 harmony contexts, compiled WASM, worklet, served Chrome, and direct-file Chrome checks passed. Owner musical evaluation remains pending.
