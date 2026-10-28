@@ -85,10 +85,12 @@ The owner supplied a screen recording of the standalone 0.0.3 build. The video s
 | Check | Result | Evidence |
 | --- | --- | --- |
 | Browser MIDI capability/permission flow | PASS locally (syntax/build) | Explicit user button requests `requestMIDIAccess({sysex:false})`; denial and unavailable-API states retain non-MIDI input |
-| Device routing | PASS by automated test design; CI pending | Device selection, Note On/Off, channel preservation, velocity status, and C-engine audio/capture path |
-| Disconnect protection | PASS by automated test design; CI pending | Handler detaches and All Notes Off is sent across 16 channels when the selected input disappears |
+| Device routing | PASS | Chrome selected the simulated controller and verified Note On/Off, channel handling, velocity status, audio, capture, and Replay |
+| Disconnect protection | PASS | Chrome removed the simulated input, disabled selection, sent panic, and reached silence without JavaScript errors |
 | Native/WASM regressions | PASS locally | Voice, memory, Reply, compiled WASM, and worklet tests remain green |
-| Real Chrome with simulated MIDI input | PENDING | GitHub Actions will exercise served and direct-file builds |
+| Real Chrome with simulated MIDI input | PASS | Both served and direct-file builds passed the full browser MIDI test |
 | Physical SMK Pro Elite | NOT TESTED | Requires owner permission/device test in desktop Chrome |
 
 The browser must request MIDI access in response to **Enable MIDI**; plugging in a device alone does not trigger a permission prompt. This milestone requests no System Exclusive access and does not test firmware flashing or FM-1 hardware compatibility.
+
+[Successful 0.0.4 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40757919690) validates source commit `b62f4e08cf2a7cd12b16823ad569c608f87c18a4`. Native sanitizer, compiled WASM, worklet, served Chrome, and direct-file Chrome checks passed. Physical SMK Pro Elite testing remains pending.
