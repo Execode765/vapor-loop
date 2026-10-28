@@ -171,3 +171,14 @@ A follow-up physical-MIDI recording holds **C major / Adventure 10** while repea
 These profiles establish timing transformation, not finished genre emulation. BPM is manual; no MIDI clock, bar model, event addition/removal, or sound-design improvement is claimed.
 
 [Successful 0.3.0 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40778697465) validates source commit `f51bd64f273a42ad47c2539b39601fafa5f0b488`. Native sanitizer, five groove profiles, compiled WASM, worklet, served Chrome, and direct-file Chrome checks passed. Owner musical/style evaluation remains pending.
+
+
+## Owner audiovisual test — Groove and phrase shaping 0.3.0 — 2026-10-28
+
+The owner supplied a physical-MIDI screen recording using **MPC Live III USB-C In 1**. The video shows a 26-note phrase captured successfully, exact Replay, repeated Reply generation, manual BPM changes, multiple Shape amounts, and all five profiles: Original, Pulse, Swing, Pocket, and Half-time. Half-time visibly and audibly extends the reply; the other profiles complete without crashes, stuck notes, or broken controls.
+
+### Owner musical assessment
+
+**Functional result: PASS. Groove result: FAIL. Directional value: PARTIAL PASS.** The owner reported that the grooves “didn't really change a whole lot” and did not meaningfully groove. Tempo/Half-time changes were clearly perceptible, but Pulse, Swing, and Pocket did not create convincing contemporary rhythmic feel. Version 0.3.0 therefore validates the separated timing architecture and controls, not musical pocket or genre authenticity.
+
+The next refinement should not merely add more timing offsets. It should reshape phrase structure using rests, density, motif repetition, syncopation, pickups, ratchets, accents, and strategically lengthened notes. Tempo scaling must remain independent from pitch; any pitch-shift impression is perceptual because the synthesized notes themselves are not resampled.
