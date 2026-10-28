@@ -1,6 +1,6 @@
-# Browser prototype build — 0.0.4
+# Browser prototype build — 0.1.0
 
-This milestone adds permission-based Web MIDI controller input to the existing portable voice, phrase memory, exact Replay, and diagnostic Reply. See [BROWSER_MIDI.md](BROWSER_MIDI.md). Adventure, Keep, and musically constrained replies are not implemented yet.
+This milestone adds a portable scale-aware Reply strategy to phrase memory, exact Replay, and permission-based Web MIDI. See [MUSICAL_REPLY.md](MUSICAL_REPLY.md). Adventure, Keep, chord progressions, and automatic key detection are not implemented yet.
 
 ## Foundation decision
 

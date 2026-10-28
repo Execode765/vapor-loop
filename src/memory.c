@@ -5,6 +5,7 @@ void echo_memory_init(EchoMemory *m) {
     m->count = m->length = m->position = m->next = 0;
     m->mode = ECHO_IDLE; m->active = m->playing = -1; m->limit = ECHO_NO_LIMIT;
     m->playback = ECHO_NO_PLAYBACK;
+    m->root = 0; m->scale = ECHO_SCALE_MAJOR;
 }
 static void close_event(EchoMemory *m) {
     if (m->active < 0) return;
@@ -45,18 +46,21 @@ int echo_memory_replay(EchoMemory *m) {
 int echo_memory_reply(EchoMemory *m) {
     echo_memory_stop(m);
     if (!m->count || !m->length) return 0;
+    uint8_t source[ECHO_MAX_NOTES];
+    for (uint32_t i = 0; i < m->count; ++i) source[i] = m->events[i].pitch;
+    echo_harmony_reply(source, m->reply, m->count, m->root, m->scale);
     echo_voice_init(&m->voice);
     m->mode = ECHO_PLAYING; m->position = m->next = 0; m->playing = -1;
     m->playback = ECHO_REPLY_PLAYBACK;
     return 1;
 }
-/* Mirror each interval around a reply anchor one perfect fifth above the first note. */
+void echo_memory_set_harmony(EchoMemory *m, int root, int scale) {
+    m->root = root >= 0 && root < 12 ? root : 0;
+    m->scale = scale >= 0 && scale < ECHO_SCALE_COUNT ? scale : ECHO_SCALE_MAJOR;
+}
 static int playback_pitch(const EchoMemory *m, const EchoEvent *e) {
     if (m->playback != ECHO_REPLY_PLAYBACK) return e->pitch;
-    int pitch = 2 * (int)m->events[0].pitch + 7 - (int)e->pitch;
-    if (pitch < 0) return 0;
-    if (pitch > 127) return 127;
-    return pitch;
+    return m->reply[e - m->events];
 }
 void echo_memory_on(EchoMemory *m, int pitch, int velocity) {
     if (pitch < 0 || pitch > 127) return;

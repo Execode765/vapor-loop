@@ -68,6 +68,9 @@ const assert=require('node:assert/strict');
     await c4.hover(); await page.mouse.down(); await page.waitForTimeout(220); await page.mouse.up();
     await page.getByRole('button',{name:'Finish',exact:true}).click();
     await page.waitForFunction(()=>document.getElementById('phrase-status').textContent.startsWith('Phrase ready · 2 notes'));
+    await page.locator('#root').selectOption('2');
+    await page.locator('#scale').selectOption('1');
+    await page.waitForFunction(()=>document.getElementById('harmony-status').textContent==='Reply context · D natural minor');
     await page.getByRole('button',{name:'Reply',exact:true}).click();
     await page.waitForFunction(()=>document.getElementById('phrase-status').textContent.startsWith('Replying'));
     await page.waitForFunction(()=>{const a=window.__audioProbe,x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return x.some(v=>Math.abs(v)>.01);});
@@ -104,6 +107,6 @@ const assert=require('node:assert/strict');
     assert(await page.locator('#midi-input').isDisabled());
     await page.waitForFunction(()=>{const a=window.__audioProbe,x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return x.every(v=>Math.abs(v)<.00001);});
     assert.deepEqual(errors,[]);
-    console.log('PASS Chromium: Web MIDI permission/device/velocity/capture/disconnect, live audio, keyboard/mouse capture, reply/replay, mobile width, no JS errors');
+    console.log('PASS Chromium: root/scale selection, scale-aware reply, Web MIDI permission/device/velocity/capture/disconnect, replay, mobile width, no JS errors');
   } finally {await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1);});

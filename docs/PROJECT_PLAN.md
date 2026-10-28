@@ -55,3 +55,6 @@ The first memory engine captures and replays one monophonic phrase with original
 
 ## First transformed reply — 0.0.3
 The first Reply preserves the captured onset times, durations, and velocities. It places the first answer note a perfect fifth above the captured first note, then mirrors every subsequent interval: `reply = 2 × first + 7 − captured`. MIDI-range results are clamped safely. This deterministic rule is a musical baseline for owner evaluation, not the final variation system. See [FIRST_REPLY.md](FIRST_REPLY.md).
+
+## Scale-aware response milestone — 0.1.0
+The first musical strategy is isolated in `src/harmony.c` so response rules can evolve without coupling them to phrase storage or synthesis. It supports 48 manual key/scale contexts, contrary diatonic motion, register bounds, and a tonic-triad cadence while retaining recorded timing and dynamics. Automated theory constraints are necessary but not sufficient: owner listening determines whether this becomes a baseline or is replaced. See [MUSICAL_REPLY.md](MUSICAL_REPLY.md).

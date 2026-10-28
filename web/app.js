@@ -16,6 +16,15 @@ function releaseKeys() { held.clear(); sync(); }
 function pulse(id) { send({type:'buttons',mask:1<<id});send({type:'buttons',mask:0}); }
 function releaseAll() { releaseKeys(); pulse(12); }
 function action(id) { releaseKeys(); pulse(id); }
+const rootNames=['C','C♯','D','E♭','E','F','F♯','G','A♭','A','B♭','B'];
+const scaleNames=['major','natural minor','major pentatonic','minor pentatonic'];
+function syncHarmony() {
+  const root=Number($('root').value), scale=Number($('scale').value);
+  send({type:'harmony',root,scale});
+  $('harmony-status').textContent=`Reply context · ${rootNames[root]} ${scaleNames[scale]}`;
+}
+$('root').onchange=syncHarmony;
+$('scale').onchange=syncHarmony;
 function midiNoteName(n) {
   const names=['C','C♯','D','E♭','E','F','F♯','G','A♭','A','B♭','B'];
   return `${names[n%12]}${Math.floor(n/12)-1}`;
@@ -116,7 +125,7 @@ names.forEach((name,i)=>{
   b.onblur=()=>{held.delete('button'+i);sync();};
   keyButtons.push(b);$('keys').append(b);
 });
-addEventListener('keydown',e=>{if(!ready || e.repeat || e.target.matches('input') || e.ctrlKey || e.metaKey || e.altKey)return;const i=bindings.indexOf(e.key.toLowerCase());if(i>=0){e.preventDefault();held.set('k'+e.code,i);sync();}});
+addEventListener('keydown',e=>{if(!ready || e.repeat || e.target.matches('input,select') || e.ctrlKey || e.metaKey || e.altKey)return;const i=bindings.indexOf(e.key.toLowerCase());if(i>=0){e.preventDefault();held.set('k'+e.code,i);sync();}});
 addEventListener('keyup',e=>{held.delete('k'+e.code);sync();});
 addEventListener('blur',releaseAll);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)releaseAll();});
@@ -138,7 +147,7 @@ $('start').onclick=async()=>{
     const wasm=await response.arrayBuffer();
     node=new AudioWorkletNode(ctx,'fm1',{numberOfInputs:0,numberOfOutputs:1,outputChannelCount:[2]});
     node.port.onmessage=({data:m})=>{
-      if(m.type==='ready'){ready=true;$('status').textContent='Ready · 44.1 kHz · one voice';$('start').textContent='Sound enabled';$('stop').disabled=false;keyButtons.forEach(b=>b.disabled=false);phraseStatus({mode:0,count:0,length:0,position:0,limit:0,playback:0});}
+      if(m.type==='ready'){ready=true;$('status').textContent='Ready · 44.1 kHz · one voice';$('start').textContent='Sound enabled';$('stop').disabled=false;keyButtons.forEach(b=>b.disabled=false);syncHarmony();phraseStatus({mode:0,count:0,length:0,position:0,limit:0,playback:0,root:Number($('root').value),scale:Number($('scale').value)});}
       if(m.type==='frame'){if(m.fb)draw(m.fb);if(m.phrase)phraseStatus(m.phrase);}
       if(m.type==='crash'){ready=false;$('status').textContent='Audio stopped: '+m.message;node.disconnect();}
     };

@@ -2,6 +2,7 @@
 #ifndef ECHOLOG_MEMORY_H
 #define ECHOLOG_MEMORY_H
 #include "voice.h"
+#include "harmony.h"
 #define ECHO_MAX_NOTES 32u
 #define ECHO_MAX_FRAMES (44100u * 8u)
 enum { ECHO_IDLE, ECHO_ARMED, ECHO_RECORDING, ECHO_PLAYING };
@@ -14,8 +15,9 @@ typedef struct {
 typedef struct {
     EchoVoice voice;
     EchoEvent events[ECHO_MAX_NOTES];
+    uint8_t reply[ECHO_MAX_NOTES];
     uint32_t count, length, position, next;
-    int mode, active, playing, limit, playback;
+    int mode, active, playing, limit, playback, root, scale;
 } EchoMemory;
 /* One serialized owner; a future threaded/interrupt adapter must queue commands. */
 void echo_memory_init(EchoMemory *m);
@@ -23,6 +25,7 @@ void echo_memory_capture(EchoMemory *m);
 void echo_memory_finish(EchoMemory *m);
 int echo_memory_replay(EchoMemory *m);
 int echo_memory_reply(EchoMemory *m);
+void echo_memory_set_harmony(EchoMemory *m, int root, int scale);
 void echo_memory_stop(EchoMemory *m);
 void echo_memory_clear(EchoMemory *m);
 void echo_memory_on(EchoMemory *m, int pitch, int velocity);

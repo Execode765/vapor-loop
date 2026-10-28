@@ -18,9 +18,11 @@ advance(30);assert.equal(e.echo_mode(),0);assert.equal(e.echo_count(),2);
 command(11);advance(2);command(12);advance(6);assert.equal(e.echo_mode(),0);assert(render().every(x=>x===0));
 command(2);assert.equal(e.echo_mode(),3);assert.equal(e.echo_playback(),2);assert(render().some(x=>Math.abs(x)>.01));
 command(12);assert.equal(e.echo_mode(),0);assert.equal(e.echo_playback(),0);
+e.echo_set_harmony(2,1);assert.equal(e.echo_root(),2);assert.equal(e.echo_scale(),1);
+command(2);assert.equal(e.echo_mode(),3);assert.equal(e.echo_playback(),2);command(12);
 command(8);assert.equal(e.echo_count(),0);assert.equal(e.echo_length(),0);
 command(13);e.web_keys(1);advance(360);assert.equal(e.echo_mode(),0);assert.equal(e.echo_limit(),2);assert.equal(e.echo_length(),352800);
 e.web_keys(0);command(8);command(13);
 for(let i=0;i<32;i++){e.web_keys(1);advance(1);e.web_keys(0);advance(1);}
 assert.equal(e.echo_count(),32);assert.equal(e.echo_mode(),0);assert.equal(e.echo_limit(),1);
-console.log('PASS WASM memory: commands, 2-note capture, audible replay/reply, automatic finish, Stop, Clear, both limits');
+console.log('PASS WASM memory: commands, harmony selection, 2-note capture, audible replay/reply, automatic finish, Stop, Clear, both limits');

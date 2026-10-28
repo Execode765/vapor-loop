@@ -3,18 +3,27 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ECHOLOG · Browser MIDI</title>
+<title>ECHOLOG · Scale-aware Reply</title>
 <link rel="stylesheet" href="style.css">
 <main>
-  <header><p class="eyebrow">PSYCHIC-OCTO-SPORK / DEVELOPMENT 0.0.4</p><h1>Connect the keys.<br>Play the memory.</h1><p class="intro">Capture from a USB MIDI controller with real note range and velocity, or keep using the onscreen and computer keys.</p></header>
+  <header><p class="eyebrow">PSYCHIC-OCTO-SPORK / DEVELOPMENT 0.1.0</p><h1>A phrase remembered.<br>A musical answer.</h1><p class="intro">Choose a key and scale. ECHOLOG answers in scale, follows contrary motion, and resolves onto the tonic chord.</p></header>
   <section class="instrument" aria-label="ECHOLOG sound check">
     <div class="top"><div><p class="eyebrow">ECHOLOG</p><p class="hint">Musical conversation, in development.</p><button id="start">Enable sound</button><p id="status" role="status">Sound is off.</p></div><canvas id="screen" width="240" height="240" aria-label="Simulated FM-1 display"></canvas></div>
+    <div class="harmony-panel" aria-label="Reply harmony">
+      <label for="root">Key center
+        <select id="root"><option value="0">C</option><option value="1">C♯</option><option value="2">D</option><option value="3">E♭</option><option value="4">E</option><option value="5">F</option><option value="6">F♯</option><option value="7">G</option><option value="8">A♭</option><option value="9">A</option><option value="10">B♭</option><option value="11">B</option></select>
+      </label>
+      <label for="scale">Scale
+        <select id="scale"><option value="0">Major</option><option value="1">Natural minor</option><option value="2">Major pentatonic</option><option value="3">Minor pentatonic</option></select>
+      </label>
+      <p id="harmony-status">Reply context · C major</p>
+    </div>
     <div class="transport" aria-label="Phrase controls">
       <button id="capture" disabled>Capture</button><button id="finish" disabled>Finish</button><button id="replay" disabled>Replay</button><button id="reply" disabled>Reply</button><button id="clear" disabled>Clear</button>
     </div>
     <p id="phrase-status" role="status">No phrase yet. Enable sound to begin.</p>
     <progress id="phrase-progress" max="352800" value="0" aria-label="Phrase position"></progress>
-    <p class="hint">Reply preserves your rhythm and dynamics, starts a perfect fifth higher, and mirrors the intervals. Maximum 32 notes or 8 seconds.</p>
+    <p class="hint">Reply preserves rhythm and dynamics, maps notes to scale degrees, moves in contrary motion, and ends on the tonic chord. Maximum 32 notes or 8 seconds.</p>
     <div class="midi-panel" aria-label="MIDI controller connection">
       <button id="midi-enable" type="button">Enable MIDI</button>
       <label for="midi-input">MIDI input
@@ -26,7 +35,7 @@
     <div id="keys" aria-label="Playable keys"></div>
     <p class="hint">Click and hold a key, or use A W S E D F T G Y H U J K. Release to stop.</p>
   </section>
-  <section class="notes"><div><h2>Controller input</h2><p>Enable MIDI after connecting a USB keyboard, grant Chrome permission, and select the device. Note-on, note-off, velocity, and panic messages enter the same C engine as every other input.</p></div><div><h2>Reply remains experimental</h2><p>The chromatic mirror is retained as a functional diagnostic baseline. It passed engineering tests but failed the owner's musical-quality test; scale- and chord-aware replies come later.</p></div></section>
+  <section class="notes"><div><h2>Musical strategy</h2><p>Captured pitches are interpreted as scale degrees. The answer begins near a fifth above, reverses the source direction in diatonic steps, stays within a safe register, and cadences on the tonic, third, or fifth.</p></div><div><h2>Deliberately constrained</h2><p>This first musical strategy keeps the original rhythm and uses a manually selected key. Automatic key detection, chord progressions, Adventure, and rhythmic mutation remain later experiments.</p></div></section>
   <footer>Browser simulation, not a full CPU emulator or a hardware compatibility test. Memory lasts until Clear, a new capture, or closing the page. No installer or hardware access.<br>Platform: <a href="https://github.com/konsumer/foma">foma</a>, with Felucca / SLOOP / Dinghy lineage. GPL-3.0-only. AI-assisted development.</footer>
 </main><script type="module" src="app.js"></script>
 </html>

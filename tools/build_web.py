@@ -14,7 +14,7 @@ subprocess.run([compiler, '--target=wasm32', '-O2', '-nostdlib', '-fno-builtin',
     '-Ivendor/foma/platform', '-Ivendor/foma/platform/src', '-Ivendor/foma/platform/gen', '-Isrc',
     '-DFOMA_USB_AUDIO=0', '-DFOMA_TRS_MIDI=0', '-DFOMA_MIDI_CLOCK=0', '-DFOMA_BLUETOOTH=0',
     '-Wl,--no-entry', '-Wl,-z,stack-size=65536',
-    'vendor/foma/platform/web.c', 'src/main.c', 'src/voice.c', 'src/memory.c',
+    'vendor/foma/platform/web.c', 'src/main.c', 'src/voice.c', 'src/harmony.c', 'src/memory.c',
     '-o', str(out / 'firmware.wasm')], check=True)
 for file in (root / 'web').iterdir():
     if file.is_file(): shutil.copy2(file, out / file.name)

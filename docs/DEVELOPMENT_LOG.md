@@ -118,3 +118,11 @@ Never record a planned test as a passed test.
 - Owner supplied video evidence using MPC Live III USB-C In 1: velocity status, seven-note Capture/Finish, exact Replay, and diagnostic Reply all worked.
 - Recorded source/replay pitches were MIDI 60–61–62–63–62–61–60; Reply was 67–66–65–64–65–66–67, exactly matching the current rule.
 - Browser MIDI 0.0.4 is owner-validated with physical controllers. This does not validate an FM-1 hardware build or improve the already-failed musical assessment of the Reply algorithm.
+
+## 2026-10-28 — Scale-aware musical Reply, 0.1.0
+- Replaced the chromatic diagnostic transform with a separate portable harmony strategy module.
+- Added manual selection of all 12 roots with major, natural minor, major pentatonic, and minor pentatonic scales.
+- Reply maps source pitches to nearest scale degrees, creates equal contrary diatonic motion from an answer near a fifth above, stays within MIDI 36–96, and moves the final note to the nearest tonic-triad tone.
+- Preserves the existing phrase timing, rests, note lengths, velocities, count, limits, Replay, MIDI, and control behavior.
+- Native sanitizer tests cover all 48 key/scale contexts plus a known C-major phrase. Compiled WASM and worklet tests pass locally.
+- Real-Chrome CI and owner musical evaluation remain pending. No plugin or FM-1 image was built or flashed.

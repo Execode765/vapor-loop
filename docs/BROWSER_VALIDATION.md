@@ -100,3 +100,17 @@ The browser must request MIDI access in response to **Enable MIDI**; plugging in
 The owner confirmed that Chrome and ECHOLOG recognize an SMK Pro Elite running custom Vector firmware. The port is correctly reported as **Vector**, because the installed firmware supplies the USB MIDI product/port descriptor; this is not a detection failure. The owner also connected an MPC successfully.
 
 The supplied MPC screen recording shows **MPC Live III USB-C In 1** selected, live note status including velocity 117, a seven-note phrase captured and finished at 6.05 seconds, exact Replay, and transformed Reply. Audio analysis identifies the source as MIDI `60, 61, 62, 63, 62, 61, 60`, the exact Replay as the same sequence, and Reply as `67, 66, 65, 64, 65, 66, 67`, matching the diagnostic rule. This validates physical browser MIDI input and phrase operation, not FM-1 firmware compatibility or musical quality of Reply.
+
+## Scale-aware musical Reply — 0.1.0
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Harmony strategy across 48 contexts | PASS locally | Address/undefined-behavior sanitizer test covers 12 roots × four scales; every output is in scale and MIDI 36–96 |
+| Known C-major answer | PASS locally | C4–D4–E4–D4–C4 generates G4–F4–E4–F4–G4 |
+| Cadence and preservation | PASS locally | Final note is a tonic-triad tone; onset, rests, duration, velocity, count, and total length remain stored by the memory engine |
+| Compiled WASM harmony controls | PASS locally | Root/scale setters and getters reach the actual compiled engine; audible Reply completes |
+| Previous voice/memory/MIDI regressions | PASS locally | Existing native, WASM, worklet, limits, Stop/Clear, and MIDI checks remain green |
+| Real Chrome UI/audio | PENDING | Workflow will select D natural minor and test Reply in served and direct-file builds |
+| Owner musical evaluation | NOT TESTED | Musical usefulness must be judged by listening, not pitch-validity tests |
+
+This strategy is deterministic and manually keyed. Passing automated music-theory constraints does not establish that the response feels musical. No plugin or physical FM-1 result is claimed.

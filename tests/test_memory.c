@@ -34,12 +34,29 @@ int main(void) {
     echo_memory_replay(&m);
     for(int i=0;i<4000;i++) echo_memory_render(&m,second+2*i,1);
     for(int i=0;i<8000;i++) assert(first[i]==second[i]);
-    /* Reply retains timing/velocity while mirroring intervals around first note + 7. */
+    /* Reply retains timing/velocity while moving in C-major scale degrees. */
     assert(echo_memory_reply(&m)); assert(m.playback==ECHO_REPLY_PLAYBACK);
+    assert(m.reply[0]==67 && m.reply[1]==64);
     advance(&m,1); assert(m.voice.note==67 && m.voice.target==6400);
     advance(&m,1000); assert(m.voice.note==-1);
-    advance(&m,500); assert(m.voice.note==63 && m.voice.target==5120);
+    advance(&m,500); assert(m.voice.note==64 && m.voice.target==5120);
     echo_memory_stop(&m);
+    uint8_t source[5]={60,62,64,62,60}, reply[5]={0};
+    echo_harmony_reply(source,reply,5,0,ECHO_SCALE_MAJOR);
+    const uint8_t expected[5]={67,65,64,65,67};
+    for(int i=0;i<5;i++) assert(reply[i]==expected[i]);
+    /* Every root/scale combination stays in scale and in the reply register. */
+    uint8_t chromatic[32], constrained[32];
+    for(int i=0;i<32;i++) chromatic[i]=(uint8_t)(36+(i*7)%61);
+    for(int root=0;root<12;root++) for(int scale=0;scale<ECHO_SCALE_COUNT;scale++) {
+        echo_harmony_reply(chromatic,constrained,32,root,scale);
+        for(int i=0;i<32;i++) {
+            assert(constrained[i]>=36 && constrained[i]<=96);
+            assert(echo_harmony_contains(constrained[i],root,scale));
+        }
+    }
+    echo_memory_set_harmony(&m,2,ECHO_SCALE_NATURAL_MINOR);
+    assert(m.root==2 && m.scale==ECHO_SCALE_NATURAL_MINOR);
     /* Same-pitch retrigger and overlapping input close the old event. */
     echo_memory_capture(&m); echo_memory_on(&m,60,100); advance(&m,100);
     echo_memory_on(&m,60,90); advance(&m,100); echo_memory_on(&m,65,90);
@@ -72,5 +89,5 @@ int main(void) {
     advance(&m,4096); assert(m.voice.level==0);
     echo_memory_clear(&m); assert(!m.count && !m.length && !echo_memory_replay(&m));
     echo_memory_on(&m,-1,100); echo_memory_on(&m,128,100); assert(m.voice.note==-1);
-    puts("PASS memory: exact replay, mirrored reply, timing/velocity, empty/short takes, overlap/retrigger, caps, interrupt/stop/clear");
+    puts("PASS memory/harmony: exact replay, scale-aware reply across 48 key/scale contexts, cadence/register, timing/velocity, caps and lifecycle");
 }
