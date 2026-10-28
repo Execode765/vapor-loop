@@ -66,8 +66,12 @@ The owner tested the downloaded standalone build and confirmed that Capture, Fin
 | Compiled WASM reply command | PASS locally | Reply command enters transformed playback and produces nonzero audio through the real foma interface |
 | Existing voice/memory/worklet regressions | PASS locally | Native voice, WASM, worklet, capture/replay, limits, Stop, and Clear checks remain green |
 | Real Chrome UI/audio | PASS | Served and direct-file builds completed Reply with nonzero audio and returned to phrase-ready state |
-| Owner musical evaluation | NOT TESTED | Owner has not yet heard or rated the transformed reply |
+| Owner audiovisual test | PASS (owner supplied) | Recorded source C4–D4–E4–D4–C4; Reply produced G4–F4–E♭4–F4–G4 with preserved timing and completed playback |
 
 The transformation begins seven semitones above the captured first note and mirrors each captured interval while retaining the recorded rhythm, durations, and velocities. This is a browser prototype result, not hardware or plugin validation.
 
 [Successful 0.0.3 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40753333474) validates source commit `17352a2c28203ac4bd246ac9e69d8bb7ed37a78c`. Native sanitizer, compiled WASM, worklet, served Chrome, and direct-file Chrome checks all passed. Owner musical evaluation remains pending.
+
+## Owner feedback — 0.0.3 — 2026-10-28
+
+The owner supplied a screen recording of the standalone 0.0.3 build. The video shows a five-note phrase reaching the eight-second capture limit, exact Replay, and transformed Reply completing successfully. Audio analysis identifies the captured contour as MIDI `60, 62, 64, 62, 60` (C4–D4–E4–D4–C4) and the Reply as `67, 65, 63, 65, 67` (G4–F4–E♭4–F4–G4), matching the documented transformation exactly. This validates function and audible relationship in the owner's Chrome session; broader musical preference and long-term playability remain design questions.
