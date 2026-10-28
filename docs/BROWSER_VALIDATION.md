@@ -199,3 +199,24 @@ The next refinement should not merely add more timing offsets. It should reshape
 | Owner musical evaluation | NOT TESTED | Contemporary feel and usefulness require listening |
 
 [Successful 0.4.0 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40786013924) validates source commit `d7329c22e2e54a8798f90324e3ca1cac0af945e8`. The names Trap Pocket, R&B Flow, and Techno Motion describe experimental design targets, not verified genre authenticity. No plugin or hardware firmware result is claimed.
+
+
+## Owner audiovisual validation — Phrase Architecture 0.4.0 — 2026-10-28
+
+The owner supplied a 4:32 screen recording of the standalone browser build. The recording shows a **24-note C-major phrase reaching the eight-second capture limit**, followed by exact Replay and repeated generated replies.
+
+Visible tests include:
+
+- **Original** architecture as the source-preserving comparison.
+- **Trap Pocket 100** at 120 BPM, producing independent ten-event responses of approximately two seconds across successive variations.
+- **R&B Flow 100** at approximately 70 BPM, producing independent eight-event responses of approximately 3.43 seconds.
+- **Techno Motion 100**, tested around 70–85 BPM, producing independent ten-event motif responses around 2.8 seconds.
+- Additional combinations of Techno Motion and Trap Pocket with the separate Groove layer, including Pulse, Swing, and Pocket/Shape settings.
+
+The interface consistently retains 24 source notes while showing generated reply counts of eight or ten, directly validating independent Reply event structure. Responses complete normally across repeated generations and profile changes; no crash, stuck note, or source-memory corruption is visible.
+
+### Owner musical assessment
+
+**Functional result: PASS. Melodic coherence: PASS. Audible groove: PASS. Direction: STRONGLY VALIDATED.** The owner reported: “It's definitely grooving now. It grooves and it's melodic. We are definitely on track.”
+
+This is the first owner validation that ECHOLOG creates a convincing audible groove rather than merely applying technically correct timing changes. It validates the phrase-architecture direction, not universal genre authenticity. The video does not establish plugin behavior, MIDI-clock synchronization, polyphony, sound-design quality, or FM-1 hardware compatibility.
