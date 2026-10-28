@@ -154,3 +154,8 @@ Never record a planned test as a passed test.
 - Workflow 40773797192 passed native Adventure/harmony sanitizer tests, compiled WASM, worklet, and real Chrome in served and downloaded forms.
 - Chrome set Adventure 80, completed successive variations 1 and 2, and retained Replay, Web MIDI, disconnect, mobile layout, and no-error behavior.
 - Owner musical evaluation of the Adventure curve remains pending.
+
+## 2026-10-28 — Owner audiovisual test of Adventure
+- Owner supplied an MPC/C-major recording of a 15-note, eight-second phrase, exact Replay, Adventure 0 baseline, and raised settings through 80.
+- Raised settings produced audibly and analytically distinct C-major contours. The G opening anchor, MIDI register bound, and tonic-triad ending held; high Adventure traveled farther into the lower register.
+- Physical functional behavior passed. The owner's subjective judgment of the Adventure probability curve remains intentionally pending until stated.
