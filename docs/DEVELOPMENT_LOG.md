@@ -50,3 +50,9 @@ Never record a planned test as a passed test.
 - Fixed local-file worklet loading by embedding its module as a data URL.
 - Updated the browser test dependency; the final CI install reported zero audited vulnerabilities.
 - Human listening and hardware compatibility remain untested.
+
+## 2026-10-28 — First owner listening test passed
+- Owner confirmed that the browser sound check produces sound and responds to both computer-keyboard and mouse input.
+- This is owner-reported hands-on evidence, separate from automated Chrome signal/control checks.
+- Exact browser/OS and individual Stop/volume checks were not recorded.
+- Next musical milestone: implement capture and replay of one short monophonic phrase, then add a recognizable melodic response. No hardware flashing.
