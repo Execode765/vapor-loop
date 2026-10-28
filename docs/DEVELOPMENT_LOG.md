@@ -93,3 +93,9 @@ Never record a planned test as a passed test.
 - Captured phrase: C4–D4–E4–D4–C4. Reply: G4–F4–E♭4–F4–G4, exactly matching the fixed-fifth contour inversion.
 - The take reached the eight-second limit and remained valid; Replay and Reply both completed with five notes and preserved timing.
 - This is owner-supplied audiovisual evidence for browser behavior. It is not plugin or physical FM-1 validation.
+
+### Owner musical assessment of 0.0.3
+- Functional behavior passed: capture, exact Replay, transformed Reply, timing preservation, and the eight-second boundary all worked.
+- Musical behavior failed: the owner judged the Reply to be a technical inversion, not a musical answer.
+- Retain the deterministic mirror as a diagnostic baseline only; do not describe it as musically successful.
+- Defer musical refinement until scale, key, and chord constraints can be designed and evaluated deliberately.
