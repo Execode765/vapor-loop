@@ -149,3 +149,8 @@ Never record a planned test as a passed test.
 - Protected source rhythm, rests, durations, velocities, count and length; selected scale; MIDI 36–96 register; opening anchor; and tonic-triad cadence.
 - Added native tests for baseline compatibility, distinct high-Adventure generations, all 48 contexts, and protected constraints; compiled WASM tests cover the control and counter.
 - Local native/WASM/worklet regressions pass. Real-Chrome CI and owner musical evaluation are pending. Keep, rhythm mutation, plugin, and FM-1 firmware remain unimplemented.
+
+### 0.2.0 browser checks completed
+- Workflow 40773797192 passed native Adventure/harmony sanitizer tests, compiled WASM, worklet, and real Chrome in served and downloaded forms.
+- Chrome set Adventure 80, completed successive variations 1 and 2, and retained Replay, Web MIDI, disconnect, mobile layout, and no-error behavior.
+- Owner musical evaluation of the Adventure curve remains pending.
