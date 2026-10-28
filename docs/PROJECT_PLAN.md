@@ -6,7 +6,7 @@ Status: planning. Updated: 2026-10-28.
 Develop an original, unusual, musically useful firmware for the M-VAVE FM-1. This project is separate from the completed Local LLM Infrastructure Lab.
 
 ## Creative direction
-The final concept and product name are undecided. psychic-octo-spork is the working code name.
+The first prototype direction is ECHOLOG: melodic conversation. The final product scope and name remain open. psychic-octo-spork is the working code name.
 
 | Candidate | Core interaction | Question to resolve |
 | --- | --- | --- |
@@ -14,7 +14,7 @@ The final concept and product name are undecided. psychic-octo-spork is the work
 | ECHOLOG | Remember played phrases and respond with related variations | Can responses remain recognizable, useful, and responsive? |
 | GRAVITY | Use movement, attraction, and collisions to generate music | Can it offer a distinct interaction from existing physics and orbital instruments? |
 
-ECHOLOG is an assistant recommendation, not an approved final selection. Other ideas remain welcome. Do not claim worldwide originality based on a preliminary search.
+On 2026-10-28, the owner approved melodic conversation as the first ECHOLOG experiment. See [the prototype specification](PROTOTYPE_SPEC.md). Other ideas remain available for later evaluation. Do not claim worldwide originality based on a preliminary search.
 
 ## Milestones
 1. Compare existing firmware and document concrete overlap.
@@ -27,7 +27,7 @@ ECHOLOG is an assistant recommendation, not an approved final selection. Other i
 8. Submit the tested release to The Firmware Hub.
 
 ## First prototype proposal
-If ECHOLOG is selected: capture a monophonic phrase of up to 32 notes; play a related response using one lightweight internal sound. Start with explicit capture/reply controls. Automatic phrase detection, multiple memories, and richer synthesis are later possibilities.
+Approved direction: capture a monophonic phrase of up to 32 notes; play a related response using one lightweight internal sound. Start with explicit capture/reply controls. Automatic phrase detection, multiple memories, and richer synthesis are later possibilities.
 
 ## Release goals
 - Dedicated public GitHub source repository with appropriate licensing and upstream credits.
