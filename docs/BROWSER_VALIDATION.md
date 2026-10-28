@@ -165,7 +165,9 @@ A follow-up physical-MIDI recording holds **C major / Adventure 10** while repea
 | All profile/amount combinations | PASS locally | Address/undefined-behavior sanitizer checks nonzero duration, strict order, and length bounds |
 | Compiled WASM controls | PASS locally | BPM/profile/Shape setters and getters reach the actual engine; Half-time play length exceeds source |
 | Previous harmony/Adventure/MIDI regressions | PASS locally | Existing native, WASM, worklet, controls, limits, and MIDI checks remain green |
-| Real Chrome UI/audio | PENDING | Workflow will test 128 BPM / Swing / Shape 80 with successive replies in served/direct-file builds |
+| Real Chrome UI/audio | PASS | Served and direct-file Chrome used 128 BPM / Swing / Shape 80, completed successive replies, and passed Replay/MIDI/UI regressions |
 | Owner musical evaluation | NOT TESTED | Groove character and style usefulness require listening |
 
 These profiles establish timing transformation, not finished genre emulation. BPM is manual; no MIDI clock, bar model, event addition/removal, or sound-design improvement is claimed.
+
+[Successful 0.3.0 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40778697465) validates source commit `f51bd64f273a42ad47c2539b39601fafa5f0b488`. Native sanitizer, five groove profiles, compiled WASM, worklet, served Chrome, and direct-file Chrome checks passed. Owner musical/style evaluation remains pending.
