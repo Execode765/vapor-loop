@@ -110,7 +110,9 @@ The supplied MPC screen recording shows **MPC Live III USB-C In 1** selected, li
 | Cadence and preservation | PASS locally | Final note is a tonic-triad tone; onset, rests, duration, velocity, count, and total length remain stored by the memory engine |
 | Compiled WASM harmony controls | PASS locally | Root/scale setters and getters reach the actual compiled engine; audible Reply completes |
 | Previous voice/memory/MIDI regressions | PASS locally | Existing native, WASM, worklet, limits, Stop/Clear, and MIDI checks remain green |
-| Real Chrome UI/audio | PENDING | Workflow will select D natural minor and test Reply in served and direct-file builds |
+| Real Chrome UI/audio | PASS | Served and direct-file Chrome selected D natural minor, produced audible Reply, completed playback, and passed MIDI/UI regressions |
 | Owner musical evaluation | NOT TESTED | Musical usefulness must be judged by listening, not pitch-validity tests |
 
 This strategy is deterministic and manually keyed. Passing automated music-theory constraints does not establish that the response feels musical. No plugin or physical FM-1 result is claimed.
+
+[Successful 0.1.0 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40761057791) validates source commit `39202a2c9da499012002cdc71589a077496c60f2`. Native sanitizer, all 48 harmony contexts, compiled WASM, worklet, served Chrome, and direct-file Chrome checks passed. Owner musical evaluation remains pending.
