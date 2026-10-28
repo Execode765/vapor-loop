@@ -41,6 +41,20 @@ int main(void) {
     advance(&m,1000); assert(m.voice.note==-1);
     advance(&m,500); assert(m.voice.note==64 && m.voice.target==5120);
     echo_memory_stop(&m);
+    /* Keep owns a deep copy; later replies cannot overwrite it. */
+    assert(!echo_memory_keep(&m,-1) && !echo_memory_keep(&m,3));
+    assert(echo_memory_keep(&m,0));
+    assert(echo_memory_candidate_mask(&m)==1u && m.candidates[0].count==2);
+    uint8_t kept_first=m.candidates[0].pitch[0];
+    uint32_t kept_onset=m.candidates[0].onset[1];
+    echo_memory_set_phrase(&m,ECHO_PHRASE_TRAP_POCKET,100);
+    assert(echo_memory_reply(&m) && m.reply_count==10); echo_memory_stop(&m);
+    assert(m.candidates[0].pitch[0]==kept_first && m.candidates[0].onset[1]==kept_onset && m.candidates[0].count==2);
+    assert(echo_memory_keep(&m,1) && echo_memory_candidate_mask(&m)==3u && m.candidates[1].count==10);
+    assert(echo_memory_play_candidate(&m,0) && m.playback==ECHO_CANDIDATE_PLAYBACK && m.play_length==m.candidates[0].length);
+    advance(&m,1); assert(m.voice.note==kept_first); echo_memory_stop(&m);
+    echo_memory_clear_candidate(&m,0); assert(echo_memory_candidate_mask(&m)==2u && !echo_memory_play_candidate(&m,0));
+    echo_memory_set_phrase(&m,ECHO_PHRASE_ORIGINAL,0);
     uint8_t source[5]={60,62,64,62,60}, reply[5]={0};
     echo_harmony_reply(source,reply,5,0,ECHO_SCALE_MAJOR,0,0);
     const uint8_t expected[5]={67,65,64,65,67};
@@ -151,6 +165,8 @@ int main(void) {
     assert(m.count==1 && m.events[0].duration==100 && m.mode==ECHO_IDLE);
     advance(&m,4096); assert(m.voice.level==0);
     echo_memory_clear(&m); assert(!m.count && !m.length && !echo_memory_replay(&m));
+    assert(echo_memory_candidate_mask(&m)==2u); /* phrase Clear does not erase kept work */
+    echo_memory_clear_candidate(&m,1); assert(!echo_memory_candidate_mask(&m));
     echo_memory_on(&m,-1,100); echo_memory_on(&m,128,100); assert(m.voice.note==-1);
-    puts("PASS memory/harmony/phrase/groove: independent reply count, rests, motifs, ratchets, accents, Adventure, timing and lifecycle");
+    puts("PASS memory/candidates: deep-copy Keep, three-slot bounds, independent audition/clear, phrase persistence, harmony/phrase/groove lifecycle");
 }

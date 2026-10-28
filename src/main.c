@@ -7,7 +7,7 @@ void setup(void) {
     echo_memory_init(&memory);
     clear(RGB(10, 20, 24));
     text(24, 24, "ECHOLOG", RGB(141, 238, 192), FONT_BIG);
-    text(24, 66, "PHRASE 0.4.0", WHITE, FONT_SMALL);
+    text(24, 66, "KEEP 0.5.0", WHITE, FONT_SMALL);
     text(24, 198, "32 NOTES / 8 SEC", WHITE, FONT_SMALL);
 }
 void loop(void) {
@@ -36,7 +36,8 @@ void loop(void) {
         const char *state = memory.mode == ECHO_ARMED ? "PLAY TO BEGIN" :
             memory.mode == ECHO_RECORDING ? "RECORDING" :
             memory.mode == ECHO_PLAYING ?
-                (memory.playback == ECHO_REPLY_PLAYBACK ? "REPLYING" : "REPLAYING") :
+                (memory.playback == ECHO_REPLY_PLAYBACK ? "REPLYING" :
+                 memory.playback == ECHO_CANDIDATE_PLAYBACK ? "KEPT PHRASE" : "REPLAYING") :
                 memory.count ? "PHRASE READY" : "PLAY OR CAPTURE";
         text(16, 100, state, RGB(141, 238, 192), FONT_SMALL);
         char num[12]; format_int(num, (int32_t)memory.count);
@@ -65,6 +66,12 @@ ECHO_EXPORT(echo_groove_amount) int echo_groove_amount(void) { return memory.gro
 ECHO_EXPORT(echo_reply_count) uint32_t echo_reply_count(void) { return memory.reply_count; }
 ECHO_EXPORT(echo_phrase_style) int echo_phrase_style(void) { return memory.phrase_style; }
 ECHO_EXPORT(echo_phrase_amount) int echo_phrase_amount(void) { return memory.phrase_amount; }
+ECHO_EXPORT(echo_candidate_mask) uint32_t echo_candidate_mask(void) { return echo_memory_candidate_mask(&memory); }
+ECHO_EXPORT(echo_candidate_slot) int echo_candidate_slot(void) { return memory.candidate_slot; }
+ECHO_EXPORT(echo_candidate_count) uint32_t echo_candidate_count(int slot) {
+    return slot >= 0 && slot < (int)ECHO_CANDIDATE_SLOTS && memory.candidates[slot].filled ? memory.candidates[slot].count : 0;
+}
+ECHO_EXPORT(echo_last_reply_valid) int echo_last_reply_valid(void) { return memory.last_reply_valid; }
 ECHO_EXPORT(echo_set_harmony) void echo_set_harmony(int root, int scale) {
     echo_memory_set_harmony(&memory, root, scale);
 }
@@ -77,4 +84,7 @@ ECHO_EXPORT(echo_set_groove) void echo_set_groove(int bpm, int style, int amount
 ECHO_EXPORT(echo_set_phrase) void echo_set_phrase(int style, int amount) {
     echo_memory_set_phrase(&memory, style, amount);
 }
+ECHO_EXPORT(echo_keep) int echo_keep(int slot) { return echo_memory_keep(&memory, slot); }
+ECHO_EXPORT(echo_play_candidate) int echo_play_candidate(int slot) { return echo_memory_play_candidate(&memory, slot); }
+ECHO_EXPORT(echo_clear_candidate) void echo_clear_candidate(int slot) { echo_memory_clear_candidate(&memory, slot); }
 #endif

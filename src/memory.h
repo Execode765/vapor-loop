@@ -7,13 +7,21 @@
 #include "phrase.h"
 #define ECHO_MAX_NOTES 32u
 #define ECHO_MAX_FRAMES (44100u * 8u)
+#define ECHO_CANDIDATE_SLOTS 3u
 enum { ECHO_IDLE, ECHO_ARMED, ECHO_RECORDING, ECHO_PLAYING };
 enum { ECHO_NO_LIMIT, ECHO_NOTE_LIMIT, ECHO_TIME_LIMIT };
-enum { ECHO_NO_PLAYBACK, ECHO_EXACT_PLAYBACK, ECHO_REPLY_PLAYBACK };
+enum { ECHO_NO_PLAYBACK, ECHO_EXACT_PLAYBACK, ECHO_REPLY_PLAYBACK, ECHO_CANDIDATE_PLAYBACK };
 typedef struct {
     uint32_t onset, duration; /* 44.1 kHz audio frames, relative to first note */
     uint8_t pitch, velocity;
 } EchoEvent;
+typedef struct {
+    uint8_t pitch[ECHO_MAX_NOTES], velocity[ECHO_MAX_NOTES];
+    uint32_t onset[ECHO_MAX_NOTES], duration[ECHO_MAX_NOTES];
+    uint32_t count, length, generation;
+    int filled, root, scale, adventure, bpm, phrase_style, phrase_amount;
+    int groove_style, groove_amount;
+} EchoCandidate;
 typedef struct {
     EchoVoice voice;
     EchoEvent events[ECHO_MAX_NOTES];
@@ -23,7 +31,9 @@ typedef struct {
     int mode, active, playing, limit, playback, root, scale, adventure;
     int groove_style, groove_amount, bpm;
     int phrase_style, phrase_amount;
-    uint32_t variation;
+    int last_reply_valid, candidate_slot;
+    uint32_t variation, reply_generation;
+    EchoCandidate candidates[ECHO_CANDIDATE_SLOTS];
 } EchoMemory;
 /* One serialized owner; a future threaded/interrupt adapter must queue commands. */
 void echo_memory_init(EchoMemory *m);
@@ -31,6 +41,10 @@ void echo_memory_capture(EchoMemory *m);
 void echo_memory_finish(EchoMemory *m);
 int echo_memory_replay(EchoMemory *m);
 int echo_memory_reply(EchoMemory *m);
+int echo_memory_keep(EchoMemory *m, int slot);
+int echo_memory_play_candidate(EchoMemory *m, int slot);
+void echo_memory_clear_candidate(EchoMemory *m, int slot);
+uint32_t echo_memory_candidate_mask(const EchoMemory *m);
 void echo_memory_set_harmony(EchoMemory *m, int root, int scale);
 void echo_memory_set_adventure(EchoMemory *m, int adventure);
 void echo_memory_set_groove(EchoMemory *m, int bpm, int style, int amount);

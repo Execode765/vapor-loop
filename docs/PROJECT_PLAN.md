@@ -4,6 +4,12 @@ Status: first deterministic musical Reply implemented in the browser prototype. 
 
 Current browser milestone: 0.4.0 Phrase Architecture gives Reply an independent event count and adds experimental structural personalities with rests, repetition, accents, note-length hierarchy, and ratchets. Browser CI and owner listening remain gates; this is not a plugin or hardware firmware build.
 
+Next implemented browser milestone: 0.5.0 Keep and Candidate Memory provides three deep-copy session slots for generated responses. Compiled-browser and owner validation remain gates.
+
+Future musical layer: investigate a **Bass Companion** with a second voice/sub-oscillator and independent bass-note memory so a generated upper phrase can play simultaneously over a bass foundation. This requires deliberate polyphonic mixing and voice ownership; it is not part of 0.5.0.
+
+Name exploration: **Vapor Loop** is the owner's current leading candidate for the finished instrument name. ECHOLOG and psychic-octo-spork remain the prototype/interface and repository names until a final naming decision is made.
+
 ## Purpose
 Develop an original, unusual, musically useful firmware for the M-VAVE FM-1. This project is separate from the completed Local LLM Infrastructure Lab.
 

@@ -210,3 +210,13 @@ Never record a planned test as a passed test.
 - Functional behavior, melodic coherence, and audible groove all pass. The owner stated: “It's definitely grooving now. It grooves and it's melodic. We are definitely on track.”
 - This is the first positive owner groove verdict. Retain independent event structure as the foundation; do not inflate this result into a claim of universal trap, R&B, or techno authenticity.
 - Remaining major browser-stage gaps include chord progression/context, MIDI clock and bar synchronization, Keep/selection workflow, richer synthesis, and broader musical stress testing.
+
+
+## 2026-10-28 — Keep and Candidate Memory, 0.5.0
+- Added three portable session slots, A/B/C, for deep-copy preservation of the latest generated Reply.
+- Each candidate stores pitch, velocity, onset, duration, count, length, generation, harmony, Adventure, BPM, Phrase Architecture, and Groove metadata.
+- Later Reply generations and control changes cannot mutate kept candidates. Slots support independent audition, replacement, and forgetting.
+- Source Clear/new Capture does not erase kept work; closing/reloading the browser still does. Persistent serialization is intentionally deferred.
+- Native address/undefined-behavior sanitizer tests pass for slot bounds, deep-copy isolation, playback, clearing, and persistence.
+- Recorded **Bass Companion** as a later second-voice/sub-oscillator milestone and **Vapor Loop** as the owner's leading name candidate. Neither is implemented or final.
+- Compiled WASM, real-Chrome CI, and owner validation are pending. No plugin or hardware firmware image was built or flashed.

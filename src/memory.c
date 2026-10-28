@@ -8,6 +8,8 @@ void echo_memory_init(EchoMemory *m) {
     m->root = 0; m->scale = ECHO_SCALE_MAJOR; m->adventure = 0; m->variation = 0;
     m->bpm = 120; m->groove_style = ECHO_GROOVE_ORIGINAL; m->groove_amount = 0;
     m->phrase_style = ECHO_PHRASE_ORIGINAL; m->phrase_amount = 0;
+    m->last_reply_valid = 0; m->candidate_slot = 0; m->reply_generation = 0;
+    for (uint32_t i = 0; i < ECHO_CANDIDATE_SLOTS; ++i) m->candidates[i].filled = 0;
 }
 static void close_event(EchoMemory *m) {
     if (m->active < 0) return;
@@ -33,6 +35,7 @@ void echo_memory_clear(EchoMemory *m) {
     echo_memory_stop(m);
     m->count = m->reply_count = m->length = m->reply_length = m->play_length = m->position = m->next = 0;
     m->active = -1; m->limit = ECHO_NO_LIMIT;
+    m->last_reply_valid = 0;
 }
 void echo_memory_capture(EchoMemory *m) {
     echo_memory_clear(m); m->variation = 0; echo_voice_init(&m->voice); m->mode = ECHO_ARMED;
@@ -52,6 +55,7 @@ int echo_memory_reply(EchoMemory *m) {
     uint8_t source[ECHO_MAX_NOTES];
     for (uint32_t i = 0; i < m->count; ++i) source[i] = m->events[i].pitch;
     uint32_t generation = m->variation++;
+    m->reply_generation = generation;
     uint8_t harmony[ECHO_MAX_NOTES], velocity[ECHO_MAX_NOTES];
     echo_harmony_reply(source, harmony, m->count, m->root, m->scale,
                        m->adventure, generation);
@@ -72,7 +76,43 @@ int echo_memory_reply(EchoMemory *m) {
     m->mode = ECHO_PLAYING; m->position = m->next = 0; m->playing = -1;
     m->play_length = m->reply_length;
     m->playback = ECHO_REPLY_PLAYBACK;
+    m->last_reply_valid = 1;
     return 1;
+}
+int echo_memory_keep(EchoMemory *m, int slot) {
+    if (slot < 0 || slot >= (int)ECHO_CANDIDATE_SLOTS || !m->last_reply_valid || !m->reply_count) return 0;
+    EchoCandidate *c = &m->candidates[slot];
+    for (uint32_t i = 0; i < m->reply_count; ++i) {
+        c->pitch[i] = m->reply[i]; c->velocity[i] = m->reply_velocity[i];
+        c->onset[i] = m->reply_onset[i]; c->duration[i] = m->reply_duration[i];
+    }
+    c->count = m->reply_count; c->length = m->reply_length; c->generation = m->reply_generation;
+    c->root = m->root; c->scale = m->scale; c->adventure = m->adventure; c->bpm = m->bpm;
+    c->phrase_style = m->phrase_style; c->phrase_amount = m->phrase_amount;
+    c->groove_style = m->groove_style; c->groove_amount = m->groove_amount;
+    c->filled = 1; m->candidate_slot = slot;
+    return 1;
+}
+int echo_memory_play_candidate(EchoMemory *m, int slot) {
+    echo_memory_stop(m);
+    if (slot < 0 || slot >= (int)ECHO_CANDIDATE_SLOTS || !m->candidates[slot].filled) return 0;
+    m->candidate_slot = slot;
+    echo_voice_init(&m->voice);
+    m->mode = ECHO_PLAYING; m->position = m->next = 0; m->playing = -1;
+    m->play_length = m->candidates[slot].length;
+    m->playback = ECHO_CANDIDATE_PLAYBACK;
+    return 1;
+}
+void echo_memory_clear_candidate(EchoMemory *m, int slot) {
+    if (slot < 0 || slot >= (int)ECHO_CANDIDATE_SLOTS) return;
+    if (m->mode == ECHO_PLAYING && m->playback == ECHO_CANDIDATE_PLAYBACK && m->candidate_slot == slot)
+        echo_memory_stop(m);
+    m->candidates[slot].filled = 0;
+}
+uint32_t echo_memory_candidate_mask(const EchoMemory *m) {
+    uint32_t mask = 0;
+    for (uint32_t i = 0; i < ECHO_CANDIDATE_SLOTS; ++i) if (m->candidates[i].filled) mask |= 1u << i;
+    return mask;
 }
 void echo_memory_set_harmony(EchoMemory *m, int root, int scale) {
     m->root = root >= 0 && root < 12 ? root : 0;
@@ -100,19 +140,29 @@ void echo_memory_set_phrase(EchoMemory *m, int style, int amount) {
     m->phrase_style = style; m->phrase_amount = amount; m->variation = 0;
 }
 static uint32_t playback_count(const EchoMemory *m) {
-    return m->playback == ECHO_REPLY_PLAYBACK ? m->reply_count : m->count;
+    if (m->playback == ECHO_REPLY_PLAYBACK) return m->reply_count;
+    if (m->playback == ECHO_CANDIDATE_PLAYBACK) return m->candidates[m->candidate_slot].count;
+    return m->count;
 }
 static int playback_pitch(const EchoMemory *m, uint32_t index) {
-    return m->playback == ECHO_REPLY_PLAYBACK ? m->reply[index] : m->events[index].pitch;
+    if (m->playback == ECHO_REPLY_PLAYBACK) return m->reply[index];
+    if (m->playback == ECHO_CANDIDATE_PLAYBACK) return m->candidates[m->candidate_slot].pitch[index];
+    return m->events[index].pitch;
 }
 static int playback_velocity(const EchoMemory *m, uint32_t index) {
-    return m->playback == ECHO_REPLY_PLAYBACK ? m->reply_velocity[index] : m->events[index].velocity;
+    if (m->playback == ECHO_REPLY_PLAYBACK) return m->reply_velocity[index];
+    if (m->playback == ECHO_CANDIDATE_PLAYBACK) return m->candidates[m->candidate_slot].velocity[index];
+    return m->events[index].velocity;
 }
 static uint32_t playback_onset(const EchoMemory *m, uint32_t index) {
-    return m->playback == ECHO_REPLY_PLAYBACK ? m->reply_onset[index] : m->events[index].onset;
+    if (m->playback == ECHO_REPLY_PLAYBACK) return m->reply_onset[index];
+    if (m->playback == ECHO_CANDIDATE_PLAYBACK) return m->candidates[m->candidate_slot].onset[index];
+    return m->events[index].onset;
 }
 static uint32_t playback_duration(const EchoMemory *m, uint32_t index) {
-    return m->playback == ECHO_REPLY_PLAYBACK ? m->reply_duration[index] : m->events[index].duration;
+    if (m->playback == ECHO_REPLY_PLAYBACK) return m->reply_duration[index];
+    if (m->playback == ECHO_CANDIDATE_PLAYBACK) return m->candidates[m->candidate_slot].duration[index];
+    return m->events[index].duration;
 }
 void echo_memory_on(EchoMemory *m, int pitch, int velocity) {
     if (pitch < 0 || pitch > 127) return;

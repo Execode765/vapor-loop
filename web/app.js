@@ -125,7 +125,24 @@ $('finish').onclick=()=>action(3);
 $('replay').onclick=()=>action(11);
 $('reply').onclick=()=>action(2);
 $('clear').onclick=()=>action(8);
+let lastPhraseState={candidateMask:0,lastReplyValid:0,candidateCounts:[0,0,0]};
+function candidateSlot(){return Number($('candidate-slot').value);}
+function syncCandidateUi(p=lastPhraseState) {
+  lastPhraseState=p;
+  const slot=candidateSlot(), filled=!!(p.candidateMask&(1<<slot));
+  for(let i=0;i<3;i++) $('candidate-slot').options[i].textContent=`${'ABC'[i]} · ${(p.candidateMask&(1<<i))?`${p.candidateCounts?.[i]||0} notes`:'Empty'}`;
+  $('keep').disabled=!ready || !p.lastReplyValid;
+  $('play-candidate').disabled=!ready || !filled;
+  $('clear-candidate').disabled=!ready || !filled;
+  const used=[0,1,2].filter(i=>p.candidateMask&(1<<i)).map(i=>'ABC'[i]);
+  $('candidate-status').textContent=used.length?`Kept candidates · ${used.join(', ')} · selected ${'ABC'[slot]}`:'Three session-memory slots are empty.';
+}
+$('candidate-slot').onchange=()=>syncCandidateUi();
+$('keep').onclick=()=>send({type:'keep',slot:candidateSlot()});
+$('play-candidate').onclick=()=>{releaseKeys();send({type:'candidate-play',slot:candidateSlot()});};
+$('clear-candidate').onclick=()=>send({type:'candidate-clear',slot:candidateSlot()});
 function phraseStatus(p) {
+  syncCandidateUi(p);
   const capturing=p.mode===1 || p.mode===2;
   $('capture').disabled=!ready || capturing;
   $('capture').classList.toggle('recording',capturing);
@@ -138,7 +155,7 @@ function phraseStatus(p) {
   const limit=p.limit===1?' · 32-note limit reached':p.limit===2?' · 8-second limit reached':'';
   $('phrase-status').textContent=p.mode===1?'Armed · play your first note':
     p.mode===2?`Recording · ${p.count} notes · ${duration}s`:
-    p.mode===3?`${p.playback===2?`Replying · ${phraseNames[p.phraseStyle||0]} ${p.phraseAmount||0} · ${p.replyCount||p.count} notes · variation ${p.variation||1}`:'Replaying'} · ${p.count} source notes · ${duration}s`:
+    p.mode===3?`${p.playback===2?`Replying · ${phraseNames[p.phraseStyle||0]} ${p.phraseAmount||0} · ${p.replyCount||p.count} notes · variation ${p.variation||1}`:p.playback===3?`Playing kept candidate ${'ABC'[p.candidateSlot||0]} · ${p.candidateCounts?.[p.candidateSlot||0]||0} notes`:'Replaying'} · ${p.count} source notes · ${duration}s`:
     p.count?`Phrase ready · ${p.count} notes · ${duration}s${limit}`:'No phrase yet · press Capture';
   $('phrase-progress').max=p.mode===2 || p.mode===1 ? 352800 : p.mode===3?Math.max(p.playLength||p.length,1):Math.max(p.length,1);
   $('phrase-progress').value=p.mode===2 || p.mode===3?p.position:0;
@@ -178,7 +195,7 @@ $('start').onclick=async()=>{
     const wasm=await response.arrayBuffer();
     node=new AudioWorkletNode(ctx,'fm1',{numberOfInputs:0,numberOfOutputs:1,outputChannelCount:[2]});
     node.port.onmessage=({data:m})=>{
-      if(m.type==='ready'){ready=true;$('status').textContent='Ready · 44.1 kHz · one voice';$('start').textContent='Sound enabled';$('stop').disabled=false;keyButtons.forEach(b=>b.disabled=false);syncHarmony();syncAdventure();syncGroove();syncPhrase();phraseStatus({mode:0,count:0,replyCount:0,length:0,playLength:0,position:0,limit:0,playback:0,root:Number($('root').value),scale:Number($('scale').value),adventure:Number($('adventure').value),variation:0,grooveStyle:Number($('groove-style').value),grooveAmount:Number($('groove-amount').value),phraseStyle:Number($('phrase-style').value),phraseAmount:Number($('phrase-amount').value)});}
+      if(m.type==='ready'){ready=true;$('status').textContent='Ready · 44.1 kHz · one voice';$('start').textContent='Sound enabled';$('stop').disabled=false;keyButtons.forEach(b=>b.disabled=false);syncHarmony();syncAdventure();syncGroove();syncPhrase();phraseStatus({mode:0,count:0,replyCount:0,length:0,playLength:0,position:0,limit:0,playback:0,root:Number($('root').value),scale:Number($('scale').value),adventure:Number($('adventure').value),variation:0,grooveStyle:Number($('groove-style').value),grooveAmount:Number($('groove-amount').value),phraseStyle:Number($('phrase-style').value),phraseAmount:Number($('phrase-amount').value),candidateMask:0,candidateSlot:0,lastReplyValid:0,candidateCounts:[0,0,0]});}
       if(m.type==='frame'){if(m.fb)draw(m.fb);if(m.phrase)phraseStatus(m.phrase);}
       if(m.type==='crash'){ready=false;$('status').textContent='Audio stopped: '+m.message;node.disconnect();}
     };

@@ -24,11 +24,16 @@ e.echo_set_groove(96,2,80);assert.equal(e.echo_bpm(),96);assert.equal(e.echo_gro
 e.echo_set_phrase(1,100);assert.equal(e.echo_phrase_style(),1);assert.equal(e.echo_phrase_amount(),100);assert.equal(e.echo_variation(),0);
 command(2);assert.equal(e.echo_mode(),3);assert.equal(e.echo_playback(),2);assert.equal(e.echo_variation(),1);command(12);
 assert.equal(e.echo_reply_count(),10);
+assert.equal(e.echo_keep(0),1);assert.equal(e.echo_candidate_mask(),1);assert.equal(e.echo_candidate_count(0),10);
 command(2);assert.equal(e.echo_variation(),2);command(12);
+assert.equal(e.echo_keep(1),1);assert.equal(e.echo_candidate_mask(),3);assert.equal(e.echo_candidate_count(1),10);
+assert.equal(e.echo_play_candidate(0),1);assert.equal(e.echo_playback(),3);assert(render().some(x=>Math.abs(x)>.01));command(12);
+e.echo_clear_candidate(0);assert.equal(e.echo_candidate_mask(),2);assert.equal(e.echo_play_candidate(0),0);
 e.echo_set_groove(120,4,100);command(2);assert(e.echo_play_length()>e.echo_length());command(12);
 command(8);assert.equal(e.echo_count(),0);assert.equal(e.echo_length(),0);
+assert.equal(e.echo_candidate_mask(),2);e.echo_clear_candidate(1);assert.equal(e.echo_candidate_mask(),0);
 command(13);e.web_keys(1);advance(360);assert.equal(e.echo_mode(),0);assert.equal(e.echo_limit(),2);assert.equal(e.echo_length(),352800);
 e.web_keys(0);command(8);command(13);
 for(let i=0;i<32;i++){e.web_keys(1);advance(1);e.web_keys(0);advance(1);}
 assert.equal(e.echo_count(),32);assert.equal(e.echo_mode(),0);assert.equal(e.echo_limit(),1);
-console.log('PASS WASM memory: harmony/Adventure/phrase/groove controls, independent reply count, variation, capture, replay/reply and limits');
+console.log('PASS WASM memory: three deep-copy candidate slots, audition/forget persistence, harmony/Adventure/phrase/groove, replay and limits');

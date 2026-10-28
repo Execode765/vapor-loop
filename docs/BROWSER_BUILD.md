@@ -1,6 +1,6 @@
-# Browser prototype build — 0.4.0
+# Browser prototype build — 0.5.0
 
-This milestone adds portable Phrase Architecture to scale-aware Reply, Adventure, groove shaping, phrase memory, exact Replay, and Web MIDI. See [PHRASE_ARCHITECTURE.md](PHRASE_ARCHITECTURE.md). Keep, chord progressions, automatic key detection, MIDI clock, polyphony, and richer synthesis are not implemented yet.
+This milestone adds portable three-slot Candidate Memory to Phrase Architecture, scale-aware Reply, Adventure, groove shaping, exact Replay, and Web MIDI. See [CANDIDATE_MEMORY.md](CANDIDATE_MEMORY.md). Persistent saving, chord progressions, automatic key detection, MIDI clock, polyphony, bass accompaniment, and richer synthesis are not implemented yet.
 
 ## Foundation decision
 
