@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: browser capture/replay and the first transformed musical Reply are implemented. Native C and compiled WASM checks pass; browser CI and owner listening for 0.0.3 are pending. No hardware firmware build or flashing has occurred.**
+**Status: browser capture/replay, diagnostic Reply, and Web MIDI controller input are implemented. Native C and compiled WASM checks pass; real-Chrome CI and owner SMK Pro testing for 0.0.4 are pending. No hardware firmware build or flashing has occurred.**
 
 psychic-octo-spork is the working code name, not the final firmware name. The first prototype will explore ECHOLOG: melodic conversation.
 
@@ -13,13 +13,13 @@ Initial candidates are GENOME (musical evolution), ECHOLOG (musical memory and r
 
 This project is separate from the completed Local LLM Infrastructure Lab.
 
-## First reply — browser prototype 0.0.3
+## Browser MIDI — prototype 0.0.4
 
-[Downloadable browser preview](preview/echolog-soundcheck.html) — use GitHub’s Download raw file control, open the saved HTML in Chrome, and select Enable sound.
+[Versioned downloadable preview](preview/echolog-midi-v0.0.4.html) — open the saved HTML in Chrome, select Enable sound, then Enable MIDI and grant permission.
 
-Capture a monophonic phrase, then choose Replay for the original or Reply for ECHOLOG's answer. The first reply preserves timing, duration, and velocity while mirroring melodic intervals around a starting note one perfect fifth higher. Stop preserves the phrase; Clear or a new capture erases it. Maximum 32 notes/eight seconds; session memory only.
+Select a connected USB MIDI input and capture its full note range and velocities. Mouse and computer-keyboard input remain available. Capture a monophonic phrase, choose Replay for the original, or use the chromatic Reply as a functional diagnostic. The owner confirmed that Reply functions correctly but judged it musically unsuccessful; scale/chord awareness is deferred.
 
-[First-reply guide](docs/FIRST_REPLY.md) · [first-memory design](docs/FIRST_MEMORY.md) · [build instructions](docs/BROWSER_BUILD.md) · [validation record](docs/BROWSER_VALIDATION.md).
+[Browser MIDI guide](docs/BROWSER_MIDI.md) · [first-reply guide](docs/FIRST_REPLY.md) · [first-memory design](docs/FIRST_MEMORY.md) · [build instructions](docs/BROWSER_BUILD.md) · [validation record](docs/BROWSER_VALIDATION.md).
 
 ## Documentation
 - [First prototype specification](docs/PROTOTYPE_SPEC.md)

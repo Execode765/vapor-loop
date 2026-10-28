@@ -2,6 +2,7 @@
 const $ = id => document.getElementById(id);
 const bindings = ['a','w','s','e','d','f','t','g','y','h','u','j','k'];
 let ctx, node, ready = false;
+let midiAccess = null, midiInput = null;
 const held = new Map();
 const keyButtons = [];
 function send(m) { if (ready) node.port.postMessage(m); }
@@ -15,6 +16,71 @@ function releaseKeys() { held.clear(); sync(); }
 function pulse(id) { send({type:'buttons',mask:1<<id});send({type:'buttons',mask:0}); }
 function releaseAll() { releaseKeys(); pulse(12); }
 function action(id) { releaseKeys(); pulse(id); }
+function midiNoteName(n) {
+  const names=['C','C♯','D','E♭','E','F','F♯','G','A♭','A','B♭','B'];
+  return `${names[n%12]}${Math.floor(n/12)-1}`;
+}
+function midiPanic() {
+  if (!ready) return;
+  for (let channel=0; channel<16; channel++) send({type:'midi',data:[0xb0|channel,123,0]});
+}
+function onMidiMessage(event) {
+  const data=Array.from(event.data||[]), status=data[0]||0, kind=status&0xf0;
+  const note=data[1]&0x7f, value=data[2]&0x7f;
+  if (kind===0x80 || kind===0x90) {
+    send({type:'midi',data:[status,note,value]});
+    const on=kind===0x90 && value>0;
+    $('midi-status').textContent=on?`${midiInput?.name||'MIDI'} · ${midiNoteName(note)} · velocity ${value}`:
+      `${midiInput?.name||'MIDI'} · ${midiNoteName(note)} released`;
+  } else if (kind===0xb0 && (note===120 || note===123)) {
+    send({type:'midi',data:[status,note,value]});
+    $('midi-status').textContent=`${midiInput?.name||'MIDI'} · all notes off`;
+  }
+}
+function chooseMidiInput(id) {
+  if (midiInput) midiInput.onmidimessage=null;
+  midiPanic();
+  midiInput=id && midiAccess ? midiAccess.inputs.get(id)||null : null;
+  if (midiInput) {
+    midiInput.onmidimessage=onMidiMessage;
+    $('midi-status').textContent=`Connected · ${midiInput.name||'Unnamed MIDI input'}`;
+  } else if (midiAccess) $('midi-status').textContent='No MIDI input selected.';
+}
+function refreshMidiInputs() {
+  if (!midiAccess) return;
+  const select=$('midi-input'), previous=midiInput?.id||select.value;
+  const inputs=Array.from(midiAccess.inputs.values()).filter(input=>input.state!=='disconnected');
+  select.replaceChildren();
+  if (!inputs.length) {
+    select.add(new Option('No MIDI inputs',''));
+    select.disabled=true;
+    chooseMidiInput('');
+    $('midi-status').textContent='MIDI enabled · no connected input found.';
+    return;
+  }
+  for (const input of inputs) select.add(new Option(input.name||`MIDI input ${input.id}`,input.id));
+  select.disabled=false;
+  select.value=inputs.some(input=>input.id===previous)?previous:inputs[0].id;
+  chooseMidiInput(select.value);
+}
+$('midi-input').onchange=e=>chooseMidiInput(e.target.value);
+$('midi-enable').onclick=async()=>{
+  if (!navigator.requestMIDIAccess) {
+    $('midi-status').textContent='Web MIDI is unavailable. Use a current Chrome or Edge browser.';
+    return;
+  }
+  $('midi-enable').disabled=true;
+  $('midi-status').textContent='Waiting for browser MIDI permission…';
+  try {
+    midiAccess=await navigator.requestMIDIAccess({sysex:false});
+    midiAccess.onstatechange=refreshMidiInputs;
+    $('midi-enable').textContent='MIDI enabled';
+    refreshMidiInputs();
+  } catch(error) {
+    $('midi-enable').disabled=false;
+    $('midi-status').textContent=`MIDI access failed: ${error.message||error}`;
+  }
+};
 $('capture').onclick=()=>action(13);
 $('finish').onclick=()=>action(3);
 $('replay').onclick=()=>action(11);

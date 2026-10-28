@@ -1,6 +1,6 @@
-# Browser prototype build — 0.0.3
+# Browser prototype build — 0.0.4
 
-This milestone captures and replays one phrase using the sine voice. See [FIRST_MEMORY.md](FIRST_MEMORY.md). Replies, Adventure and Keep are not implemented yet.
+This milestone adds permission-based Web MIDI controller input to the existing portable voice, phrase memory, exact Replay, and diagnostic Reply. See [BROWSER_MIDI.md](BROWSER_MIDI.md). Adventure, Keep, and musically constrained replies are not implemented yet.
 
 ## Foundation decision
 

@@ -15,11 +15,30 @@ const assert=require('node:assert/strict');
       window.AudioWorkletNode=class extends Original {
         constructor(ctx,...args){super(ctx,...args);window.__audioProbe=ctx.createAnalyser();this.connect(window.__audioProbe);}
       };
+      const input={id:'smk-pro-elite',name:'SMK Pro Elite',manufacturer:'M-VAVE',state:'connected',onmidimessage:null};
+      const access={inputs:new Map([[input.id,input]]),onstatechange:null};
+      window.__fakeMidi={
+        requested:null,
+        emit(data){input.onmidimessage?.({data:new Uint8Array(data),target:input});},
+        disconnect(){input.state='disconnected';access.inputs.delete(input.id);access.onstatechange?.({port:input});}
+      };
+      Object.defineProperty(navigator,'requestMIDIAccess',{configurable:true,value:async options=>{
+        window.__fakeMidi.requested=options;return access;
+      }});
     });
     await page.goto(process.env.TEST_URL || 'http://127.0.0.1:8000');
     await page.getByRole('button',{name:'Enable sound',exact:true}).click();
     await page.waitForFunction(()=>{const t=document.getElementById('status').textContent;return t.startsWith('Ready') || t!=='Sound is off.';});
     assert((await page.locator('#status').textContent()).startsWith('Ready'),await page.locator('#status').textContent());
+    await page.getByRole('button',{name:'Enable MIDI',exact:true}).click();
+    await page.waitForFunction(()=>document.getElementById('midi-status').textContent==='Connected · SMK Pro Elite');
+    assert.equal(await page.locator('#midi-input').inputValue(),'smk-pro-elite');
+    assert.deepEqual(await page.evaluate(()=>window.__fakeMidi.requested),{sysex:false});
+    await page.evaluate(()=>window.__fakeMidi.emit([0x90,60,37]));
+    await page.waitForFunction(()=>document.getElementById('midi-status').textContent.includes('C4 · velocity 37'));
+    await page.waitForFunction(()=>{const a=window.__audioProbe,x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return x.some(v=>Math.abs(v)>.01);});
+    await page.evaluate(()=>window.__fakeMidi.emit([0x80,60,0]));
+    await page.waitForFunction(()=>{const a=window.__audioProbe,x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return x.every(v=>Math.abs(v)<.00001);});
     await page.keyboard.down('a');
     await page.waitForFunction(()=>{
       const a=window.__audioProbe,x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return x.some(v=>Math.abs(v)>.01);
@@ -69,7 +88,22 @@ const assert=require('node:assert/strict');
     await page.getByRole('button',{name:'Clear',exact:true}).click();
     await page.waitForFunction(()=>document.getElementById('phrase-status').textContent.startsWith('No phrase'));
     assert(await page.getByRole('button',{name:'Replay',exact:true}).isDisabled());
+    // Capture real note range and velocity through the browser Web MIDI connection.
+    await page.getByRole('button',{name:'Capture',exact:true}).click();
+    await page.evaluate(()=>window.__fakeMidi.emit([0x91,48,42])); await page.waitForTimeout(120);
+    await page.evaluate(()=>window.__fakeMidi.emit([0x81,48,0])); await page.waitForTimeout(80);
+    await page.evaluate(()=>window.__fakeMidi.emit([0x91,76,119])); await page.waitForTimeout(160);
+    await page.evaluate(()=>window.__fakeMidi.emit([0x91,76,0]));
+    await page.getByRole('button',{name:'Finish',exact:true}).click();
+    await page.waitForFunction(()=>document.getElementById('phrase-status').textContent.startsWith('Phrase ready · 2 notes'));
+    await page.getByRole('button',{name:'Replay',exact:true}).click();
+    await page.waitForFunction(()=>{const a=window.__audioProbe,x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return x.some(v=>Math.abs(v)>.01);});
+    await page.getByRole('button',{name:'Stop all notes'}).click();
+    await page.evaluate(()=>{window.__fakeMidi.emit([0x90,60,100]);window.__fakeMidi.disconnect();});
+    await page.waitForFunction(()=>document.getElementById('midi-status').textContent.includes('no connected input'));
+    assert(await page.locator('#midi-input').isDisabled());
+    await page.waitForFunction(()=>{const a=window.__audioProbe,x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return x.every(v=>Math.abs(v)<.00001);});
     assert.deepEqual(errors,[]);
-    console.log('PASS Chromium: live audio, keyboard/mouse capture, empty take, 2-note reply/replay, stop preserves phrase, clear, mobile width, no JS errors');
+    console.log('PASS Chromium: Web MIDI permission/device/velocity/capture/disconnect, live audio, keyboard/mouse capture, reply/replay, mobile width, no JS errors');
   } finally {await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1);});

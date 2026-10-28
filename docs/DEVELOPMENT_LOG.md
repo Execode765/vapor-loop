@@ -99,3 +99,11 @@ Never record a planned test as a passed test.
 - Musical behavior failed: the owner judged the Reply to be a technical inversion, not a musical answer.
 - Retain the deterministic mirror as a diagnostic baseline only; do not describe it as musically successful.
 - Defer musical refinement until scale, key, and chord constraints can be designed and evaluated deliberately.
+
+## 2026-10-28 — Browser MIDI connection, 0.0.4
+- Added a user-initiated Enable MIDI permission flow and connected-input selector.
+- Routes Note On/Off from all 16 channels, including velocity-zero Note Off, plus CC 120/123 panic messages, into the existing compiled C MIDI path.
+- Displays controller name, incoming note, and velocity. Mouse/computer-key input remains available without MIDI.
+- Device change/disconnect detaches the old handler and sends All Notes Off across all channels to prevent stuck notes.
+- Added browser automation with a simulated SMK Pro Elite covering permission options, device selection, live audio, velocity status, phrase capture, Replay, and disconnect safety.
+- Native/WASM/worklet regressions pass locally. Real-Chrome CI and physical owner testing are pending. No hardware firmware image was produced or flashed.

@@ -3,10 +3,10 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ECHOLOG · First reply</title>
+<title>ECHOLOG · Browser MIDI</title>
 <link rel="stylesheet" href="style.css">
 <main>
-  <header><p class="eyebrow">PSYCHIC-OCTO-SPORK / DEVELOPMENT 0.0.3</p><h1>A phrase played.<br>A phrase answered.</h1><p class="intro">Capture a melody. Replay it exactly—or hear ECHOLOG answer with a mirrored melodic contour.</p></header>
+  <header><p class="eyebrow">PSYCHIC-OCTO-SPORK / DEVELOPMENT 0.0.4</p><h1>Connect the keys.<br>Play the memory.</h1><p class="intro">Capture from a USB MIDI controller with real note range and velocity, or keep using the onscreen and computer keys.</p></header>
   <section class="instrument" aria-label="ECHOLOG sound check">
     <div class="top"><div><p class="eyebrow">ECHOLOG</p><p class="hint">Musical conversation, in development.</p><button id="start">Enable sound</button><p id="status" role="status">Sound is off.</p></div><canvas id="screen" width="240" height="240" aria-label="Simulated FM-1 display"></canvas></div>
     <div class="transport" aria-label="Phrase controls">
@@ -15,11 +15,18 @@
     <p id="phrase-status" role="status">No phrase yet. Enable sound to begin.</p>
     <progress id="phrase-progress" max="352800" value="0" aria-label="Phrase position"></progress>
     <p class="hint">Reply preserves your rhythm and dynamics, starts a perfect fifth higher, and mirrors the intervals. Maximum 32 notes or 8 seconds.</p>
+    <div class="midi-panel" aria-label="MIDI controller connection">
+      <button id="midi-enable" type="button">Enable MIDI</button>
+      <label for="midi-input">MIDI input
+        <select id="midi-input" disabled><option value="">No MIDI inputs</option></select>
+      </label>
+      <p id="midi-status" role="status">Connect a USB MIDI controller, then enable MIDI.</p>
+    </div>
     <div class="controls"><button id="stop" disabled>Stop all notes</button><label>Volume <input id="volume" type="range" min="0" max="900" value="600"></label></div>
     <div id="keys" aria-label="Playable keys"></div>
     <p class="hint">Click and hold a key, or use A W S E D F T G Y H U J K. Release to stop.</p>
   </section>
-  <section class="notes"><div><h2>Listen for the relationship</h2><p>Replay is your phrase exactly. Reply keeps its timing and note lengths but reverses the direction of every melodic interval.</p></div><div><h2>Why this is only Reply One</h2><p>This deterministic mirror gives us a testable musical baseline. Later replies can add controlled variation without losing the source phrase's identity.</p></div></section>
+  <section class="notes"><div><h2>Controller input</h2><p>Enable MIDI after connecting a USB keyboard, grant Chrome permission, and select the device. Note-on, note-off, velocity, and panic messages enter the same C engine as every other input.</p></div><div><h2>Reply remains experimental</h2><p>The chromatic mirror is retained as a functional diagnostic baseline. It passed engineering tests but failed the owner's musical-quality test; scale- and chord-aware replies come later.</p></div></section>
   <footer>Browser simulation, not a full CPU emulator or a hardware compatibility test. Memory lasts until Clear, a new capture, or closing the page. No installer or hardware access.<br>Platform: <a href="https://github.com/konsumer/foma">foma</a>, with Felucca / SLOOP / Dinghy lineage. GPL-3.0-only. AI-assisted development.</footer>
 </main><script type="module" src="app.js"></script>
 </html>

@@ -79,3 +79,16 @@ The owner supplied a screen recording of the standalone 0.0.3 build. The video s
 ### Owner musical assessment
 
 **Functional result: PASS. Musical result: FAIL.** The transformation behaved exactly as specified, but the owner reported that it was “not musical at all” and clearly sounded like a technical inversion. Version 0.0.3 remains useful as a deterministic diagnostic baseline. It must not be presented as a finished musical-response algorithm. Future refinement should constrain or remap generated pitches using explicit scale, key, and chord context.
+
+## Browser MIDI — 0.0.4
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Browser MIDI capability/permission flow | PASS locally (syntax/build) | Explicit user button requests `requestMIDIAccess({sysex:false})`; denial and unavailable-API states retain non-MIDI input |
+| Device routing | PASS by automated test design; CI pending | Device selection, Note On/Off, channel preservation, velocity status, and C-engine audio/capture path |
+| Disconnect protection | PASS by automated test design; CI pending | Handler detaches and All Notes Off is sent across 16 channels when the selected input disappears |
+| Native/WASM regressions | PASS locally | Voice, memory, Reply, compiled WASM, and worklet tests remain green |
+| Real Chrome with simulated MIDI input | PENDING | GitHub Actions will exercise served and direct-file builds |
+| Physical SMK Pro Elite | NOT TESTED | Requires owner permission/device test in desktop Chrome |
+
+The browser must request MIDI access in response to **Enable MIDI**; plugging in a device alone does not trigger a permission prompt. This milestone requests no System Exclusive access and does not test firmware flashing or FM-1 hardware compatibility.
