@@ -44,3 +44,9 @@ Never record a planned test as a passed test.
 - GitHub Actions run 40736104361 passed the real Chrome audio/control test at source commit e110254f51922b5d287e045a70cca8c45899fe8f.
 - Inspected the desktop/mobile screenshots. Browser audio samples were checked automatically; human listening remains pending.
 - Added a reproducible single-file downloadable preview and local-file browser check.
+
+### Downloadable preview verified
+- Chrome passed the complete audio/control check for both the served browser build and the standalone HTML opened directly from disk in workflow 40737010064.
+- Fixed local-file worklet loading by embedding its module as a data URL.
+- Updated the browser test dependency; the final CI install reported zero audited vulnerabilities.
+- Human listening and hardware compatibility remain untested.
