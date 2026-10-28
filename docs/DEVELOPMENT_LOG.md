@@ -87,3 +87,9 @@ Never record a planned test as a passed test.
 - Workflow 40753333474 passed native sanitizer, compiled WASM, worklet, served-Chrome, and direct-file Chrome checks for source commit `17352a2c28203ac4bd246ac9e69d8bb7ed37a78c`.
 - Both browser forms produced audio from Reply and returned to phrase-ready state without JavaScript errors.
 - Owner musical evaluation of the reply remains pending.
+
+## 2026-10-28 — Owner audiovisual validation of first Reply
+- Owner supplied a screen recording of the downloaded 0.0.3 standalone build.
+- Captured phrase: C4–D4–E4–D4–C4. Reply: G4–F4–E♭4–F4–G4, exactly matching the fixed-fifth contour inversion.
+- The take reached the eight-second limit and remained valid; Replay and Reply both completed with five notes and preserved timing.
+- This is owner-supplied audiovisual evidence for browser behavior. It is not plugin or physical FM-1 validation.
