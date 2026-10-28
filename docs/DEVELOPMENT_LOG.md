@@ -126,3 +126,8 @@ Never record a planned test as a passed test.
 - Preserves the existing phrase timing, rests, note lengths, velocities, count, limits, Replay, MIDI, and control behavior.
 - Native sanitizer tests cover all 48 key/scale contexts plus a known C-major phrase. Compiled WASM and worklet tests pass locally.
 - Real-Chrome CI and owner musical evaluation remain pending. No plugin or FM-1 image was built or flashed.
+
+### 0.1.0 browser checks completed
+- Workflow 40761057791 passed native harmony/memory sanitizer checks, compiled WASM, worklet, and real Chrome for both served and downloaded builds.
+- Chrome changed the Reply context to D natural minor, produced audible Reply, completed playback, and retained all MIDI/UI protections without JavaScript errors.
+- Owner musical evaluation remains pending and is the next gate.
