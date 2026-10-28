@@ -12,7 +12,8 @@ Date: 2026-10-28. Version: 0.0.1, sound-check milestone only.
 | Browser WebAssembly build | PASS | Clang 18.1.3 / LLD, wasm32 target; no imports |
 | Compiled platform integration | PASS | `node tests/test_wasm.mjs`: framebuffer, panel notes, MIDI, velocity-zero note-off, Stop, MIDI panic, volume zero |
 | Worklet message bridge | PASS | `node tests/test_worklet.mjs`: real WASM through actual worklet code in a mocked Node worklet environment |
-| Real-browser UI/audio | PENDING | Local Playwright browser download returned a truncated/non-ZIP response. CI test added; do not infer success from Node tests |
+| Real-browser UI/audio | PASS | Chrome on GitHub Actions: worklet startup, nonzero samples, release, Stop, pointer input, no uncaught JS errors, mobile overflow check |
+| Downloadable standalone preview | PENDING | Embedded WASM matches tested build; real-browser local-file check added to next CI run |
 | Human listening/playability | NOT TESTED | Owner feedback needed |
 | macOS/Windows DAW plugin | NOT IMPLEMENTED | Later milestone |
 | FM-1 / SMK hardware | NOT TESTED | No hardware images built or flashed |
@@ -28,3 +29,7 @@ PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/path/to/chrome node tests/test_browser.cjs
 ```
 
 The browser check verifies worklet startup, nonzero audio samples after key input, silence on release/Stop, pointer input, no uncaught JS errors, and mobile-width overflow. It saves desktop/mobile screenshots. It does not claim human listening or broad browser compatibility.
+
+## CI evidence
+
+[Successful browser workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40736104361), source commit `e110254f51922b5d287e045a70cca8c45899fe8f`. Native, WASM, bridge, and real Chrome tests passed. Desktop and mobile screenshots were inspected; controls and text fit both layouts. This was Linux headless Chrome, not a macOS/Windows or Safari compatibility test.

@@ -14,7 +14,7 @@ const assert=require('node:assert/strict');
         constructor(ctx,...args){super(ctx,...args);window.__audioProbe=ctx.createAnalyser();this.connect(window.__audioProbe);}
       };
     });
-    await page.goto('http://127.0.0.1:8000');
+    await page.goto(process.env.TEST_URL || 'http://127.0.0.1:8000');
     await page.getByRole('button',{name:'Enable sound',exact:true}).click();
     await page.waitForFunction(()=>document.getElementById('status').textContent.startsWith('Ready'));
     await page.keyboard.down('a');

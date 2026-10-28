@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: first browser sound-check implementation. Native C, WebAssembly, and worklet bridge signal checks pass locally. Real-browser validation is tracked separately. No hardware firmware build or flashing has occurred.**
+**Status: first browser sound-check implementation. Native C, WebAssembly, and worklet bridge signal checks pass locally. Real Chrome audio/control tests also pass in GitHub Actions. No hardware firmware build or flashing has occurred.**
 
 psychic-octo-spork is the working code name, not the final firmware name. The first prototype will explore ECHOLOG: melodic conversation.
 
@@ -14,6 +14,8 @@ Initial candidates are GENOME (musical evolution), ECHOLOG (musical memory and r
 This project is separate from the completed Local LLM Infrastructure Lab.
 
 ## First sound check
+
+[Downloadable browser sound check](preview/echolog-soundcheck.html) — use GitHub’s Download raw file control, open the saved HTML in a modern desktop browser, and select Enable sound. Browser validation status is recorded below.
 
 The browser prototype plays a monophonic sine voice with keys, volume, and Stop. Phrase capture and replies are not implemented yet. [Build and play instructions](docs/BROWSER_BUILD.md) · [validation record](docs/BROWSER_VALIDATION.md).
 

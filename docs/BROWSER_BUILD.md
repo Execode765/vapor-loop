@@ -24,6 +24,12 @@ This is a **source-compiled browser simulation**, not an emulation of the AC791N
 
 The voice renders at 44.1 kHz. Its state is accessed serially inside the browser worklet. A future threaded plugin or interrupt-driven firmware adapter must serialize commands safely; the browser adapter is not yet hardware-ready.
 
+## Downloadable single-file preview
+
+`preview/echolog-soundcheck.html` contains the same compiled WebAssembly and browser code, bundled into one file. Download it using GitHub's Download raw file control, then open the downloaded file in a modern desktop browser and select Enable sound. This local-file route is subject to browser security policy; if it fails, serve the file from localhost with a local HTTP server instead. Real-browser results are recorded in BROWSER_VALIDATION.md.
+
+Rebuild it after `tools/build_web.py` with `python3 tools/build_standalone.py`. The committed preview is a generated artifact; edit `src/` and `web/`, then rebuild rather than editing the preview directly.
+
 ## Build locally
 
 Required: Python 3, Clang with its WebAssembly backend, LLD, Node.js, and GCC for the native check. Codex installation is optional. On Debian/Ubuntu, the compiler packages are `clang`, `lld`, and `gcc`.

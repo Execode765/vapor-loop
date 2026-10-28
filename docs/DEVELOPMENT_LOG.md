@@ -39,3 +39,8 @@ Never record a planned test as a passed test.
 - This milestone implements sound only. Capture, Reply, Adventure, and Keep are not implemented.
 - Build details and validation limits: BROWSER_BUILD.md and BROWSER_VALIDATION.md.
 
+
+### Browser verification follow-up
+- GitHub Actions run 40736104361 passed the real Chrome audio/control test at source commit e110254f51922b5d287e045a70cca8c45899fe8f.
+- Inspected the desktop/mobile screenshots. Browser audio samples were checked automatically; human listening remains pending.
+- Added a reproducible single-file downloadable preview and local-file browser check.

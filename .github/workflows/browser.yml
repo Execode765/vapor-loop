@@ -16,7 +16,9 @@ jobs:
       - name: Test native voice
         run: python3 tests/test_voice.py
       - name: Build WebAssembly simulation
-        run: python3 tools/build_web.py
+        run: |
+          python3 tools/build_web.py
+          python3 tools/build_standalone.py
       - name: Test compiled simulation
         run: |
           node tests/test_wasm.mjs
@@ -29,6 +31,7 @@ jobs:
           export PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH="$(command -v google-chrome)"
           test -n "$PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH"
           node tests/test_browser.cjs
+          TEST_URL="file://$PWD/preview/echolog-soundcheck.html" node tests/test_browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
