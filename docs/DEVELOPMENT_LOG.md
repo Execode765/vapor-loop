@@ -137,3 +137,8 @@ Never record a planned test as a passed test.
 - Exact Replay reproduced the source. Reply produced G5–F5–E5–F5–G5 twice, confirming in-scale contrary motion and a tonic-triad ending.
 - The prior chromatic E-flat problem is absent; E natural is retained in C major.
 - Functional audiovisual validation passed. The owner's subjective judgment of musical usefulness remains intentionally unrecorded until stated.
+
+### Owner musical assessment of 0.1.0
+- Owner reported that the scale-aware Reply sounded “a lot more musical” than the prior chromatic inversion.
+- Functional behavior and the musical direction both pass for this baseline.
+- Retain scale-degree contrary motion and tonic-triad resolution as a starting strategy, while continuing to label automatic harmony, varied rhythm, Adventure, and broader key/scale evaluation as unfinished.
