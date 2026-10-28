@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: browser capture/replay implemented. Local C and WASM memory checks pass; browser results are recorded in the validation log. No hardware firmware build or flashing has occurred.**
+**Status: browser capture/replay implemented. Native C/sanitizer, WASM, and real Chrome capture/replay checks pass for both served and standalone builds. Owner listening feedback for this milestone is pending. No hardware firmware build or flashing has occurred.**
 
 psychic-octo-spork is the working code name, not the final firmware name. The first prototype will explore ECHOLOG: melodic conversation.
 

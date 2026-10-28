@@ -47,7 +47,9 @@ The owner tested the browser sound check and reported: “It works from the keyb
 | Native memory engine | PASS locally | Address/undefined-behavior sanitizer build; stored event timing, deterministic render across chunk sizes, empty takes, overlap, both limits, Stop/Clear |
 | Actual compiled WASM memory path | PASS locally | Capture/replay via foma buttons/keys, nonzero replay signal, Stop/Clear, 32-note and eight-second caps |
 | Existing voice/WASM/worklet regression checks | PASS locally | Existing automated checks still pass |
-| Chrome served and standalone capture/replay | PENDING | Extended CI test includes keyboard/mouse recording and audible replay |
+| Chrome served and standalone capture/replay | PASS | Keyboard/mouse recording, empty take, audible two-note replay, Stop preserving phrase, Clear, mobile width, no uncaught JS errors |
 | Owner listening for capture/replay | NOT TESTED | Prior owner report covers 0.0.1 only |
 
 The new browser test is not yet a claim of cross-browser/macOS/Windows support. No hardware flashing or plugin implementation occurred.
+
+[Successful 0.0.2 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40738989216) tested source commit `03ca3ec1dd695bf147095f89b8893dbce9b9cc51`. All native, sanitizer, WASM, worklet, and Chrome checks passed. Both served and direct-from-disk standalone previews passed. Desktop/mobile screenshots were inspected. Owner listening feedback for this capture/replay milestone is still pending.

@@ -64,3 +64,8 @@ Never record a planned test as a passed test.
 - Native tests confirm identical replay samples across single-frame and larger render chunks, both capacity limits, overlap/retrigger behavior, and Stop/Clear handling.
 - Browser and owner listening results for this new milestone are pending at implementation time. Prior owner approval was for 0.0.1 only.
 - Rebuilt the single-file preview. No hardware image produced or flashed.
+
+### 0.0.2 browser checks completed
+- Workflow 40738989216 passed native voice/memory sanitizer tests, WASM integration, worklet regression checks, and real Chrome recording/replay tests.
+- Both the served page and downloaded HTML recorded keyboard/mouse input and replayed a two-note phrase with nonzero audio; Stop preserved it and Clear erased it.
+- Inspected desktop/mobile screenshots. No user listening test for 0.0.2 is claimed.
