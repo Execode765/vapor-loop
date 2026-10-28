@@ -18,6 +18,7 @@ function action(id) { releaseKeys(); pulse(id); }
 $('capture').onclick=()=>action(13);
 $('finish').onclick=()=>action(3);
 $('replay').onclick=()=>action(11);
+$('reply').onclick=()=>action(2);
 $('clear').onclick=()=>action(8);
 function phraseStatus(p) {
   const capturing=p.mode===1 || p.mode===2;
@@ -25,12 +26,13 @@ function phraseStatus(p) {
   $('capture').classList.toggle('recording',capturing);
   $('finish').disabled=!ready || !capturing;
   $('replay').disabled=!ready || !p.count || capturing;
+  $('reply').disabled=!ready || !p.count || capturing;
   $('clear').disabled=!ready || (!p.count && !capturing);
   const duration=((p.mode===2?p.position:p.length)/44100).toFixed(2);
   const limit=p.limit===1?' · 32-note limit reached':p.limit===2?' · 8-second limit reached':'';
   $('phrase-status').textContent=p.mode===1?'Armed · play your first note':
     p.mode===2?`Recording · ${p.count} notes · ${duration}s`:
-    p.mode===3?`Replaying · ${p.count} notes · ${duration}s`:
+    p.mode===3?`${p.playback===2?'Replying':'Replaying'} · ${p.count} notes · ${duration}s`:
     p.count?`Phrase ready · ${p.count} notes · ${duration}s${limit}`:'No phrase yet · press Capture';
   $('phrase-progress').max=p.mode===2 || p.mode===1 ? 352800 : Math.max(p.length,1);
   $('phrase-progress').value=p.mode===2 || p.mode===3?p.position:0;
@@ -70,7 +72,7 @@ $('start').onclick=async()=>{
     const wasm=await response.arrayBuffer();
     node=new AudioWorkletNode(ctx,'fm1',{numberOfInputs:0,numberOfOutputs:1,outputChannelCount:[2]});
     node.port.onmessage=({data:m})=>{
-      if(m.type==='ready'){ready=true;$('status').textContent='Ready · 44.1 kHz · one voice';$('start').textContent='Sound enabled';$('stop').disabled=false;keyButtons.forEach(b=>b.disabled=false);phraseStatus({mode:0,count:0,length:0,position:0,limit:0});}
+      if(m.type==='ready'){ready=true;$('status').textContent='Ready · 44.1 kHz · one voice';$('start').textContent='Sound enabled';$('stop').disabled=false;keyButtons.forEach(b=>b.disabled=false);phraseStatus({mode:0,count:0,length:0,position:0,limit:0,playback:0});}
       if(m.type==='frame'){if(m.fb)draw(m.fb);if(m.phrase)phraseStatus(m.phrase);}
       if(m.type==='crash'){ready=false;$('status').textContent='Audio stopped: '+m.message;node.disconnect();}
     };

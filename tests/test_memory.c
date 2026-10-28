@@ -34,6 +34,12 @@ int main(void) {
     echo_memory_replay(&m);
     for(int i=0;i<4000;i++) echo_memory_render(&m,second+2*i,1);
     for(int i=0;i<8000;i++) assert(first[i]==second[i]);
+    /* Reply retains timing/velocity while mirroring intervals around first note + 7. */
+    assert(echo_memory_reply(&m)); assert(m.playback==ECHO_REPLY_PLAYBACK);
+    advance(&m,1); assert(m.voice.note==67 && m.voice.target==6400);
+    advance(&m,1000); assert(m.voice.note==-1);
+    advance(&m,500); assert(m.voice.note==63 && m.voice.target==5120);
+    echo_memory_stop(&m);
     /* Same-pitch retrigger and overlapping input close the old event. */
     echo_memory_capture(&m); echo_memory_on(&m,60,100); advance(&m,100);
     echo_memory_on(&m,60,90); advance(&m,100); echo_memory_on(&m,65,90);
@@ -66,5 +72,5 @@ int main(void) {
     advance(&m,4096); assert(m.voice.level==0);
     echo_memory_clear(&m); assert(!m.count && !m.length && !echo_memory_replay(&m));
     echo_memory_on(&m,-1,100); echo_memory_on(&m,128,100); assert(m.voice.note==-1);
-    puts("PASS memory: exact event timing, deterministic replay, empty/short takes, overlap/retrigger, 32-note/8-second caps, interrupt/stop/clear");
+    puts("PASS memory: exact replay, mirrored reply, timing/velocity, empty/short takes, overlap/retrigger, caps, interrupt/stop/clear");
 }

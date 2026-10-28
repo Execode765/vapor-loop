@@ -75,3 +75,10 @@ Never record a planned test as a passed test.
 - Owner confirmed that Capture, Finish, Replay, and Clear all work.
 - This establishes hands-on validation of the complete first-memory interaction, separate from automated Chrome checks.
 - Browser capture/replay is now the validated foundation for the next musical milestone: generating a transformed reply. No hardware flashing occurred.
+
+## 2026-10-28 — First transformed Reply, 0.0.3
+- Added a distinct Reply command while retaining exact Replay for A/B comparison.
+- Reply preserves recorded onset, duration, rest, and velocity data, starts a perfect fifth above the source, and mirrors subsequent melodic intervals around that new anchor.
+- The rule is deterministic and integer-only: `reply = 2 × first pitch + 7 − captured pitch`, clamped to MIDI 0–127.
+- Native sanitizer tests verify the expected transformed pitches and preserved velocities. Compiled WASM, worklet, and existing regression checks pass locally.
+- Rebuilt the standalone browser preview. Real-Chrome CI and owner musical evaluation are pending. No plugin or hardware image was built or flashed.

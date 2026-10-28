@@ -3,23 +3,23 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ECHOLOG · First memory</title>
+<title>ECHOLOG · First reply</title>
 <link rel="stylesheet" href="style.css">
 <main>
-  <header><p class="eyebrow">PSYCHIC-OCTO-SPORK / DEVELOPMENT 0.0.2</p><h1>A phrase played.<br>A memory made.</h1><p class="intro">Capture a melody. Hear it back. The first step toward a musical conversation.</p></header>
+  <header><p class="eyebrow">PSYCHIC-OCTO-SPORK / DEVELOPMENT 0.0.3</p><h1>A phrase played.<br>A phrase answered.</h1><p class="intro">Capture a melody. Replay it exactly—or hear ECHOLOG answer with a mirrored melodic contour.</p></header>
   <section class="instrument" aria-label="ECHOLOG sound check">
     <div class="top"><div><p class="eyebrow">ECHOLOG</p><p class="hint">Musical conversation, in development.</p><button id="start">Enable sound</button><p id="status" role="status">Sound is off.</p></div><canvas id="screen" width="240" height="240" aria-label="Simulated FM-1 display"></canvas></div>
     <div class="transport" aria-label="Phrase controls">
-      <button id="capture" disabled>Capture</button><button id="finish" disabled>Finish</button><button id="replay" disabled>Replay</button><button id="clear" disabled>Clear</button>
+      <button id="capture" disabled>Capture</button><button id="finish" disabled>Finish</button><button id="replay" disabled>Replay</button><button id="reply" disabled>Reply</button><button id="clear" disabled>Clear</button>
     </div>
     <p id="phrase-status" role="status">No phrase yet. Enable sound to begin.</p>
     <progress id="phrase-progress" max="352800" value="0" aria-label="Phrase position"></progress>
-    <p class="hint">Capture replaces the previous take. Recording starts with your first note. Maximum 32 notes or 8 seconds.</p>
+    <p class="hint">Reply preserves your rhythm and dynamics, starts a perfect fifth higher, and mirrors the intervals. Maximum 32 notes or 8 seconds.</p>
     <div class="controls"><button id="stop" disabled>Stop all notes</button><label>Volume <input id="volume" type="range" min="0" max="900" value="600"></label></div>
     <div id="keys" aria-label="Playable keys"></div>
     <p class="hint">Click and hold a key, or use A W S E D F T G Y H U J K. Release to stop.</p>
   </section>
-  <section class="notes"><div><h2>What this proves</h2><p>One short phrase, remembered as pitches, timing, duration, and velocity. Capture and replay run in the same C engine as the sound.</p></div><div><h2>What comes next</h2><p>Musical replies that change your phrase. This version plays back exactly the recorded note events.</p></div></section>
+  <section class="notes"><div><h2>Listen for the relationship</h2><p>Replay is your phrase exactly. Reply keeps its timing and note lengths but reverses the direction of every melodic interval.</p></div><div><h2>Why this is only Reply One</h2><p>This deterministic mirror gives us a testable musical baseline. Later replies can add controlled variation without losing the source phrase's identity.</p></div></section>
   <footer>Browser simulation, not a full CPU emulator or a hardware compatibility test. Memory lasts until Clear, a new capture, or closing the page. No installer or hardware access.<br>Platform: <a href="https://github.com/konsumer/foma">foma</a>, with Felucca / SLOOP / Dinghy lineage. GPL-3.0-only. AI-assisted development.</footer>
 </main><script type="module" src="app.js"></script>
 </html>

@@ -1,4 +1,4 @@
-# Browser prototype build — 0.0.2
+# Browser prototype build — 0.0.3
 
 This milestone captures and replays one phrase using the sine voice. See [FIRST_MEMORY.md](FIRST_MEMORY.md). Replies, Adventure and Keep are not implemented yet.
 

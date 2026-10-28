@@ -1,6 +1,6 @@
 # Project plan
 
-Status: browser sound-check implementation. Updated: 2026-10-28.
+Status: first deterministic musical Reply implemented in the browser prototype. Updated: 2026-10-28.
 
 ## Purpose
 Develop an original, unusual, musically useful firmware for the M-VAVE FM-1. This project is separate from the completed Local LLM Infrastructure Lab.
@@ -47,8 +47,11 @@ Approved direction: capture a monophonic phrase of up to 32 notes; play a relate
 Work in small, explainable steps. Each meaningful change includes relevant documentation and evidence. Distinguish proposed features, host tests, emulator tests, and physical-device results. Keep concept decisions reversible until musical testing supports them.
 
 ## Browser foundation selected
-Use the pinned foma browser subset described in [BROWSER_BUILD.md](BROWSER_BUILD.md). A portable integer C voice now builds to WebAssembly and passes local signal/integration checks. No installer is bundled. See [validation](BROWSER_VALIDATION.md) for browser versus host evidence. Phrase capture and replies remain the next musical-engine work.
+Use the pinned foma browser subset described in [BROWSER_BUILD.md](BROWSER_BUILD.md). A portable integer C voice and phrase engine build to WebAssembly and pass local signal/integration checks. No installer is bundled. See [validation](BROWSER_VALIDATION.md) for browser versus host evidence.
 
 
 ## Capture/replay milestone — 0.0.2
-The first memory engine captures and replays one monophonic phrase with original pitches and recorded event timing. It enforces 32-note/eight-second limits, retains a partial take on Stop, and provides Clear. See [FIRST_MEMORY.md](FIRST_MEMORY.md). Local C/WASM checks pass; browser validation is tracked separately. Musical response generation remains the next stage, after owner listening feedback.
+The first memory engine captures and replays one monophonic phrase with original pitches and recorded event timing. It enforces 32-note/eight-second limits, retains a partial take on Stop, and provides Clear. See [FIRST_MEMORY.md](FIRST_MEMORY.md). The owner validated all four memory controls in the downloaded 0.0.2 build.
+
+## First transformed reply — 0.0.3
+The first Reply preserves the captured onset times, durations, and velocities. It places the first answer note a perfect fifth above the captured first note, then mirrors every subsequent interval: `reply = 2 × first + 7 − captured`. MIDI-range results are clamped safely. This deterministic rule is a musical baseline for owner evaluation, not the final variation system. See [FIRST_REPLY.md](FIRST_REPLY.md).

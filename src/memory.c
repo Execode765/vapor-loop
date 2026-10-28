@@ -4,6 +4,7 @@ void echo_memory_init(EchoMemory *m) {
     echo_voice_init(&m->voice);
     m->count = m->length = m->position = m->next = 0;
     m->mode = ECHO_IDLE; m->active = m->playing = -1; m->limit = ECHO_NO_LIMIT;
+    m->playback = ECHO_NO_PLAYBACK;
 }
 static void close_event(EchoMemory *m) {
     if (m->active < 0) return;
@@ -22,7 +23,7 @@ void echo_memory_finish(EchoMemory *m) {
 }
 void echo_memory_stop(EchoMemory *m) {
     echo_memory_finish(m);
-    m->mode = ECHO_IDLE; m->playing = -1;
+    m->mode = ECHO_IDLE; m->playing = -1; m->playback = ECHO_NO_PLAYBACK;
     echo_voice_stop(&m->voice);
 }
 void echo_memory_clear(EchoMemory *m) {
@@ -38,7 +39,24 @@ int echo_memory_replay(EchoMemory *m) {
     if (!m->count || !m->length) return 0;
     echo_voice_init(&m->voice);
     m->mode = ECHO_PLAYING; m->position = m->next = 0; m->playing = -1;
+    m->playback = ECHO_EXACT_PLAYBACK;
     return 1;
+}
+int echo_memory_reply(EchoMemory *m) {
+    echo_memory_stop(m);
+    if (!m->count || !m->length) return 0;
+    echo_voice_init(&m->voice);
+    m->mode = ECHO_PLAYING; m->position = m->next = 0; m->playing = -1;
+    m->playback = ECHO_REPLY_PLAYBACK;
+    return 1;
+}
+/* Mirror each interval around a reply anchor one perfect fifth above the first note. */
+static int playback_pitch(const EchoMemory *m, const EchoEvent *e) {
+    if (m->playback != ECHO_REPLY_PLAYBACK) return e->pitch;
+    int pitch = 2 * (int)m->events[0].pitch + 7 - (int)e->pitch;
+    if (pitch < 0) return 0;
+    if (pitch > 127) return 127;
+    return pitch;
 }
 void echo_memory_on(EchoMemory *m, int pitch, int velocity) {
     if (pitch < 0 || pitch > 127) return;
@@ -88,12 +106,12 @@ void echo_memory_render(EchoMemory *m, int32_t *out, uint32_t frames) {
             if (m->playing >= 0) {
                 EchoEvent *e = &m->events[m->playing];
                 if (m->position >= e->onset + e->duration) {
-                    echo_voice_off(&m->voice, e->pitch); m->playing = -1;
+                    echo_voice_off(&m->voice, playback_pitch(m, e)); m->playing = -1;
                 }
             }
             if (m->next < m->count && m->events[m->next].onset == m->position) {
                 EchoEvent *e = &m->events[m->next];
-                echo_voice_on(&m->voice, e->pitch, e->velocity);
+                echo_voice_on(&m->voice, playback_pitch(m, e), e->velocity);
                 m->playing = (int)m->next++;
             }
             if (m->position >= m->length) { echo_memory_stop(m); continue; }

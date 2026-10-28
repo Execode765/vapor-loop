@@ -57,3 +57,15 @@ The new browser test is not yet a claim of cross-browser/macOS/Windows support. 
 ## Owner feedback — 0.0.2 — 2026-10-28
 
 The owner tested the downloaded standalone build and confirmed that Capture, Finish, Replay, and Clear all work. This validates the complete first-memory interaction in the owner's browser session. The report does not establish broad cross-browser support, plugin behavior, or FM-1 hardware compatibility.
+
+## First transformed reply — 0.0.3
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Native reply transformation | PASS locally | Exact expected pitches, preserved velocities/timing, and safe playback lifecycle under address/undefined-behavior sanitizers |
+| Compiled WASM reply command | PASS locally | Reply command enters transformed playback and produces nonzero audio through the real foma interface |
+| Existing voice/memory/worklet regressions | PASS locally | Native voice, WASM, worklet, capture/replay, limits, Stop, and Clear checks remain green |
+| Real Chrome UI/audio | PENDING | GitHub Actions will test served and direct-file builds after commit |
+| Owner musical evaluation | NOT TESTED | Owner has not yet heard or rated the transformed reply |
+
+The transformation begins seven semitones above the captured first note and mirrors each captured interval while retaining the recorded rhythm, durations, and velocities. This is a browser prototype result, not hardware or plugin validation.

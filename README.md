@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: browser capture/replay implemented. Native C/sanitizer, WASM, and real Chrome capture/replay checks pass for both served and standalone builds. Owner listening feedback for this milestone is pending. No hardware firmware build or flashing has occurred.**
+**Status: browser capture/replay and the first transformed musical Reply are implemented. Native C and compiled WASM checks pass; browser CI and owner listening for 0.0.3 are pending. No hardware firmware build or flashing has occurred.**
 
 psychic-octo-spork is the working code name, not the final firmware name. The first prototype will explore ECHOLOG: melodic conversation.
 
@@ -13,13 +13,13 @@ Initial candidates are GENOME (musical evolution), ECHOLOG (musical memory and r
 
 This project is separate from the completed Local LLM Infrastructure Lab.
 
-## First memory — browser prototype 0.0.2
+## First reply — browser prototype 0.0.3
 
 [Downloadable browser preview](preview/echolog-soundcheck.html) — use GitHub’s Download raw file control, open the saved HTML in Chrome, and select Enable sound.
 
-Capture a monophonic phrase, Finish, then Replay its stored notes and timing. Stop preserves it; Clear or a new capture erases it. Maximum 32 notes/eight seconds; session memory only. Musical replies and variations are not implemented yet.
+Capture a monophonic phrase, then choose Replay for the original or Reply for ECHOLOG's answer. The first reply preserves timing, duration, and velocity while mirroring melodic intervals around a starting note one perfect fifth higher. Stop preserves the phrase; Clear or a new capture erases it. Maximum 32 notes/eight seconds; session memory only.
 
-[First-memory guide](docs/FIRST_MEMORY.md) · [build instructions](docs/BROWSER_BUILD.md) · [validation record](docs/BROWSER_VALIDATION.md).
+[First-reply guide](docs/FIRST_REPLY.md) · [first-memory design](docs/FIRST_MEMORY.md) · [build instructions](docs/BROWSER_BUILD.md) · [validation record](docs/BROWSER_VALIDATION.md).
 
 ## Documentation
 - [First prototype specification](docs/PROTOTYPE_SPEC.md)

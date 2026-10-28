@@ -49,6 +49,10 @@ const assert=require('node:assert/strict');
     await c4.hover(); await page.mouse.down(); await page.waitForTimeout(220); await page.mouse.up();
     await page.getByRole('button',{name:'Finish',exact:true}).click();
     await page.waitForFunction(()=>document.getElementById('phrase-status').textContent.startsWith('Phrase ready · 2 notes'));
+    await page.getByRole('button',{name:'Reply',exact:true}).click();
+    await page.waitForFunction(()=>document.getElementById('phrase-status').textContent.startsWith('Replying'));
+    await page.waitForFunction(()=>{const a=window.__audioProbe,x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return x.some(v=>Math.abs(v)>.01);});
+    await page.waitForFunction(()=>document.getElementById('phrase-status').textContent.startsWith('Phrase ready · 2 notes'));
     await page.getByRole('button',{name:'Replay',exact:true}).click();
     await page.waitForFunction(()=>document.getElementById('phrase-status').textContent.startsWith('Replaying'));
     await page.waitForFunction(()=>{const a=window.__audioProbe,x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return x.some(v=>Math.abs(v)>.01);});
@@ -66,6 +70,6 @@ const assert=require('node:assert/strict');
     await page.waitForFunction(()=>document.getElementById('phrase-status').textContent.startsWith('No phrase'));
     assert(await page.getByRole('button',{name:'Replay',exact:true}).isDisabled());
     assert.deepEqual(errors,[]);
-    console.log('PASS Chromium: live audio, keyboard/mouse capture, empty take, 2-note replay, stop preserves phrase, clear, mobile width, no JS errors');
+    console.log('PASS Chromium: live audio, keyboard/mouse capture, empty take, 2-note reply/replay, stop preserves phrase, clear, mobile width, no JS errors');
   } finally {await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1);});

@@ -7,7 +7,7 @@ void setup(void) {
     echo_memory_init(&memory);
     clear(RGB(10, 20, 24));
     text(24, 24, "ECHOLOG", RGB(141, 238, 192), FONT_BIG);
-    text(24, 66, "FIRST MEMORY 0.0.2", WHITE, FONT_SMALL);
+    text(24, 66, "FIRST REPLY 0.0.3", WHITE, FONT_SMALL);
     text(24, 198, "32 NOTES / 8 SEC", WHITE, FONT_SMALL);
 }
 void loop(void) {
@@ -17,6 +17,7 @@ void loop(void) {
     if (button_pressed(BTN_REC)) echo_memory_capture(&memory);
     if (button_pressed(BTN_SEL)) echo_memory_finish(&memory);
     if (button_pressed(BTN_SEQ)) echo_memory_replay(&memory);
+    if (button_pressed(BTN_FX)) echo_memory_reply(&memory);
     for (int k = 0; k < KEY_COUNT; ++k) {
         if (key_released(k)) echo_memory_off(&memory, KEY_FIRST_NOTE + k);
         if (key_pressed(k)) echo_memory_on(&memory, KEY_FIRST_NOTE + k, 100);
@@ -34,7 +35,9 @@ void loop(void) {
         rect(16, 96, 216, 92, RGB(10, 20, 24));
         const char *state = memory.mode == ECHO_ARMED ? "PLAY TO BEGIN" :
             memory.mode == ECHO_RECORDING ? "RECORDING" :
-            memory.mode == ECHO_PLAYING ? "REPLAYING" : memory.count ? "PHRASE READY" : "PLAY OR CAPTURE";
+            memory.mode == ECHO_PLAYING ?
+                (memory.playback == ECHO_REPLY_PLAYBACK ? "REPLYING" : "REPLAYING") :
+                memory.count ? "PHRASE READY" : "PLAY OR CAPTURE";
         text(16, 100, state, RGB(141, 238, 192), FONT_SMALL);
         char num[12]; format_int(num, (int32_t)memory.count);
         text(16, 128, num, WHITE, FONT_BIG);
@@ -50,4 +53,5 @@ ECHO_EXPORT(echo_count) uint32_t echo_count(void) { return memory.count; }
 ECHO_EXPORT(echo_length) uint32_t echo_length(void) { return memory.length; }
 ECHO_EXPORT(echo_position) uint32_t echo_position(void) { return memory.position; }
 ECHO_EXPORT(echo_limit) int echo_limit(void) { return memory.limit; }
+ECHO_EXPORT(echo_playback) int echo_playback(void) { return memory.playback; }
 #endif
