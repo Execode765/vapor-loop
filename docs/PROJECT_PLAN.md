@@ -21,10 +21,16 @@ On 2026-10-28, the owner approved melodic conversation as the first ECHOLOG expe
 2. Verify platform choices, licenses, toolchain, memory limits, and recovery behavior.
 3. Choose a small musical interaction and write its acceptance criteria.
 4. Build an audible host/browser prototype and evaluate it with the project owner.
-5. Establish a measured target build and designate one development FM-1.
-6. Validate installation, operation, persistence, and departure to another firmware on hardware.
-7. Publish source, documentation, compiled firmware, and test evidence.
-8. Submit the tested release to The Firmware Hub.
+5. Adapt the shared instrument core into a VST3 plugin for macOS and Windows; validate it in actual DAWs on both platforms.
+6. After browser and desktop validation, establish a measured hardware target build and designate one development FM-1.
+7. Only then perform hardware flashing and validate installation, operation, persistence, recovery, and departure to another firmware.
+8. Publish source, documentation, compiled firmware, and test evidence.
+9. Submit the tested release to The Firmware Hub.
+
+## Execution order agreed 2026-10-28
+Browser/emulator first, desktop plugin second, hardware testing last. No hardware flashing is authorized at this stage. Keep the musical core portable so browser, plugin, and firmware can share behavior. Browser playback alone does not establish hardware timing or compatibility.
+
+A local Codex installation is optional for the browser phase. It becomes useful when working with compilers, plugin builds, DAWs, and logs on the owner's computer. Native macOS and Windows plugin testing requires access to those environments; installing Codex does not provide their toolchains or substitute for testing.
 
 ## First prototype proposal
 Approved direction: capture a monophonic phrase of up to 32 notes; play a related response using one lightweight internal sound. Start with explicit capture/reply controls. Automatic phrase detection, multiple memories, and richer synthesis are later possibilities.
