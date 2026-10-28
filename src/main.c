@@ -7,7 +7,7 @@ void setup(void) {
     echo_memory_init(&memory);
     clear(RGB(10, 20, 24));
     text(24, 24, "ECHOLOG", RGB(141, 238, 192), FONT_BIG);
-    text(24, 66, "MUSICAL REPLY 0.1.0", WHITE, FONT_SMALL);
+    text(24, 66, "ADVENTURE 0.2.0", WHITE, FONT_SMALL);
     text(24, 198, "32 NOTES / 8 SEC", WHITE, FONT_SMALL);
 }
 void loop(void) {
@@ -56,7 +56,12 @@ ECHO_EXPORT(echo_limit) int echo_limit(void) { return memory.limit; }
 ECHO_EXPORT(echo_playback) int echo_playback(void) { return memory.playback; }
 ECHO_EXPORT(echo_root) int echo_root(void) { return memory.root; }
 ECHO_EXPORT(echo_scale) int echo_scale(void) { return memory.scale; }
+ECHO_EXPORT(echo_adventure) int echo_adventure(void) { return memory.adventure; }
+ECHO_EXPORT(echo_variation) uint32_t echo_variation(void) { return memory.variation; }
 ECHO_EXPORT(echo_set_harmony) void echo_set_harmony(int root, int scale) {
     echo_memory_set_harmony(&memory, root, scale);
+}
+ECHO_EXPORT(echo_set_adventure) void echo_set_adventure(int adventure) {
+    echo_memory_set_adventure(&memory, adventure);
 }
 #endif

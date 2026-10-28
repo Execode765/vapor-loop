@@ -25,6 +25,13 @@ function syncHarmony() {
 }
 $('root').onchange=syncHarmony;
 $('scale').onchange=syncHarmony;
+function syncAdventure() {
+  const value=Number($('adventure').value);
+  const character=value===0?'Faithful':value<=30?'Gentle':value<=60?'Curious':value<=80?'Bold':'Wild';
+  $('adventure-value').textContent=`${value} · ${character}`;
+  send({type:'adventure',value});
+}
+$('adventure').oninput=syncAdventure;
 function midiNoteName(n) {
   const names=['C','C♯','D','E♭','E','F','F♯','G','A♭','A','B♭','B'];
   return `${names[n%12]}${Math.floor(n/12)-1}`;
@@ -107,7 +114,7 @@ function phraseStatus(p) {
   const limit=p.limit===1?' · 32-note limit reached':p.limit===2?' · 8-second limit reached':'';
   $('phrase-status').textContent=p.mode===1?'Armed · play your first note':
     p.mode===2?`Recording · ${p.count} notes · ${duration}s`:
-    p.mode===3?`${p.playback===2?'Replying':'Replaying'} · ${p.count} notes · ${duration}s`:
+    p.mode===3?`${p.playback===2?`Replying · Adventure ${p.adventure||0} · variation ${p.variation||1}`:'Replaying'} · ${p.count} notes · ${duration}s`:
     p.count?`Phrase ready · ${p.count} notes · ${duration}s${limit}`:'No phrase yet · press Capture';
   $('phrase-progress').max=p.mode===2 || p.mode===1 ? 352800 : Math.max(p.length,1);
   $('phrase-progress').value=p.mode===2 || p.mode===3?p.position:0;
@@ -147,7 +154,7 @@ $('start').onclick=async()=>{
     const wasm=await response.arrayBuffer();
     node=new AudioWorkletNode(ctx,'fm1',{numberOfInputs:0,numberOfOutputs:1,outputChannelCount:[2]});
     node.port.onmessage=({data:m})=>{
-      if(m.type==='ready'){ready=true;$('status').textContent='Ready · 44.1 kHz · one voice';$('start').textContent='Sound enabled';$('stop').disabled=false;keyButtons.forEach(b=>b.disabled=false);syncHarmony();phraseStatus({mode:0,count:0,length:0,position:0,limit:0,playback:0,root:Number($('root').value),scale:Number($('scale').value)});}
+      if(m.type==='ready'){ready=true;$('status').textContent='Ready · 44.1 kHz · one voice';$('start').textContent='Sound enabled';$('stop').disabled=false;keyButtons.forEach(b=>b.disabled=false);syncHarmony();syncAdventure();phraseStatus({mode:0,count:0,length:0,position:0,limit:0,playback:0,root:Number($('root').value),scale:Number($('scale').value),adventure:Number($('adventure').value),variation:0});}
       if(m.type==='frame'){if(m.fb)draw(m.fb);if(m.phrase)phraseStatus(m.phrase);}
       if(m.type==='crash'){ready=false;$('status').textContent='Audio stopped: '+m.message;node.disconnect();}
     };

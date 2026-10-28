@@ -142,3 +142,10 @@ Never record a planned test as a passed test.
 - Owner reported that the scale-aware Reply sounded “a lot more musical” than the prior chromatic inversion.
 - Functional behavior and the musical direction both pass for this baseline.
 - Retain scale-degree contrary motion and tonic-triad resolution as a starting strategy, while continuing to label automatic harmony, varied rhythm, Adventure, and broader key/scale evaluation as unfinished.
+
+## 2026-10-28 — Adventure controlled variation, 0.2.0
+- Added a 0–100 Adventure control. Zero reproduces the approved 0.1.0 Reply; higher values increase the probability of interior scale-step substitutions, with two-step changes available at high settings.
+- Each Reply press advances a deterministic variation sequence seeded by phrase pitches, harmony context, and generation number. Changing Adventure or starting a new Capture resets the sequence.
+- Protected source rhythm, rests, durations, velocities, count and length; selected scale; MIDI 36–96 register; opening anchor; and tonic-triad cadence.
+- Added native tests for baseline compatibility, distinct high-Adventure generations, all 48 contexts, and protected constraints; compiled WASM tests cover the control and counter.
+- Local native/WASM/worklet regressions pass. Real-Chrome CI and owner musical evaluation are pending. Keep, rhythm mutation, plugin, and FM-1 firmware remain unimplemented.

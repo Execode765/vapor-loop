@@ -3,10 +3,10 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ECHOLOG · Scale-aware Reply</title>
+<title>ECHOLOG · Adventure</title>
 <link rel="stylesheet" href="style.css">
 <main>
-  <header><p class="eyebrow">PSYCHIC-OCTO-SPORK / DEVELOPMENT 0.1.0</p><h1>A phrase remembered.<br>A musical answer.</h1><p class="intro">Choose a key and scale. ECHOLOG answers in scale, follows contrary motion, and resolves onto the tonic chord.</p></header>
+  <header><p class="eyebrow">PSYCHIC-OCTO-SPORK / DEVELOPMENT 0.2.0</p><h1>Keep the identity.<br>Change the journey.</h1><p class="intro">Adventure controls how freely ECHOLOG varies the interior of your phrase while protecting its scale, rhythm, opening anchor, register, and resolution.</p></header>
   <section class="instrument" aria-label="ECHOLOG sound check">
     <div class="top"><div><p class="eyebrow">ECHOLOG</p><p class="hint">Musical conversation, in development.</p><button id="start">Enable sound</button><p id="status" role="status">Sound is off.</p></div><canvas id="screen" width="240" height="240" aria-label="Simulated FM-1 display"></canvas></div>
     <div class="harmony-panel" aria-label="Reply harmony">
@@ -16,6 +16,10 @@
       <label for="scale">Scale
         <select id="scale"><option value="0">Major</option><option value="1">Natural minor</option><option value="2">Major pentatonic</option><option value="3">Minor pentatonic</option></select>
       </label>
+      <label class="adventure-control" for="adventure">Adventure
+        <input id="adventure" type="range" min="0" max="100" step="10" value="0">
+        <output id="adventure-value" for="adventure">0 · Faithful</output>
+      </label>
       <p id="harmony-status">Reply context · C major</p>
     </div>
     <div class="transport" aria-label="Phrase controls">
@@ -23,7 +27,7 @@
     </div>
     <p id="phrase-status" role="status">No phrase yet. Enable sound to begin.</p>
     <progress id="phrase-progress" max="352800" value="0" aria-label="Phrase position"></progress>
-    <p class="hint">Reply preserves rhythm and dynamics, maps notes to scale degrees, moves in contrary motion, and ends on the tonic chord. Maximum 32 notes or 8 seconds.</p>
+    <p class="hint">At Adventure 0, Reply uses the approved baseline. Raise it for increasingly frequent scale-step substitutions; press Reply again for another variation. Maximum 32 notes or 8 seconds.</p>
     <div class="midi-panel" aria-label="MIDI controller connection">
       <button id="midi-enable" type="button">Enable MIDI</button>
       <label for="midi-input">MIDI input
@@ -35,7 +39,7 @@
     <div id="keys" aria-label="Playable keys"></div>
     <p class="hint">Click and hold a key, or use A W S E D F T G Y H U J K. Release to stop.</p>
   </section>
-  <section class="notes"><div><h2>Musical strategy</h2><p>Captured pitches are interpreted as scale degrees. The answer begins near a fifth above, reverses the source direction in diatonic steps, stays within a safe register, and cadences on the tonic, third, or fifth.</p></div><div><h2>Deliberately constrained</h2><p>This first musical strategy keeps the original rhythm and uses a manually selected key. Automatic key detection, chord progressions, Adventure, and rhythmic mutation remain later experiments.</p></div></section>
+  <section class="notes"><div><h2>Controlled variation</h2><p>Adventure changes only interior scale degrees. Low settings make occasional one-step substitutions; high settings change more notes and sometimes move two scale steps. Each Reply press advances to a reproducible new variation.</p></div><div><h2>Protected identity</h2><p>The source rhythm, rests, durations, velocities, first-answer anchor, scale, register, and tonic-triad ending remain fixed. Keep and automatic chord progressions remain later features.</p></div></section>
   <footer>Browser simulation, not a full CPU emulator or a hardware compatibility test. Memory lasts until Clear, a new capture, or closing the page. No installer or hardware access.<br>Platform: <a href="https://github.com/konsumer/foma">foma</a>, with Felucca / SLOOP / Dinghy lineage. GPL-3.0-only. AI-assisted development.</footer>
 </main><script type="module" src="app.js"></script>
 </html>

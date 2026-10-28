@@ -42,14 +42,32 @@ int main(void) {
     advance(&m,500); assert(m.voice.note==64 && m.voice.target==5120);
     echo_memory_stop(&m);
     uint8_t source[5]={60,62,64,62,60}, reply[5]={0};
-    echo_harmony_reply(source,reply,5,0,ECHO_SCALE_MAJOR);
+    echo_harmony_reply(source,reply,5,0,ECHO_SCALE_MAJOR,0,0);
     const uint8_t expected[5]={67,65,64,65,67};
     for(int i=0;i<5;i++) assert(reply[i]==expected[i]);
+    uint8_t faithful[5]={0}, bold_a[5]={0}, bold_b[5]={0};
+    echo_harmony_reply(source,faithful,5,0,ECHO_SCALE_MAJOR,0,99);
+    echo_harmony_reply(source,bold_a,5,0,ECHO_SCALE_MAJOR,100,0);
+    echo_harmony_reply(source,bold_b,5,0,ECHO_SCALE_MAJOR,100,1);
+    int changed_a=0, changed_b=0, variants_differ=0;
+    for(int i=0;i<5;i++) {
+        assert(faithful[i]==expected[i]);
+        assert(echo_harmony_contains(bold_a[i],0,ECHO_SCALE_MAJOR));
+        assert(echo_harmony_contains(bold_b[i],0,ECHO_SCALE_MAJOR));
+        if(bold_a[i]!=expected[i]) changed_a=1;
+        if(bold_b[i]!=expected[i]) changed_b=1;
+        if(bold_a[i]!=bold_b[i]) variants_differ=1;
+    }
+    assert(bold_a[0]==expected[0] && bold_b[0]==expected[0]);
+    int cadence_a=bold_a[4]%12, cadence_b=bold_b[4]%12;
+    assert((cadence_a==0 || cadence_a==4 || cadence_a==7) &&
+           (cadence_b==0 || cadence_b==4 || cadence_b==7));
+    assert(changed_a && changed_b && variants_differ);
     /* Every root/scale combination stays in scale and in the reply register. */
     uint8_t chromatic[32], constrained[32];
     for(int i=0;i<32;i++) chromatic[i]=(uint8_t)(36+(i*7)%61);
     for(int root=0;root<12;root++) for(int scale=0;scale<ECHO_SCALE_COUNT;scale++) {
-        echo_harmony_reply(chromatic,constrained,32,root,scale);
+        echo_harmony_reply(chromatic,constrained,32,root,scale,100,7);
         for(int i=0;i<32;i++) {
             assert(constrained[i]>=36 && constrained[i]<=96);
             assert(echo_harmony_contains(constrained[i],root,scale));
@@ -57,6 +75,9 @@ int main(void) {
     }
     echo_memory_set_harmony(&m,2,ECHO_SCALE_NATURAL_MINOR);
     assert(m.root==2 && m.scale==ECHO_SCALE_NATURAL_MINOR);
+    echo_memory_set_adventure(&m,80); assert(m.adventure==80 && m.variation==0);
+    echo_memory_set_adventure(&m,200); assert(m.adventure==100);
+    echo_memory_set_adventure(&m,-1); assert(m.adventure==0);
     /* Same-pitch retrigger and overlapping input close the old event. */
     echo_memory_capture(&m); echo_memory_on(&m,60,100); advance(&m,100);
     echo_memory_on(&m,60,90); advance(&m,100); echo_memory_on(&m,65,90);
@@ -89,5 +110,5 @@ int main(void) {
     advance(&m,4096); assert(m.voice.level==0);
     echo_memory_clear(&m); assert(!m.count && !m.length && !echo_memory_replay(&m));
     echo_memory_on(&m,-1,100); echo_memory_on(&m,128,100); assert(m.voice.note==-1);
-    puts("PASS memory/harmony: exact replay, scale-aware reply across 48 key/scale contexts, cadence/register, timing/velocity, caps and lifecycle");
+    puts("PASS memory/harmony: faithful baseline, distinct Adventure variants, 48 key/scale contexts, protected anchor/cadence/register, timing/velocity and lifecycle");
 }

@@ -58,3 +58,6 @@ The first Reply preserves the captured onset times, durations, and velocities. I
 
 ## Scale-aware response milestone — 0.1.0
 The first musical strategy is isolated in `src/harmony.c` so response rules can evolve without coupling them to phrase storage or synthesis. It supports 48 manual key/scale contexts, contrary diatonic motion, register bounds, and a tonic-triad cadence while retaining recorded timing and dynamics. Automated theory constraints are necessary but not sufficient: owner listening determines whether this becomes a baseline or is replaced. See [MUSICAL_REPLY.md](MUSICAL_REPLY.md).
+
+## Controlled variation milestone — 0.2.0
+Adventure makes successive Replies vary while retaining the approved scale-aware baseline at zero. It changes interior scale degrees probabilistically and protects timing, expression, scale, register, opening anchor, and tonic-triad cadence. The sequence is deterministic for testing. Musical evaluation must determine whether the probability curve is useful before adding Keep or rhythm mutation. See [ADVENTURE.md](ADVENTURE.md).

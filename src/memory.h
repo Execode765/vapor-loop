@@ -17,7 +17,8 @@ typedef struct {
     EchoEvent events[ECHO_MAX_NOTES];
     uint8_t reply[ECHO_MAX_NOTES];
     uint32_t count, length, position, next;
-    int mode, active, playing, limit, playback, root, scale;
+    int mode, active, playing, limit, playback, root, scale, adventure;
+    uint32_t variation;
 } EchoMemory;
 /* One serialized owner; a future threaded/interrupt adapter must queue commands. */
 void echo_memory_init(EchoMemory *m);
@@ -26,6 +27,7 @@ void echo_memory_finish(EchoMemory *m);
 int echo_memory_replay(EchoMemory *m);
 int echo_memory_reply(EchoMemory *m);
 void echo_memory_set_harmony(EchoMemory *m, int root, int scale);
+void echo_memory_set_adventure(EchoMemory *m, int adventure);
 void echo_memory_stop(EchoMemory *m);
 void echo_memory_clear(EchoMemory *m);
 void echo_memory_on(EchoMemory *m, int pitch, int velocity);

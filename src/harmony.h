@@ -10,6 +10,6 @@ enum {
     ECHO_SCALE_COUNT
 };
 void echo_harmony_reply(const uint8_t *source, uint8_t *reply, uint32_t count,
-                        int root, int scale);
+                        int root, int scale, int adventure, uint32_t variation);
 int echo_harmony_contains(int pitch, int root, int scale);
 #endif

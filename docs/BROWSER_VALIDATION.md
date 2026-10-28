@@ -124,3 +124,19 @@ The owner supplied a screen recording using **C major** and **MPC Live III USB-C
 ### Owner musical assessment
 
 **Functional result: PASS. Musical-direction result: PASS.** After comparing the scale-aware response with the failed chromatic inversion, the owner reported that version 0.1.0 sounded “a lot more musical.” This supports retaining scale-degree motion and tonic-triad resolution as the baseline. It does not yet validate every key/scale, longer-term playability, chord changes, rhythmic variation, or Adventure behavior.
+
+## Adventure — 0.2.0
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Adventure 0 compatibility | PASS locally | Approved C-major 0.1.0 answer is unchanged across variation seeds |
+| Distinct high-Adventure generations | PASS locally | Successive Adventure 100 generations alter interior notes and differ from each other |
+| Musical safety constraints | PASS locally | Opening anchor fixed; every generated pitch remains in selected scale and MIDI 36–96; ending remains a tonic-triad tone |
+| All 48 key/scale contexts | PASS locally | Address/undefined-behavior sanitizer test at Adventure 100 |
+| Timing and expression preservation | PASS locally | Source onsets, rests, durations, velocities, length, and count remain owned by the unchanged memory scheduler |
+| Compiled WASM control/counter | PASS locally | Adventure setter/getter and successive variation counter reach the actual compiled engine |
+| Previous voice/memory/MIDI regressions | PASS locally | Existing native, WASM, worklet, limits, controls, and MIDI checks remain green |
+| Real Chrome UI/audio | PENDING | Workflow will test Adventure 80 and successive replies in served/direct-file builds |
+| Owner musical evaluation | NOT TESTED | Probability curve and high-setting usefulness require listening |
+
+Adventure changes interior scale degrees only. Passing scale/cadence constraints does not prove that the variations feel tasteful. Keep and rhythmic mutation are not implemented.

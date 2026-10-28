@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: browser capture/replay, physical Web MIDI, and the first scale-aware Reply strategy are implemented. Native C and compiled WASM checks pass; real-Chrome CI and owner musical evaluation for 0.1.0 are pending. No hardware firmware build or flashing has occurred.**
+**Status: browser capture/replay, physical Web MIDI, scale-aware Reply, and controlled Adventure variation are implemented. Native C and compiled WASM checks pass; real-Chrome CI and owner musical evaluation for 0.2.0 are pending. No hardware firmware build or flashing has occurred.**
 
 psychic-octo-spork is the working code name, not the final firmware name. The first prototype will explore ECHOLOG: melodic conversation.
 
@@ -13,13 +13,13 @@ Initial candidates are GENOME (musical evolution), ECHOLOG (musical memory and r
 
 This project is separate from the completed Local LLM Infrastructure Lab.
 
-## Scale-aware musical Reply — prototype 0.1.0
+## Adventure — prototype 0.2.0
 
-[Versioned downloadable preview](preview/echolog-scale-reply-v0.1.0.html) — open the saved HTML in Chrome, select Enable sound, choose a key/scale, and optionally enable a physical MIDI controller.
+[Versioned downloadable preview](preview/echolog-adventure-v0.2.0.html) — open the saved HTML in Chrome, select Enable sound, choose a key/scale and Adventure amount, and optionally enable a physical MIDI controller.
 
-Capture a monophonic phrase, choose Replay for the original, then Reply for a scale-constrained answer. Version 0.1.0 interprets notes as scale degrees, uses contrary diatonic motion, keeps the answer in register, and ends on the selected key's tonic chord. Major, natural minor, major pentatonic, and minor pentatonic are available in all twelve roots.
+Adventure 0 preserves the musically approved 0.1.0 baseline. Higher values make increasingly frequent one- or two-scale-step changes to interior notes; each Reply press advances to another deterministic variation. Rhythm, duration, velocity, opening anchor, selected scale, safe register, and tonic-triad cadence remain protected.
 
-[Musical Reply guide](docs/MUSICAL_REPLY.md) · [Browser MIDI guide](docs/BROWSER_MIDI.md) · [first-memory design](docs/FIRST_MEMORY.md) · [build instructions](docs/BROWSER_BUILD.md) · [validation record](docs/BROWSER_VALIDATION.md).
+[Adventure guide](docs/ADVENTURE.md) · [Musical Reply guide](docs/MUSICAL_REPLY.md) · [Browser MIDI guide](docs/BROWSER_MIDI.md) · [first-memory design](docs/FIRST_MEMORY.md) · [build instructions](docs/BROWSER_BUILD.md) · [validation record](docs/BROWSER_VALIDATION.md).
 
 ## Documentation
 - [First prototype specification](docs/PROTOTYPE_SPEC.md)

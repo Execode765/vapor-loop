@@ -5,7 +5,7 @@ void echo_memory_init(EchoMemory *m) {
     m->count = m->length = m->position = m->next = 0;
     m->mode = ECHO_IDLE; m->active = m->playing = -1; m->limit = ECHO_NO_LIMIT;
     m->playback = ECHO_NO_PLAYBACK;
-    m->root = 0; m->scale = ECHO_SCALE_MAJOR;
+    m->root = 0; m->scale = ECHO_SCALE_MAJOR; m->adventure = 0; m->variation = 0;
 }
 static void close_event(EchoMemory *m) {
     if (m->active < 0) return;
@@ -33,7 +33,7 @@ void echo_memory_clear(EchoMemory *m) {
     m->active = -1; m->limit = ECHO_NO_LIMIT;
 }
 void echo_memory_capture(EchoMemory *m) {
-    echo_memory_clear(m); echo_voice_init(&m->voice); m->mode = ECHO_ARMED;
+    echo_memory_clear(m); m->variation = 0; echo_voice_init(&m->voice); m->mode = ECHO_ARMED;
 }
 int echo_memory_replay(EchoMemory *m) {
     echo_memory_stop(m);
@@ -48,7 +48,8 @@ int echo_memory_reply(EchoMemory *m) {
     if (!m->count || !m->length) return 0;
     uint8_t source[ECHO_MAX_NOTES];
     for (uint32_t i = 0; i < m->count; ++i) source[i] = m->events[i].pitch;
-    echo_harmony_reply(source, m->reply, m->count, m->root, m->scale);
+    echo_harmony_reply(source, m->reply, m->count, m->root, m->scale,
+                       m->adventure, m->variation++);
     echo_voice_init(&m->voice);
     m->mode = ECHO_PLAYING; m->position = m->next = 0; m->playing = -1;
     m->playback = ECHO_REPLY_PLAYBACK;
@@ -57,6 +58,12 @@ int echo_memory_reply(EchoMemory *m) {
 void echo_memory_set_harmony(EchoMemory *m, int root, int scale) {
     m->root = root >= 0 && root < 12 ? root : 0;
     m->scale = scale >= 0 && scale < ECHO_SCALE_COUNT ? scale : ECHO_SCALE_MAJOR;
+}
+void echo_memory_set_adventure(EchoMemory *m, int adventure) {
+    if (adventure < 0) adventure = 0;
+    if (adventure > 100) adventure = 100;
+    m->adventure = adventure;
+    m->variation = 0;
 }
 static int playback_pitch(const EchoMemory *m, const EchoEvent *e) {
     if (m->playback != ECHO_REPLY_PLAYBACK) return e->pitch;

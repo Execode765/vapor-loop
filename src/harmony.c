@@ -53,6 +53,11 @@ static int cadence_pitch(int target, int root, int scale) {
     }
     return best;
 }
+static uint32_t next_random(uint32_t *state) {
+    uint32_t x = *state;
+    x ^= x << 13; x ^= x >> 17; x ^= x << 5;
+    return *state = x ? x : 0x6d2b79f5u;
+}
 
 int echo_harmony_contains(int pitch, int root, int scale) {
     root = normalize_root(root); scale = valid_scale(scale);
@@ -64,15 +69,28 @@ int echo_harmony_contains(int pitch, int root, int scale) {
 }
 
 void echo_harmony_reply(const uint8_t *source, uint8_t *reply, uint32_t count,
-                        int root, int scale) {
+                        int root, int scale, int adventure, uint32_t variation) {
     if (!count) return;
     root = normalize_root(root); scale = valid_scale(scale);
+    if (adventure < 0) adventure = 0;
+    if (adventure > 100) adventure = 100;
+    uint32_t random = 0x811c9dc5u ^ variation ^ (uint32_t)(root * 131 + scale * 977);
+    for (uint32_t i = 0; i < count; ++i) random = (random ^ source[i]) * 16777619u;
+    if (!random) random = 1;
     int source_index = nearest_index(source[0], root, scale);
     int reply_index = register_index(nearest_index(source[0] + 7, root, scale), root, scale);
     reply[0] = (uint8_t)scale_pitch(reply_index, root, scale);
     for (uint32_t i = 1; i < count; ++i) {
         int next_source = nearest_index(source[i], root, scale);
         reply_index = register_index(reply_index - (next_source - source_index), root, scale);
+        /* Protect the opening and cadence; vary only interior scale degrees. */
+        if (i + 1 < count && adventure && (int)(next_random(&random) % 100u) < adventure) {
+            int magnitude = 1;
+            if (adventure >= 67 && next_random(&random) % 100u < (uint32_t)(adventure - 50))
+                magnitude = 2;
+            reply_index += next_random(&random) & 1u ? magnitude : -magnitude;
+            reply_index = register_index(reply_index, root, scale);
+        }
         reply[i] = (uint8_t)scale_pitch(reply_index, root, scale);
         source_index = next_source;
     }

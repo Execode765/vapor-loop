@@ -1,6 +1,6 @@
-# Browser prototype build — 0.1.0
+# Browser prototype build — 0.2.0
 
-This milestone adds a portable scale-aware Reply strategy to phrase memory, exact Replay, and permission-based Web MIDI. See [MUSICAL_REPLY.md](MUSICAL_REPLY.md). Adventure, Keep, chord progressions, and automatic key detection are not implemented yet.
+This milestone adds controlled Adventure variations to the portable scale-aware Reply strategy, phrase memory, exact Replay, and Web MIDI. See [ADVENTURE.md](ADVENTURE.md). Keep, chord progressions, rhythmic mutation, and automatic key detection are not implemented yet.
 
 ## Foundation decision
 

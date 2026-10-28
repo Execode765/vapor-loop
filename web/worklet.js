@@ -43,6 +43,7 @@ class FM1 extends AudioWorkletProcessor {
     else if (m.type === 'master') ex.web_master(m.value | 0)
     else if (m.type === 'midi') ex.web_midi_in(m.data[0], m.data[1] || 0, m.data[2] || 0)
     else if (m.type === 'harmony' && ex.echo_set_harmony) ex.echo_set_harmony(m.root | 0, m.scale | 0)
+    else if (m.type === 'adventure' && ex.echo_set_adventure) ex.echo_set_adventure(m.value | 0)
   }
 
   crash(err) {
@@ -53,7 +54,7 @@ class FM1 extends AudioWorkletProcessor {
   publish() {
     const ex = this.ex
     const msg = { type: 'frame', ms: ex.web_now(), keys: ex.web_led_keys() >>> 0, buttons: ex.web_led_buttons() >>> 0, backlight: ex.web_led_backlight ? ex.web_led_backlight() : 0 }
-    if (ex.echo_mode) msg.phrase = {mode:ex.echo_mode(),count:ex.echo_count(),length:ex.echo_length(),position:ex.echo_position(),limit:ex.echo_limit(),playback:ex.echo_playback?ex.echo_playback():0,root:ex.echo_root?ex.echo_root():0,scale:ex.echo_scale?ex.echo_scale():0}
+    if (ex.echo_mode) msg.phrase = {mode:ex.echo_mode(),count:ex.echo_count(),length:ex.echo_length(),position:ex.echo_position(),limit:ex.echo_limit(),playback:ex.echo_playback?ex.echo_playback():0,root:ex.echo_root?ex.echo_root():0,scale:ex.echo_scale?ex.echo_scale():0,adventure:ex.echo_adventure?ex.echo_adventure():0,variation:ex.echo_variation?ex.echo_variation():0}
     const transfer = []
     const gen = ex.web_fb_gen()
     if (gen !== this.sentFb) {
