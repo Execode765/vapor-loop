@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: planning. No project firmware has been implemented, built, flashed, or hardware-tested.**
+**Status: first browser sound-check implementation. Native C, WebAssembly, and worklet bridge signal checks pass locally. Real-browser validation is tracked separately. No hardware firmware build or flashing has occurred.**
 
 psychic-octo-spork is the working code name, not the final firmware name. The first prototype will explore ECHOLOG: melodic conversation.
 
@@ -12,6 +12,10 @@ Create something creative, unusual, and musically useful that FM-1 owners want t
 Initial candidates are GENOME (musical evolution), ECHOLOG (musical memory and response), and GRAVITY (physics-based composition). The owner selected ECHOLOG's melodic conversation interaction for the first prototype; the final product scope remains open. Originality and feasibility require further investigation.
 
 This project is separate from the completed Local LLM Infrastructure Lab.
+
+## First sound check
+
+The browser prototype plays a monophonic sine voice with keys, volume, and Stop. Phrase capture and replies are not implemented yet. [Build and play instructions](docs/BROWSER_BUILD.md) · [validation record](docs/BROWSER_VALIDATION.md).
 
 ## Documentation
 - [First prototype specification](docs/PROTOTYPE_SPEC.md)
@@ -32,6 +36,7 @@ Proceed one small feature at a time, with explanations, musical evaluation, trou
 There is currently no installable project firmware or verified project-specific recovery procedure.
 
 ## License and credits
-The implementation foundation and project license have not yet been selected. Upstream notices and distribution requirements will be evaluated before adopting code.
+The browser simulation uses a pinned foma platform subset, with Felucca / SLOOP / Dinghy lineage, under GPL-3.0-only. See LICENSE, vendor/foma/LICENSING.md, and the browser build guide. Hardware and plugin adapters have not yet been validated.
 
 ChatGPT/Codex assists development and documentation; see [AI attribution](AI_ATTRIBUTION.md).
+

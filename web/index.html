@@ -1,0 +1,19 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: GPL-3.0-only -->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ECHOLOG · First sound</title>
+<link rel="stylesheet" href="style.css">
+<main>
+  <header><p class="eyebrow">PSYCHIC-OCTO-SPORK / DEVELOPMENT 0.0.1</p><h1>A first sound.<br>A place to begin.</h1><p class="intro">ECHOLOG’s browser sound check. One voice, running in C and WebAssembly.</p></header>
+  <section class="instrument" aria-label="ECHOLOG sound check">
+    <div class="top"><div><p class="eyebrow">ECHOLOG</p><p class="hint">Musical conversation, in development.</p><button id="start">Enable sound</button><p id="status" role="status">Sound is off.</p></div><canvas id="screen" width="240" height="240" aria-label="Simulated FM-1 display"></canvas></div>
+    <div class="controls"><button id="stop" disabled>Stop all notes</button><label>Volume <input id="volume" type="range" min="0" max="900" value="600"></label></div>
+    <div id="keys" aria-label="Playable keys"></div>
+    <p class="hint">Click and hold a key, or use A W S E D F T G Y H U J K. Release to stop.</p>
+  </section>
+  <section class="notes"><div><h2>What this proves</h2><p>A portable integer sound engine can run through foma’s browser platform. The display and audio are driven by compiled C.</p></div><div><h2>What comes next</h2><p>Phrase capture and musical replies. Those features are not implemented in this sound check.</p></div></section>
+  <footer>Browser simulation, not a full CPU emulator or a hardware compatibility test. No installer or hardware access.<br>Platform: <a href="https://github.com/konsumer/foma">foma</a>, with Felucca / SLOOP / Dinghy lineage. GPL-3.0-only. AI-assisted development.</footer>
+</main><script type="module" src="app.js"></script>
+</html>

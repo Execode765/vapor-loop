@@ -29,3 +29,13 @@ For future work, record:
 - Known limitations and next step.
 
 Never record a planned test as a passed test.
+
+## 2026-10-28 — First browser sound-check implementation
+- Selected a pinned foma browser platform subset; retained its GPL and font notices.
+- Added a portable integer sine voice, foma adapter, onscreen keys/display, computer-keyboard input, volume, and Stop.
+- Added a browser-only compiler script and GitHub Actions workflow; no hardware image or installer.
+- Local checks passed: native C oscillator pitch (439.85 Hz measured for A4), amplitude bounds and note lifecycle; compiled WebAssembly input/display/audio; worklet message bridge.
+- Local Chromium download returned an invalid archive, preventing a real-browser test here. Added a CI browser test using the runner's Chrome; result pending at this entry.
+- This milestone implements sound only. Capture, Reply, Adventure, and Keep are not implemented.
+- Build details and validation limits: BROWSER_BUILD.md and BROWSER_VALIDATION.md.
+

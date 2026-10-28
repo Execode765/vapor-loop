@@ -1,0 +1,44 @@
+name: Browser sound check
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install browser compiler
+        run: sudo apt-get update && sudo apt-get install -y clang lld
+      - name: Test native voice
+        run: python3 tests/test_voice.py
+      - name: Build WebAssembly simulation
+        run: python3 tools/build_web.py
+      - name: Test compiled simulation
+        run: |
+          node tests/test_wasm.mjs
+          node tests/test_worklet.mjs
+      - name: Install browser test dependency
+        run: npm ci
+      - name: Test browser audio and controls
+        run: |
+          python3 -m http.server 8000 --directory build/web &
+          export PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH="$(command -v google-chrome)"
+          test -n "$PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH"
+          node tests/test_browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-screenshots
+          path: build/browser-*.png
+      - uses: actions/upload-artifact@v4
+        with:
+          name: echolog-browser-soundcheck
+          path: build/web/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: first-sound-reference
+          path: build/first-sound.wav

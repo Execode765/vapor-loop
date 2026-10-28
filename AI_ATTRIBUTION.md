@@ -12,6 +12,7 @@ The project owner directs the musical design, evaluates playability, and perform
 - Review generated code and documentation against the chosen platform and observed behavior.
 
 ## Current status
-The initial project documentation was drafted with ChatGPT/Codex assistance from the owner's project handoff and discussion on 2026-10-28. No project firmware has yet been implemented or physically tested.
+The initial project documentation was drafted with ChatGPT/Codex assistance from the owner's project handoff and discussion on 2026-10-28. A browser-only sound-check implementation has now been added with ChatGPT/Codex assistance. Local native C, WASM, and worklet bridge tests pass; no physical-device testing has occurred.
 
-Licensing and the code foundation remain undecided. AI attribution does not replace applicable upstream license requirements.
+The browser implementation adopts a pinned GPL-3.0-only foma platform subset and retains upstream credits and the font license. Plugin and hardware integration remain future work. AI attribution does not replace applicable upstream license requirements.
+

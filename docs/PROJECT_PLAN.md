@@ -1,6 +1,6 @@
 # Project plan
 
-Status: planning. Updated: 2026-10-28.
+Status: browser sound-check implementation. Updated: 2026-10-28.
 
 ## Purpose
 Develop an original, unusual, musically useful firmware for the M-VAVE FM-1. This project is separate from the completed Local LLM Infrastructure Lab.
@@ -45,3 +45,7 @@ Approved direction: capture a monophonic phrase of up to 32 notes; play a relate
 
 ## Development method
 Work in small, explainable steps. Each meaningful change includes relevant documentation and evidence. Distinguish proposed features, host tests, emulator tests, and physical-device results. Keep concept decisions reversible until musical testing supports them.
+
+## Browser foundation selected
+Use the pinned foma browser subset described in [BROWSER_BUILD.md](BROWSER_BUILD.md). A portable integer C voice now builds to WebAssembly and passes local signal/integration checks. No installer is bundled. See [validation](BROWSER_VALIDATION.md) for browser versus host evidence. Phrase capture and replies remain the next musical-engine work.
+
