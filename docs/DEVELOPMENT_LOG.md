@@ -178,3 +178,11 @@ Never record a planned test as a passed test.
 - Workflow 40778697465 passed native groove/harmony/memory sanitizer tests, compiled WASM, worklet, and real Chrome in served and downloaded forms.
 - Chrome used 128 BPM / Swing / Shape 80, completed successive Adventure replies, and retained exact Replay, Web MIDI, disconnect, mobile layout, and no-error behavior.
 - Owner musical/style evaluation remains pending.
+
+
+### Owner audiovisual validation and musical verdict for 0.3.0
+- Owner video confirms physical MPC Web MIDI, a 26-note capture, exact Replay, repeated Reply, BPM/Shape changes, and operation of Original, Pulse, Swing, Pocket, and Half-time.
+- Functional behavior passes: controls respond, replies finish, Half-time extends the phrase, and no crash or stuck-note failure was observed.
+- Musical groove fails: the owner reported that the profiles did not materially change the groove or create a convincing pocket.
+- The pronounced tempo/Half-time effect changes event timing and duration, not oscillator pitch. Any pitch-shifter impression is perceptual; the current engine retriggers the same MIDI pitches rather than resampling audio.
+- Retain the separated groove stage as infrastructure. Next, add a phrase-architecture layer capable of changing rests, density, accents, motifs, syncopation, pickups, ratchets, and note-length hierarchy instead of relying only on onset offsets and quantization.
