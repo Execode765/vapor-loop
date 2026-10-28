@@ -89,8 +89,14 @@ The owner supplied a screen recording of the standalone 0.0.3 build. The video s
 | Disconnect protection | PASS | Chrome removed the simulated input, disabled selection, sent panic, and reached silence without JavaScript errors |
 | Native/WASM regressions | PASS locally | Voice, memory, Reply, compiled WASM, and worklet tests remain green |
 | Real Chrome with simulated MIDI input | PASS | Both served and direct-file builds passed the full browser MIDI test |
-| Physical SMK Pro Elite | NOT TESTED | Requires owner permission/device test in desktop Chrome |
+| Physical MIDI controllers | PASS (owner tested) | SMK Pro Elite running Vector firmware was detected as “Vector”; MPC Live III USB-C In 1 was captured on video with note/velocity input, seven-note capture, Replay, and Reply |
 
 The browser must request MIDI access in response to **Enable MIDI**; plugging in a device alone does not trigger a permission prompt. This milestone requests no System Exclusive access and does not test firmware flashing or FM-1 hardware compatibility.
 
 [Successful 0.0.4 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40757919690) validates source commit `b62f4e08cf2a7cd12b16823ad569c608f87c18a4`. Native sanitizer, compiled WASM, worklet, served Chrome, and direct-file Chrome checks passed. Physical SMK Pro Elite testing remains pending.
+
+## Owner physical MIDI validation — 0.0.4 — 2026-10-28
+
+The owner confirmed that Chrome and ECHOLOG recognize an SMK Pro Elite running custom Vector firmware. The port is correctly reported as **Vector**, because the installed firmware supplies the USB MIDI product/port descriptor; this is not a detection failure. The owner also connected an MPC successfully.
+
+The supplied MPC screen recording shows **MPC Live III USB-C In 1** selected, live note status including velocity 117, a seven-note phrase captured and finished at 6.05 seconds, exact Replay, and transformed Reply. Audio analysis identifies the source as MIDI `60, 61, 62, 63, 62, 61, 60`, the exact Replay as the same sequence, and Reply as `67, 66, 65, 64, 65, 66, 67`, matching the diagnostic rule. This validates physical browser MIDI input and phrase operation, not FM-1 firmware compatibility or musical quality of Reply.
