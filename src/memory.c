@@ -2,11 +2,12 @@
 #include "memory.h"
 void echo_memory_init(EchoMemory *m) {
     echo_voice_init(&m->voice);
-    m->count = m->length = m->reply_length = m->play_length = m->position = m->next = 0;
+    m->count = m->reply_count = m->length = m->reply_length = m->play_length = m->position = m->next = 0;
     m->mode = ECHO_IDLE; m->active = m->playing = -1; m->limit = ECHO_NO_LIMIT;
     m->playback = ECHO_NO_PLAYBACK;
     m->root = 0; m->scale = ECHO_SCALE_MAJOR; m->adventure = 0; m->variation = 0;
     m->bpm = 120; m->groove_style = ECHO_GROOVE_ORIGINAL; m->groove_amount = 0;
+    m->phrase_style = ECHO_PHRASE_ORIGINAL; m->phrase_amount = 0;
 }
 static void close_event(EchoMemory *m) {
     if (m->active < 0) return;
@@ -30,7 +31,7 @@ void echo_memory_stop(EchoMemory *m) {
 }
 void echo_memory_clear(EchoMemory *m) {
     echo_memory_stop(m);
-    m->count = m->length = m->reply_length = m->play_length = m->position = m->next = 0;
+    m->count = m->reply_count = m->length = m->reply_length = m->play_length = m->position = m->next = 0;
     m->active = -1; m->limit = ECHO_NO_LIMIT;
 }
 void echo_memory_capture(EchoMemory *m) {
@@ -50,14 +51,22 @@ int echo_memory_reply(EchoMemory *m) {
     if (!m->count || !m->length) return 0;
     uint8_t source[ECHO_MAX_NOTES];
     for (uint32_t i = 0; i < m->count; ++i) source[i] = m->events[i].pitch;
-    echo_harmony_reply(source, m->reply, m->count, m->root, m->scale,
-                       m->adventure, m->variation++);
-    uint32_t onset[ECHO_MAX_NOTES], duration[ECHO_MAX_NOTES];
+    uint32_t generation = m->variation++;
+    uint8_t harmony[ECHO_MAX_NOTES], velocity[ECHO_MAX_NOTES];
+    echo_harmony_reply(source, harmony, m->count, m->root, m->scale,
+                       m->adventure, generation);
+    uint32_t source_onset[ECHO_MAX_NOTES], source_duration[ECHO_MAX_NOTES];
     for (uint32_t i = 0; i < m->count; ++i) {
-        onset[i] = m->events[i].onset; duration[i] = m->events[i].duration;
+        source_onset[i] = m->events[i].onset; source_duration[i] = m->events[i].duration;
+        velocity[i] = m->events[i].velocity;
     }
-    echo_groove_apply(onset, duration, m->reply_onset, m->reply_duration,
-                      m->count, m->length, m->bpm, m->groove_style,
+    uint32_t phrase_onset[ECHO_MAX_NOTES], phrase_duration[ECHO_MAX_NOTES], phrase_length;
+    echo_phrase_apply(harmony, velocity, source_onset, source_duration,
+                      m->count, m->length, m->reply, m->reply_velocity,
+                      phrase_onset, phrase_duration, &m->reply_count, &phrase_length,
+                      m->bpm, m->phrase_style, m->phrase_amount, generation);
+    echo_groove_apply(phrase_onset, phrase_duration, m->reply_onset, m->reply_duration,
+                      m->reply_count, phrase_length, m->bpm, m->groove_style,
                       m->groove_amount, &m->reply_length);
     echo_voice_init(&m->voice);
     m->mode = ECHO_PLAYING; m->position = m->next = 0; m->playing = -1;
@@ -84,9 +93,20 @@ void echo_memory_set_groove(EchoMemory *m, int bpm, int style, int amount) {
     m->bpm = bpm; m->groove_style = style; m->groove_amount = amount;
     m->variation = 0;
 }
-static int playback_pitch(const EchoMemory *m, const EchoEvent *e) {
-    if (m->playback != ECHO_REPLY_PLAYBACK) return e->pitch;
-    return m->reply[e - m->events];
+void echo_memory_set_phrase(EchoMemory *m, int style, int amount) {
+    if (style < 0 || style >= ECHO_PHRASE_COUNT) style = ECHO_PHRASE_ORIGINAL;
+    if (amount < 0) amount = 0;
+    if (amount > 100) amount = 100;
+    m->phrase_style = style; m->phrase_amount = amount; m->variation = 0;
+}
+static uint32_t playback_count(const EchoMemory *m) {
+    return m->playback == ECHO_REPLY_PLAYBACK ? m->reply_count : m->count;
+}
+static int playback_pitch(const EchoMemory *m, uint32_t index) {
+    return m->playback == ECHO_REPLY_PLAYBACK ? m->reply[index] : m->events[index].pitch;
+}
+static int playback_velocity(const EchoMemory *m, uint32_t index) {
+    return m->playback == ECHO_REPLY_PLAYBACK ? m->reply_velocity[index] : m->events[index].velocity;
 }
 static uint32_t playback_onset(const EchoMemory *m, uint32_t index) {
     return m->playback == ECHO_REPLY_PLAYBACK ? m->reply_onset[index] : m->events[index].onset;
@@ -140,15 +160,13 @@ void echo_memory_render(EchoMemory *m, int32_t *out, uint32_t frames) {
         } else if (m->mode == ECHO_PLAYING) {
             /* End before onset: adjacent notes and retriggers have unambiguous ownership. */
             if (m->playing >= 0) {
-                EchoEvent *e = &m->events[m->playing];
                 if (m->position >= playback_onset(m, (uint32_t)m->playing) +
                                    playback_duration(m, (uint32_t)m->playing)) {
-                    echo_voice_off(&m->voice, playback_pitch(m, e)); m->playing = -1;
+                    echo_voice_off(&m->voice, playback_pitch(m, (uint32_t)m->playing)); m->playing = -1;
                 }
             }
-            if (m->next < m->count && playback_onset(m, m->next) == m->position) {
-                EchoEvent *e = &m->events[m->next];
-                echo_voice_on(&m->voice, playback_pitch(m, e), e->velocity);
+            if (m->next < playback_count(m) && playback_onset(m, m->next) == m->position) {
+                echo_voice_on(&m->voice, playback_pitch(m, m->next), playback_velocity(m, m->next));
                 m->playing = (int)m->next++;
             }
             if (m->position >= m->play_length) { echo_memory_stop(m); continue; }
@@ -158,7 +176,7 @@ void echo_memory_render(EchoMemory *m, int32_t *out, uint32_t frames) {
                                playback_duration(m, (uint32_t)m->playing);
                 if (end < boundary) boundary = end;
             }
-            if (m->next < m->count && playback_onset(m, m->next) < boundary)
+            if (m->next < playback_count(m) && playback_onset(m, m->next) < boundary)
                 boundary = playback_onset(m, m->next);
             if (n > boundary - m->position) n = boundary - m->position;
         }

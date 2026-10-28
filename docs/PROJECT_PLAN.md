@@ -2,6 +2,8 @@
 
 Status: first deterministic musical Reply implemented in the browser prototype. Updated: 2026-10-28.
 
+Current browser milestone: 0.4.0 Phrase Architecture gives Reply an independent event count and adds experimental structural personalities with rests, repetition, accents, note-length hierarchy, and ratchets. Browser CI and owner listening remain gates; this is not a plugin or hardware firmware build.
+
 ## Purpose
 Develop an original, unusual, musically useful firmware for the M-VAVE FM-1. This project is separate from the completed Local LLM Infrastructure Lab.
 
@@ -55,12 +57,3 @@ The first memory engine captures and replays one monophonic phrase with original
 
 ## First transformed reply — 0.0.3
 The first Reply preserves the captured onset times, durations, and velocities. It places the first answer note a perfect fifth above the captured first note, then mirrors every subsequent interval: `reply = 2 × first + 7 − captured`. MIDI-range results are clamped safely. This deterministic rule is a musical baseline for owner evaluation, not the final variation system. See [FIRST_REPLY.md](FIRST_REPLY.md).
-
-## Scale-aware response milestone — 0.1.0
-The first musical strategy is isolated in `src/harmony.c` so response rules can evolve without coupling them to phrase storage or synthesis. It supports 48 manual key/scale contexts, contrary diatonic motion, register bounds, and a tonic-triad cadence while retaining recorded timing and dynamics. Automated theory constraints are necessary but not sufficient: owner listening determines whether this becomes a baseline or is replaced. See [MUSICAL_REPLY.md](MUSICAL_REPLY.md).
-
-## Controlled variation milestone — 0.2.0
-Adventure makes successive Replies vary while retaining the approved scale-aware baseline at zero. It changes interior scale degrees probabilistically and protects timing, expression, scale, register, opening anchor, and tonic-triad cadence. The sequence is deterministic for testing. Musical evaluation must determine whether the probability curve is useful before adding Keep or rhythm mutation. See [ADVENTURE.md](ADVENTURE.md).
-
-## Groove/phrase-shaping milestone — 0.3.0
-Reply timing is now a separate portable stage with manual BPM, blend amount, and five profiles: Original, Pulse, Swing, Pocket, and Half-time. Exact Replay remains source-faithful. The engine transforms existing event timing only; MIDI clock, bar awareness, ratchets, dropped/repeated notes, chord/style grammar, and richer sound remain future work. See [GROOVE.md](GROOVE.md).

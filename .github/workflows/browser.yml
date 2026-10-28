@@ -17,7 +17,7 @@ jobs:
         run: python3 tests/test_voice.py
       - name: Test memory timing and bounds
         run: |
-          gcc -std=c11 -Wall -Wextra -Werror -fsanitize=address,undefined -Isrc src/voice.c src/harmony.c src/groove.c src/memory.c tests/test_memory.c -o /tmp/echolog-memory-test
+          gcc -std=c11 -Wall -Wextra -Werror -fsanitize=address,undefined -Isrc src/voice.c src/harmony.c src/phrase.c src/groove.c src/memory.c tests/test_memory.c -o /tmp/echolog-memory-test
           /tmp/echolog-memory-test
       - name: Build WebAssembly simulation
         run: |

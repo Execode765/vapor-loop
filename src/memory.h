@@ -4,6 +4,7 @@
 #include "voice.h"
 #include "harmony.h"
 #include "groove.h"
+#include "phrase.h"
 #define ECHO_MAX_NOTES 32u
 #define ECHO_MAX_FRAMES (44100u * 8u)
 enum { ECHO_IDLE, ECHO_ARMED, ECHO_RECORDING, ECHO_PLAYING };
@@ -16,11 +17,12 @@ typedef struct {
 typedef struct {
     EchoVoice voice;
     EchoEvent events[ECHO_MAX_NOTES];
-    uint8_t reply[ECHO_MAX_NOTES];
+    uint8_t reply[ECHO_MAX_NOTES], reply_velocity[ECHO_MAX_NOTES];
     uint32_t reply_onset[ECHO_MAX_NOTES], reply_duration[ECHO_MAX_NOTES];
-    uint32_t count, length, reply_length, play_length, position, next;
+    uint32_t count, reply_count, length, reply_length, play_length, position, next;
     int mode, active, playing, limit, playback, root, scale, adventure;
     int groove_style, groove_amount, bpm;
+    int phrase_style, phrase_amount;
     uint32_t variation;
 } EchoMemory;
 /* One serialized owner; a future threaded/interrupt adapter must queue commands. */
@@ -32,6 +34,7 @@ int echo_memory_reply(EchoMemory *m);
 void echo_memory_set_harmony(EchoMemory *m, int root, int scale);
 void echo_memory_set_adventure(EchoMemory *m, int adventure);
 void echo_memory_set_groove(EchoMemory *m, int bpm, int style, int amount);
+void echo_memory_set_phrase(EchoMemory *m, int style, int amount);
 void echo_memory_stop(EchoMemory *m);
 void echo_memory_clear(EchoMemory *m);
 void echo_memory_on(EchoMemory *m, int pitch, int velocity);

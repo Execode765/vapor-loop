@@ -97,6 +97,29 @@ int main(void) {
     }
     echo_memory_set_groove(&m,96,ECHO_GROOVE_POCKET,70);
     assert(m.bpm==96 && m.groove_style==ECHO_GROOVE_POCKET && m.groove_amount==70 && m.variation==0);
+    /* Phrase architecture changes event count, rests, accents, and repetition. */
+    uint8_t pp[32]={0}, pv[32]={0}, sv[5]={100,90,80,90,100};
+    uint32_t po[32]={0}, pd[32]={0}, pc=0, pl=0;
+    uint32_t so[5]={0,1000,2000,3000,4000}, sd[5]={500,500,500,500,500};
+    echo_phrase_apply(expected,sv,so,sd,5,5000,pp,pv,po,pd,&pc,&pl,120,ECHO_PHRASE_ORIGINAL,100,0);
+    assert(pc==5 && pl==5000);
+    for(int i=0;i<5;i++) assert(pp[i]==expected[i] && pv[i]==sv[i] && po[i]==so[i] && pd[i]==sd[i]);
+    echo_phrase_apply(expected,sv,so,sd,5,5000,pp,pv,po,pd,&pc,&pl,120,ECHO_PHRASE_TRAP_POCKET,100,0);
+    assert(pc==10 && po[0]==0 && po[1]>po[0] && po[9]<pl && pp[4]==pp[5]);
+    int has_short=0, has_rest=0;
+    for(uint32_t i=0;i<pc;i++) { assert(pd[i]>0 && pv[i]>0); if(pd[i]<5000) has_short=1; if(i && po[i]>po[i-1]+pd[i-1]) has_rest=1; }
+    assert(has_short && has_rest);
+    echo_phrase_apply(expected,sv,so,sd,5,5000,pp,pv,po,pd,&pc,&pl,120,ECHO_PHRASE_RNB_FLOW,100,1);
+    assert(pc==8 && pd[1]>pd[0]);
+    echo_phrase_apply(expected,sv,so,sd,5,5000,pp,pv,po,pd,&pc,&pl,120,ECHO_PHRASE_TECHNO_MOTION,100,2);
+    assert(pc==10 && pp[0]==expected[2] && pp[5]==expected[2]);
+    for(int style=0;style<ECHO_PHRASE_COUNT;style++) for(int amount=0;amount<=100;amount+=10) {
+        echo_phrase_apply(expected,sv,so,sd,5,5000,pp,pv,po,pd,&pc,&pl,73,style,amount,4);
+        assert(pc>0 && pc<=32 && pl<=ECHO_MAX_REPLY_FRAMES);
+        for(uint32_t i=0;i<pc;i++) { assert(pd[i]>0 && pv[i]>0 && (!i || po[i]>po[i-1])); }
+    }
+    echo_memory_set_phrase(&m,ECHO_PHRASE_TRAP_POCKET,100);
+    assert(m.phrase_style==ECHO_PHRASE_TRAP_POCKET && m.phrase_amount==100 && m.variation==0);
     /* Same-pitch retrigger and overlapping input close the old event. */
     echo_memory_capture(&m); echo_memory_on(&m,60,100); advance(&m,100);
     echo_memory_on(&m,60,90); advance(&m,100); echo_memory_on(&m,65,90);
@@ -129,5 +152,5 @@ int main(void) {
     advance(&m,4096); assert(m.voice.level==0);
     echo_memory_clear(&m); assert(!m.count && !m.length && !echo_memory_replay(&m));
     echo_memory_on(&m,-1,100); echo_memory_on(&m,128,100); assert(m.voice.note==-1);
-    puts("PASS memory/harmony/groove: faithful baseline, Adventure variants, 48 contexts, five groove profiles, BPM/amount bounds, timing/velocity and lifecycle");
+    puts("PASS memory/harmony/phrase/groove: independent reply count, rests, motifs, ratchets, accents, Adventure, timing and lifecycle");
 }

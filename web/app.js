@@ -45,6 +45,16 @@ function syncGroove() {
 $('bpm').onchange=syncGroove;
 $('groove-style').onchange=syncGroove;
 $('groove-amount').oninput=syncGroove;
+const phraseNames=['Original','Trap Pocket','R&B Flow','Techno Motion'];
+function syncPhrase() {
+  const style=Number($('phrase-style').value), amount=Number($('phrase-amount').value);
+  const character=amount===0?'Original':amount<=30?'Light':amount<=60?'Structured':amount<=80?'Active':'Maximum';
+  $('phrase-value').textContent=`${amount} · ${character}`;
+  $('architecture-status').textContent=`Reply architecture · ${phraseNames[style]}`;
+  send({type:'phrase',style,amount});
+}
+$('phrase-style').onchange=syncPhrase;
+$('phrase-amount').oninput=syncPhrase;
 function midiNoteName(n) {
   const names=['C','C♯','D','E♭','E','F','F♯','G','A♭','A','B♭','B'];
   return `${names[n%12]}${Math.floor(n/12)-1}`;
@@ -128,7 +138,7 @@ function phraseStatus(p) {
   const limit=p.limit===1?' · 32-note limit reached':p.limit===2?' · 8-second limit reached':'';
   $('phrase-status').textContent=p.mode===1?'Armed · play your first note':
     p.mode===2?`Recording · ${p.count} notes · ${duration}s`:
-    p.mode===3?`${p.playback===2?`Replying · ${grooveNames[p.grooveStyle||0]} ${p.grooveAmount||0} · Adventure ${p.adventure||0} · variation ${p.variation||1}`:'Replaying'} · ${p.count} notes · ${duration}s`:
+    p.mode===3?`${p.playback===2?`Replying · ${phraseNames[p.phraseStyle||0]} ${p.phraseAmount||0} · ${p.replyCount||p.count} notes · variation ${p.variation||1}`:'Replaying'} · ${p.count} source notes · ${duration}s`:
     p.count?`Phrase ready · ${p.count} notes · ${duration}s${limit}`:'No phrase yet · press Capture';
   $('phrase-progress').max=p.mode===2 || p.mode===1 ? 352800 : p.mode===3?Math.max(p.playLength||p.length,1):Math.max(p.length,1);
   $('phrase-progress').value=p.mode===2 || p.mode===3?p.position:0;
@@ -168,7 +178,7 @@ $('start').onclick=async()=>{
     const wasm=await response.arrayBuffer();
     node=new AudioWorkletNode(ctx,'fm1',{numberOfInputs:0,numberOfOutputs:1,outputChannelCount:[2]});
     node.port.onmessage=({data:m})=>{
-      if(m.type==='ready'){ready=true;$('status').textContent='Ready · 44.1 kHz · one voice';$('start').textContent='Sound enabled';$('stop').disabled=false;keyButtons.forEach(b=>b.disabled=false);syncHarmony();syncAdventure();syncGroove();phraseStatus({mode:0,count:0,length:0,playLength:0,position:0,limit:0,playback:0,root:Number($('root').value),scale:Number($('scale').value),adventure:Number($('adventure').value),variation:0,grooveStyle:Number($('groove-style').value),grooveAmount:Number($('groove-amount').value)});}
+      if(m.type==='ready'){ready=true;$('status').textContent='Ready · 44.1 kHz · one voice';$('start').textContent='Sound enabled';$('stop').disabled=false;keyButtons.forEach(b=>b.disabled=false);syncHarmony();syncAdventure();syncGroove();syncPhrase();phraseStatus({mode:0,count:0,replyCount:0,length:0,playLength:0,position:0,limit:0,playback:0,root:Number($('root').value),scale:Number($('scale').value),adventure:Number($('adventure').value),variation:0,grooveStyle:Number($('groove-style').value),grooveAmount:Number($('groove-amount').value),phraseStyle:Number($('phrase-style').value),phraseAmount:Number($('phrase-amount').value)});}
       if(m.type==='frame'){if(m.fb)draw(m.fb);if(m.phrase)phraseStatus(m.phrase);}
       if(m.type==='crash'){ready=false;$('status').textContent='Audio stopped: '+m.message;node.disconnect();}
     };

@@ -186,3 +186,12 @@ Never record a planned test as a passed test.
 - Musical groove fails: the owner reported that the profiles did not materially change the groove or create a convincing pocket.
 - The pronounced tempo/Half-time effect changes event timing and duration, not oscillator pitch. Any pitch-shifter impression is perceptual; the current engine retriggers the same MIDI pitches rather than resampling audio.
 - Retain the separated groove stage as infrastructure. Next, add a phrase-architecture layer capable of changing rests, density, accents, motifs, syncopation, pickups, ratchets, and note-length hierarchy instead of relying only on onset offsets and quantization.
+
+
+## 2026-10-28 — Phrase Architecture engine, 0.4.0
+- Owner validation of 0.3.0 passed functionally but failed musically: timing offsets and tempo changes did not create a convincing groove.
+- Added portable `src/phrase.c` between harmony and final groove timing.
+- Reply now owns an independent event count, velocities, onsets, durations, and length; exact Replay remains untouched.
+- Added experimental Original, Trap Pocket, R&B Flow, and Techno Motion structural personalities. They can create rests, remove/repeat notes, add intensity-dependent ratchets, establish motif repetition, vary note lengths, and apply accent hierarchy.
+- Native address/undefined-behavior sanitizer tests pass across all styles and intensity values, including event order, nonzero durations/velocities, capacity, and reply-length bounds.
+- Compiled WASM, real-Chrome CI, and owner musical evaluation are pending. The genre labels are design targets, not authenticity claims. No plugin or hardware image was built or flashed.

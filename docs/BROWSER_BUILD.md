@@ -1,6 +1,6 @@
-# Browser prototype build — 0.3.0
+# Browser prototype build — 0.4.0
 
-This milestone adds portable groove and phrase-timing transformations to scale-aware Reply, Adventure, phrase memory, exact Replay, and Web MIDI. See [GROOVE.md](GROOVE.md). Keep, chord progressions, genre grammar, added/removed events, and automatic key detection are not implemented yet.
+This milestone adds portable Phrase Architecture to scale-aware Reply, Adventure, groove shaping, phrase memory, exact Replay, and Web MIDI. See [PHRASE_ARCHITECTURE.md](PHRASE_ARCHITECTURE.md). Keep, chord progressions, automatic key detection, MIDI clock, polyphony, and richer synthesis are not implemented yet.
 
 ## Foundation decision
 

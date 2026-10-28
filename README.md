@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: browser capture/replay, physical Web MIDI, scale-aware Reply, Adventure, and the first groove/phrase-shaping engine are implemented. Native C and compiled WASM checks pass; real-Chrome CI and owner musical evaluation for 0.3.0 are pending. No hardware firmware build or flashing has occurred.**
+**Status: browser capture/replay, physical Web MIDI, scale-aware Reply, Adventure, groove shaping, and the first Phrase Architecture engine are implemented. Native C checks pass; compiled WASM and real-Chrome CI for 0.4.0 are pending. No hardware firmware build or flashing has occurred.**
 
 psychic-octo-spork is the working code name, not the final firmware name. The first prototype will explore ECHOLOG: melodic conversation.
 
@@ -13,13 +13,19 @@ Initial candidates are GENOME (musical evolution), ECHOLOG (musical memory and r
 
 This project is separate from the completed Local LLM Infrastructure Lab.
 
+## Phrase Architecture — prototype 0.4.0
+
+Version 0.4.0 gives Reply its own event structure. Experimental Trap Pocket, R&B Flow, and Techno Motion personalities can remove notes, create rests, repeat motifs, change accents and note lengths, and add ratchets. This directly addresses the owner's finding that 0.3.0 timing offsets worked technically but did not create a convincing groove.
+
+These names are design targets, not claims of authentic genre emulation. See the [Phrase Architecture guide](docs/PHRASE_ARCHITECTURE.md).
+
 ## Groove and phrase shaping — prototype 0.3.0
 
 [Versioned downloadable preview](preview/echolog-groove-v0.3.0.html) — open the saved HTML in Chrome, select Enable sound, choose musical and groove settings, and optionally enable a physical MIDI controller.
 
 Version 0.3.0 separates pitch generation from rhythm shaping. Original preserves captured timing; Pulse quantizes and tightens; Swing delays off-sixteenths; Pocket alternates laid-back placement and articulation; Half-time stretches toward twice the duration. BPM and Shape amount are manual. Replay always remains exact.
 
-[Groove guide](docs/GROOVE.md) · [Adventure guide](docs/ADVENTURE.md) · [Musical Reply guide](docs/MUSICAL_REPLY.md) · [Browser MIDI guide](docs/BROWSER_MIDI.md) · [build instructions](docs/BROWSER_BUILD.md) · [validation record](docs/BROWSER_VALIDATION.md).
+[Phrase Architecture guide](docs/PHRASE_ARCHITECTURE.md) · [Groove guide](docs/GROOVE.md) · [Adventure guide](docs/ADVENTURE.md) · [Musical Reply guide](docs/MUSICAL_REPLY.md) · [Browser MIDI guide](docs/BROWSER_MIDI.md) · [build instructions](docs/BROWSER_BUILD.md) · [validation record](docs/BROWSER_VALIDATION.md).
 
 ## Documentation
 - [First prototype specification](docs/PROTOTYPE_SPEC.md)

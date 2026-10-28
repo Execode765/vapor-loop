@@ -21,7 +21,9 @@ command(12);assert.equal(e.echo_mode(),0);assert.equal(e.echo_playback(),0);
 e.echo_set_harmony(2,1);assert.equal(e.echo_root(),2);assert.equal(e.echo_scale(),1);
 e.echo_set_adventure(80);assert.equal(e.echo_adventure(),80);assert.equal(e.echo_variation(),0);
 e.echo_set_groove(96,2,80);assert.equal(e.echo_bpm(),96);assert.equal(e.echo_groove_style(),2);assert.equal(e.echo_groove_amount(),80);
+e.echo_set_phrase(1,100);assert.equal(e.echo_phrase_style(),1);assert.equal(e.echo_phrase_amount(),100);assert.equal(e.echo_variation(),0);
 command(2);assert.equal(e.echo_mode(),3);assert.equal(e.echo_playback(),2);assert.equal(e.echo_variation(),1);command(12);
+assert.equal(e.echo_reply_count(),10);
 command(2);assert.equal(e.echo_variation(),2);command(12);
 e.echo_set_groove(120,4,100);command(2);assert(e.echo_play_length()>e.echo_length());command(12);
 command(8);assert.equal(e.echo_count(),0);assert.equal(e.echo_length(),0);
@@ -29,4 +31,4 @@ command(13);e.web_keys(1);advance(360);assert.equal(e.echo_mode(),0);assert.equa
 e.web_keys(0);command(8);command(13);
 for(let i=0;i<32;i++){e.web_keys(1);advance(1);e.web_keys(0);advance(1);}
 assert.equal(e.echo_count(),32);assert.equal(e.echo_mode(),0);assert.equal(e.echo_limit(),1);
-console.log('PASS WASM memory: harmony/Adventure/groove controls, variation counter, half-time length, capture, replay/reply, Stop, Clear and limits');
+console.log('PASS WASM memory: harmony/Adventure/phrase/groove controls, independent reply count, variation, capture, replay/reply and limits');
