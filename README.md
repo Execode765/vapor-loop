@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: the browser instrument includes capture/replay, physical Web MIDI, scale-aware Reply, Adventure, groove shaping, Phrase Architecture, Candidate Memory, and an independent Bass Companion voice. Native C, compiled WASM, worklet, and real-Chrome CI checks for 0.6.0 pass; owner musical validation is pending. No hardware firmware build or flashing has occurred.**
+**Status: Bass Groove Engine 0.7.0 is implemented in the browser instrument. Native C, compiled WASM, worklet, served-Chrome, direct-file, MIDI, and mobile-layout checks pass; owner musical validation is pending. No hardware firmware build or flashing has occurred.**
 
 psychic-octo-spork is the working code name, not the final firmware name. The first prototype will explore ECHOLOG: melodic conversation.
 
@@ -12,6 +12,14 @@ Create something creative, unusual, and musically useful that FM-1 owners want t
 Initial candidates are GENOME (musical evolution), ECHOLOG (musical memory and response), and GRAVITY (physics-based composition). The owner selected ECHOLOG's melodic conversation interaction for the first prototype; the final product scope remains open. Originality and feasibility require further investigation.
 
 This project is separate from the completed Local LLM Infrastructure Lab.
+
+## Bass Groove Engine — prototype 0.7.0
+
+[Versioned downloadable preview](preview/echolog-bass-groove-v0.7.0.html) — download and open in current Chrome or Edge. Auto follows the selected upper Phrase Architecture; Straight and amount zero preserve the original Bass Companion pulse.
+
+Bass Groove adds controlled rests, timing displacement, gate variation, and velocity accents through Auto, Trap Pocket, R&B Flow, and Techno Motion profiles. It preserves Off/Manual/Root/Follow, octave, volume, MIDI channel 2, candidate context, and manual override.
+
+[Bass Groove guide](docs/BASS_GROOVE.md)
 
 ## Bass Companion — prototype 0.6.0
 

@@ -261,3 +261,19 @@ Never record a planned test as a passed test.
 - The final regression suite confirms MIDI channel 2 is dedicated to manual bass while channel 1 and channels 3–16 drive the upper voice.
 - Packaged the versioned standalone preview `preview/echolog-bass-v0.6.0.html` from the exact successful CI artifact.
 - Owner musical and playability evaluation is the next gate. No plugin or FM-1 firmware image was built or flashed.
+
+
+## 2026-10-28 — Owner validation of Bass Companion 0.6.0
+- Owner video exercised Follow, Root, Manual, Pedal, Half-note, and Quarter-note behavior with Reply and a kept candidate.
+- Octave 3 and bass volume 65 made the deep sine voice audible on the available speakers; the owner explicitly chose to retain the deep range.
+- Functional design passed. The owner found automatic bass harmonically useful but rhythmically too even.
+- Approved next boundary: preserve the two-voice architecture and add a separate, modest genre-aware bass-groove layer.
+
+## 2026-10-28 — Bass Groove Engine, 0.7.0
+- Added a portable bass-groove stage after Root/Follow pitch selection and Movement grid creation.
+- Straight and amount zero exactly bypass shaping. Auto maps the active or kept candidate's Phrase Architecture to Trap Pocket, R&B Flow, or Techno Motion.
+- Profiles add bounded rests, timing displacement, gate variation, and velocity accents without changing the manual bass path, octave range, upper phrase, candidate memory, or MIDI channel ownership.
+- Default Auto 55 is intentionally moderate. Pedal remains an unshaped sustained foundation.
+- Native sanitizer tests cover every style/amount, exact bypass, event ordering and bounds, candidate context, two-voice mixing, and manual override.
+- Workflow 40811250692 passed compiled WASM, worklet, served/direct-file Chrome, MIDI, and mobile layout for source commit `29694a5826ae0a7c92c0e09c04959bee50095ff2`.
+- Owner musical evaluation is the next gate. No plugin or FM-1 image was built or flashed.

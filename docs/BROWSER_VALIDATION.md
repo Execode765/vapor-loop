@@ -276,3 +276,23 @@ This closes the subjective gate for the browser foundation through 0.5.0. Effect
 | FM-1 hardware / plugin | NOT TESTED | No firmware image, flashing, or plugin build occurred |
 
 [Successful 0.6.0 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40794256419) validates source commit `94107e307f8b16183edae1c4bd09888feabe15e6`. The final regression correction moved a legacy upper-voice MIDI test from channel 2 to channel 3 because channel 2 is now intentionally reserved for Bass Companion. All native, WebAssembly, worklet, served-Chrome, direct-file, and mobile-layout checks passed.
+
+
+## Owner Bass Companion validation — 0.6.0 — 2026-10-28
+
+The owner supplied a 112.9-second screen recording exercising Follow, Root, Manual, Pedal, Half-note, and Quarter-note behavior with a kept ten-note candidate and repeated Reply playback. Octave 3 and bass volume 65 made the sine bass audible on the available speakers. Mode switching, candidate interaction, the independent upper/bass relationship, and movement controls functioned without an observed crash or stuck note.
+
+**Functional result: PASS. Musical groove result: NEEDS REFINEMENT.** The owner approved the deep range and complete on/off/manual/follow design, but found the automatic foundation too evenly pulsed. This directly motivated 0.7.0; it is not a failure of the two-voice architecture.
+
+## Bass Groove Engine — 0.7.0
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Native bass-groove module | PASS | Sanitizer tests cover exact Straight/amount-zero bypass, all styles and amounts, ordered onsets, nonzero bounded gates, velocity bounds, rests, and candidate context |
+| Existing Bass Companion lifecycle | PASS | Manual/Root/Follow, override/resume, Stop, two-voice bounds, and candidate playback remain green |
+| Compiled WebAssembly and worklet | PASS | New controls and exports passed the actual compiled engine and bridge checks |
+| Real Chrome served/direct-file | PASS | UI, audio, MIDI channel separation, candidate workflow, and responsive mobile layout passed |
+| Owner musical evaluation | PENDING | The packaged 0.7.0 build is ready for listening |
+| FM-1 hardware / plugin | NOT TESTED | No firmware image, flashing, or plugin build occurred |
+
+[Successful 0.7.0 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40811250692) validates source commit `29694a5826ae0a7c92c0e09c04959bee50095ff2`. The first attempted source commit was rejected before jobs ran because connector-uploaded files were encoded as text; the corrective commit restored ordinary source text and the complete pipeline passed.
