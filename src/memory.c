@@ -1,1 +1,374 @@
-LyogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0zLjAtb25seSAqLwojaW5jbHVkZSAibWVtb3J5LmgiCnZvaWQgZWNob19tZW1vcnlfaW5pdChFY2hvTWVtb3J5ICptKSB7CiAgICBlY2hvX3ZvaWNlX2luaXQoJm0tPnZvaWNlKTsKICAgIGVjaG9fdm9pY2VfaW5pdCgmbS0+YmFzc192b2ljZSk7CiAgICBtLT5jb3VudCA9IG0tPnJlcGx5X2NvdW50ID0gbS0+bGVuZ3RoID0gbS0+cmVwbHlfbGVuZ3RoID0gbS0+cGxheV9sZW5ndGggPSBtLT5wb3NpdGlvbiA9IG0tPm5leHQgPSAwOwogICAgbS0+bW9kZSA9IEVDSE9fSURMRTsgbS0+YWN0aXZlID0gbS0+cGxheWluZyA9IC0xOyBtLT5saW1pdCA9IEVDSE9fTk9fTElNSVQ7CiAgICBtLT5wbGF5YmFjayA9IEVDSE9fTk9fUExBWUJBQ0s7CiAgICBtLT5yb290ID0gMDsgbS0+c2NhbGUgPSBFQ0hPX1NDQUxFX01BSk9SOyBtLT5hZHZlbnR1cmUgPSAwOyBtLT52YXJpYXRpb24gPSAwOwogICAgbS0+YnBtID0gMTIwOyBtLT5ncm9vdmVfc3R5bGUgPSBFQ0hPX0dST09WRV9PUklHSU5BTDsgbS0+Z3Jvb3ZlX2Ftb3VudCA9IDA7CiAgICBtLT5waHJhc2Vfc3R5bGUgPSBFQ0hPX1BIUkFTRV9PUklHSU5BTDsgbS0+cGhyYXNlX2Ftb3VudCA9IDA7CiAgICBtLT5sYXN0X3JlcGx5X3ZhbGlkID0gMDsgbS0+Y2FuZGlkYXRlX3Nsb3QgPSAwOyBtLT5yZXBseV9nZW5lcmF0aW9uID0gMDsKICAgIGZvciAodWludDMyX3QgaSA9IDA7IGkgPCBFQ0hPX0NBTkRJREFURV9TTE9UUzsgKytpKSBtLT5jYW5kaWRhdGVzW2ldLmZpbGxlZCA9IDA7CiAgICBtLT5iYXNzX21vZGUgPSBFQ0hPX0JBU1NfT0ZGOyBtLT5iYXNzX2RlbnNpdHkgPSBFQ0hPX0JBU1NfSEFMRjsKICAgIG0tPmJhc3Nfb2N0YXZlID0gMTsgbS0+YmFzc192b2x1bWUgPSA3MDsKICAgIG0tPmJhc3NfZ3Jvb3ZlX3N0eWxlID0gRUNIT19CQVNTX0dST09WRV9BVVRPOyBtLT5iYXNzX2dyb292ZV9hbW91bnQgPSA1NTsKICAgIG0tPmJhc3NfY291bnQgPSBtLT5iYXNzX25leHQgPSAwOyBtLT5iYXNzX3BsYXlpbmcgPSAtMTsKICAgIG0tPmJhc3NfbWFudWFsID0gMDsgbS0+YmFzc19tYW51YWxfbm90ZSA9IC0xOwp9CnN0YXRpYyB2b2lkIGNsb3NlX2V2ZW50KEVjaG9NZW1vcnkgKm0pIHsKICAgIGlmIChtLT5hY3RpdmUgPCAwKSByZXR1cm47CiAgICBFY2hvRXZlbnQgKmUgPSAmbS0+ZXZlbnRzW20tPmFjdGl2ZV07CiAgICBlLT5kdXJhdGlvbiA9IG0tPnBvc2l0aW9uIC0gZS0+b25zZXQ7CiAgICAvKiBObyByZW5kZXJlZCBmcmFtZXMgZWxhcHNlZDogdGhpcyBnZXN0dXJlIHdhcyBpbmF1ZGlibGU7IGRvIG5vdCBzdG9yZSBhIHplcm8tbGVuZ3RoIG5vdGUuICovCiAgICBpZiAoIWUtPmR1cmF0aW9uKSAtLW0tPmNvdW50OwogICAgbS0+YWN0aXZlID0gLTE7Cn0Kdm9pZCBlY2hvX21lbW9yeV9maW5pc2goRWNob01lbW9yeSAqbSkgewogICAgaWYgKG0tPm1vZGUgIT0gRUNIT19BUk1FRCAmJiBtLT5tb2RlICE9IEVDSE9fUkVDT1JESU5HKSByZXR1cm47CiAgICBjbG9zZV9ldmVudChtKTsKICAgIG0tPmxlbmd0aCA9IG0tPmNvdW50ID8gbS0+cG9zaXRpb24gOiAwOwogICAgbS0+bW9kZSA9IEVDSE9fSURMRTsKICAgIGVjaG9fdm9pY2Vfc3RvcCgmbS0+dm9pY2UpOwp9CnZvaWQgZWNob19tZW1vcnlfc3RvcChFY2hvTWVtb3J5ICptKSB7CiAgICBlY2hvX21lbW9yeV9maW5pc2gobSk7CiAgICBtLT5tb2RlID0gRUNIT19JRExFOyBtLT5wbGF5aW5nID0gLTE7IG0tPnBsYXliYWNrID0gRUNIT19OT19QTEFZQkFDSzsKICAgIGVjaG9fdm9pY2Vfc3RvcCgmbS0+dm9pY2UpOwogICAgZWNob192b2ljZV9zdG9wKCZtLT5iYXNzX3ZvaWNlKTsKICAgIG0tPmJhc3NfY291bnQgPSBtLT5iYXNzX25leHQgPSAwOyBtLT5iYXNzX3BsYXlpbmcgPSAtMTsKICAgIG0tPmJhc3NfbWFudWFsID0gMDsgbS0+YmFzc19tYW51YWxfbm90ZSA9IC0xOwp9CnZvaWQgZWNob19tZW1vcnlfY2xlYXIoRWNob01lbW9yeSAqbSkgewogICAgZWNob19tZW1vcnlfc3RvcChtKTsKICAgIG0tPmNvdW50ID0gbS0+cmVwbHlfY291bnQgPSBtLT5sZW5ndGggPSBtLT5yZXBseV9sZW5ndGggPSBtLT5wbGF5X2xlbmd0aCA9IG0tPnBvc2l0aW9uID0gbS0+bmV4dCA9IDA7CiAgICBtLT5hY3RpdmUgPSAtMTsgbS0+bGltaXQgPSBFQ0hPX05PX0xJTUlUOwogICAgbS0+bGFzdF9yZXBseV92YWxpZCA9IDA7Cn0Kdm9pZCBlY2hvX21lbW9yeV9jYXB0dXJlKEVjaG9NZW1vcnkgKm0pIHsKICAgIGVjaG9fbWVtb3J5X2NsZWFyKG0pOyBtLT52YXJpYXRpb24gPSAwOyBlY2hvX3ZvaWNlX2luaXQoJm0tPnZvaWNlKTsgbS0+bW9kZSA9IEVDSE9fQVJNRUQ7Cn0KaW50IGVjaG9fbWVtb3J5X3JlcGxheShFY2hvTWVtb3J5ICptKSB7CiAgICBlY2hvX21lbW9yeV9zdG9wKG0pOwogICAgaWYgKCFtLT5jb3VudCB8fCAhbS0+bGVuZ3RoKSByZXR1cm4gMDsKICAgIGVjaG9fdm9pY2VfaW5pdCgmbS0+dm9pY2UpOwogICAgbS0+bW9kZSA9IEVDSE9fUExBWUlORzsgbS0+cG9zaXRpb24gPSBtLT5uZXh0ID0gMDsgbS0+cGxheWluZyA9IC0xOwogICAgbS0+cGxheV9sZW5ndGggPSBtLT5sZW5ndGg7CiAgICBtLT5wbGF5YmFjayA9IEVDSE9fRVhBQ1RfUExBWUJBQ0s7CiAgICBlY2hvX21lbW9yeV9zZXRfYmFzcyhtLCBtLT5iYXNzX21vZGUsIG0tPmJhc3NfZGVuc2l0eSwgbS0+YmFzc19vY3RhdmUsIG0tPmJhc3Nfdm9sdW1lKTsKICAgIHJldHVybiAxOwp9CmludCBlY2hvX21lbW9yeV9yZXBseShFY2hvTWVtb3J5ICptKSB7CiAgICBlY2hvX21lbW9yeV9zdG9wKG0pOwogICAgaWYgKCFtLT5jb3VudCB8fCAhbS0+bGVuZ3RoKSByZXR1cm4gMDsKICAgIHVpbnQ4X3Qgc291cmNlW0VDSE9fTUFYX05PVEVTXTsKICAgIGZvciAodWludDMyX3QgaSA9IDA7IGkgPCBtLT5jb3VudDsgKytpKSBzb3VyY2VbaV0gPSBtLT5ldmVudHNbaV0ucGl0Y2g7CiAgICB1aW50MzJfdCBnZW5lcmF0aW9uID0gbS0+dmFyaWF0aW9uKys7CiAgICBtLT5yZXBseV9nZW5lcmF0aW9uID0gZ2VuZXJhdGlvbjsKICAgIHVpbnQ4X3QgaGFybW9ueVtFQ0hPX01BWF9OT1RFU10sIHZlbG9jaXR5W0VDSE9fTUFYX05PVEVTXTsKICAgIGVjaG9faGFybW9ueV9yZXBseShzb3VyY2UsIGhhcm1vbnksIG0tPmNvdW50LCBtLT5yb290LCBtLT5zY2FsZSwKICAgICAgICAgICAgICAgICAgICAgICBtLT5hZHZlbnR1cmUsIGdlbmVyYXRpb24pOwogICAgdWludDMyX3Qgc291cmNlX29uc2V0W0VDSE9fTUFYX05PVEVTXSwgc291cmNlX2R1cmF0aW9uW0VDSE9fTUFYX05PVEVTXTsKICAgIGZvciAodWludDMyX3QgaSA9IDA7IGkgPCBtLT5jb3VudDsgKytpKSB7CiAgICAgICAgc291cmNlX29uc2V0W2ldID0gbS0+ZXZlbnRzW2ldLm9uc2V0OyBzb3VyY2VfZHVyYXRpb25baV0gPSBtLT5ldmVudHNbaV0uZHVyYXRpb247CiAgICAgICAgdmVsb2NpdHlbaV0gPSBtLT5ldmVudHNbaV0udmVsb2NpdHk7CiAgICB9CiAgICB1aW50MzJfdCBwaHJhc2Vfb25zZXRbRUNIT19NQVhfTk9URVNdLCBwaHJhc2VfZHVyYXRpb25bRUNIT19NQVhfTk9URVNdLCBwaHJhc2VfbGVuZ3RoOwogICAgZWNob19waHJhc2VfYXBwbHkoaGFybW9ueSwgdmVsb2NpdHksIHNvdXJjZV9vbnNldCwgc291cmNlX2R1cmF0aW9uLAogICAgICAgICAgICAgICAgICAgICAgbS0+Y291bnQsIG0tPmxlbmd0aCwgbS0+cmVwbHksIG0tPnJlcGx5X3ZlbG9jaXR5LAogICAgICAgICAgICAgICAgICAgICAgcGhyYXNlX29uc2V0LCBwaHJhc2VfZHVyYXRpb24sICZtLT5yZXBseV9jb3VudCwgJnBocmFzZV9sZW5ndGgsCiAgICAgICAgICAgICAgICAgICAgICBtLT5icG0sIG0tPnBocmFzZV9zdHlsZSwgbS0+cGhyYXNlX2Ftb3VudCwgZ2VuZXJhdGlvbik7CiAgICBlY2hvX2dyb292ZV9hcHBseShwaHJhc2Vfb25zZXQsIHBocmFzZV9kdXJhdGlvbiwgbS0+cmVwbHlfb25zZXQsIG0tPnJlcGx5X2R1cmF0aW9uLAogICAgICAgICAgICAgICAgICAgICAgbS0+cmVwbHlfY291bnQsIHBocmFzZV9sZW5ndGgsIG0tPmJwbSwgbS0+Z3Jvb3ZlX3N0eWxlLAogICAgICAgICAgICAgICAgICAgICAgbS0+Z3Jvb3ZlX2Ftb3VudCwgJm0tPnJlcGx5X2xlbmd0aCk7CiAgICBlY2hvX3ZvaWNlX2luaXQoJm0tPnZvaWNlKTsKICAgIG0tPm1vZGUgPSBFQ0hPX1BMQVlJTkc7IG0tPnBvc2l0aW9uID0gbS0+bmV4dCA9IDA7IG0tPnBsYXlpbmcgPSAtMTsKICAgIG0tPnBsYXlfbGVuZ3RoID0gbS0+cmVwbHlfbGVuZ3RoOwogICAgbS0+cGxheWJhY2sgPSBFQ0hPX1JFUExZX1BMQVlCQUNLOwogICAgbS0+bGFzdF9yZXBseV92YWxpZCA9IDE7CiAgICBlY2hvX21lbW9yeV9zZXRfYmFzcyhtLCBtLT5iYXNzX21vZGUsIG0tPmJhc3NfZGVuc2l0eSwgbS0+YmFzc19vY3RhdmUsIG0tPmJhc3Nfdm9sdW1lKTsKICAgIHJldHVybiAxOwp9CmludCBlY2hvX21lbW9yeV9rZWVwKEVjaG9NZW1vcnkgKm0sIGludCBzbG90KSB7CiAgICBpZiAoc2xvdCA8IDAgfHwgc2xvdCA+PSAoaW50KUVDSE9fQ0FORElEQVRFX1NMT1RTIHx8ICFtLT5sYXN0X3JlcGx5X3ZhbGlkIHx8ICFtLT5yZXBseV9jb3VudCkgcmV0dXJuIDA7CiAgICBFY2hvQ2FuZGlkYXRlICpjID0gJm0tPmNhbmRpZGF0ZXNbc2xvdF07CiAgICBmb3IgKHVpbnQzMl90IGkgPSAwOyBpIDwgbS0+cmVwbHlfY291bnQ7ICsraSkgewogICAgICAgIGMtPnBpdGNoW2ldID0gbS0+cmVwbHlbaV07IGMtPnZlbG9jaXR5W2ldID0gbS0+cmVwbHlfdmVsb2NpdHlbaV07CiAgICAgICAgYy0+b25zZXRbaV0gPSBtLT5yZXBseV9vbnNldFtpXTsgYy0+ZHVyYXRpb25baV0gPSBtLT5yZXBseV9kdXJhdGlvbltpXTsKICAgIH0KICAgIGMtPmNvdW50ID0gbS0+cmVwbHlfY291bnQ7IGMtPmxlbmd0aCA9IG0tPnJlcGx5X2xlbmd0aDsgYy0+Z2VuZXJhdGlvbiA9IG0tPnJlcGx5X2dlbmVyYXRpb247CiAgICBjLT5yb290ID0gbS0+cm9vdDsgYy0+c2NhbGUgPSBtLT5zY2FsZTsgYy0+YWR2ZW50dXJlID0gbS0+YWR2ZW50dXJlOyBjLT5icG0gPSBtLT5icG07CiAgICBjLT5waHJhc2Vfc3R5bGUgPSBtLT5waHJhc2Vfc3R5bGU7IGMtPnBocmFzZV9hbW91bnQgPSBtLT5waHJhc2VfYW1vdW50OwogICAgYy0+Z3Jvb3ZlX3N0eWxlID0gbS0+Z3Jvb3ZlX3N0eWxlOyBjLT5ncm9vdmVfYW1vdW50ID0gbS0+Z3Jvb3ZlX2Ftb3VudDsKICAgIGMtPmZpbGxlZCA9IDE7IG0tPmNhbmRpZGF0ZV9zbG90ID0gc2xvdDsKICAgIHJldHVybiAxOwp9CmludCBlY2hvX21lbW9yeV9wbGF5X2NhbmRpZGF0ZShFY2hvTWVtb3J5ICptLCBpbnQgc2xvdCkgewogICAgZWNob19tZW1vcnlfc3RvcChtKTsKICAgIGlmIChzbG90IDwgMCB8fCBzbG90ID49IChpbnQpRUNIT19DQU5ESURBVEVfU0xPVFMgfHwgIW0tPmNhbmRpZGF0ZXNbc2xvdF0uZmlsbGVkKSByZXR1cm4gMDsKICAgIG0tPmNhbmRpZGF0ZV9zbG90ID0gc2xvdDsKICAgIGVjaG9fdm9pY2VfaW5pdCgmbS0+dm9pY2UpOwogICAgbS0+bW9kZSA9IEVDSE9fUExBWUlORzsgbS0+cG9zaXRpb24gPSBtLT5uZXh0ID0gMDsgbS0+cGxheWluZyA9IC0xOwogICAgbS0+cGxheV9sZW5ndGggPSBtLT5jYW5kaWRhdGVzW3Nsb3RdLmxlbmd0aDsKICAgIG0tPnBsYXliYWNrID0gRUNIT19DQU5ESURBVEVfUExBWUJBQ0s7CiAgICBlY2hvX21lbW9yeV9zZXRfYmFzcyhtLCBtLT5iYXNzX21vZGUsIG0tPmJhc3NfZGVuc2l0eSwgbS0+YmFzc19vY3RhdmUsIG0tPmJhc3Nfdm9sdW1lKTsKICAgIHJldHVybiAxOwp9CnZvaWQgZWNob19tZW1vcnlfY2xlYXJfY2FuZGlkYXRlKEVjaG9NZW1vcnkgKm0sIGludCBzbG90KSB7CiAgICBpZiAoc2xvdCA8IDAgfHwgc2xvdCA+PSAoaW50KUVDSE9fQ0FORElEQVRFX1NMT1RTKSByZXR1cm47CiAgICBpZiAobS0+bW9kZSA9PSBFQ0hPX1BMQVlJTkcgJiYgbS0+cGxheWJhY2sgPT0gRUNIT19DQU5ESURBVEVfUExBWUJBQ0sgJiYgbS0+Y2FuZGlkYXRlX3Nsb3QgPT0gc2xvdCkKICAgICAgICBlY2hvX21lbW9yeV9zdG9wKG0pOwogICAgbS0+Y2FuZGlkYXRlc1tzbG90XS5maWxsZWQgPSAwOwp9CnVpbnQzMl90IGVjaG9fbWVtb3J5X2NhbmRpZGF0ZV9tYXNrKGNvbnN0IEVjaG9NZW1vcnkgKm0pIHsKICAgIHVpbnQzMl90IG1hc2sgPSAwOwogICAgZm9yICh1aW50MzJfdCBpID0gMDsgaSA8IEVDSE9fQ0FORElEQVRFX1NMT1RTOyArK2kpIGlmIChtLT5jYW5kaWRhdGVzW2ldLmZpbGxlZCkgbWFzayB8PSAxdSA8PCBpOwogICAgcmV0dXJuIG1hc2s7Cn0Kdm9pZCBlY2hvX21lbW9yeV9zZXRfaGFybW9ueShFY2hvTWVtb3J5ICptLCBpbnQgcm9vdCwgaW50IHNjYWxlKSB7CiAgICBtLT5yb290ID0gcm9vdCA+PSAwICYmIHJvb3QgPCAxMiA/IHJvb3QgOiAwOwogICAgbS0+c2NhbGUgPSBzY2FsZSA+PSAwICYmIHNjYWxlIDwgRUNIT19TQ0FMRV9DT1VOVCA/IHNjYWxlIDogRUNIT19TQ0FMRV9NQUpPUjsKfQp2b2lkIGVjaG9fbWVtb3J5X3NldF9hZHZlbnR1cmUoRWNob01lbW9yeSAqbSwgaW50IGFkdmVudHVyZSkgewogICAgaWYgKGFkdmVudHVyZSA8IDApIGFkdmVudHVyZSA9IDA7CiAgICBpZiAoYWR2ZW50dXJlID4gMTAwKSBhZHZlbnR1cmUgPSAxMDA7CiAgICBtLT5hZHZlbnR1cmUgPSBhZHZlbnR1cmU7CiAgICBtLT52YXJpYXRpb24gPSAwOwp9CnZvaWQgZWNob19tZW1vcnlfc2V0X2dyb292ZShFY2hvTWVtb3J5ICptLCBpbnQgYnBtLCBpbnQgc3R5bGUsIGludCBhbW91bnQpIHsKICAgIGlmIChicG0gPCA0MCkgYnBtID0gNDA7CiAgICBpZiAoYnBtID4gMjQwKSBicG0gPSAyNDA7CiAgICBpZiAoc3R5bGUgPCAwIHx8IHN0eWxlID49IEVDSE9fR1JPT1ZFX0NPVU5UKSBzdHlsZSA9IEVDSE9fR1JPT1ZFX09SSUdJTkFMOwogICAgaWYgKGFtb3VudCA8IDApIGFtb3VudCA9IDA7CiAgICBpZiAoYW1vdW50ID4gMTAwKSBhbW91bnQgPSAxMDA7CiAgICBtLT5icG0gPSBicG07IG0tPmdyb292ZV9zdHlsZSA9IHN0eWxlOyBtLT5ncm9vdmVfYW1vdW50ID0gYW1vdW50OwogICAgbS0+dmFyaWF0aW9uID0gMDsKfQp2b2lkIGVjaG9fbWVtb3J5X3NldF9waHJhc2UoRWNob01lbW9yeSAqbSwgaW50IHN0eWxlLCBpbnQgYW1vdW50KSB7CiAgICBpZiAoc3R5bGUgPCAwIHx8IHN0eWxlID49IEVDSE9fUEhSQVNFX0NPVU5UKSBzdHlsZSA9IEVDSE9fUEhSQVNFX09SSUdJTkFMOwogICAgaWYgKGFtb3VudCA8IDApIGFtb3VudCA9IDA7CiAgICBpZiAoYW1vdW50ID4gMTAwKSBhbW91bnQgPSAxMDA7CiAgICBtLT5waHJhc2Vfc3R5bGUgPSBzdHlsZTsgbS0+cGhyYXNlX2Ftb3VudCA9IGFtb3VudDsgbS0+dmFyaWF0aW9uID0gMDsKfQpzdGF0aWMgdWludDMyX3QgcGxheWJhY2tfY291bnQoY29uc3QgRWNob01lbW9yeSAqbSkgewogICAgaWYgKG0tPnBsYXliYWNrID09IEVDSE9fUkVQTFlfUExBWUJBQ0spIHJldHVybiBtLT5yZXBseV9jb3VudDsKICAgIGlmIChtLT5wbGF5YmFjayA9PSBFQ0hPX0NBTkRJREFURV9QTEFZQkFDSykgcmV0dXJuIG0tPmNhbmRpZGF0ZXNbbS0+Y2FuZGlkYXRlX3Nsb3RdLmNvdW50OwogICAgcmV0dXJuIG0tPmNvdW50Owp9CnN0YXRpYyBpbnQgcGxheWJhY2tfcGl0Y2goY29uc3QgRWNob01lbW9yeSAqbSwgdWludDMyX3QgaW5kZXgpIHsKICAgIGlmIChtLT5wbGF5YmFjayA9PSBFQ0hPX1JFUExZX1BMQVlCQUNLKSByZXR1cm4gbS0+cmVwbHlbaW5kZXhdOwogICAgaWYgKG0tPnBsYXliYWNrID09IEVDSE9fQ0FORElEQVRFX1BMQVlCQUNLKSByZXR1cm4gbS0+Y2FuZGlkYXRlc1ttLT5jYW5kaWRhdGVfc2xvdF0ucGl0Y2hbaW5kZXhdOwogICAgcmV0dXJuIG0tPmV2ZW50c1tpbmRleF0ucGl0Y2g7Cn0Kc3RhdGljIGludCBwbGF5YmFja192ZWxvY2l0eShjb25zdCBFY2hvTWVtb3J5ICptLCB1aW50MzJfdCBpbmRleCkgewogICAgaWYgKG0tPnBsYXliYWNrID09IEVDSE9fUkVQTFlfUExBWUJBQ0spIHJldHVybiBtLT5yZXBseV92ZWxvY2l0eVtpbmRleF07CiAgICBpZiAobS0+cGxheWJhY2sgPT0gRUNIT19DQU5ESURBVEVfUExBWUJBQ0spIHJldHVybiBtLT5jYW5kaWRhdGVzW20tPmNhbmRpZGF0ZV9zbG90XS52ZWxvY2l0eVtpbmRleF07CiAgICByZXR1cm4gbS0+ZXZlbnRzW2luZGV4XS52ZWxvY2l0eTsKfQpzdGF0aWMgdWludDMyX3QgcGxheWJhY2tfb25zZXQoY29uc3QgRWNob01lbW9yeSAqbSwgdWludDMyX3QgaW5kZXgpIHsKICAgIGlmIChtLT5wbGF5YmFjayA9PSBFQ0hPX1JFUExZX1BMQVlCQUNLKSByZXR1cm4gbS0+cmVwbHlfb25zZXRbaW5kZXhdOwogICAgaWYgKG0tPnBsYXliYWNrID09IEVDSE9fQ0FORElEQVRFX1BMQVlCQUNLKSByZXR1cm4gbS0+Y2FuZGlkYXRlc1ttLT5jYW5kaWRhdGVfc2xvdF0ub25zZXRbaW5kZXhdOwogICAgcmV0dXJuIG0tPmV2ZW50c1tpbmRleF0ub25zZXQ7Cn0Kc3RhdGljIHVpbnQzMl90IHBsYXliYWNrX2R1cmF0aW9uKGNvbnN0IEVjaG9NZW1vcnkgKm0sIHVpbnQzMl90IGluZGV4KSB7CiAgICBpZiAobS0+cGxheWJhY2sgPT0gRUNIT19SRVBMWV9QTEFZQkFDSykgcmV0dXJuIG0tPnJlcGx5X2R1cmF0aW9uW2luZGV4XTsKICAgIGlmIChtLT5wbGF5YmFjayA9PSBFQ0hPX0NBTkRJREFURV9QTEFZQkFDSykgcmV0dXJuIG0tPmNhbmRpZGF0ZXNbbS0+Y2FuZGlkYXRlX3Nsb3RdLmR1cmF0aW9uW2luZGV4XTsKICAgIHJldHVybiBtLT5ldmVudHNbaW5kZXhdLmR1cmF0aW9uOwp9CnN0YXRpYyBpbnQgcGxheWJhY2tfcm9vdChjb25zdCBFY2hvTWVtb3J5ICptKSB7CiAgICByZXR1cm4gbS0+cGxheWJhY2sgPT0gRUNIT19DQU5ESURBVEVfUExBWUJBQ0sgPyBtLT5jYW5kaWRhdGVzW20tPmNhbmRpZGF0ZV9zbG90XS5yb290IDogbS0+cm9vdDsKfQpzdGF0aWMgaW50IHBsYXliYWNrX3NjYWxlKGNvbnN0IEVjaG9NZW1vcnkgKm0pIHsKICAgIHJldHVybiBtLT5wbGF5YmFjayA9PSBFQ0hPX0NBTkRJREFURV9QTEFZQkFDSyA/IG0tPmNhbmRpZGF0ZXNbbS0+Y2FuZGlkYXRlX3Nsb3RdLnNjYWxlIDogbS0+c2NhbGU7Cn0Kc3RhdGljIGludCBwbGF5YmFja19icG0oY29uc3QgRWNob01lbW9yeSAqbSkgewogICAgcmV0dXJuIG0tPnBsYXliYWNrID09IEVDSE9fQ0FORElEQVRFX1BMQVlCQUNLID8gbS0+Y2FuZGlkYXRlc1ttLT5jYW5kaWRhdGVfc2xvdF0uYnBtIDogbS0+YnBtOwp9CnN0YXRpYyBpbnQgcGxheWJhY2tfcGhyYXNlX3N0eWxlKGNvbnN0IEVjaG9NZW1vcnkgKm0pIHsKICAgIHJldHVybiBtLT5wbGF5YmFjayA9PSBFQ0hPX0NBTkRJREFURV9QTEFZQkFDSyA/IG0tPmNhbmRpZGF0ZXNbbS0+Y2FuZGlkYXRlX3Nsb3RdLnBocmFzZV9zdHlsZSA6IG0tPnBocmFzZV9zdHlsZTsKfQpzdGF0aWMgaW50IHBpdGNoX2Rpc3RhbmNlKGludCBhLCBpbnQgYikgewogICAgaW50IGQgPSBhIC0gYjsgaWYgKGQgPCAwKSBkID0gLWQ7IHJldHVybiBkID4gNiA/IDEyIC0gZCA6IGQ7Cn0Kc3RhdGljIGludCBiYXNzX2ZvbGxvd19waXRjaChjb25zdCBFY2hvTWVtb3J5ICptLCB1aW50MzJfdCBmcmFtZSkgewogICAgdWludDMyX3QgY291bnQgPSBwbGF5YmFja19jb3VudChtKSwgY2hvc2VuID0gMDsKICAgIGZvciAodWludDMyX3QgaSA9IDA7IGkgPCBjb3VudCAmJiBwbGF5YmFja19vbnNldChtLCBpKSA8PSBmcmFtZTsgKytpKSBjaG9zZW4gPSBpOwogICAgaW50IHBjID0gcGxheWJhY2tfcGl0Y2gobSwgY2hvc2VuKSAlIDEyOwogICAgaW50IHJvb3QgPSBwbGF5YmFja19yb290KG0pOwogICAgaW50IHNjYWxlID0gcGxheWJhY2tfc2NhbGUobSk7CiAgICBpbnQgdGhpcmQgPSByb290ICsgKChzY2FsZSA9PSBFQ0hPX1NDQUxFX05BVFVSQUxfTUlOT1IgfHwgc2NhbGUgPT0gRUNIT19TQ0FMRV9NSU5PUl9QRU5UQVRPTklDKSA/IDMgOiA0KTsKICAgIGludCB0b25lc1szXSA9IHtyb290ICUgMTIsIHRoaXJkICUgMTIsIChyb290ICsgNykgJSAxMn07CiAgICBpbnQgYmVzdCA9IHRvbmVzWzBdLCBkaXN0YW5jZSA9IHBpdGNoX2Rpc3RhbmNlKHBjLCB0b25lc1swXSk7CiAgICBmb3IgKGludCBpID0gMTsgaSA8IDM7ICsraSkgeyBpbnQgZCA9IHBpdGNoX2Rpc3RhbmNlKHBjLCB0b25lc1tpXSk7IGlmIChkIDwgZGlzdGFuY2UpIHsgZGlzdGFuY2UgPSBkOyBiZXN0ID0gdG9uZXNbaV07IH0gfQogICAgcmV0dXJuIDEyICogKG0tPmJhc3Nfb2N0YXZlICsgMSkgKyBiZXN0Owp9CnN0YXRpYyB2b2lkIHByZXBhcmVfYmFzcyhFY2hvTWVtb3J5ICptKSB7CiAgICBlY2hvX3ZvaWNlX3N0b3AoJm0tPmJhc3Nfdm9pY2UpOwogICAgbS0+YmFzc19jb3VudCA9IG0tPmJhc3NfbmV4dCA9IDA7IG0tPmJhc3NfcGxheWluZyA9IC0xOwogICAgaWYgKG0tPmJhc3NfbW9kZSAhPSBFQ0hPX0JBU1NfUk9PVCAmJiBtLT5iYXNzX21vZGUgIT0gRUNIT19CQVNTX0ZPTExPVykgcmV0dXJuOwogICAgaWYgKG0tPm1vZGUgIT0gRUNIT19QTEFZSU5HIHx8ICFtLT5wbGF5X2xlbmd0aCkgcmV0dXJuOwogICAgaW50IGJwbSA9IHBsYXliYWNrX2JwbShtKTsgaWYgKGJwbSA8IDQwKSBicG0gPSA0MDsgaWYgKGJwbSA+IDI0MCkgYnBtID0gMjQwOwogICAgdWludDMyX3QgYmVhdCA9IDI2NDYwMDB1IC8gKHVpbnQzMl90KWJwbTsKICAgIHVpbnQzMl90IHNwYWNpbmcgPSBtLT5iYXNzX2RlbnNpdHkgPT0gRUNIT19CQVNTX1FVQVJURVIgPyBiZWF0IDoKICAgICAgICAgICAgICAgICAgICAgICBtLT5iYXNzX2RlbnNpdHkgPT0gRUNIT19CQVNTX0hBTEYgPyBiZWF0ICogMnUgOiBtLT5wbGF5X2xlbmd0aDsKICAgIGlmICghc3BhY2luZykgc3BhY2luZyA9IDE7CiAgICBmb3IgKHVpbnQzMl90IG9uc2V0ID0gMDsgb25zZXQgPCBtLT5wbGF5X2xlbmd0aCAmJiBtLT5iYXNzX2NvdW50IDwgRUNIT19NQVhfQkFTU19FVkVOVFM7IG9uc2V0ICs9IHNwYWNpbmcpIHsKICAgICAgICB1aW50MzJfdCBpID0gbS0+YmFzc19jb3VudCsrOwogICAgICAgIG0tPmJhc3Nfb25zZXRbaV0gPSBvbnNldDsKICAgICAgICB1aW50MzJfdCByZW1haW5pbmcgPSBtLT5wbGF5X2xlbmd0aCAtIG9uc2V0OwogICAgICAgIHVpbnQzMl90IGdhdGUgPSBtLT5iYXNzX2RlbnNpdHkgPT0gRUNIT19CQVNTX1BFREFMID8gcmVtYWluaW5nIDogc3BhY2luZyAqIDR1IC8gNXU7CiAgICAgICAgbS0+YmFzc19kdXJhdGlvbltpXSA9IGdhdGUgPCByZW1haW5pbmcgPyBnYXRlIDogcmVtYWluaW5nOwogICAgICAgIG0tPmJhc3NfdmVsb2NpdHlbaV0gPSAxMDU7CiAgICAgICAgbS0+YmFzc19waXRjaFtpXSA9ICh1aW50OF90KShtLT5iYXNzX21vZGUgPT0gRUNIT19CQVNTX1JPT1QgPwogICAgICAgICAgICAxMiAqIChtLT5iYXNzX29jdGF2ZSArIDEpICsgcGxheWJhY2tfcm9vdChtKSA6IGJhc3NfZm9sbG93X3BpdGNoKG0sIG9uc2V0KSk7CiAgICB9CiAgICBpbnQgc3R5bGUgPSBtLT5iYXNzX2dyb292ZV9zdHlsZTsKICAgIGlmIChzdHlsZSA9PSBFQ0hPX0JBU1NfR1JPT1ZFX0FVVE8pIHsKICAgICAgICBpbnQgcGhyYXNlID0gcGxheWJhY2tfcGhyYXNlX3N0eWxlKG0pOwogICAgICAgIHN0eWxlID0gcGhyYXNlID09IEVDSE9fUEhSQVNFX1RSQVBfUE9DS0VUID8gRUNIT19CQVNTX0dST09WRV9UUkFQIDoKICAgICAgICAgICAgICAgIHBocmFzZSA9PSBFQ0hPX1BIUkFTRV9STkJfRkxPVyA/IEVDSE9fQkFTU19HUk9PVkVfUk5CIDoKICAgICAgICAgICAgICAgIHBocmFzZSA9PSBFQ0hPX1BIUkFTRV9URUNITk9fTU9USU9OID8gRUNIT19CQVNTX0dST09WRV9URUNITk8gOgogICAgICAgICAgICAgICAgRUNIT19CQVNTX0dST09WRV9TVFJBSUdIVDsKICAgIH0KICAgIGlmIChtLT5iYXNzX2RlbnNpdHkgIT0gRUNIT19CQVNTX1BFREFMKQogICAgICAgIGVjaG9fYmFzc19ncm9vdmVfYXBwbHkobS0+YmFzc19waXRjaCwgbS0+YmFzc192ZWxvY2l0eSwgbS0+YmFzc19vbnNldCwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG0tPmJhc3NfZHVyYXRpb24sICZtLT5iYXNzX2NvdW50LCBtLT5wbGF5X2xlbmd0aCwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNwYWNpbmcsIHN0eWxlLCBtLT5iYXNzX2dyb292ZV9hbW91bnQpOwogICAgLyogQSBjb250cm9sIGNoYW5nZSBkdXJpbmcgcGxheWJhY2sgam9pbnMgYXQgdGhlIG5leHQgYm91bmRhcnksIG5ldmVyIHJld2luZHMgdG8gZnJhbWUgemVyby4gKi8KICAgIHdoaWxlIChtLT5iYXNzX25leHQgPCBtLT5iYXNzX2NvdW50ICYmIG0tPmJhc3Nfb25zZXRbbS0+YmFzc19uZXh0XSA8IG0tPnBvc2l0aW9uKSArK20tPmJhc3NfbmV4dDsKfQp2b2lkIGVjaG9fbWVtb3J5X3NldF9iYXNzX2dyb292ZShFY2hvTWVtb3J5ICptLCBpbnQgc3R5bGUsIGludCBhbW91bnQpIHsKICAgIGlmIChzdHlsZSA8IDAgfHwgc3R5bGUgPj0gRUNIT19CQVNTX0dST09WRV9DT1VOVCkgc3R5bGUgPSBFQ0hPX0JBU1NfR1JPT1ZFX0FVVE87CiAgICBpZiAoYW1vdW50IDwgMCkgYW1vdW50ID0gMDsKICAgIGlmIChhbW91bnQgPiAxMDApIGFtb3VudCA9IDEwMDsKICAgIG0tPmJhc3NfZ3Jvb3ZlX3N0eWxlID0gc3R5bGU7IG0tPmJhc3NfZ3Jvb3ZlX2Ftb3VudCA9IGFtb3VudDsKICAgIGlmICghbS0+YmFzc19tYW51YWwpIHByZXBhcmVfYmFzcyhtKTsKfQp2b2lkIGVjaG9fbWVtb3J5X3NldF9iYXNzKEVjaG9NZW1vcnkgKm0sIGludCBtb2RlLCBpbnQgZGVuc2l0eSwgaW50IG9jdGF2ZSwgaW50IHZvbHVtZSkgewogICAgaWYgKG1vZGUgPCAwIHx8IG1vZGUgPj0gRUNIT19CQVNTX01PREVfQ09VTlQpIG1vZGUgPSBFQ0hPX0JBU1NfT0ZGOwogICAgaWYgKGRlbnNpdHkgPCAwIHx8IGRlbnNpdHkgPj0gRUNIT19CQVNTX0RFTlNJVFlfQ09VTlQpIGRlbnNpdHkgPSBFQ0hPX0JBU1NfSEFMRjsKICAgIGlmIChvY3RhdmUgPCAwKSBvY3RhdmUgPSAwOwogICAgaWYgKG9jdGF2ZSA+IDMpIG9jdGF2ZSA9IDM7CiAgICBpZiAodm9sdW1lIDwgMCkgdm9sdW1lID0gMDsKICAgIGlmICh2b2x1bWUgPiAxMDApIHZvbHVtZSA9IDEwMDsKICAgIG0tPmJhc3NfbW9kZSA9IG1vZGU7IG0tPmJhc3NfZGVuc2l0eSA9IGRlbnNpdHk7IG0tPmJhc3Nfb2N0YXZlID0gb2N0YXZlOyBtLT5iYXNzX3ZvbHVtZSA9IHZvbHVtZTsKICAgIG0tPmJhc3NfbWFudWFsID0gMDsgbS0+YmFzc19tYW51YWxfbm90ZSA9IC0xOwogICAgcHJlcGFyZV9iYXNzKG0pOwp9CnZvaWQgZWNob19tZW1vcnlfYmFzc19vbihFY2hvTWVtb3J5ICptLCBpbnQgcGl0Y2gsIGludCB2ZWxvY2l0eSkgewogICAgaWYgKG0tPmJhc3NfbW9kZSA9PSBFQ0hPX0JBU1NfT0ZGIHx8IHBpdGNoIDwgMCB8fCBwaXRjaCA+IDEyNykgcmV0dXJuOwogICAgaWYgKHZlbG9jaXR5IDw9IDApIHsgZWNob19tZW1vcnlfYmFzc19vZmYobSwgcGl0Y2gpOyByZXR1cm47IH0KICAgIGlmICh2ZWxvY2l0eSA+IDEyNykgdmVsb2NpdHkgPSAxMjc7CiAgICBtLT5iYXNzX21hbnVhbCA9IDE7IG0tPmJhc3NfbWFudWFsX25vdGUgPSBwaXRjaDsgbS0+YmFzc19wbGF5aW5nID0gLTE7CiAgICBlY2hvX3ZvaWNlX29uKCZtLT5iYXNzX3ZvaWNlLCBwaXRjaCwgdmVsb2NpdHkpOwp9CnZvaWQgZWNob19tZW1vcnlfYmFzc19vZmYoRWNob01lbW9yeSAqbSwgaW50IHBpdGNoKSB7CiAgICBpZiAoIW0tPmJhc3NfbWFudWFsIHx8IG0tPmJhc3NfbWFudWFsX25vdGUgIT0gcGl0Y2gpIHJldHVybjsKICAgIGVjaG9fdm9pY2Vfb2ZmKCZtLT5iYXNzX3ZvaWNlLCBwaXRjaCk7CiAgICBtLT5iYXNzX21hbnVhbCA9IDA7IG0tPmJhc3NfbWFudWFsX25vdGUgPSAtMTsKICAgIHdoaWxlIChtLT5iYXNzX25leHQgPCBtLT5iYXNzX2NvdW50ICYmIG0tPmJhc3Nfb25zZXRbbS0+YmFzc19uZXh0XSA8PSBtLT5wb3NpdGlvbikgKyttLT5iYXNzX25leHQ7Cn0Kdm9pZCBlY2hvX21lbW9yeV9vbihFY2hvTWVtb3J5ICptLCBpbnQgcGl0Y2gsIGludCB2ZWxvY2l0eSkgewogICAgaWYgKHBpdGNoIDwgMCB8fCBwaXRjaCA+IDEyNykgcmV0dXJuOwogICAgaWYgKHZlbG9jaXR5IDw9IDApIHsgZWNob19tZW1vcnlfb2ZmKG0sIHBpdGNoKTsgcmV0dXJuOyB9CiAgICBpZiAodmVsb2NpdHkgPiAxMjcpIHZlbG9jaXR5ID0gMTI3OwogICAgLyogUGxheWluZyBsaXZlIGludGVycnVwdHMgcmVwbGF5LCByZXRhaW5pbmcgdGhlIHJlY29yZGVkIHBocmFzZS4gKi8KICAgIGlmIChtLT5tb2RlID09IEVDSE9fUExBWUlORykgZWNob19tZW1vcnlfc3RvcChtKTsKICAgIGlmIChtLT5tb2RlID09IEVDSE9fQVJNRUQpIHsgbS0+bW9kZSA9IEVDSE9fUkVDT1JESU5HOyBtLT5wb3NpdGlvbiA9IDA7IH0KICAgIGlmIChtLT5tb2RlID09IEVDSE9fUkVDT1JESU5HKSB7CiAgICAgICAgY2xvc2VfZXZlbnQobSk7CiAgICAgICAgaWYgKG0tPmNvdW50ID09IEVDSE9fTUFYX05PVEVTKSB7CiAgICAgICAgICAgIG0tPmxpbWl0ID0gRUNIT19OT1RFX0xJTUlUOwogICAgICAgICAgICBlY2hvX21lbW9yeV9maW5pc2gobSk7CiAgICAgICAgfSBlbHNlIHsKICAgICAgICAgICAgbS0+YWN0aXZlID0gKGludCltLT5jb3VudDsKICAgICAgICAgICAgRWNob0V2ZW50ICplID0gJm0tPmV2ZW50c1ttLT5jb3VudCsrXTsKICAgICAgICAgICAgZS0+b25zZXQgPSBtLT5wb3NpdGlvbjsgZS0+ZHVyYXRpb24gPSAwOwogICAgICAgICAgICBlLT5waXRjaCA9ICh1aW50OF90KXBpdGNoOyBlLT52ZWxvY2l0eSA9ICh1aW50OF90KXZlbG9jaXR5OwogICAgICAgIH0KICAgIH0KICAgIGVjaG9fdm9pY2Vfb24oJm0tPnZvaWNlLCBwaXRjaCwgdmVsb2NpdHkpOwp9CnZvaWQgZWNob19tZW1vcnlfb2ZmKEVjaG9NZW1vcnkgKm0sIGludCBwaXRjaCkgewogICAgaWYgKG0tPm1vZGUgPT0gRUNIT19QTEFZSU5HKSByZXR1cm47IC8qIHN0YWxlIGxpdmUgcmVsZWFzZXMgY2Fubm90IHNpbGVuY2UgcmVwbGF5ICovCiAgICBpZiAobS0+bW9kZSA9PSBFQ0hPX1JFQ09SRElORyAmJiBtLT5hY3RpdmUgPj0gMCAmJgogICAgICAgIG0tPmV2ZW50c1ttLT5hY3RpdmVdLnBpdGNoID09IHBpdGNoKSB7CiAgICAgICAgY2xvc2VfZXZlbnQobSk7CiAgICAgICAgaWYgKG0tPmNvdW50ID09IEVDSE9fTUFYX05PVEVTKSB7CiAgICAgICAgICAgIG0tPmxpbWl0ID0gRUNIT19OT1RFX0xJTUlUOwogICAgICAgICAgICBlY2hvX21lbW9yeV9maW5pc2gobSk7CiAgICAgICAgfQogICAgfQogICAgZWNob192b2ljZV9vZmYoJm0tPnZvaWNlLCBwaXRjaCk7Cn0Kdm9pZCBlY2hvX21lbW9yeV9yZW5kZXIoRWNob01lbW9yeSAqbSwgaW50MzJfdCAqb3V0LCB1aW50MzJfdCBmcmFtZXMpIHsKICAgIHVpbnQzMl90IG9mZnNldCA9IDA7CiAgICB3aGlsZSAob2Zmc2V0IDwgZnJhbWVzKSB7CiAgICAgICAgdWludDMyX3QgbiA9IGZyYW1lcyAtIG9mZnNldDsKICAgICAgICBpZiAobS0+bW9kZSA9PSBFQ0hPX1JFQ09SRElORykgewogICAgICAgICAgICBpZiAobS0+cG9zaXRpb24gPT0gRUNIT19NQVhfRlJBTUVTKSB7CiAgICAgICAgICAgICAgICBtLT5saW1pdCA9IEVDSE9fVElNRV9MSU1JVDsgZWNob19tZW1vcnlfZmluaXNoKG0pOyBjb250aW51ZTsKICAgICAgICAgICAgfQogICAgICAgICAgICB1aW50MzJfdCByZW1haW5pbmcgPSBFQ0hPX01BWF9GUkFNRVMgLSBtLT5wb3NpdGlvbjsKICAgICAgICAgICAgaWYgKG4gPiByZW1haW5pbmcpIG4gPSByZW1haW5pbmc7CiAgICAgICAgfSBlbHNlIGlmIChtLT5tb2RlID09IEVDSE9fUExBWUlORykgewogICAgICAgICAgICBpZiAoIW0tPmJhc3NfbWFudWFsICYmIG0tPmJhc3NfcGxheWluZyA+PSAwICYmCiAgICAgICAgICAgICAgICBtLT5wb3NpdGlvbiA+PSBtLT5iYXNzX29uc2V0W20tPmJhc3NfcGxheWluZ10gKyBtLT5iYXNzX2R1cmF0aW9uW20tPmJhc3NfcGxheWluZ10pIHsKICAgICAgICAgICAgICAgIGVjaG9fdm9pY2Vfb2ZmKCZtLT5iYXNzX3ZvaWNlLCBtLT5iYXNzX3BpdGNoW20tPmJhc3NfcGxheWluZ10pOyBtLT5iYXNzX3BsYXlpbmcgPSAtMTsKICAgICAgICAgICAgfQogICAgICAgICAgICBpZiAoIW0tPmJhc3NfbWFudWFsICYmIG0tPmJhc3NfbmV4dCA8IG0tPmJhc3NfY291bnQgJiYgbS0+YmFzc19vbnNldFttLT5iYXNzX25leHRdID09IG0tPnBvc2l0aW9uKSB7CiAgICAgICAgICAgICAgICBlY2hvX3ZvaWNlX29uKCZtLT5iYXNzX3ZvaWNlLCBtLT5iYXNzX3BpdGNoW20tPmJhc3NfbmV4dF0sIG0tPmJhc3NfdmVsb2NpdHlbbS0+YmFzc19uZXh0XSk7CiAgICAgICAgICAgICAgICBtLT5iYXNzX3BsYXlpbmcgPSAoaW50KW0tPmJhc3NfbmV4dCsrOwogICAgICAgICAgICB9CiAgICAgICAgICAgIC8qIEVuZCBiZWZvcmUgb25zZXQ6IGFkamFjZW50IG5vdGVzIGFuZCByZXRyaWdnZXJzIGhhdmUgdW5hbWJpZ3VvdXMgb3duZXJzaGlwLiAqLwogICAgICAgICAgICBpZiAobS0+cGxheWluZyA+PSAwKSB7CiAgICAgICAgICAgICAgICBpZiAobS0+cG9zaXRpb24gPj0gcGxheWJhY2tfb25zZXQobSwgKHVpbnQzMl90KW0tPnBsYXlpbmcpICsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBwbGF5YmFja19kdXJhdGlvbihtLCAodWludDMyX3QpbS0+cGxheWluZykpIHsKICAgICAgICAgICAgICAgICAgICBlY2hvX3ZvaWNlX29mZigmbS0+dm9pY2UsIHBsYXliYWNrX3BpdGNoKG0sICh1aW50MzJfdCltLT5wbGF5aW5nKSk7IG0tPnBsYXlpbmcgPSAtMTsKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgfQogICAgICAgICAgICBpZiAobS0+bmV4dCA8IHBsYXliYWNrX2NvdW50KG0pICYmIHBsYXliYWNrX29uc2V0KG0sIG0tPm5leHQpID09IG0tPnBvc2l0aW9uKSB7CiAgICAgICAgICAgICAgICBlY2hvX3ZvaWNlX29uKCZtLT52b2ljZSwgcGxheWJhY2tfcGl0Y2gobSwgbS0+bmV4dCksIHBsYXliYWNrX3ZlbG9jaXR5KG0sIG0tPm5leHQpKTsKICAgICAgICAgICAgICAgIG0tPnBsYXlpbmcgPSAoaW50KW0tPm5leHQrKzsKICAgICAgICAgICAgfQogICAgICAgICAgICBpZiAobS0+cG9zaXRpb24gPj0gbS0+cGxheV9sZW5ndGgpIHsgZWNob19tZW1vcnlfc3RvcChtKTsgY29udGludWU7IH0KICAgICAgICAgICAgdWludDMyX3QgYm91bmRhcnkgPSBtLT5wbGF5X2xlbmd0aDsKICAgICAgICAgICAgaWYgKG0tPnBsYXlpbmcgPj0gMCkgewogICAgICAgICAgICAgICAgdWludDMyX3QgZW5kID0gcGxheWJhY2tfb25zZXQobSwgKHVpbnQzMl90KW0tPnBsYXlpbmcpICsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHBsYXliYWNrX2R1cmF0aW9uKG0sICh1aW50MzJfdCltLT5wbGF5aW5nKTsKICAgICAgICAgICAgICAgIGlmIChlbmQgPCBib3VuZGFyeSkgYm91bmRhcnkgPSBlbmQ7CiAgICAgICAgICAgIH0KICAgICAgICAgICAgaWYgKG0tPm5leHQgPCBwbGF5YmFja19jb3VudChtKSAmJiBwbGF5YmFja19vbnNldChtLCBtLT5uZXh0KSA8IGJvdW5kYXJ5KQogICAgICAgICAgICAgICAgYm91bmRhcnkgPSBwbGF5YmFja19vbnNldChtLCBtLT5uZXh0KTsKICAgICAgICAgICAgaWYgKCFtLT5iYXNzX21hbnVhbCAmJiBtLT5iYXNzX3BsYXlpbmcgPj0gMCkgewogICAgICAgICAgICAgICAgdWludDMyX3QgZW5kID0gbS0+YmFzc19vbnNldFttLT5iYXNzX3BsYXlpbmddICsgbS0+YmFzc19kdXJhdGlvblttLT5iYXNzX3BsYXlpbmddOwogICAgICAgICAgICAgICAgaWYgKGVuZCA8IGJvdW5kYXJ5KSBib3VuZGFyeSA9IGVuZDsKICAgICAgICAgICAgfQogICAgICAgICAgICBpZiAoIW0tPmJhc3NfbWFudWFsICYmIG0tPmJhc3NfbmV4dCA8IG0tPmJhc3NfY291bnQgJiYgbS0+YmFzc19vbnNldFttLT5iYXNzX25leHRdIDwgYm91bmRhcnkpCiAgICAgICAgICAgICAgICBib3VuZGFyeSA9IG0tPmJhc3Nfb25zZXRbbS0+YmFzc19uZXh0XTsKICAgICAgICAgICAgaWYgKG4gPiBib3VuZGFyeSAtIG0tPnBvc2l0aW9uKSBuID0gYm91bmRhcnkgLSBtLT5wb3NpdGlvbjsKICAgICAgICB9CiAgICAgICAgdWludDMyX3QgbWl4ZWQgPSAwOwogICAgICAgIHdoaWxlIChtaXhlZCA8IG4pIHsKICAgICAgICAgICAgdWludDMyX3QgY2h1bmsgPSBuIC0gbWl4ZWQ7IGlmIChjaHVuayA+IDEyOHUpIGNodW5rID0gMTI4dTsKICAgICAgICAgICAgaW50MzJfdCBiYXNzWzI1Nl0gPSB7MH07CiAgICAgICAgICAgIGVjaG9fdm9pY2VfcmVuZGVyKCZtLT52b2ljZSwgb3V0ICsgMnUgKiAob2Zmc2V0ICsgbWl4ZWQpLCBjaHVuayk7CiAgICAgICAgICAgIGVjaG9fdm9pY2VfcmVuZGVyKCZtLT5iYXNzX3ZvaWNlLCBiYXNzLCBjaHVuayk7CiAgICAgICAgICAgIGZvciAodWludDMyX3QgaSA9IDA7IGkgPCAydSAqIGNodW5rOyArK2kpIHsKICAgICAgICAgICAgICAgIGludDMyX3QgdmFsdWUgPSBvdXRbMnUgKiAob2Zmc2V0ICsgbWl4ZWQpICsgaV0gKyBiYXNzW2ldICogbS0+YmFzc192b2x1bWUgLyAxMDA7CiAgICAgICAgICAgICAgICBpZiAodmFsdWUgPiA4MTI4KSB2YWx1ZSA9IDgxMjg7CiAgICAgICAgICAgICAgICBpZiAodmFsdWUgPCAtODEyOCkgdmFsdWUgPSAtODEyODsKICAgICAgICAgICAgICAgIG91dFsydSAqIChvZmZzZXQgKyBtaXhlZCkgKyBpXSA9IHZhbHVlOwogICAgICAgICAgICB9CiAgICAgICAgICAgIG1peGVkICs9IGNodW5rOwogICAgICAgIH0KICAgICAgICBvZmZzZXQgKz0gbjsKICAgICAgICBpZiAobS0+bW9kZSA9PSBFQ0hPX1JFQ09SRElORyB8fCBtLT5tb2RlID09IEVDSE9fUExBWUlORykgbS0+cG9zaXRpb24gKz0gbjsKICAgIH0KICAgIC8qIFJlc29sdmUgZW5kIGJvdW5kYXJpZXMgZXZlbiB3aGVuIHRoZXkgY29pbmNpZGUgd2l0aCB0aGUgZW5kIG9mIGEgcmVuZGVyIGJsb2NrLiAqLwogICAgaWYgKG0tPm1vZGUgPT0gRUNIT19SRUNPUkRJTkcgJiYgbS0+cG9zaXRpb24gPT0gRUNIT19NQVhfRlJBTUVTKSB7CiAgICAgICAgbS0+bGltaXQgPSBFQ0hPX1RJTUVfTElNSVQ7IGVjaG9fbWVtb3J5X2ZpbmlzaChtKTsKICAgIH0KICAgIGlmIChtLT5tb2RlID09IEVDSE9fUExBWUlORyAmJiBtLT5wb3NpdGlvbiA9PSBtLT5wbGF5X2xlbmd0aCkgZWNob19tZW1vcnlfc3RvcChtKTsKfQo=
+/* SPDX-License-Identifier: GPL-3.0-only */
+#include "memory.h"
+void echo_memory_init(EchoMemory *m) {
+    echo_voice_init(&m->voice);
+    echo_voice_init(&m->bass_voice);
+    m->count = m->reply_count = m->length = m->reply_length = m->play_length = m->position = m->next = 0;
+    m->mode = ECHO_IDLE; m->active = m->playing = -1; m->limit = ECHO_NO_LIMIT;
+    m->playback = ECHO_NO_PLAYBACK;
+    m->root = 0; m->scale = ECHO_SCALE_MAJOR; m->adventure = 0; m->variation = 0;
+    m->bpm = 120; m->groove_style = ECHO_GROOVE_ORIGINAL; m->groove_amount = 0;
+    m->phrase_style = ECHO_PHRASE_ORIGINAL; m->phrase_amount = 0;
+    m->last_reply_valid = 0; m->candidate_slot = 0; m->reply_generation = 0;
+    for (uint32_t i = 0; i < ECHO_CANDIDATE_SLOTS; ++i) m->candidates[i].filled = 0;
+    m->bass_mode = ECHO_BASS_OFF; m->bass_density = ECHO_BASS_HALF;
+    m->bass_octave = 1; m->bass_volume = 70;
+    m->bass_groove_style = ECHO_BASS_GROOVE_AUTO; m->bass_groove_amount = 55;
+    m->bass_count = m->bass_next = 0; m->bass_playing = -1;
+    m->bass_manual = 0; m->bass_manual_note = -1;
+}
+static void close_event(EchoMemory *m) {
+    if (m->active < 0) return;
+    EchoEvent *e = &m->events[m->active];
+    e->duration = m->position - e->onset;
+    /* No rendered frames elapsed: this gesture was inaudible; do not store a zero-length note. */
+    if (!e->duration) --m->count;
+    m->active = -1;
+}
+void echo_memory_finish(EchoMemory *m) {
+    if (m->mode != ECHO_ARMED && m->mode != ECHO_RECORDING) return;
+    close_event(m);
+    m->length = m->count ? m->position : 0;
+    m->mode = ECHO_IDLE;
+    echo_voice_stop(&m->voice);
+}
+void echo_memory_stop(EchoMemory *m) {
+    echo_memory_finish(m);
+    m->mode = ECHO_IDLE; m->playing = -1; m->playback = ECHO_NO_PLAYBACK;
+    echo_voice_stop(&m->voice);
+    echo_voice_stop(&m->bass_voice);
+    m->bass_count = m->bass_next = 0; m->bass_playing = -1;
+    m->bass_manual = 0; m->bass_manual_note = -1;
+}
+void echo_memory_clear(EchoMemory *m) {
+    echo_memory_stop(m);
+    m->count = m->reply_count = m->length = m->reply_length = m->play_length = m->position = m->next = 0;
+    m->active = -1; m->limit = ECHO_NO_LIMIT;
+    m->last_reply_valid = 0;
+}
+void echo_memory_capture(EchoMemory *m) {
+    echo_memory_clear(m); m->variation = 0; echo_voice_init(&m->voice); m->mode = ECHO_ARMED;
+}
+int echo_memory_replay(EchoMemory *m) {
+    echo_memory_stop(m);
+    if (!m->count || !m->length) return 0;
+    echo_voice_init(&m->voice);
+    m->mode = ECHO_PLAYING; m->position = m->next = 0; m->playing = -1;
+    m->play_length = m->length;
+    m->playback = ECHO_EXACT_PLAYBACK;
+    echo_memory_set_bass(m, m->bass_mode, m->bass_density, m->bass_octave, m->bass_volume);
+    return 1;
+}
+int echo_memory_reply(EchoMemory *m) {
+    echo_memory_stop(m);
+    if (!m->count || !m->length) return 0;
+    uint8_t source[ECHO_MAX_NOTES];
+    for (uint32_t i = 0; i < m->count; ++i) source[i] = m->events[i].pitch;
+    uint32_t generation = m->variation++;
+    m->reply_generation = generation;
+    uint8_t harmony[ECHO_MAX_NOTES], velocity[ECHO_MAX_NOTES];
+    echo_harmony_reply(source, harmony, m->count, m->root, m->scale,
+                       m->adventure, generation);
+    uint32_t source_onset[ECHO_MAX_NOTES], source_duration[ECHO_MAX_NOTES];
+    for (uint32_t i = 0; i < m->count; ++i) {
+        source_onset[i] = m->events[i].onset; source_duration[i] = m->events[i].duration;
+        velocity[i] = m->events[i].velocity;
+    }
+    uint32_t phrase_onset[ECHO_MAX_NOTES], phrase_duration[ECHO_MAX_NOTES], phrase_length;
+    echo_phrase_apply(harmony, velocity, source_onset, source_duration,
+                      m->count, m->length, m->reply, m->reply_velocity,
+                      phrase_onset, phrase_duration, &m->reply_count, &phrase_length,
+                      m->bpm, m->phrase_style, m->phrase_amount, generation);
+    echo_groove_apply(phrase_onset, phrase_duration, m->reply_onset, m->reply_duration,
+                      m->reply_count, phrase_length, m->bpm, m->groove_style,
+                      m->groove_amount, &m->reply_length);
+    echo_voice_init(&m->voice);
+    m->mode = ECHO_PLAYING; m->position = m->next = 0; m->playing = -1;
+    m->play_length = m->reply_length;
+    m->playback = ECHO_REPLY_PLAYBACK;
+    m->last_reply_valid = 1;
+    echo_memory_set_bass(m, m->bass_mode, m->bass_density, m->bass_octave, m->bass_volume);
+    return 1;
+}
+int echo_memory_keep(EchoMemory *m, int slot) {
+    if (slot < 0 || slot >= (int)ECHO_CANDIDATE_SLOTS || !m->last_reply_valid || !m->reply_count) return 0;
+    EchoCandidate *c = &m->candidates[slot];
+    for (uint32_t i = 0; i < m->reply_count; ++i) {
+        c->pitch[i] = m->reply[i]; c->velocity[i] = m->reply_velocity[i];
+        c->onset[i] = m->reply_onset[i]; c->duration[i] = m->reply_duration[i];
+    }
+    c->count = m->reply_count; c->length = m->reply_length; c->generation = m->reply_generation;
+    c->root = m->root; c->scale = m->scale; c->adventure = m->adventure; c->bpm = m->bpm;
+    c->phrase_style = m->phrase_style; c->phrase_amount = m->phrase_amount;
+    c->groove_style = m->groove_style; c->groove_amount = m->groove_amount;
+    c->filled = 1; m->candidate_slot = slot;
+    return 1;
+}
+int echo_memory_play_candidate(EchoMemory *m, int slot) {
+    echo_memory_stop(m);
+    if (slot < 0 || slot >= (int)ECHO_CANDIDATE_SLOTS || !m->candidates[slot].filled) return 0;
+    m->candidate_slot = slot;
+    echo_voice_init(&m->voice);
+    m->mode = ECHO_PLAYING; m->position = m->next = 0; m->playing = -1;
+    m->play_length = m->candidates[slot].length;
+    m->playback = ECHO_CANDIDATE_PLAYBACK;
+    echo_memory_set_bass(m, m->bass_mode, m->bass_density, m->bass_octave, m->bass_volume);
+    return 1;
+}
+void echo_memory_clear_candidate(EchoMemory *m, int slot) {
+    if (slot < 0 || slot >= (int)ECHO_CANDIDATE_SLOTS) return;
+    if (m->mode == ECHO_PLAYING && m->playback == ECHO_CANDIDATE_PLAYBACK && m->candidate_slot == slot)
+        echo_memory_stop(m);
+    m->candidates[slot].filled = 0;
+}
+uint32_t echo_memory_candidate_mask(const EchoMemory *m) {
+    uint32_t mask = 0;
+    for (uint32_t i = 0; i < ECHO_CANDIDATE_SLOTS; ++i) if (m->candidates[i].filled) mask |= 1u << i;
+    return mask;
+}
+void echo_memory_set_harmony(EchoMemory *m, int root, int scale) {
+    m->root = root >= 0 && root < 12 ? root : 0;
+    m->scale = scale >= 0 && scale < ECHO_SCALE_COUNT ? scale : ECHO_SCALE_MAJOR;
+}
+void echo_memory_set_adventure(EchoMemory *m, int adventure) {
+    if (adventure < 0) adventure = 0;
+    if (adventure > 100) adventure = 100;
+    m->adventure = adventure;
+    m->variation = 0;
+}
+void echo_memory_set_groove(EchoMemory *m, int bpm, int style, int amount) {
+    if (bpm < 40) bpm = 40;
+    if (bpm > 240) bpm = 240;
+    if (style < 0 || style >= ECHO_GROOVE_COUNT) style = ECHO_GROOVE_ORIGINAL;
+    if (amount < 0) amount = 0;
+    if (amount > 100) amount = 100;
+    m->bpm = bpm; m->groove_style = style; m->groove_amount = amount;
+    m->variation = 0;
+}
+void echo_memory_set_phrase(EchoMemory *m, int style, int amount) {
+    if (style < 0 || style >= ECHO_PHRASE_COUNT) style = ECHO_PHRASE_ORIGINAL;
+    if (amount < 0) amount = 0;
+    if (amount > 100) amount = 100;
+    m->phrase_style = style; m->phrase_amount = amount; m->variation = 0;
+}
+static uint32_t playback_count(const EchoMemory *m) {
+    if (m->playback == ECHO_REPLY_PLAYBACK) return m->reply_count;
+    if (m->playback == ECHO_CANDIDATE_PLAYBACK) return m->candidates[m->candidate_slot].count;
+    return m->count;
+}
+static int playback_pitch(const EchoMemory *m, uint32_t index) {
+    if (m->playback == ECHO_REPLY_PLAYBACK) return m->reply[index];
+    if (m->playback == ECHO_CANDIDATE_PLAYBACK) return m->candidates[m->candidate_slot].pitch[index];
+    return m->events[index].pitch;
+}
+static int playback_velocity(const EchoMemory *m, uint32_t index) {
+    if (m->playback == ECHO_REPLY_PLAYBACK) return m->reply_velocity[index];
+    if (m->playback == ECHO_CANDIDATE_PLAYBACK) return m->candidates[m->candidate_slot].velocity[index];
+    return m->events[index].velocity;
+}
+static uint32_t playback_onset(const EchoMemory *m, uint32_t index) {
+    if (m->playback == ECHO_REPLY_PLAYBACK) return m->reply_onset[index];
+    if (m->playback == ECHO_CANDIDATE_PLAYBACK) return m->candidates[m->candidate_slot].onset[index];
+    return m->events[index].onset;
+}
+static uint32_t playback_duration(const EchoMemory *m, uint32_t index) {
+    if (m->playback == ECHO_REPLY_PLAYBACK) return m->reply_duration[index];
+    if (m->playback == ECHO_CANDIDATE_PLAYBACK) return m->candidates[m->candidate_slot].duration[index];
+    return m->events[index].duration;
+}
+static int playback_root(const EchoMemory *m) {
+    return m->playback == ECHO_CANDIDATE_PLAYBACK ? m->candidates[m->candidate_slot].root : m->root;
+}
+static int playback_scale(const EchoMemory *m) {
+    return m->playback == ECHO_CANDIDATE_PLAYBACK ? m->candidates[m->candidate_slot].scale : m->scale;
+}
+static int playback_bpm(const EchoMemory *m) {
+    return m->playback == ECHO_CANDIDATE_PLAYBACK ? m->candidates[m->candidate_slot].bpm : m->bpm;
+}
+static int playback_phrase_style(const EchoMemory *m) {
+    return m->playback == ECHO_CANDIDATE_PLAYBACK ? m->candidates[m->candidate_slot].phrase_style : m->phrase_style;
+}
+static int pitch_distance(int a, int b) {
+    int d = a - b; if (d < 0) d = -d; return d > 6 ? 12 - d : d;
+}
+static int bass_follow_pitch(const EchoMemory *m, uint32_t frame) {
+    uint32_t count = playback_count(m), chosen = 0;
+    for (uint32_t i = 0; i < count && playback_onset(m, i) <= frame; ++i) chosen = i;
+    int pc = playback_pitch(m, chosen) % 12;
+    int root = playback_root(m);
+    int scale = playback_scale(m);
+    int third = root + ((scale == ECHO_SCALE_NATURAL_MINOR || scale == ECHO_SCALE_MINOR_PENTATONIC) ? 3 : 4);
+    int tones[3] = {root % 12, third % 12, (root + 7) % 12};
+    int best = tones[0], distance = pitch_distance(pc, tones[0]);
+    for (int i = 1; i < 3; ++i) { int d = pitch_distance(pc, tones[i]); if (d < distance) { distance = d; best = tones[i]; } }
+    return 12 * (m->bass_octave + 1) + best;
+}
+static void prepare_bass(EchoMemory *m) {
+    echo_voice_stop(&m->bass_voice);
+    m->bass_count = m->bass_next = 0; m->bass_playing = -1;
+    if (m->bass_mode != ECHO_BASS_ROOT && m->bass_mode != ECHO_BASS_FOLLOW) return;
+    if (m->mode != ECHO_PLAYING || !m->play_length) return;
+    int bpm = playback_bpm(m); if (bpm < 40) bpm = 40; if (bpm > 240) bpm = 240;
+    uint32_t beat = 2646000u / (uint32_t)bpm;
+    uint32_t spacing = m->bass_density == ECHO_BASS_QUARTER ? beat :
+                       m->bass_density == ECHO_BASS_HALF ? beat * 2u : m->play_length;
+    if (!spacing) spacing = 1;
+    for (uint32_t onset = 0; onset < m->play_length && m->bass_count < ECHO_MAX_BASS_EVENTS; onset += spacing) {
+        uint32_t i = m->bass_count++;
+        m->bass_onset[i] = onset;
+        uint32_t remaining = m->play_length - onset;
+        uint32_t gate = m->bass_density == ECHO_BASS_PEDAL ? remaining : spacing * 4u / 5u;
+        m->bass_duration[i] = gate < remaining ? gate : remaining;
+        m->bass_velocity[i] = 105;
+        m->bass_pitch[i] = (uint8_t)(m->bass_mode == ECHO_BASS_ROOT ?
+            12 * (m->bass_octave + 1) + playback_root(m) : bass_follow_pitch(m, onset));
+    }
+    int style = m->bass_groove_style;
+    if (style == ECHO_BASS_GROOVE_AUTO) {
+        int phrase = playback_phrase_style(m);
+        style = phrase == ECHO_PHRASE_TRAP_POCKET ? ECHO_BASS_GROOVE_TRAP :
+                phrase == ECHO_PHRASE_RNB_FLOW ? ECHO_BASS_GROOVE_RNB :
+                phrase == ECHO_PHRASE_TECHNO_MOTION ? ECHO_BASS_GROOVE_TECHNO :
+                ECHO_BASS_GROOVE_STRAIGHT;
+    }
+    if (m->bass_density != ECHO_BASS_PEDAL)
+        echo_bass_groove_apply(m->bass_pitch, m->bass_velocity, m->bass_onset,
+                               m->bass_duration, &m->bass_count, m->play_length,
+                               spacing, style, m->bass_groove_amount);
+    /* A control change during playback joins at the next boundary, never rewinds to frame zero. */
+    while (m->bass_next < m->bass_count && m->bass_onset[m->bass_next] < m->position) ++m->bass_next;
+}
+void echo_memory_set_bass_groove(EchoMemory *m, int style, int amount) {
+    if (style < 0 || style >= ECHO_BASS_GROOVE_COUNT) style = ECHO_BASS_GROOVE_AUTO;
+    if (amount < 0) amount = 0;
+    if (amount > 100) amount = 100;
+    m->bass_groove_style = style; m->bass_groove_amount = amount;
+    if (!m->bass_manual) prepare_bass(m);
+}
+void echo_memory_set_bass(EchoMemory *m, int mode, int density, int octave, int volume) {
+    if (mode < 0 || mode >= ECHO_BASS_MODE_COUNT) mode = ECHO_BASS_OFF;
+    if (density < 0 || density >= ECHO_BASS_DENSITY_COUNT) density = ECHO_BASS_HALF;
+    if (octave < 0) octave = 0;
+    if (octave > 3) octave = 3;
+    if (volume < 0) volume = 0;
+    if (volume > 100) volume = 100;
+    m->bass_mode = mode; m->bass_density = density; m->bass_octave = octave; m->bass_volume = volume;
+    m->bass_manual = 0; m->bass_manual_note = -1;
+    prepare_bass(m);
+}
+void echo_memory_bass_on(EchoMemory *m, int pitch, int velocity) {
+    if (m->bass_mode == ECHO_BASS_OFF || pitch < 0 || pitch > 127) return;
+    if (velocity <= 0) { echo_memory_bass_off(m, pitch); return; }
+    if (velocity > 127) velocity = 127;
+    m->bass_manual = 1; m->bass_manual_note = pitch; m->bass_playing = -1;
+    echo_voice_on(&m->bass_voice, pitch, velocity);
+}
+void echo_memory_bass_off(EchoMemory *m, int pitch) {
+    if (!m->bass_manual || m->bass_manual_note != pitch) return;
+    echo_voice_off(&m->bass_voice, pitch);
+    m->bass_manual = 0; m->bass_manual_note = -1;
+    while (m->bass_next < m->bass_count && m->bass_onset[m->bass_next] <= m->position) ++m->bass_next;
+}
+void echo_memory_on(EchoMemory *m, int pitch, int velocity) {
+    if (pitch < 0 || pitch > 127) return;
+    if (velocity <= 0) { echo_memory_off(m, pitch); return; }
+    if (velocity > 127) velocity = 127;
+    /* Playing live interrupts replay, retaining the recorded phrase. */
+    if (m->mode == ECHO_PLAYING) echo_memory_stop(m);
+    if (m->mode == ECHO_ARMED) { m->mode = ECHO_RECORDING; m->position = 0; }
+    if (m->mode == ECHO_RECORDING) {
+        close_event(m);
+        if (m->count == ECHO_MAX_NOTES) {
+            m->limit = ECHO_NOTE_LIMIT;
+            echo_memory_finish(m);
+        } else {
+            m->active = (int)m->count;
+            EchoEvent *e = &m->events[m->count++];
+            e->onset = m->position; e->duration = 0;
+            e->pitch = (uint8_t)pitch; e->velocity = (uint8_t)velocity;
+        }
+    }
+    echo_voice_on(&m->voice, pitch, velocity);
+}
+void echo_memory_off(EchoMemory *m, int pitch) {
+    if (m->mode == ECHO_PLAYING) return; /* stale live releases cannot silence replay */
+    if (m->mode == ECHO_RECORDING && m->active >= 0 &&
+        m->events[m->active].pitch == pitch) {
+        close_event(m);
+        if (m->count == ECHO_MAX_NOTES) {
+            m->limit = ECHO_NOTE_LIMIT;
+            echo_memory_finish(m);
+        }
+    }
+    echo_voice_off(&m->voice, pitch);
+}
+void echo_memory_render(EchoMemory *m, int32_t *out, uint32_t frames) {
+    uint32_t offset = 0;
+    while (offset < frames) {
+        uint32_t n = frames - offset;
+        if (m->mode == ECHO_RECORDING) {
+            if (m->position == ECHO_MAX_FRAMES) {
+                m->limit = ECHO_TIME_LIMIT; echo_memory_finish(m); continue;
+            }
+            uint32_t remaining = ECHO_MAX_FRAMES - m->position;
+            if (n > remaining) n = remaining;
+        } else if (m->mode == ECHO_PLAYING) {
+            if (!m->bass_manual && m->bass_playing >= 0 &&
+                m->position >= m->bass_onset[m->bass_playing] + m->bass_duration[m->bass_playing]) {
+                echo_voice_off(&m->bass_voice, m->bass_pitch[m->bass_playing]); m->bass_playing = -1;
+            }
+            if (!m->bass_manual && m->bass_next < m->bass_count && m->bass_onset[m->bass_next] == m->position) {
+                echo_voice_on(&m->bass_voice, m->bass_pitch[m->bass_next], m->bass_velocity[m->bass_next]);
+                m->bass_playing = (int)m->bass_next++;
+            }
+            /* End before onset: adjacent notes and retriggers have unambiguous ownership. */
+            if (m->playing >= 0) {
+                if (m->position >= playback_onset(m, (uint32_t)m->playing) +
+                                   playback_duration(m, (uint32_t)m->playing)) {
+                    echo_voice_off(&m->voice, playback_pitch(m, (uint32_t)m->playing)); m->playing = -1;
+                }
+            }
+            if (m->next < playback_count(m) && playback_onset(m, m->next) == m->position) {
+                echo_voice_on(&m->voice, playback_pitch(m, m->next), playback_velocity(m, m->next));
+                m->playing = (int)m->next++;
+            }
+            if (m->position >= m->play_length) { echo_memory_stop(m); continue; }
+            uint32_t boundary = m->play_length;
+            if (m->playing >= 0) {
+                uint32_t end = playback_onset(m, (uint32_t)m->playing) +
+                               playback_duration(m, (uint32_t)m->playing);
+                if (end < boundary) boundary = end;
+            }
+            if (m->next < playback_count(m) && playback_onset(m, m->next) < boundary)
+                boundary = playback_onset(m, m->next);
+            if (!m->bass_manual && m->bass_playing >= 0) {
+                uint32_t end = m->bass_onset[m->bass_playing] + m->bass_duration[m->bass_playing];
+                if (end < boundary) boundary = end;
+            }
+            if (!m->bass_manual && m->bass_next < m->bass_count && m->bass_onset[m->bass_next] < boundary)
+                boundary = m->bass_onset[m->bass_next];
+            if (n > boundary - m->position) n = boundary - m->position;
+        }
+        uint32_t mixed = 0;
+        while (mixed < n) {
+            uint32_t chunk = n - mixed; if (chunk > 128u) chunk = 128u;
+            int32_t bass[256] = {0};
+            echo_voice_render(&m->voice, out + 2u * (offset + mixed), chunk);
+            echo_voice_render(&m->bass_voice, bass, chunk);
+            for (uint32_t i = 0; i < 2u * chunk; ++i) {
+                int32_t value = out[2u * (offset + mixed) + i] + bass[i] * m->bass_volume / 100;
+                if (value > 8128) value = 8128;
+                if (value < -8128) value = -8128;
+                out[2u * (offset + mixed) + i] = value;
+            }
+            mixed += chunk;
+        }
+        offset += n;
+        if (m->mode == ECHO_RECORDING || m->mode == ECHO_PLAYING) m->position += n;
+    }
+    /* Resolve end boundaries even when they coincide with the end of a render block. */
+    if (m->mode == ECHO_RECORDING && m->position == ECHO_MAX_FRAMES) {
+        m->limit = ECHO_TIME_LIMIT; echo_memory_finish(m);
+    }
+    if (m->mode == ECHO_PLAYING && m->position == m->play_length) echo_memory_stop(m);
+}

@@ -1,1 +1,21 @@
-LyogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0zLjAtb25seSAqLwojaWZuZGVmIEVDSE9MT0dfQkFTU19HUk9PVkVfSAojZGVmaW5lIEVDSE9MT0dfQkFTU19HUk9PVkVfSAojaW5jbHVkZSA8c3RkaW50Lmg+CgplbnVtIHsKICAgIEVDSE9fQkFTU19HUk9PVkVfU1RSQUlHSFQsCiAgICBFQ0hPX0JBU1NfR1JPT1ZFX0FVVE8sCiAgICBFQ0hPX0JBU1NfR1JPT1ZFX1RSQVAsCiAgICBFQ0hPX0JBU1NfR1JPT1ZFX1JOQiwKICAgIEVDSE9fQkFTU19HUk9PVkVfVEVDSE5PLAogICAgRUNIT19CQVNTX0dST09WRV9DT1VOVAp9OwoKLyogU2hhcGVzIGFuIGFscmVhZHktc2FmZSBiYXNzIGdyaWQgaW4gcGxhY2UuIFN0cmFpZ2h0IGFuZCBhbW91bnQgemVybyBhcmUgZXhhY3QgYnlwYXNzZXMuICovCnZvaWQgZWNob19iYXNzX2dyb292ZV9hcHBseSh1aW50OF90ICpwaXRjaCwgdWludDhfdCAqdmVsb2NpdHksCiAgICAgICAgICAgICAgICAgICAgICAgICAgICB1aW50MzJfdCAqb25zZXQsIHVpbnQzMl90ICpkdXJhdGlvbiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVpbnQzMl90ICpjb3VudCwgdWludDMyX3QgbGVuZ3RoLCB1aW50MzJfdCBzcGFjaW5nLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgaW50IHN0eWxlLCBpbnQgYW1vdW50KTsKCiNlbmRpZgo=
+/* SPDX-License-Identifier: GPL-3.0-only */
+#ifndef ECHOLOG_BASS_GROOVE_H
+#define ECHOLOG_BASS_GROOVE_H
+#include <stdint.h>
+
+enum {
+    ECHO_BASS_GROOVE_STRAIGHT,
+    ECHO_BASS_GROOVE_AUTO,
+    ECHO_BASS_GROOVE_TRAP,
+    ECHO_BASS_GROOVE_RNB,
+    ECHO_BASS_GROOVE_TECHNO,
+    ECHO_BASS_GROOVE_COUNT
+};
+
+/* Shapes an already-safe bass grid in place. Straight and amount zero are exact bypasses. */
+void echo_bass_groove_apply(uint8_t *pitch, uint8_t *velocity,
+                            uint32_t *onset, uint32_t *duration,
+                            uint32_t *count, uint32_t length, uint32_t spacing,
+                            int style, int amount);
+
+#endif

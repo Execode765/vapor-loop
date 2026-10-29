@@ -1,1 +1,69 @@
-LyogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0zLjAtb25seSAqLwojaW5jbHVkZSAiYmFzc19ncm9vdmUuaCIKCnN0YXRpYyBpbnQgYmxlbmQoaW50IGZyb20sIGludCB0bywgaW50IGFtb3VudCkgewogICAgcmV0dXJuIGZyb20gKyAodG8gLSBmcm9tKSAqIGFtb3VudCAvIDEwMDsKfQoKdm9pZCBlY2hvX2Jhc3NfZ3Jvb3ZlX2FwcGx5KHVpbnQ4X3QgKnBpdGNoLCB1aW50OF90ICp2ZWxvY2l0eSwKICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVpbnQzMl90ICpvbnNldCwgdWludDMyX3QgKmR1cmF0aW9uLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgdWludDMyX3QgKmNvdW50LCB1aW50MzJfdCBsZW5ndGgsIHVpbnQzMl90IHNwYWNpbmcsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBpbnQgc3R5bGUsIGludCBhbW91bnQpIHsKICAgIGlmICghY291bnQgfHwgISpjb3VudCB8fCAhbGVuZ3RoIHx8ICFzcGFjaW5nKSByZXR1cm47CiAgICBpZiAoc3R5bGUgPCAwIHx8IHN0eWxlID49IEVDSE9fQkFTU19HUk9PVkVfQ09VTlQpIHN0eWxlID0gRUNIT19CQVNTX0dST09WRV9TVFJBSUdIVDsKICAgIGlmIChhbW91bnQgPCAwKSBhbW91bnQgPSAwOwogICAgaWYgKGFtb3VudCA+IDEwMCkgYW1vdW50ID0gMTAwOwogICAgaWYgKHN0eWxlID09IEVDSE9fQkFTU19HUk9PVkVfU1RSQUlHSFQgfHwgc3R5bGUgPT0gRUNIT19CQVNTX0dST09WRV9BVVRPIHx8ICFhbW91bnQpIHJldHVybjsKCiAgICB1aW50MzJfdCBpbnB1dF9jb3VudCA9ICpjb3VudCwgb3V0cHV0X2NvdW50ID0gMDsKICAgIGZvciAodWludDMyX3QgaSA9IDA7IGkgPCBpbnB1dF9jb3VudDsgKytpKSB7CiAgICAgICAgdWludDMyX3QgcGhhc2UgPSBpICYgN3U7CiAgICAgICAgaW50IHBsYXkgPSAxLCBvZmZzZXRfcGVyY2VudCA9IDAsIGdhdGVfcGVyY2VudCA9IDgwLCB0YXJnZXRfdmVsb2NpdHkgPSAxMDU7CgogICAgICAgIGlmIChzdHlsZSA9PSBFQ0hPX0JBU1NfR1JPT1ZFX1RSQVApIHsKICAgICAgICAgICAgLyogU3BhY2Ugb24gYmVhdCB0d28sIGEgbGF0ZSBhbnN3ZXIsIGFuZCBzaG9ydC9sb25nIHB1bmN0dWF0aW9uLiAqLwogICAgICAgICAgICBpZiAoYW1vdW50ID49IDMwICYmIChwaGFzZSA9PSAxdSB8fCBwaGFzZSA9PSA1dSkpIHBsYXkgPSAwOwogICAgICAgICAgICBpZiAoYW1vdW50ID49IDc1ICYmIHBoYXNlID09IDZ1KSBwbGF5ID0gMDsKICAgICAgICAgICAgaWYgKHBoYXNlID09IDJ1IHx8IHBoYXNlID09IDZ1KSBvZmZzZXRfcGVyY2VudCA9IDEyOwogICAgICAgICAgICBnYXRlX3BlcmNlbnQgPSAocGhhc2UgPT0gMHUgfHwgcGhhc2UgPT0gNHUpID8gNjggOiAocGhhc2UgJiAxdSkgPyA0MiA6IDU1OwogICAgICAgICAgICB0YXJnZXRfdmVsb2NpdHkgPSAocGhhc2UgPT0gMHUgfHwgcGhhc2UgPT0gNHUpID8gMTE4IDogKHBoYXNlICYgMXUpID8gODggOiAxMDE7CiAgICAgICAgfSBlbHNlIGlmIChzdHlsZSA9PSBFQ0hPX0JBU1NfR1JPT1ZFX1JOQikgewogICAgICAgICAgICAvKiBBIGdlbnRsZSBiZWhpbmQvYWhlYWQgcG9ja2V0IHdpdGggb25lIG9wdGlvbmFsIGJyZWF0aCBwZXIgdHdvIGJhcnMuICovCiAgICAgICAgICAgIGlmIChhbW91bnQgPj0gNjUgJiYgcGhhc2UgPT0gNXUpIHBsYXkgPSAwOwogICAgICAgICAgICBpZiAocGhhc2UgPT0gMXUgfHwgcGhhc2UgPT0gNnUpIG9mZnNldF9wZXJjZW50ID0gODsKICAgICAgICAgICAgaWYgKHBoYXNlID09IDN1IHx8IHBoYXNlID09IDd1KSBvZmZzZXRfcGVyY2VudCA9IC0xMjsKICAgICAgICAgICAgZ2F0ZV9wZXJjZW50ID0gKHBoYXNlID09IDB1IHx8IHBoYXNlID09IDR1KSA/IDg4IDogKHBoYXNlID09IDJ1IHx8IHBoYXNlID09IDZ1KSA/IDcyIDogNTA7CiAgICAgICAgICAgIHRhcmdldF92ZWxvY2l0eSA9IChwaGFzZSA9PSAwdSB8fCBwaGFzZSA9PSA0dSkgPyAxMTMgOiAocGhhc2UgPT0gMnUgfHwgcGhhc2UgPT0gNnUpID8gMTAxIDogODY7CiAgICAgICAgfSBlbHNlIGlmIChzdHlsZSA9PSBFQ0hPX0JBU1NfR1JPT1ZFX1RFQ0hOTykgewogICAgICAgICAgICAvKiBQcmVzZXJ2ZSBwcm9wdWxzaW9uOyB1c2UgYWx0ZXJuYXRpbmcgZ2F0ZXMgYW5kIHJlc3RyYWluZWQgb2ZmLWJlYXQgZHJhZy4gKi8KICAgICAgICAgICAgaWYgKGFtb3VudCA+PSA5MCAmJiBwaGFzZSA9PSA3dSkgcGxheSA9IDA7CiAgICAgICAgICAgIGlmIChwaGFzZSAmIDF1KSBvZmZzZXRfcGVyY2VudCA9IDU7CiAgICAgICAgICAgIGdhdGVfcGVyY2VudCA9IChwaGFzZSAmIDF1KSA/IDQ0IDogNzI7CiAgICAgICAgICAgIHRhcmdldF92ZWxvY2l0eSA9IChwaGFzZSA9PSAwdSB8fCBwaGFzZSA9PSA0dSkgPyAxMjAgOiAocGhhc2UgJiAxdSkgPyA5MSA6IDEwNDsKICAgICAgICB9CiAgICAgICAgaWYgKCFwbGF5KSBjb250aW51ZTsKCiAgICAgICAgdWludDMyX3Qgc2hhcGVkX29uc2V0ID0gb25zZXRbaV07CiAgICAgICAgaW50NjRfdCBzaGlmdCA9IChpbnQ2NF90KXNwYWNpbmcgKiBvZmZzZXRfcGVyY2VudCAqIGFtb3VudCAvIDEwMDAwOwogICAgICAgIGludDY0X3Qgc2hpZnRlZCA9IChpbnQ2NF90KXNoYXBlZF9vbnNldCArIHNoaWZ0OwogICAgICAgIGlmIChzaGlmdGVkIDwgMCkgc2hpZnRlZCA9IDA7CiAgICAgICAgaWYgKCh1aW50NjRfdClzaGlmdGVkID49IGxlbmd0aCkgc2hpZnRlZCA9IChpbnQ2NF90KWxlbmd0aCAtIDE7CiAgICAgICAgc2hhcGVkX29uc2V0ID0gKHVpbnQzMl90KXNoaWZ0ZWQ7CiAgICAgICAgaWYgKG91dHB1dF9jb3VudCAmJiBzaGFwZWRfb25zZXQgPD0gb25zZXRbb3V0cHV0X2NvdW50IC0gMV0pCiAgICAgICAgICAgIHNoYXBlZF9vbnNldCA9IG9uc2V0W291dHB1dF9jb3VudCAtIDFdICsgMXU7CiAgICAgICAgaWYgKHNoYXBlZF9vbnNldCA+PSBsZW5ndGgpIGNvbnRpbnVlOwoKICAgICAgICBpbnQgc2hhcGVkX2dhdGUgPSBibGVuZCg4MCwgZ2F0ZV9wZXJjZW50LCBhbW91bnQpOwogICAgICAgIHVpbnQzMl90IHNoYXBlZF9kdXJhdGlvbiA9IHNwYWNpbmcgKiAodWludDMyX3Qpc2hhcGVkX2dhdGUgLyAxMDB1OwogICAgICAgIGlmICghc2hhcGVkX2R1cmF0aW9uKSBzaGFwZWRfZHVyYXRpb24gPSAxOwogICAgICAgIHVpbnQzMl90IHJlbWFpbmluZyA9IGxlbmd0aCAtIHNoYXBlZF9vbnNldDsKICAgICAgICBpZiAoc2hhcGVkX2R1cmF0aW9uID4gcmVtYWluaW5nKSBzaGFwZWRfZHVyYXRpb24gPSByZW1haW5pbmc7CgogICAgICAgIHBpdGNoW291dHB1dF9jb3VudF0gPSBwaXRjaFtpXTsKICAgICAgICB2ZWxvY2l0eVtvdXRwdXRfY291bnRdID0gKHVpbnQ4X3QpYmxlbmQoMTA1LCB0YXJnZXRfdmVsb2NpdHksIGFtb3VudCk7CiAgICAgICAgb25zZXRbb3V0cHV0X2NvdW50XSA9IHNoYXBlZF9vbnNldDsKICAgICAgICBkdXJhdGlvbltvdXRwdXRfY291bnRdID0gc2hhcGVkX2R1cmF0aW9uOwogICAgICAgICsrb3V0cHV0X2NvdW50OwogICAgfQogICAgKmNvdW50ID0gb3V0cHV0X2NvdW50Owp9Cg==
+/* SPDX-License-Identifier: GPL-3.0-only */
+#include "bass_groove.h"
+
+static int blend(int from, int to, int amount) {
+    return from + (to - from) * amount / 100;
+}
+
+void echo_bass_groove_apply(uint8_t *pitch, uint8_t *velocity,
+                            uint32_t *onset, uint32_t *duration,
+                            uint32_t *count, uint32_t length, uint32_t spacing,
+                            int style, int amount) {
+    if (!count || !*count || !length || !spacing) return;
+    if (style < 0 || style >= ECHO_BASS_GROOVE_COUNT) style = ECHO_BASS_GROOVE_STRAIGHT;
+    if (amount < 0) amount = 0;
+    if (amount > 100) amount = 100;
+    if (style == ECHO_BASS_GROOVE_STRAIGHT || style == ECHO_BASS_GROOVE_AUTO || !amount) return;
+
+    uint32_t input_count = *count, output_count = 0;
+    for (uint32_t i = 0; i < input_count; ++i) {
+        uint32_t phase = i & 7u;
+        int play = 1, offset_percent = 0, gate_percent = 80, target_velocity = 105;
+
+        if (style == ECHO_BASS_GROOVE_TRAP) {
+            /* Space on beat two, a late answer, and short/long punctuation. */
+            if (amount >= 30 && (phase == 1u || phase == 5u)) play = 0;
+            if (amount >= 75 && phase == 6u) play = 0;
+            if (phase == 2u || phase == 6u) offset_percent = 12;
+            gate_percent = (phase == 0u || phase == 4u) ? 68 : (phase & 1u) ? 42 : 55;
+            target_velocity = (phase == 0u || phase == 4u) ? 118 : (phase & 1u) ? 88 : 101;
+        } else if (style == ECHO_BASS_GROOVE_RNB) {
+            /* A gentle behind/ahead pocket with one optional breath per two bars. */
+            if (amount >= 65 && phase == 5u) play = 0;
+            if (phase == 1u || phase == 6u) offset_percent = 8;
+            if (phase == 3u || phase == 7u) offset_percent = -12;
+            gate_percent = (phase == 0u || phase == 4u) ? 88 : (phase == 2u || phase == 6u) ? 72 : 50;
+            target_velocity = (phase == 0u || phase == 4u) ? 113 : (phase == 2u || phase == 6u) ? 101 : 86;
+        } else if (style == ECHO_BASS_GROOVE_TECHNO) {
+            /* Preserve propulsion; use alternating gates and restrained off-beat drag. */
+            if (amount >= 90 && phase == 7u) play = 0;
+            if (phase & 1u) offset_percent = 5;
+            gate_percent = (phase & 1u) ? 44 : 72;
+            target_velocity = (phase == 0u || phase == 4u) ? 120 : (phase & 1u) ? 91 : 104;
+        }
+        if (!play) continue;
+
+        uint32_t shaped_onset = onset[i];
+        int64_t shift = (int64_t)spacing * offset_percent * amount / 10000;
+        int64_t shifted = (int64_t)shaped_onset + shift;
+        if (shifted < 0) shifted = 0;
+        if ((uint64_t)shifted >= length) shifted = (int64_t)length - 1;
+        shaped_onset = (uint32_t)shifted;
+        if (output_count && shaped_onset <= onset[output_count - 1])
+            shaped_onset = onset[output_count - 1] + 1u;
+        if (shaped_onset >= length) continue;
+
+        int shaped_gate = blend(80, gate_percent, amount);
+        uint32_t shaped_duration = spacing * (uint32_t)shaped_gate / 100u;
+        if (!shaped_duration) shaped_duration = 1;
+        uint32_t remaining = length - shaped_onset;
+        if (shaped_duration > remaining) shaped_duration = remaining;
+
+        pitch[output_count] = pitch[i];
+        velocity[output_count] = (uint8_t)blend(105, target_velocity, amount);
+        onset[output_count] = shaped_onset;
+        duration[output_count] = shaped_duration;
+        ++output_count;
+    }
+    *count = output_count;
+}

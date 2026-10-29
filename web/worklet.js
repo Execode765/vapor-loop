@@ -1,1 +1,114 @@
-Ly8gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0zLjAtb25seQovLyBUaGUgRk0tMSBpbiBhbiBBdWRpb1dvcmtsZXQ6IGZpcm13YXJlLndhc20gaXMgeW91ciBjb2RlIG9uIHBsYXRmb3JtL3dlYi5jLiBFYWNoIHJlbmRlciBxdWFudHVtCi8vIGFza3MgaXQgZm9yIDEyOCBmcmFtZXMsIHdoaWNoIHJ1bnMgdGhlIGRldmljZSdzIGNsb2NrIGZvcndhcmQgKGxvb3AoKSBvbmNlIHBlciBtaWxsaXNlY29uZCk7Ci8vIGFib3V0IDMwIHRpbWVzIGEgc2Vjb25kIHRoZSBzY3JlZW4sIHRoZSBMRURzLCBNSURJIG91dCwgcHJpbnQoKSBhbmQgdGhlIHNldHRpbmdzIGdvIHRvIHRoZSBwYWdlLgoKY2xhc3MgRk0xIGV4dGVuZHMgQXVkaW9Xb3JrbGV0UHJvY2Vzc29yIHsKICBjb25zdHJ1Y3RvcigpIHsKICAgIHN1cGVyKCkKICAgIHRoaXMuZXggPSBudWxsCiAgICB0aGlzLnBvcnQub25tZXNzYWdlID0gKGUpID0+IHRoaXMub25NZXNzYWdlKGUuZGF0YSkKICB9CgogIGFzeW5jIG9uTWVzc2FnZShtKSB7CiAgICBpZiAobS50eXBlID09PSAnbG9hZCcpIHsKICAgICAgdGhpcy5leCA9IG51bGwKICAgICAgdHJ5IHsKICAgICAgICAvLyBUaGlzIGJ1aWxkIGhhcyBubyBpbXBvcnRzLiBGYWlsIGV4cGxpY2l0bHkgaWYgYW4gdW5leHBlY3RlZCBkZXBlbmRlbmN5IGFwcGVhcnMuCiAgICAgICAgY29uc3QgeyBpbnN0YW5jZSB9ID0gYXdhaXQgV2ViQXNzZW1ibHkuaW5zdGFudGlhdGUobS53YXNtLCB7fSkKICAgICAgICBjb25zdCBleCA9IGluc3RhbmNlLmV4cG9ydHMKICAgICAgICB0aGlzLm1lbSA9IGV4Lm1lbW9yeQogICAgICAgIGlmIChtLnN0b3JlKSB7CiAgICAgICAgICBuZXcgVWludDhBcnJheSh0aGlzLm1lbS5idWZmZXIsIGV4LndlYl9zdG9yZSgpLCBtLnN0b3JlLmxlbmd0aCkuc2V0KG0uc3RvcmUpCiAgICAgICAgICBleC53ZWJfc3RvcmVfc2V0X2xlbihtLnN0b3JlLmxlbmd0aCkKICAgICAgICB9CiAgICAgICAgZXgud2ViX21hc3RlcihtLm1hc3RlcikKICAgICAgICB0aGlzLnNlbnRGYiA9IC0xCiAgICAgICAgdGhpcy5zZW50U3RvcmUgPSBleC53ZWJfc3RvcmVfZ2VuKCkKICAgICAgICB0aGlzLmxhc3QgPSAwCiAgICAgICAgdGhpcy5taWRpID0gW10KICAgICAgICBleC53ZWJfYm9vdCgpCiAgICAgICAgdGhpcy5leCA9IGV4CiAgICAgICAgdGhpcy5wb3J0LnBvc3RNZXNzYWdlKHsgdHlwZTogJ3JlYWR5JyB9KQogICAgICB9IGNhdGNoIChlcnIpIHsKICAgICAgICB0aGlzLmNyYXNoKGVycikKICAgICAgfQogICAgICByZXR1cm4KICAgIH0KICAgIGNvbnN0IGV4ID0gdGhpcy5leAogICAgaWYgKCFleCkgcmV0dXJuCiAgICBpZiAobS50eXBlID09PSAna2V5cycpIGV4LndlYl9rZXlzKG0ubWFzayA+Pj4gMCkKICAgIGVsc2UgaWYgKG0udHlwZSA9PT0gJ2J1dHRvbnMnKSBleC53ZWJfYnV0dG9ucyhtLm1hc2sgPj4+IDApCiAgICBlbHNlIGlmIChtLnR5cGUgPT09ICdlbmNvZGVyJykgZXgud2ViX2VuY29kZXIobS5pZCwgbS5uIHwgMCkKICAgIGVsc2UgaWYgKG0udHlwZSA9PT0gJ21hc3RlcicpIGV4LndlYl9tYXN0ZXIobS52YWx1ZSB8IDApCiAgICBlbHNlIGlmIChtLnR5cGUgPT09ICdtaWRpJykgZXgud2ViX21pZGlfaW4obS5kYXRhWzBdLCBtLmRhdGFbMV0gfHwgMCwgbS5kYXRhWzJdIHx8IDApCiAgICBlbHNlIGlmIChtLnR5cGUgPT09ICdoYXJtb255JyAmJiBleC5lY2hvX3NldF9oYXJtb255KSBleC5lY2hvX3NldF9oYXJtb255KG0ucm9vdCB8IDAsIG0uc2NhbGUgfCAwKQogICAgZWxzZSBpZiAobS50eXBlID09PSAnYWR2ZW50dXJlJyAmJiBleC5lY2hvX3NldF9hZHZlbnR1cmUpIGV4LmVjaG9fc2V0X2FkdmVudHVyZShtLnZhbHVlIHwgMCkKICAgIGVsc2UgaWYgKG0udHlwZSA9PT0gJ2dyb292ZScgJiYgZXguZWNob19zZXRfZ3Jvb3ZlKSBleC5lY2hvX3NldF9ncm9vdmUobS5icG0gfCAwLCBtLnN0eWxlIHwgMCwgbS5hbW91bnQgfCAwKQogICAgZWxzZSBpZiAobS50eXBlID09PSAncGhyYXNlJyAmJiBleC5lY2hvX3NldF9waHJhc2UpIGV4LmVjaG9fc2V0X3BocmFzZShtLnN0eWxlIHwgMCwgbS5hbW91bnQgfCAwKQogICAgZWxzZSBpZiAobS50eXBlID09PSAna2VlcCcgJiYgZXguZWNob19rZWVwKSBleC5lY2hvX2tlZXAobS5zbG90IHwgMCkKICAgIGVsc2UgaWYgKG0udHlwZSA9PT0gJ2NhbmRpZGF0ZS1wbGF5JyAmJiBleC5lY2hvX3BsYXlfY2FuZGlkYXRlKSBleC5lY2hvX3BsYXlfY2FuZGlkYXRlKG0uc2xvdCB8IDApCiAgICBlbHNlIGlmIChtLnR5cGUgPT09ICdjYW5kaWRhdGUtY2xlYXInICYmIGV4LmVjaG9fY2xlYXJfY2FuZGlkYXRlKSBleC5lY2hvX2NsZWFyX2NhbmRpZGF0ZShtLnNsb3QgfCAwKQogICAgZWxzZSBpZiAobS50eXBlID09PSAnYmFzcycgJiYgZXguZWNob19zZXRfYmFzcykgZXguZWNob19zZXRfYmFzcyhtLm1vZGUgfCAwLCBtLmRlbnNpdHkgfCAwLCBtLm9jdGF2ZSB8IDAsIG0udm9sdW1lIHwgMCkKICAgIGVsc2UgaWYgKG0udHlwZSA9PT0gJ2Jhc3MtZ3Jvb3ZlJyAmJiBleC5lY2hvX3NldF9iYXNzX2dyb292ZSkgZXguZWNob19zZXRfYmFzc19ncm9vdmUobS5zdHlsZSB8IDAsIG0uYW1vdW50IHwgMCkKICAgIGVsc2UgaWYgKG0udHlwZSA9PT0gJ2Jhc3Mtb24nICYmIGV4LmVjaG9fYmFzc19vbikgZXguZWNob19iYXNzX29uKG0ucGl0Y2ggfCAwLCBtLnZlbG9jaXR5IHwgMCkKICAgIGVsc2UgaWYgKG0udHlwZSA9PT0gJ2Jhc3Mtb2ZmJyAmJiBleC5lY2hvX2Jhc3Nfb2ZmKSBleC5lY2hvX2Jhc3Nfb2ZmKG0ucGl0Y2ggfCAwKQogIH0KCiAgY3Jhc2goZXJyKSB7CiAgICB0aGlzLmV4ID0gbnVsbAogICAgdGhpcy5wb3J0LnBvc3RNZXNzYWdlKHsgdHlwZTogJ2NyYXNoJywgbWVzc2FnZTogU3RyaW5nKChlcnIgJiYgZXJyLm1lc3NhZ2UpIHx8IGVycikgfSkKICB9CgogIHB1Ymxpc2goKSB7CiAgICBjb25zdCBleCA9IHRoaXMuZXgKICAgIGNvbnN0IG1zZyA9IHsgdHlwZTogJ2ZyYW1lJywgbXM6IGV4LndlYl9ub3coKSwga2V5czogZXgud2ViX2xlZF9rZXlzKCkgPj4+IDAsIGJ1dHRvbnM6IGV4LndlYl9sZWRfYnV0dG9ucygpID4+PiAwLCBiYWNrbGlnaHQ6IGV4LndlYl9sZWRfYmFja2xpZ2h0ID8gZXgud2ViX2xlZF9iYWNrbGlnaHQoKSA6IDAgfQogICAgaWYgKGV4LmVjaG9fbW9kZSkgbXNnLnBocmFzZSA9IHttb2RlOmV4LmVjaG9fbW9kZSgpLGNvdW50OmV4LmVjaG9fY291bnQoKSxyZXBseUNvdW50OmV4LmVjaG9fcmVwbHlfY291bnQ/ZXguZWNob19yZXBseV9jb3VudCgpOmV4LmVjaG9fY291bnQoKSxsZW5ndGg6ZXguZWNob19sZW5ndGgoKSxwbGF5TGVuZ3RoOmV4LmVjaG9fcGxheV9sZW5ndGg/ZXguZWNob19wbGF5X2xlbmd0aCgpOmV4LmVjaG9fbGVuZ3RoKCkscG9zaXRpb246ZXguZWNob19wb3NpdGlvbigpLGxpbWl0OmV4LmVjaG9fbGltaXQoKSxwbGF5YmFjazpleC5lY2hvX3BsYXliYWNrP2V4LmVjaG9fcGxheWJhY2soKTowLHJvb3Q6ZXguZWNob19yb290P2V4LmVjaG9fcm9vdCgpOjAsc2NhbGU6ZXguZWNob19zY2FsZT9leC5lY2hvX3NjYWxlKCk6MCxhZHZlbnR1cmU6ZXguZWNob19hZHZlbnR1cmU/ZXguZWNob19hZHZlbnR1cmUoKTowLHZhcmlhdGlvbjpleC5lY2hvX3ZhcmlhdGlvbj9leC5lY2hvX3ZhcmlhdGlvbigpOjAsYnBtOmV4LmVjaG9fYnBtP2V4LmVjaG9fYnBtKCk6MTIwLGdyb292ZVN0eWxlOmV4LmVjaG9fZ3Jvb3ZlX3N0eWxlP2V4LmVjaG9fZ3Jvb3ZlX3N0eWxlKCk6MCxncm9vdmVBbW91bnQ6ZXguZWNob19ncm9vdmVfYW1vdW50P2V4LmVjaG9fZ3Jvb3ZlX2Ftb3VudCgpOjAscGhyYXNlU3R5bGU6ZXguZWNob19waHJhc2Vfc3R5bGU/ZXguZWNob19waHJhc2Vfc3R5bGUoKTowLHBocmFzZUFtb3VudDpleC5lY2hvX3BocmFzZV9hbW91bnQ/ZXguZWNob19waHJhc2VfYW1vdW50KCk6MCxjYW5kaWRhdGVNYXNrOmV4LmVjaG9fY2FuZGlkYXRlX21hc2s/ZXguZWNob19jYW5kaWRhdGVfbWFzaygpOjAsY2FuZGlkYXRlU2xvdDpleC5lY2hvX2NhbmRpZGF0ZV9zbG90P2V4LmVjaG9fY2FuZGlkYXRlX3Nsb3QoKTowLGxhc3RSZXBseVZhbGlkOmV4LmVjaG9fbGFzdF9yZXBseV92YWxpZD9leC5lY2hvX2xhc3RfcmVwbHlfdmFsaWQoKTowLGNhbmRpZGF0ZUNvdW50czpleC5lY2hvX2NhbmRpZGF0ZV9jb3VudD9bZXguZWNob19jYW5kaWRhdGVfY291bnQoMCksZXguZWNob19jYW5kaWRhdGVfY291bnQoMSksZXguZWNob19jYW5kaWRhdGVfY291bnQoMildOlswLDAsMF0sYmFzc01vZGU6ZXguZWNob19iYXNzX21vZGU/ZXguZWNob19iYXNzX21vZGUoKTowLGJhc3NEZW5zaXR5OmV4LmVjaG9fYmFzc19kZW5zaXR5P2V4LmVjaG9fYmFzc19kZW5zaXR5KCk6MSxiYXNzT2N0YXZlOmV4LmVjaG9fYmFzc19vY3RhdmU/ZXguZWNob19iYXNzX29jdGF2ZSgpOjEsYmFzc1ZvbHVtZTpleC5lY2hvX2Jhc3Nfdm9sdW1lP2V4LmVjaG9fYmFzc192b2x1bWUoKTo3MCxiYXNzR3Jvb3ZlU3R5bGU6ZXguZWNob19iYXNzX2dyb292ZV9zdHlsZT9leC5lY2hvX2Jhc3NfZ3Jvb3ZlX3N0eWxlKCk6MSxiYXNzR3Jvb3ZlQW1vdW50OmV4LmVjaG9fYmFzc19ncm9vdmVfYW1vdW50P2V4LmVjaG9fYmFzc19ncm9vdmVfYW1vdW50KCk6NTUsYmFzc0NvdW50OmV4LmVjaG9fYmFzc19jb3VudD9leC5lY2hvX2Jhc3NfY291bnQoKTowfQogICAgY29uc3QgdHJhbnNmZXIgPSBbXQogICAgY29uc3QgZ2VuID0gZXgud2ViX2ZiX2dlbigpCiAgICBpZiAoZ2VuICE9PSB0aGlzLnNlbnRGYikgewogICAgICB0aGlzLnNlbnRGYiA9IGdlbgogICAgICBtc2cuZmIgPSBuZXcgVWludDE2QXJyYXkodGhpcy5tZW0uYnVmZmVyLCBleC53ZWJfZmIoKSwgMjQwICogMjQwKS5zbGljZSgpCiAgICAgIHRyYW5zZmVyLnB1c2gobXNnLmZiLmJ1ZmZlcikKICAgIH0KICAgIGNvbnN0IHNnID0gZXgud2ViX3N0b3JlX2dlbigpCiAgICBpZiAoc2cgIT09IHRoaXMuc2VudFN0b3JlKSB7CiAgICAgIHRoaXMuc2VudFN0b3JlID0gc2cKICAgICAgbXNnLnN0b3JlID0gbmV3IFVpbnQ4QXJyYXkodGhpcy5tZW0uYnVmZmVyLCBleC53ZWJfc3RvcmUoKSwgZXgud2ViX3N0b3JlX2xlbigpKS5zbGljZSgpCiAgICB9CiAgICBjb25zdCBwID0gZXgud2ViX2xvZygpCiAgICBjb25zdCBieXRlcyA9IG5ldyBVaW50OEFycmF5KHRoaXMubWVtLmJ1ZmZlciwgcCkKICAgIGxldCBuID0gMAogICAgd2hpbGUgKGJ5dGVzW25dKSBuKysKICAgIGlmIChuKSBtc2cubG9nID0gU3RyaW5nLmZyb21DaGFyQ29kZSguLi5ieXRlcy5zdWJhcnJheSgwLCBuKSkgLy8gKG5vIFRleHREZWNvZGVyIGluIGEgd29ya2xldCkKICAgIGlmICh0aGlzLm1pZGkubGVuZ3RoKSB7CiAgICAgIG1zZy5taWRpID0gdGhpcy5taWRpCiAgICAgIHRoaXMubWlkaSA9IFtdCiAgICB9CiAgICB0aGlzLnBvcnQucG9zdE1lc3NhZ2UobXNnLCB0cmFuc2ZlcikKICB9CgogIHByb2Nlc3MoaW5wdXRzLCBvdXRwdXRzKSB7CiAgICBjb25zdCBleCA9IHRoaXMuZXgKICAgIGlmICghZXgpIHJldHVybiB0cnVlCiAgICBjb25zdCBvdXQgPSBvdXRwdXRzWzBdCiAgICBjb25zdCBuID0gb3V0WzBdLmxlbmd0aAogICAgdHJ5IHsKICAgICAgZXgud2ViX3JlbmRlcihuKQogICAgICBmb3IgKGxldCBtOyAobSA9IGV4LndlYl9taWRpX291dCgpKSA+PSAwOykgdGhpcy5taWRpLnB1c2gobSkKICAgIH0gY2F0Y2ggKGVycikgewogICAgICB0aGlzLmNyYXNoKGVycikKICAgICAgcmV0dXJuIHRydWUKICAgIH0KICAgIG91dFswXS5zZXQobmV3IEZsb2F0MzJBcnJheSh0aGlzLm1lbS5idWZmZXIsIGV4LndlYl9vdXRfbCgpLCBuKSkKICAgIGlmIChvdXRbMV0pIG91dFsxXS5zZXQobmV3IEZsb2F0MzJBcnJheSh0aGlzLm1lbS5idWZmZXIsIGV4LndlYl9vdXRfcigpLCBuKSkKICAgIGlmIChjdXJyZW50VGltZSAtIHRoaXMubGFzdCA+PSAxIC8gMzApIHsKICAgICAgdGhpcy5sYXN0ID0gY3VycmVudFRpbWUKICAgICAgdGhpcy5wdWJsaXNoKCkKICAgIH0KICAgIHJldHVybiB0cnVlCiAgfQp9CgpyZWdpc3RlclByb2Nlc3NvcignZm0xJywgRk0xKQoK
+// SPDX-License-Identifier: GPL-3.0-only
+// The FM-1 in an AudioWorklet: firmware.wasm is your code on platform/web.c. Each render quantum
+// asks it for 128 frames, which runs the device's clock forward (loop() once per millisecond);
+// about 30 times a second the screen, the LEDs, MIDI out, print() and the settings go to the page.
+
+class FM1 extends AudioWorkletProcessor {
+  constructor() {
+    super()
+    this.ex = null
+    this.port.onmessage = (e) => this.onMessage(e.data)
+  }
+
+  async onMessage(m) {
+    if (m.type === 'load') {
+      this.ex = null
+      try {
+        // This build has no imports. Fail explicitly if an unexpected dependency appears.
+        const { instance } = await WebAssembly.instantiate(m.wasm, {})
+        const ex = instance.exports
+        this.mem = ex.memory
+        if (m.store) {
+          new Uint8Array(this.mem.buffer, ex.web_store(), m.store.length).set(m.store)
+          ex.web_store_set_len(m.store.length)
+        }
+        ex.web_master(m.master)
+        this.sentFb = -1
+        this.sentStore = ex.web_store_gen()
+        this.last = 0
+        this.midi = []
+        ex.web_boot()
+        this.ex = ex
+        this.port.postMessage({ type: 'ready' })
+      } catch (err) {
+        this.crash(err)
+      }
+      return
+    }
+    const ex = this.ex
+    if (!ex) return
+    if (m.type === 'keys') ex.web_keys(m.mask >>> 0)
+    else if (m.type === 'buttons') ex.web_buttons(m.mask >>> 0)
+    else if (m.type === 'encoder') ex.web_encoder(m.id, m.n | 0)
+    else if (m.type === 'master') ex.web_master(m.value | 0)
+    else if (m.type === 'midi') ex.web_midi_in(m.data[0], m.data[1] || 0, m.data[2] || 0)
+    else if (m.type === 'harmony' && ex.echo_set_harmony) ex.echo_set_harmony(m.root | 0, m.scale | 0)
+    else if (m.type === 'adventure' && ex.echo_set_adventure) ex.echo_set_adventure(m.value | 0)
+    else if (m.type === 'groove' && ex.echo_set_groove) ex.echo_set_groove(m.bpm | 0, m.style | 0, m.amount | 0)
+    else if (m.type === 'phrase' && ex.echo_set_phrase) ex.echo_set_phrase(m.style | 0, m.amount | 0)
+    else if (m.type === 'keep' && ex.echo_keep) ex.echo_keep(m.slot | 0)
+    else if (m.type === 'candidate-play' && ex.echo_play_candidate) ex.echo_play_candidate(m.slot | 0)
+    else if (m.type === 'candidate-clear' && ex.echo_clear_candidate) ex.echo_clear_candidate(m.slot | 0)
+    else if (m.type === 'bass' && ex.echo_set_bass) ex.echo_set_bass(m.mode | 0, m.density | 0, m.octave | 0, m.volume | 0)
+    else if (m.type === 'bass-groove' && ex.echo_set_bass_groove) ex.echo_set_bass_groove(m.style | 0, m.amount | 0)
+    else if (m.type === 'bass-on' && ex.echo_bass_on) ex.echo_bass_on(m.pitch | 0, m.velocity | 0)
+    else if (m.type === 'bass-off' && ex.echo_bass_off) ex.echo_bass_off(m.pitch | 0)
+  }
+
+  crash(err) {
+    this.ex = null
+    this.port.postMessage({ type: 'crash', message: String((err && err.message) || err) })
+  }
+
+  publish() {
+    const ex = this.ex
+    const msg = { type: 'frame', ms: ex.web_now(), keys: ex.web_led_keys() >>> 0, buttons: ex.web_led_buttons() >>> 0, backlight: ex.web_led_backlight ? ex.web_led_backlight() : 0 }
+    if (ex.echo_mode) msg.phrase = {mode:ex.echo_mode(),count:ex.echo_count(),replyCount:ex.echo_reply_count?ex.echo_reply_count():ex.echo_count(),length:ex.echo_length(),playLength:ex.echo_play_length?ex.echo_play_length():ex.echo_length(),position:ex.echo_position(),limit:ex.echo_limit(),playback:ex.echo_playback?ex.echo_playback():0,root:ex.echo_root?ex.echo_root():0,scale:ex.echo_scale?ex.echo_scale():0,adventure:ex.echo_adventure?ex.echo_adventure():0,variation:ex.echo_variation?ex.echo_variation():0,bpm:ex.echo_bpm?ex.echo_bpm():120,grooveStyle:ex.echo_groove_style?ex.echo_groove_style():0,grooveAmount:ex.echo_groove_amount?ex.echo_groove_amount():0,phraseStyle:ex.echo_phrase_style?ex.echo_phrase_style():0,phraseAmount:ex.echo_phrase_amount?ex.echo_phrase_amount():0,candidateMask:ex.echo_candidate_mask?ex.echo_candidate_mask():0,candidateSlot:ex.echo_candidate_slot?ex.echo_candidate_slot():0,lastReplyValid:ex.echo_last_reply_valid?ex.echo_last_reply_valid():0,candidateCounts:ex.echo_candidate_count?[ex.echo_candidate_count(0),ex.echo_candidate_count(1),ex.echo_candidate_count(2)]:[0,0,0],bassMode:ex.echo_bass_mode?ex.echo_bass_mode():0,bassDensity:ex.echo_bass_density?ex.echo_bass_density():1,bassOctave:ex.echo_bass_octave?ex.echo_bass_octave():1,bassVolume:ex.echo_bass_volume?ex.echo_bass_volume():70,bassGrooveStyle:ex.echo_bass_groove_style?ex.echo_bass_groove_style():1,bassGrooveAmount:ex.echo_bass_groove_amount?ex.echo_bass_groove_amount():55,bassCount:ex.echo_bass_count?ex.echo_bass_count():0}
+    const transfer = []
+    const gen = ex.web_fb_gen()
+    if (gen !== this.sentFb) {
+      this.sentFb = gen
+      msg.fb = new Uint16Array(this.mem.buffer, ex.web_fb(), 240 * 240).slice()
+      transfer.push(msg.fb.buffer)
+    }
+    const sg = ex.web_store_gen()
+    if (sg !== this.sentStore) {
+      this.sentStore = sg
+      msg.store = new Uint8Array(this.mem.buffer, ex.web_store(), ex.web_store_len()).slice()
+    }
+    const p = ex.web_log()
+    const bytes = new Uint8Array(this.mem.buffer, p)
+    let n = 0
+    while (bytes[n]) n++
+    if (n) msg.log = String.fromCharCode(...bytes.subarray(0, n)) // (no TextDecoder in a worklet)
+    if (this.midi.length) {
+      msg.midi = this.midi
+      this.midi = []
+    }
+    this.port.postMessage(msg, transfer)
+  }
+
+  process(inputs, outputs) {
+    const ex = this.ex
+    if (!ex) return true
+    const out = outputs[0]
+    const n = out[0].length
+    try {
+      ex.web_render(n)
+      for (let m; (m = ex.web_midi_out()) >= 0;) this.midi.push(m)
+    } catch (err) {
+      this.crash(err)
+      return true
+    }
+    out[0].set(new Float32Array(this.mem.buffer, ex.web_out_l(), n))
+    if (out[1]) out[1].set(new Float32Array(this.mem.buffer, ex.web_out_r(), n))
+    if (currentTime - this.last >= 1 / 30) {
+      this.last = currentTime
+      this.publish()
+    }
+    return true
+  }
+}
+
+registerProcessor('fm1', FM1)
+

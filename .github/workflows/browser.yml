@@ -1,1 +1,52 @@
-bmFtZTogQnJvd3NlciBzb3VuZCBjaGVjawpvbjoKICBwdXNoOgogICAgYnJhbmNoZXM6IFttYWluXQogIHB1bGxfcmVxdWVzdDoKICB3b3JrZmxvd19kaXNwYXRjaDoKcGVybWlzc2lvbnM6CiAgY29udGVudHM6IHJlYWQKam9iczoKICBidWlsZDoKICAgIHJ1bnMtb246IHVidW50dS0yNC4wNAogICAgc3RlcHM6CiAgICAgIC0gdXNlczogYWN0aW9ucy9jaGVja291dEB2NAogICAgICAtIG5hbWU6IEluc3RhbGwgYnJvd3NlciBjb21waWxlcgogICAgICAgIHJ1bjogc3VkbyBhcHQtZ2V0IHVwZGF0ZSAmJiBzdWRvIGFwdC1nZXQgaW5zdGFsbCAteSBjbGFuZyBsbGQKICAgICAgLSBuYW1lOiBUZXN0IG5hdGl2ZSB2b2ljZQogICAgICAgIHJ1bjogcHl0aG9uMyB0ZXN0cy90ZXN0X3ZvaWNlLnB5CiAgICAgIC0gbmFtZTogVGVzdCBtZW1vcnkgdGltaW5nIGFuZCBib3VuZHMKICAgICAgICBydW46IHwKICAgICAgICAgIGdjYyAtc3RkPWMxMSAtV2FsbCAtV2V4dHJhIC1XZXJyb3IgLWZzYW5pdGl6ZT1hZGRyZXNzLHVuZGVmaW5lZCAtSXNyYyBzcmMvdm9pY2UuYyBzcmMvaGFybW9ueS5jIHNyYy9waHJhc2UuYyBzcmMvZ3Jvb3ZlLmMgc3JjL2Jhc3NfZ3Jvb3ZlLmMgc3JjL21lbW9yeS5jIHRlc3RzL3Rlc3RfbWVtb3J5LmMgLW8gL3RtcC9lY2hvbG9nLW1lbW9yeS10ZXN0CiAgICAgICAgICAvdG1wL2VjaG9sb2ctbWVtb3J5LXRlc3QKICAgICAgLSBuYW1lOiBCdWlsZCBXZWJBc3NlbWJseSBzaW11bGF0aW9uCiAgICAgICAgcnVuOiB8CiAgICAgICAgICBweXRob24zIHRvb2xzL2J1aWxkX3dlYi5weQogICAgICAgICAgcHl0aG9uMyB0b29scy9idWlsZF9zdGFuZGFsb25lLnB5CiAgICAgIC0gbmFtZTogVGVzdCBjb21waWxlZCBzaW11bGF0aW9uCiAgICAgICAgcnVuOiB8CiAgICAgICAgICBub2RlIHRlc3RzL3Rlc3Rfd2FzbS5tanMKICAgICAgICAgIG5vZGUgdGVzdHMvdGVzdF93b3JrbGV0Lm1qcwogICAgICAgICAgbm9kZSB0ZXN0cy90ZXN0X21lbW9yeV93YXNtLm1qcwogICAgICAtIG5hbWU6IEluc3RhbGwgYnJvd3NlciB0ZXN0IGRlcGVuZGVuY3kKICAgICAgICBydW46IG5wbSBjaQogICAgICAtIG5hbWU6IFRlc3QgYnJvd3NlciBhdWRpbyBhbmQgY29udHJvbHMKICAgICAgICBydW46IHwKICAgICAgICAgIHB5dGhvbjMgLW0gaHR0cC5zZXJ2ZXIgODAwMCAtLWRpcmVjdG9yeSBidWlsZC93ZWIgJgogICAgICAgICAgZXhwb3J0IFBMQVlXUklHSFRfQ0hST01JVU1fRVhFQ1VUQUJMRV9QQVRIPSIkKGNvbW1hbmQgLXYgZ29vZ2xlLWNocm9tZSkiCiAgICAgICAgICB0ZXN0IC1uICIkUExBWVdSSUdIVF9DSFJPTUlVTV9FWEVDVVRBQkxFX1BBVEgiCiAgICAgICAgICBub2RlIHRlc3RzL3Rlc3RfYnJvd3Nlci5janMKICAgICAgICAgIFRFU1RfVVJMPSJmaWxlOi8vJFBXRC9wcmV2aWV3L2VjaG9sb2ctc291bmRjaGVjay5odG1sIiBub2RlIHRlc3RzL3Rlc3RfYnJvd3Nlci5janMKICAgICAgLSB1c2VzOiBhY3Rpb25zL3VwbG9hZC1hcnRpZmFjdEB2NAogICAgICAgIGlmOiBhbHdheXMoKQogICAgICAgIHdpdGg6CiAgICAgICAgICBuYW1lOiBicm93c2VyLXNjcmVlbnNob3RzCiAgICAgICAgICBwYXRoOiBidWlsZC9icm93c2VyLSoucG5nCiAgICAgIC0gdXNlczogYWN0aW9ucy91cGxvYWQtYXJ0aWZhY3RAdjQKICAgICAgICB3aXRoOgogICAgICAgICAgbmFtZTogZWNob2xvZy1icm93c2VyLXNvdW5kY2hlY2sKICAgICAgICAgIHBhdGg6IGJ1aWxkL3dlYi8KICAgICAgLSB1c2VzOiBhY3Rpb25zL3VwbG9hZC1hcnRpZmFjdEB2NAogICAgICAgIHdpdGg6CiAgICAgICAgICBuYW1lOiBmaXJzdC1zb3VuZC1yZWZlcmVuY2UKICAgICAgICAgIHBhdGg6IGJ1aWxkL2ZpcnN0LXNvdW5kLndhdgo=
+name: Browser sound check
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install browser compiler
+        run: sudo apt-get update && sudo apt-get install -y clang lld
+      - name: Test native voice
+        run: python3 tests/test_voice.py
+      - name: Test memory timing and bounds
+        run: |
+          gcc -std=c11 -Wall -Wextra -Werror -fsanitize=address,undefined -Isrc src/voice.c src/harmony.c src/phrase.c src/groove.c src/bass_groove.c src/memory.c tests/test_memory.c -o /tmp/echolog-memory-test
+          /tmp/echolog-memory-test
+      - name: Build WebAssembly simulation
+        run: |
+          python3 tools/build_web.py
+          python3 tools/build_standalone.py
+      - name: Test compiled simulation
+        run: |
+          node tests/test_wasm.mjs
+          node tests/test_worklet.mjs
+          node tests/test_memory_wasm.mjs
+      - name: Install browser test dependency
+        run: npm ci
+      - name: Test browser audio and controls
+        run: |
+          python3 -m http.server 8000 --directory build/web &
+          export PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH="$(command -v google-chrome)"
+          test -n "$PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH"
+          node tests/test_browser.cjs
+          TEST_URL="file://$PWD/preview/echolog-soundcheck.html" node tests/test_browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-screenshots
+          path: build/browser-*.png
+      - uses: actions/upload-artifact@v4
+        with:
+          name: echolog-browser-soundcheck
+          path: build/web/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: first-sound-reference
+          path: build/first-sound.wav
