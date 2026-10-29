@@ -1,12 +1,1 @@
-{
-  "name": "psychic-octo-spork",
-  "private": true,
-  "version": "0.6.0",
-  "license": "GPL-3.0-only",
-  "scripts": {
-    "test:browser": "node tests/test_browser.cjs"
-  },
-  "devDependencies": {
-    "playwright": "1.62.1"
-  }
-}
+ewogICJuYW1lIjogInBzeWNoaWMtb2N0by1zcG9yayIsCiAgInByaXZhdGUiOiB0cnVlLAogICJ2ZXJzaW9uIjogIjAuNy4wIiwKICAibGljZW5zZSI6ICJHUEwtMy4wLW9ubHkiLAogICJzY3JpcHRzIjogewogICAgInRlc3Q6YnJvd3NlciI6ICJub2RlIHRlc3RzL3Rlc3RfYnJvd3Nlci5janMiCiAgfSwKICAiZGV2RGVwZW5kZW5jaWVzIjogewogICAgInBsYXl3cmlnaHQiOiAiMS42Mi4xIgogIH0KfQo=
