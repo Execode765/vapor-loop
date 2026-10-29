@@ -237,3 +237,20 @@ This is the first owner validation that ECHOLOG creates a convincing audible gro
 | Owner validation | NOT TESTED | Hands-on workflow and usefulness remain pending |
 
 [Successful 0.5.0 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40789153651) validates source commit `ffab5d25077c2d544224bb710c4015c47eb3832e`. Candidate memory is session-only. This is not preset-file persistence, plugin validation, or physical FM-1 storage validation.
+
+
+## Owner audiovisual validation — Candidate Memory 0.5.0 — 2026-10-28
+
+The owner supplied a 3:03 screen recording using **MPC Live III USB-C In 1** and a demanding **32-note, 7.75-second source phrase** that reached the note-count limit.
+
+The recording confirms:
+
+- Slot A stores a ten-note Trap Pocket response.
+- Additional Trap Pocket generations continue while A remains available.
+- Keeping again into A intentionally replaces it with an eight-note R&B Flow response; **Play kept** auditions the eight-note candidate.
+- Exact 32-note source Replay still works while candidate A remains stored.
+- Architecture and Groove controls are changed again to Techno Motion with Pulse/Shape; A remains independent until deliberately replaced.
+- Keeping again into A replaces it with a ten-note Techno Motion response, which **Play kept** auditions successfully.
+- Candidate playback, Reply generation, exact Replay, and the 32-note source coexist without a crash, stuck note, or visible memory corruption.
+
+**Observed owner result: PASS for slot-A save, isolation, deliberate replacement, cross-profile recall, and source-Replay independence.** Slots B/C and **Forget slot** were not exercised in this recording; they remain covered by automated native/WASM/Chrome tests rather than owner audiovisual evidence. Session persistence across source Clear/new Capture was also not demonstrated in this video. The owner did not provide a separate subjective usefulness verdict with the upload, so none is inferred.
