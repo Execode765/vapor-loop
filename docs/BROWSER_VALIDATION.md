@@ -254,3 +254,10 @@ The recording confirms:
 - Candidate playback, Reply generation, exact Replay, and the 32-note source coexist without a crash, stuck note, or visible memory corruption.
 
 **Observed owner result: PASS for slot-A save, isolation, deliberate replacement, cross-profile recall, and source-Replay independence.** Slots B/C and **Forget slot** were not exercised in this recording; they remain covered by automated native/WASM/Chrome tests rather than owner audiovisual evidence. Session persistence across source Clear/new Capture was also not demonstrated in this video. The owner did not provide a separate subjective usefulness verdict with the upload, so none is inferred.
+
+
+### Owner musical assessment — Candidate Memory and current instrument foundation
+
+**Candidate workflow usefulness: PASS. Musical architecture: PASS. Ready for next layer: YES.** The owner reported that the instrument is melodic, rhythmic, and capable of creating a usable tune: “Musically, it's there… I can create a tune with that… bare bones architecture, functionality is there… it feels right.”
+
+This closes the subjective gate for the browser foundation through 0.5.0. Effects and deeper synthesis parameters remain future enhancements and are not required to establish that the current phrase/memory architecture is musically useful. The next approved experiment is a separate Bass Companion voice with both player-controlled and generated-follow behavior.
