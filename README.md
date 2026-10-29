@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: Reply–Bass Synchronization 0.7.2 is implemented in the browser instrument. Native C, compiled WASM, worklet, served-Chrome, direct-file, MIDI, and mobile-layout checks pass; owner musical validation is pending. No hardware firmware build or flashing has occurred.**
+**Status: Tempo-Aware Capture 0.8.0 is implemented in the browser instrument. Native C, compiled WASM, worklet, served-Chrome, direct-file, MIDI, and mobile-layout checks pass; owner musical validation is pending. No hardware firmware build or flashing has occurred.**
 
 psychic-octo-spork is the working code name, not the final firmware name. The first prototype will explore ECHOLOG: melodic conversation.
 
@@ -12,6 +12,14 @@ Create something creative, unusual, and musically useful that FM-1 owners want t
 Initial candidates are GENOME (musical evolution), ECHOLOG (musical memory and response), and GRAVITY (physics-based composition). The owner selected ECHOLOG's melodic conversation interaction for the first prototype; the final product scope remains open. Originality and feasibility require further investigation.
 
 This project is separate from the completed Local LLM Infrastructure Lab.
+
+## Tempo-Aware Capture — prototype 0.8.0
+
+[Versioned downloadable preview — 0.8.0](preview/echolog-tempo-capture-v0.8.0.html) — download and open in current Chrome or Edge.
+
+Capture now shares Reply's musical clock. Choose 1, 2, or 4 bars; hear a one-bar count-in; enter on the following beat one; and let capture close automatically at the selected bar boundary. Off, Light, and Tight input correction adjust note onsets toward the sixteenth-note grid while preserving note lengths and opening rests. This gives the first generated Reply—and therefore Follow bass—a defined rhythmic origin instead of treating the first played note as beat one.
+
+[Tempo-Aware Capture guide](docs/TEMPO_AWARE_CAPTURE.md)
 
 ## Reply–Bass Synchronization — prototype 0.7.2
 
