@@ -246,5 +246,22 @@ int main(void) {
     assert(echo_memory_candidate_mask(&m)==2u); /* phrase Clear does not erase kept work */
     echo_memory_clear_candidate(&m,1); assert(!echo_memory_candidate_mask(&m));
     echo_memory_on(&m,-1,100); echo_memory_on(&m,128,100); assert(m.voice.note==-1);
-    puts("PASS two-voice memory: synchronized Reply bass, groove/bypass, manual/root/follow, candidate context, Keep and phrase lifecycle");
+    /* Tempo-aware capture owns beat one, preserves an opening rest, and corrects to sixteenths. */
+    EchoMemory clock; echo_memory_init(&clock);
+    echo_memory_set_groove(&clock,120,ECHO_GROOVE_ORIGINAL,0);
+    echo_memory_set_capture_clock(&clock,2,ECHO_QUANTIZE_TIGHT,1);
+    echo_memory_capture(&clock);
+    assert(clock.mode==ECHO_COUNT_IN && clock.tempo_beat==22050 && clock.count_in_length==88200);
+    int32_t click[512]={0}; echo_memory_render(&clock,click,256);
+    int heard_click=0; for(int i=0;i<512;i++) if(click[i]) heard_click=1; assert(heard_click);
+    advance(&clock,clock.count_in_length-256); assert(clock.mode==ECHO_RECORDING && clock.position==0);
+    advance(&clock,3000); echo_memory_on(&clock,60,100); advance(&clock,2000); echo_memory_off(&clock,60);
+    advance(&clock,5000); echo_memory_on(&clock,64,90); advance(&clock,2500); echo_memory_off(&clock,64);
+    advance(&clock,clock.capture_length-clock.position);
+    assert(clock.mode==ECHO_IDLE && clock.limit==ECHO_BAR_COMPLETE && clock.length==176400 && clock.count==2);
+    assert(clock.events[0].onset==5512 && clock.events[1].onset==11024);
+    assert(clock.events[0].duration>0 && clock.events[1].duration>0);
+    echo_memory_set_capture_clock(&clock,3,99,0);
+    assert(clock.capture_bars==2 && clock.capture_quantize==ECHO_QUANTIZE_OFF && !clock.metronome_enabled);
+    puts("PASS memory: tempo-aware count-in/quantize plus synchronized Reply bass, groove, manual/follow and candidates");
 }

@@ -6,7 +6,7 @@
 <title>ECHOLOG · Bass Groove Engine</title>
 <link rel="stylesheet" href="style.css">
 <main>
-  <header><p class="eyebrow">PSYCHIC-OCTO-SPORK / DEVELOPMENT 0.7.2</p><h1>A foundation<br>in the same phrase.</h1><p class="intro">Reply–Bass Synchronization derives Follow timing from the completed Reply, after Phrase Architecture and Groove have shaped it.</p></header>
+  <header><p class="eyebrow">PSYCHIC-OCTO-SPORK / DEVELOPMENT 0.8.0</p><h1>Know where<br>beat one lives.</h1><p class="intro">Tempo-Aware Capture adds a count-in, shared bar clock, metronome, and optional sixteenth-note correction for syncopated musical input.</p></header>
   <section class="instrument" aria-label="ECHOLOG sound check">
     <div class="top"><div><p class="eyebrow">ECHOLOG</p><p class="hint">Musical conversation, in development.</p><button id="start">Enable sound</button><p id="status" role="status">Sound is off.</p></div><canvas id="screen" width="240" height="240" aria-label="Simulated FM-1 display"></canvas></div>
     <div class="harmony-panel" aria-label="Reply harmony">
@@ -44,6 +44,18 @@
         <output id="groove-value" for="groove-amount">0 · Unshaped</output>
       </label>
       <p id="groove-status">Reply groove · Original at 120 BPM</p>
+    </div>
+    <div class="capture-clock-panel" aria-label="Tempo-aware capture clock">
+      <label for="capture-bars">Capture length
+        <select id="capture-bars"><option value="1">1 bar</option><option value="2" selected>2 bars</option><option value="4">4 bars</option></select>
+      </label>
+      <label for="capture-quantize">Input correction
+        <select id="capture-quantize"><option value="0">Off</option><option value="1" selected>Light</option><option value="2">Tight</option></select>
+      </label>
+      <label for="capture-metronome">Metronome
+        <select id="capture-metronome"><option value="1" selected>On</option><option value="0">Off</option></select>
+      </label>
+      <p id="capture-clock-status">Capture clock · 2 bars · Light sixteenth correction · metronome on</p>
     </div>
     <div class="transport" aria-label="Phrase controls">
       <button id="capture" disabled>Capture</button><button id="finish" disabled>Finish</button><button id="replay" disabled>Replay</button><button id="reply" disabled>Reply</button><button id="clear" disabled>Clear</button>

@@ -3,6 +3,7 @@
 void echo_memory_init(EchoMemory *m) {
     echo_voice_init(&m->voice);
     echo_voice_init(&m->bass_voice);
+    echo_voice_init(&m->click_voice);
     m->count = m->reply_count = m->length = m->reply_length = m->play_length = m->position = m->next = 0;
     m->mode = ECHO_IDLE; m->active = m->playing = -1; m->limit = ECHO_NO_LIMIT;
     m->playback = ECHO_NO_PLAYBACK;
@@ -16,6 +17,9 @@ void echo_memory_init(EchoMemory *m) {
     m->bass_groove_style = ECHO_BASS_GROOVE_AUTO; m->bass_groove_amount = 55;
     m->bass_count = m->bass_next = 0; m->bass_playing = -1;
     m->bass_manual = 0; m->bass_manual_note = -1;
+    m->capture_bars = 0; m->capture_quantize = ECHO_QUANTIZE_OFF; m->metronome_enabled = 0;
+    m->capture_length = m->count_in_length = m->tempo_beat = m->metronome_next = m->click_off = 0;
+    m->click_playing = 0;
 }
 static void close_event(EchoMemory *m) {
     if (m->active < 0) return;
@@ -25,20 +29,54 @@ static void close_event(EchoMemory *m) {
     if (!e->duration) --m->count;
     m->active = -1;
 }
+static uint32_t quantize_blend(uint32_t value, uint32_t target, int amount) {
+    int64_t delta = (int64_t)target - value;
+    int64_t result = (int64_t)value + delta * amount / 100;
+    return result < 0 ? 0u : (uint32_t)result;
+}
+static void quantize_capture(EchoMemory *m) {
+    if (!m->count || !m->tempo_beat || m->capture_quantize == ECHO_QUANTIZE_OFF) return;
+    uint32_t grid = m->tempo_beat / 4u; if (!grid) grid = 1;
+    int amount = m->capture_quantize == ECHO_QUANTIZE_LIGHT ? 50 : 100;
+    uint32_t previous = 0;
+    for (uint32_t i = 0; i < m->count; ++i) {
+        EchoEvent *e = &m->events[i];
+        uint32_t target = ((e->onset + grid / 2u) / grid) * grid;
+        uint32_t onset = quantize_blend(e->onset, target, amount);
+        if (i && onset <= previous) onset = previous + 1u;
+        if (onset >= m->length) onset = m->length ? m->length - 1u : 0;
+        e->onset = onset; previous = onset;
+    }
+    for (uint32_t i = 0; i < m->count; ++i) {
+        EchoEvent *e = &m->events[i];
+        uint32_t next = i + 1u < m->count ? m->events[i + 1u].onset : m->length;
+        uint32_t remaining = next > e->onset ? next - e->onset : 1u;
+        if (!e->duration) e->duration = 1;
+        if (e->duration > remaining) e->duration = remaining;
+    }
+}
 void echo_memory_finish(EchoMemory *m) {
+    if (m->mode == ECHO_COUNT_IN) {
+        m->mode = ECHO_IDLE; m->position = 0; m->length = 0;
+        echo_voice_stop(&m->click_voice); m->click_playing = 0; return;
+    }
     if (m->mode != ECHO_ARMED && m->mode != ECHO_RECORDING) return;
     close_event(m);
     m->length = m->count ? m->position : 0;
+    quantize_capture(m);
     m->mode = ECHO_IDLE;
     echo_voice_stop(&m->voice);
+    echo_voice_stop(&m->click_voice); m->click_playing = 0;
 }
 void echo_memory_stop(EchoMemory *m) {
     echo_memory_finish(m);
     m->mode = ECHO_IDLE; m->playing = -1; m->playback = ECHO_NO_PLAYBACK;
     echo_voice_stop(&m->voice);
     echo_voice_stop(&m->bass_voice);
+    echo_voice_stop(&m->click_voice);
     m->bass_count = m->bass_next = 0; m->bass_playing = -1;
     m->bass_manual = 0; m->bass_manual_note = -1;
+    m->click_playing = 0;
 }
 void echo_memory_clear(EchoMemory *m) {
     echo_memory_stop(m);
@@ -47,7 +85,15 @@ void echo_memory_clear(EchoMemory *m) {
     m->last_reply_valid = 0;
 }
 void echo_memory_capture(EchoMemory *m) {
-    echo_memory_clear(m); m->variation = 0; echo_voice_init(&m->voice); m->mode = ECHO_ARMED;
+    echo_memory_clear(m); m->variation = 0; echo_voice_init(&m->voice); echo_voice_init(&m->click_voice);
+    if (!m->capture_bars) { m->mode = ECHO_ARMED; return; }
+    int bpm = m->bpm; if (bpm < 40) bpm = 40; if (bpm > 240) bpm = 240;
+    m->tempo_beat = 2646000u / (uint32_t)bpm;
+    m->count_in_length = m->tempo_beat * 4u;
+    uint64_t length = (uint64_t)m->count_in_length * (uint32_t)m->capture_bars;
+    if (length > ECHO_MAX_TEMPO_FRAMES) length = ECHO_MAX_TEMPO_FRAMES;
+    m->capture_length = (uint32_t)length;
+    m->metronome_next = 0; m->position = 0; m->mode = ECHO_COUNT_IN;
 }
 int echo_memory_replay(EchoMemory *m) {
     echo_memory_stop(m);
@@ -150,6 +196,11 @@ void echo_memory_set_phrase(EchoMemory *m, int style, int amount) {
     if (amount < 0) amount = 0;
     if (amount > 100) amount = 100;
     m->phrase_style = style; m->phrase_amount = amount; m->variation = 0;
+}
+void echo_memory_set_capture_clock(EchoMemory *m, int bars, int quantize, int metronome) {
+    if (bars != 0 && bars != 1 && bars != 2 && bars != 4) bars = 2;
+    if (quantize < 0 || quantize >= ECHO_QUANTIZE_COUNT) quantize = ECHO_QUANTIZE_OFF;
+    m->capture_bars = bars; m->capture_quantize = quantize; m->metronome_enabled = metronome ? 1 : 0;
 }
 static uint32_t playback_count(const EchoMemory *m) {
     if (m->playback == ECHO_REPLY_PLAYBACK) return m->reply_count;
@@ -304,7 +355,7 @@ void echo_memory_on(EchoMemory *m, int pitch, int velocity) {
         close_event(m);
         if (m->count == ECHO_MAX_NOTES) {
             m->limit = ECHO_NOTE_LIMIT;
-            echo_memory_finish(m);
+            if (!m->capture_bars) echo_memory_finish(m);
         } else {
             m->active = (int)m->count;
             EchoEvent *e = &m->events[m->count++];
@@ -319,23 +370,52 @@ void echo_memory_off(EchoMemory *m, int pitch) {
     if (m->mode == ECHO_RECORDING && m->active >= 0 &&
         m->events[m->active].pitch == pitch) {
         close_event(m);
-        if (m->count == ECHO_MAX_NOTES) {
+        if (m->count == ECHO_MAX_NOTES && !m->capture_bars) {
             m->limit = ECHO_NOTE_LIMIT;
             echo_memory_finish(m);
         }
     }
     echo_voice_off(&m->voice, pitch);
 }
+static void start_metronome_click(EchoMemory *m) {
+    if (!m->metronome_enabled || !m->tempo_beat) return;
+    uint32_t beat_index = m->position / m->tempo_beat;
+    echo_voice_on(&m->click_voice, (beat_index & 3u) ? 79 : 84, (beat_index & 3u) ? 72 : 105);
+    m->click_playing = 1;
+    m->click_off = m->position + m->tempo_beat / 12u;
+    if (m->click_off <= m->position) m->click_off = m->position + 1u;
+}
 void echo_memory_render(EchoMemory *m, int32_t *out, uint32_t frames) {
     uint32_t offset = 0;
     while (offset < frames) {
         uint32_t n = frames - offset;
+        if (m->mode == ECHO_COUNT_IN && m->position >= m->count_in_length) {
+            echo_voice_stop(&m->click_voice); m->click_playing = 0;
+            m->mode = ECHO_RECORDING; m->position = 0; m->metronome_next = 0; continue;
+        }
         if (m->mode == ECHO_RECORDING) {
-            if (m->position == ECHO_MAX_FRAMES) {
-                m->limit = ECHO_TIME_LIMIT; echo_memory_finish(m); continue;
+            uint32_t limit = m->capture_bars ? m->capture_length : ECHO_MAX_FRAMES;
+            if (m->position >= limit) {
+                m->limit = m->capture_bars ? ECHO_BAR_COMPLETE : ECHO_TIME_LIMIT;
+                echo_memory_finish(m); continue;
             }
-            uint32_t remaining = ECHO_MAX_FRAMES - m->position;
+            uint32_t remaining = limit - m->position;
             if (n > remaining) n = remaining;
+        }
+        if (m->mode == ECHO_COUNT_IN || m->mode == ECHO_RECORDING) {
+            uint32_t phase_end = m->mode == ECHO_COUNT_IN ? m->count_in_length : m->capture_length;
+            if (!m->capture_bars) phase_end = ECHO_MAX_FRAMES;
+            if (m->click_playing && m->position >= m->click_off) {
+                echo_voice_off(&m->click_voice, m->click_voice.note); m->click_playing = 0;
+            }
+            if (m->metronome_enabled && m->position == m->metronome_next) {
+                start_metronome_click(m); m->metronome_next += m->tempo_beat;
+            }
+            uint32_t boundary = phase_end;
+            if (m->click_playing && m->click_off < boundary) boundary = m->click_off;
+            if (m->metronome_enabled && m->metronome_next > m->position && m->metronome_next < boundary)
+                boundary = m->metronome_next;
+            if (n > boundary - m->position) n = boundary - m->position;
         } else if (m->mode == ECHO_PLAYING) {
             if (!m->bass_manual && m->bass_playing >= 0 &&
                 m->position >= m->bass_onset[m->bass_playing] + m->bass_duration[m->bass_playing]) {
@@ -376,11 +456,13 @@ void echo_memory_render(EchoMemory *m, int32_t *out, uint32_t frames) {
         uint32_t mixed = 0;
         while (mixed < n) {
             uint32_t chunk = n - mixed; if (chunk > 128u) chunk = 128u;
-            int32_t bass[256] = {0};
+            int32_t bass[256] = {0}, click[256] = {0};
             echo_voice_render(&m->voice, out + 2u * (offset + mixed), chunk);
             echo_voice_render(&m->bass_voice, bass, chunk);
+            echo_voice_render(&m->click_voice, click, chunk);
             for (uint32_t i = 0; i < 2u * chunk; ++i) {
-                int32_t value = out[2u * (offset + mixed) + i] + bass[i] * m->bass_volume / 100;
+                int32_t value = out[2u * (offset + mixed) + i] +
+                    bass[i] * m->bass_volume / 100 + click[i] * 32 / 100;
                 if (value > 8128) value = 8128;
                 if (value < -8128) value = -8128;
                 out[2u * (offset + mixed) + i] = value;
@@ -388,11 +470,17 @@ void echo_memory_render(EchoMemory *m, int32_t *out, uint32_t frames) {
             mixed += chunk;
         }
         offset += n;
-        if (m->mode == ECHO_RECORDING || m->mode == ECHO_PLAYING) m->position += n;
+        if (m->mode == ECHO_COUNT_IN || m->mode == ECHO_RECORDING || m->mode == ECHO_PLAYING) m->position += n;
     }
     /* Resolve end boundaries even when they coincide with the end of a render block. */
-    if (m->mode == ECHO_RECORDING && m->position == ECHO_MAX_FRAMES) {
-        m->limit = ECHO_TIME_LIMIT; echo_memory_finish(m);
+    uint32_t capture_end = m->capture_bars ? m->capture_length : ECHO_MAX_FRAMES;
+    if (m->mode == ECHO_RECORDING && m->position == capture_end) {
+        m->limit = m->capture_bars ? ECHO_BAR_COMPLETE : ECHO_TIME_LIMIT;
+        echo_memory_finish(m);
     }
     if (m->mode == ECHO_PLAYING && m->position == m->play_length) echo_memory_stop(m);
+    if (m->mode == ECHO_COUNT_IN && m->position == m->count_in_length) {
+        echo_voice_stop(&m->click_voice); m->click_playing = 0;
+        m->mode = ECHO_RECORDING; m->position = 0; m->metronome_next = 0;
+    }
 }

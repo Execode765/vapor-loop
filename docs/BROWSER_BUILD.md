@@ -1,6 +1,6 @@
-# Browser prototype build — 0.7.2
+# Browser prototype build — 0.8.0
 
-This milestone synchronizes the portable Bass Companion with the completed upper Reply while preserving Candidate Memory, Phrase Architecture, scale-aware Reply, Adventure, groove shaping, exact Replay, and Web MIDI. See [BASS_COMPANION.md](BASS_COMPANION.md) and [BASS_GROOVE.md](BASS_GROOVE.md). Persistent saving, the proposed Chord Companion, automatic key detection, MIDI clock, recorded manual bass, and richer synthesis are not implemented yet.
+This milestone adds a portable musical clock to the synchronized Reply and Bass Companion engine. Tempo-Aware Capture provides a one-bar count-in, metronome, selectable bar length, and optional sixteenth-note onset correction while preserving Candidate Memory, Phrase Architecture, scale-aware Reply, Adventure, exact Replay, and Web MIDI. See [TEMPO_AWARE_CAPTURE.md](TEMPO_AWARE_CAPTURE.md). Persistent saving, the proposed Chord Companion, external MIDI clock, recorded manual bass, and richer synthesis are not implemented yet.
 
 ## Foundation decision
 
