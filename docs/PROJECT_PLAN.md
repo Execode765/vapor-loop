@@ -6,7 +6,7 @@ Current browser milestone: 0.4.0 Phrase Architecture gives Reply an independent 
 
 Next implemented browser milestone: 0.5.0 Keep and Candidate Memory provides three deep-copy session slots for generated responses. Compiled-browser and owner validation remain gates.
 
-Current implementation milestone: 0.7.2 **Reply–Bass Synchronization** derives Follow timing anchors from the completed transformed Reply instead of an independent fixed grid. The upper phrase is fully shaped by Phrase Architecture and Reply Groove first; bass pitch, density, and pocket are then built against that exact result. Native regression checks pass. Compiled-browser and owner musical validation remain gates.
+Current implementation milestone: 0.7.2 **Reply–Bass Synchronization** derives Follow timing anchors from the completed transformed Reply instead of an independent fixed grid. The upper phrase is fully shaped by Phrase Architecture and Reply Groove first; bass pitch, density, and pocket are then built against that exact result. Native, compiled-WASM, worklet, served/direct-file Chrome, MIDI, and mobile-layout checks pass. Owner musical validation remains the next gate.
 
 Name exploration: **Vapor Loop** is the owner's current leading candidate for the finished instrument name. ECHOLOG and psychic-octo-spork remain the prototype/interface and repository names until a final naming decision is made.
 

@@ -305,3 +305,22 @@ The owner reported that bass appeared to follow the second Reply but not the fir
 Version 0.7.1 converts that perceptual failure into two explicit invariants: Follow begins on the selected root, and any phrase with only two bass opportunities keeps both. The second event remains shaped by timing, gate, and velocity; longer phrases retain strategic rests.
 
 [Successful 0.7.1 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40814437014) validates source commit `137fdfec9ec330596e08d08430703d14f74c5837`. Native sanitizer, exact bypass, short-phrase retention, root anchor, compiled WASM, worklet, served/direct-file Chrome, MIDI, candidate, and mobile-layout checks passed. Owner musical retest is pending. No hardware image was built or flashed.
+
+
+## Reply–Bass Synchronization — 0.7.2
+
+The owner supplied a 230.8-second recording demonstrating that transformed first Replies could sound disconnected from Follow bass while later variations sometimes aligned. Inspection found no stale-control generation: Phrase Architecture and Reply Groove were applied immediately, but Follow bass still began from its own fixed beat grid.
+
+Version 0.7.2 derives Follow anchors from the final playback onsets after the upper Reply is fully transformed. The first anchor retains the selected root; later anchors select scale-safe root, third, or fifth support. Root mode intentionally retains its stable grid, while Manual, Pedal, Straight, candidate playback, and MIDI channel 2 behavior remain available.
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| First and second Reply alignment | PASS | Native regression test requires every Straight Follow bass onset in both generations to equal an onset in that generation's completed Reply |
+| Existing memory/bass behavior | PASS | Native address/undefined-behavior sanitizer suite |
+| Compiled WASM and worklet | PASS | Workflow 40818538942 |
+| Served and standalone Chrome | PASS | Workflow 40818538942 |
+| MIDI and mobile layout | PASS | Workflow 40818538942 |
+| Owner musical retest | PENDING | Versioned 0.7.2 preview packaged for listening |
+| Plugin / FM-1 hardware | NOT TESTED | No plugin or hardware image was built or flashed |
+
+[Successful 0.7.2 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40818538942) validates source commit 40b49480d9f23d5db9b3409fb066c6dbf4e15b34.
