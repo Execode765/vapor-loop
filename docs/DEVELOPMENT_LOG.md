@@ -294,3 +294,15 @@ Never record a planned test as a passed test.
 - Follow now chooses anchors from the completed Reply after Phrase Architecture and Reply Groove establish final onsets. Bass Groove then adds pocket around those shared anchors.
 - Native tests verify both the first and second variations against their own Reply onsets. Workflow 40818538942 passed native sanitizer, compiled WASM, worklet, served/direct-file Chrome, MIDI, and mobile-layout checks for source commit 40b49480d9f23d5db9b3409fb066c6dbf4e15b34.
 - Chord Companion is recorded as a future polyphonic feature; it was not implemented here. No plugin or hardware image was built or flashed.
+
+## 2026-10-29 — Tempo-Aware Capture, 0.8.0
+
+- Added a shared 4/4 capture clock using the selected Reply BPM, with a one-bar audible count-in and automatic 1-, 2-, or 4-bar recording boundaries.
+- Recording time now begins at the downbeat rather than at the first note, preserving intentional opening rests and giving the first Reply a defined beat-one origin.
+- Added Off, Light, and Tight sixteenth-note onset correction. Light moves onsets halfway toward the grid; Tight places them on the grid; note lengths remain performance-derived.
+- The metronome distinguishes beat one from beats two through four and may be disabled without disabling the clock.
+- Existing exact Replay, Reply variation, Candidate Memory, Bass Companion modes, Reply-derived Follow anchors, and MIDI routing remain intact.
+- Native sanitizer tests verify click/count-in behavior, exact bar length, initial-rest preservation, quantized onsets, invalid-input normalization, and existing memory/bass regressions.
+- GitHub Actions workflow 40826957158 passed compiled WebAssembly, worklet, served-Chrome, direct-file standalone, MIDI, audio, and mobile-layout checks at commit 8fcc88d33f8d133d2015baf62c6f6e50be6e7138.
+- Owner musical validation is pending. This is a browser prototype, not an external MIDI-clock implementation, plugin, or FM-1 firmware image.
+
