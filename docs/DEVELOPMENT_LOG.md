@@ -226,3 +226,13 @@ Never record a planned test as a passed test.
 - Workflow 40789153651 passed native sanitizer, compiled WASM, worklet, served-Chrome, and direct-file Chrome checks for source commit `ffab5d25077c2d544224bb710c4015c47eb3832e`.
 - Chrome kept variation 1 in A, generated variation 2, auditioned the unchanged A, kept the newer response in B, forgot only B, retained A, and exact-Replayed the source.
 - Packaged a versioned standalone preview. Owner workflow/usefulness validation remains pending.
+
+
+### Owner audiovisual validation of Candidate Memory
+- Owner video uses a 32-note/7.75-second MPC source at the note limit.
+- Slot A first stores a ten-note Trap Pocket response and remains available through later generations.
+- Re-keeping into A deliberately replaces it with an eight-note R&B Flow candidate; kept playback recalls that candidate.
+- Exact 32-note Replay works without erasing A.
+- A is later deliberately replaced with a ten-note Techno Motion/Pulse candidate and recalled successfully.
+- Owner-observed functionality passes for save, deep-copy isolation across later generation/control changes, replacement, recall, and Replay independence.
+- Slots B/C, Forget, and persistence across source Clear/new Capture were not owner-tested in this video; they remain automation-tested. No separate subjective usefulness verdict was stated.
