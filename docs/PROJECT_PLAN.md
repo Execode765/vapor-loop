@@ -6,7 +6,7 @@ Current browser milestone: 0.4.0 Phrase Architecture gives Reply an independent 
 
 Next implemented browser milestone: 0.5.0 Keep and Candidate Memory provides three deep-copy session slots for generated responses. Compiled-browser and owner validation remain gates.
 
-Current implementation milestone: 0.8.0 **Tempo-Aware Capture** gives the browser instrument a shared musical origin: one-bar count-in, audible metronome, 1/2/4-bar capture, and Off/Light/Tight sixteenth-note onset correction. Native validation passes; compiled-browser and owner musical validation remain gates. Reply–Bass Synchronization 0.7.2 remains intact.
+Current implementation milestone: 0.8.0 **Tempo-Aware Capture** gives the browser instrument a shared musical origin: one-bar count-in, audible metronome, 1/2/4-bar capture, and Off/Light/Tight sixteenth-note onset correction. Native, compiled-WebAssembly, worklet, served-Chrome, direct-file, MIDI, audio, and mobile-layout validation pass in workflow 40826957158; owner musical validation remains the gate. Reply–Bass Synchronization 0.7.2 remains intact.
 
 Name exploration: **Vapor Loop** is the owner's current leading candidate for the finished instrument name. ECHOLOG and psychic-octo-spork remain the prototype/interface and repository names until a final naming decision is made.
 
