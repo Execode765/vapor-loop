@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: the browser instrument includes capture/replay, physical Web MIDI, scale-aware Reply, Adventure, groove shaping, Phrase Architecture, Candidate Memory, and an independent Bass Companion voice. Native C checks for 0.6.0 pass; compiled WASM, real-Chrome CI, and owner validation are pending. No hardware firmware build or flashing has occurred.**
+**Status: the browser instrument includes capture/replay, physical Web MIDI, scale-aware Reply, Adventure, groove shaping, Phrase Architecture, Candidate Memory, and an independent Bass Companion voice. Native C, compiled WASM, worklet, and real-Chrome CI checks for 0.6.0 pass; owner musical validation is pending. No hardware firmware build or flashing has occurred.**
 
 psychic-octo-spork is the working code name, not the final firmware name. The first prototype will explore ECHOLOG: melodic conversation.
 
@@ -14,6 +14,8 @@ Initial candidates are GENOME (musical evolution), ECHOLOG (musical memory and r
 This project is separate from the completed Local LLM Infrastructure Lab.
 
 ## Bass Companion — prototype 0.6.0
+
+[Versioned downloadable preview](preview/echolog-bass-v0.6.0.html) — download and open in current Chrome or Edge. MIDI channel 2 is reserved for manual bass; use channel 1 or channels 3–16 for the upper voice.
 
 An independent second voice can be played manually, hold the selected root, or generate reduced-density accompaniment from the current Reply or kept candidate. MIDI channel 2 and dedicated bass keys provide manual performance and temporary override without interrupting the upper phrase.
 

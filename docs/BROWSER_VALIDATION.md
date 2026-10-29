@@ -261,3 +261,18 @@ The recording confirms:
 **Candidate workflow usefulness: PASS. Musical architecture: PASS. Ready for next layer: YES.** The owner reported that the instrument is melodic, rhythmic, and capable of creating a usable tune: “Musically, it's there… I can create a tune with that… bare bones architecture, functionality is there… it feels right.”
 
 This closes the subjective gate for the browser foundation through 0.5.0. Effects and deeper synthesis parameters remain future enhancements and are not required to establish that the current phrase/memory architecture is musically useful. The next approved experiment is a separate Bass Companion voice with both player-controlled and generated-follow behavior.
+
+
+## Bass Companion — 0.6.0
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Native two-voice engine | PASS | Sanitizer checks cover simultaneous upper/bass voices, Root and Follow generation, manual override/resume, candidate context, bounds, and lifecycle |
+| Compiled WebAssembly and worklet | PASS | Actual compiled engine and audio-worklet bridge passed all updated regressions |
+| Real Chrome served build | PASS | Bass controls, upper input, MIDI routing, playback, Stop, and responsive layout passed |
+| Downloadable standalone preview | PASS | The direct-from-disk HTML passed the same browser checks |
+| MIDI channel separation | PASS | Channel 2 drives bass; channel 1 and channels 3–16 remain upper-voice input |
+| Owner musical evaluation | PENDING | The packaged 0.6.0 build is ready for owner listening |
+| FM-1 hardware / plugin | NOT TESTED | No firmware image, flashing, or plugin build occurred |
+
+[Successful 0.6.0 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40794256419) validates source commit `94107e307f8b16183edae1c4bd09888feabe15e6`. The final regression correction moved a legacy upper-voice MIDI test from channel 2 to channel 3 because channel 2 is now intentionally reserved for Bass Companion. All native, WebAssembly, worklet, served-Chrome, direct-file, and mobile-layout checks passed.

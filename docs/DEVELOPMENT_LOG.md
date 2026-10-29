@@ -254,3 +254,10 @@ Never record a planned test as a passed test.
 - Live mode changes join at the next boundary rather than rewinding playback. Stop and panic silence both voices.
 - Native sanitizer tests pass for simultaneous voices, Root/Follow generation, manual override, candidate context, bounds, and lifecycle. JavaScript syntax checks pass.
 - Compiled WASM, real-Chrome CI, and owner musical evaluation remain pending. No plugin or hardware image was built or flashed.
+
+
+### 0.6.0 browser checks completed
+- Workflow 40794256419 passed native sanitizer, compiled WASM, worklet, served-Chrome, direct-file Chrome, and mobile-layout checks for source commit `94107e307f8b16183edae1c4bd09888feabe15e6`.
+- The final regression suite confirms MIDI channel 2 is dedicated to manual bass while channel 1 and channels 3–16 drive the upper voice.
+- Packaged the versioned standalone preview `preview/echolog-bass-v0.6.0.html` from the exact successful CI artifact.
+- Owner musical and playability evaluation is the next gate. No plugin or FM-1 firmware image was built or flashed.
