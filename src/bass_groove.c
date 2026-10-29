@@ -22,21 +22,21 @@ void echo_bass_groove_apply(uint8_t *pitch, uint8_t *velocity,
 
         if (style == ECHO_BASS_GROOVE_TRAP) {
             /* Space on beat two, a late answer, and short/long punctuation. */
-            if (amount >= 30 && (phase == 1u || phase == 5u)) play = 0;
-            if (amount >= 75 && phase == 6u) play = 0;
+            if (input_count > 2u && amount >= 30 && (phase == 1u || phase == 5u)) play = 0;
+            if (input_count > 2u && amount >= 75 && phase == 6u) play = 0;
             if (phase == 2u || phase == 6u) offset_percent = 12;
             gate_percent = (phase == 0u || phase == 4u) ? 68 : (phase & 1u) ? 42 : 55;
             target_velocity = (phase == 0u || phase == 4u) ? 118 : (phase & 1u) ? 88 : 101;
         } else if (style == ECHO_BASS_GROOVE_RNB) {
             /* A gentle behind/ahead pocket with one optional breath per two bars. */
-            if (amount >= 65 && phase == 5u) play = 0;
+            if (input_count > 2u && amount >= 65 && phase == 5u) play = 0;
             if (phase == 1u || phase == 6u) offset_percent = 8;
             if (phase == 3u || phase == 7u) offset_percent = -12;
             gate_percent = (phase == 0u || phase == 4u) ? 88 : (phase == 2u || phase == 6u) ? 72 : 50;
             target_velocity = (phase == 0u || phase == 4u) ? 113 : (phase == 2u || phase == 6u) ? 101 : 86;
         } else if (style == ECHO_BASS_GROOVE_TECHNO) {
             /* Preserve propulsion; use alternating gates and restrained off-beat drag. */
-            if (amount >= 90 && phase == 7u) play = 0;
+            if (input_count > 2u && amount >= 90 && phase == 7u) play = 0;
             if (phase & 1u) offset_percent = 5;
             gate_percent = (phase & 1u) ? 44 : 72;
             target_velocity = (phase == 0u || phase == 4u) ? 120 : (phase & 1u) ? 91 : 104;

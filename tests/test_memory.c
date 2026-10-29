@@ -68,6 +68,7 @@ int main(void) {
     echo_memory_set_bass(&m,ECHO_BASS_FOLLOW,ECHO_BASS_QUARTER,1,80);
     assert(echo_memory_play_candidate(&m,1) && m.bass_count>0);
     assert(m.bass_count<straight_bass_count);
+    assert(m.bass_pitch[0]%12==m.candidates[1].root);
     int bass_accent=0, bass_gate_change=0;
     for(uint32_t i=0;i<m.bass_count;i++) {
         int pc=m.bass_pitch[i]%12; assert(pc==0 || pc==4 || pc==7);
@@ -155,6 +156,12 @@ int main(void) {
         if(style==ECHO_BASS_GROOVE_STRAIGHT || amount==0) {
             assert(bc==8); for(int i=0;i<8;i++) assert(bo[i]==(uint32_t)i*1000u && bd[i]==800 && bv[i]==105);
         }
+    }
+    /* Short phrases retain both opportunities; groove shapes rather than erases the answer. */
+    for(int style=ECHO_BASS_GROOVE_TRAP;style<ECHO_BASS_GROOVE_COUNT;style++) {
+        uint8_t bp[2]={24,31},bv[2]={105,105}; uint32_t bo[2]={0,1000},bd[2]={800,800},bc=2;
+        echo_bass_groove_apply(bp,bv,bo,bd,&bc,2000,1000,style,100);
+        assert(bc==2 && bo[0]==0 && bo[1]>bo[0] && bd[0] && bd[1]);
     }
     /* Phrase architecture changes event count, rests, accents, and repetition. */
     uint8_t pp[32]={0}, pv[32]={0}, sv[5]={100,90,80,90,100};

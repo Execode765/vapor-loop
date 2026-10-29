@@ -7,7 +7,7 @@ void setup(void) {
     echo_memory_init(&memory);
     clear(RGB(10, 20, 24));
     text(24, 24, "ECHOLOG", RGB(141, 238, 192), FONT_BIG);
-    text(24, 66, "GROOVE 0.7.0", WHITE, FONT_SMALL);
+    text(24, 66, "GROOVE 0.7.1", WHITE, FONT_SMALL);
     text(24, 198, "32 NOTES / 8 SEC", WHITE, FONT_SMALL);
 }
 void loop(void) {

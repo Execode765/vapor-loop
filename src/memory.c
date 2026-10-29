@@ -220,7 +220,8 @@ static void prepare_bass(EchoMemory *m) {
         uint32_t gate = m->bass_density == ECHO_BASS_PEDAL ? remaining : spacing * 4u / 5u;
         m->bass_duration[i] = gate < remaining ? gate : remaining;
         m->bass_velocity[i] = 105;
-        m->bass_pitch[i] = (uint8_t)(m->bass_mode == ECHO_BASS_ROOT ?
+        /* Follow begins from solid ground; later boundaries may answer with a third or fifth. */
+        m->bass_pitch[i] = (uint8_t)(m->bass_mode == ECHO_BASS_ROOT || onset == 0 ?
             12 * (m->bass_octave + 1) + playback_root(m) : bass_follow_pitch(m, onset));
     }
     int style = m->bass_groove_style;

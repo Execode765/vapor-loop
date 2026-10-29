@@ -6,7 +6,7 @@ Current browser milestone: 0.4.0 Phrase Architecture gives Reply an independent 
 
 Next implemented browser milestone: 0.5.0 Keep and Candidate Memory provides three deep-copy session slots for generated responses. Compiled-browser and owner validation remain gates.
 
-Current implementation milestone: 0.7.0 **Bass Groove Engine** preserves the validated two-voice Bass Companion and adds Straight/Auto/Trap/R&B/Techno rhythmic profiles with controlled rests, timing displacement, gate variation, and velocity accents. Straight and amount zero are exact bypasses. Compiled-browser and owner musical validation remain gates. Recording manual bass remains future work.
+Current implementation milestone: 0.7.1 **Bass Groove refinement** preserves the validated two-voice engine and genre profiles while guaranteeing a root anchor and both bass opportunities in short phrases. Straight and amount zero remain exact bypasses. Compiled-browser and owner musical validation remain gates. Recording manual bass remains future work.
 
 Name exploration: **Vapor Loop** is the owner's current leading candidate for the finished instrument name. ECHOLOG and psychic-octo-spork remain the prototype/interface and repository names until a final naming decision is made.
 

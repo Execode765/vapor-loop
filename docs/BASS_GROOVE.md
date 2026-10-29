@@ -1,4 +1,4 @@
-# Bass Groove Engine — prototype 0.7.0
+# Bass Groove Engine — prototypes 0.7.0–0.7.1
 
 Version 0.7.0 preserves the independent Bass Companion voice and adds a separate rhythmic phrasing stage. Root and Follow still decide **which pitch** to play; Movement still sets the maximum activity; Bass Groove decides **which pulses breathe, where they sit, how long they last, and how strongly they speak**.
 
@@ -15,6 +15,18 @@ Version 0.7.0 preserves the independent Bass Companion voice and adds a separate
 Amount zero is an exact bypass even when a non-Straight style is selected. Higher settings interpolate gate length, timing displacement, and velocity toward the chosen profile. Rests enter only after defined thresholds so low settings remain subtle.
 
 The default is **Auto 55**, intended as an audible but controlled starting point. The goal is pocket, not maximum complexity.
+
+## 0.7.1 short-phrase refinement
+
+Owner video showed that a short two-opportunity Trap phrase could leave only one automatic bass event. Follow correctly chose G3 for the first variation and C3 for the second, but the higher single note blended into the upper sine voice and sounded like a one-Reply lag.
+
+Version 0.7.1 makes the musical intention explicit:
+
+- The first Follow event always anchors the selected root.
+- A phrase with only two bass opportunities retains both events.
+- The second event can still receive profile timing, gate, and velocity shaping.
+- Longer phrases retain their strategic-rest behavior.
+- Straight and amount zero remain exact bypasses.
 
 ## Preserved behavior
 
