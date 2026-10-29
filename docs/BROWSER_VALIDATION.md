@@ -296,3 +296,12 @@ The owner supplied a 112.9-second screen recording exercising Follow, Root, Manu
 | FM-1 hardware / plugin | NOT TESTED | No firmware image, flashing, or plugin build occurred |
 
 [Successful 0.7.0 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40811250692) validates source commit `29694a5826ae0a7c92c0e09c04959bee50095ff2`. The first attempted source commit was rejected before jobs ran because connector-uploaded files were encoded as text; the corrective commit restored ordinary source text and the complete pipeline passed.
+
+
+## Owner diagnostic and Bass Groove refinement — 0.7.1
+
+The owner reported that bass appeared to follow the second Reply but not the first. Analysis of the supplied 349.4-second recording found that both Replies had bass: the first selected G3 at approximately 196.0 Hz, while the second selected C3 at approximately 130.8 Hz. With Half-note movement, Trap 55, and a short 2.58-second phrase, the groove removed the second opportunity, leaving one higher bass note that blended into the upper sine voice.
+
+Version 0.7.1 converts that perceptual failure into two explicit invariants: Follow begins on the selected root, and any phrase with only two bass opportunities keeps both. The second event remains shaped by timing, gate, and velocity; longer phrases retain strategic rests.
+
+[Successful 0.7.1 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40814437014) validates source commit `137fdfec9ec330596e08d08430703d14f74c5837`. Native sanitizer, exact bypass, short-phrase retention, root anchor, compiled WASM, worklet, served/direct-file Chrome, MIDI, candidate, and mobile-layout checks passed. Owner musical retest is pending. No hardware image was built or flashed.

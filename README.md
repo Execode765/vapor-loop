@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: Bass Groove Engine 0.7.0 is implemented in the browser instrument. Native C, compiled WASM, worklet, served-Chrome, direct-file, MIDI, and mobile-layout checks pass; owner musical validation is pending. No hardware firmware build or flashing has occurred.**
+**Status: Bass Groove Engine 0.7.1 is implemented in the browser instrument. Native C, compiled WASM, worklet, served-Chrome, direct-file, MIDI, and mobile-layout checks pass; owner musical validation is pending. No hardware firmware build or flashing has occurred.**
 
 psychic-octo-spork is the working code name, not the final firmware name. The first prototype will explore ECHOLOG: melodic conversation.
 
@@ -15,7 +15,7 @@ This project is separate from the completed Local LLM Infrastructure Lab.
 
 ## Bass Groove Engine — prototype 0.7.0
 
-[Versioned downloadable preview](preview/echolog-bass-groove-v0.7.0.html) — download and open in current Chrome or Edge. Auto follows the selected upper Phrase Architecture; Straight and amount zero preserve the original Bass Companion pulse.
+[Versioned downloadable preview — 0.7.1](preview/echolog-bass-groove-v0.7.1.html) — download and open in current Chrome or Edge. Follow now establishes the root and preserves both opportunities in short phrases. [Previous 0.7.0 preview](preview/echolog-bass-groove-v0.7.0.html) remains available for A/B testing.
 
 Bass Groove adds controlled rests, timing displacement, gate variation, and velocity accents through Auto, Trap Pocket, R&B Flow, and Techno Motion profiles. It preserves Off/Manual/Root/Follow, octave, volume, MIDI channel 2, candidate context, and manual override.
 

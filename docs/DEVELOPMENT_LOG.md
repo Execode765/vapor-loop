@@ -277,3 +277,12 @@ Never record a planned test as a passed test.
 - Native sanitizer tests cover every style/amount, exact bypass, event ordering and bounds, candidate context, two-voice mixing, and manual override.
 - Workflow 40811250692 passed compiled WASM, worklet, served/direct-file Chrome, MIDI, and mobile layout for source commit `29694a5826ae0a7c92c0e09c04959bee50095ff2`.
 - Owner musical evaluation is the next gate. No plugin or FM-1 image was built or flashed.
+
+
+## 2026-10-28 — Bass Groove short-phrase refinement, 0.7.1
+- Owner video initially suggested a one-Reply lag. Spectral and timeline analysis showed both Replies contained bass: G3 (~196.0 Hz) on the first and C3 (~130.8 Hz) on the second.
+- The actual weakness was a two-opportunity Half-note phrase combined with Trap 55: the second opportunity was removed, leaving one higher note that blended into the upper sine voice.
+- Follow now anchors its first event on the selected root. Every two-opportunity phrase retains both events while the second still receives profile timing, gate, and velocity shaping.
+- Longer phrases retain strategic rests. Straight/amount-zero bypass, Manual, Root, candidate context, MIDI channel 2, and the upper phrase engine are unchanged.
+- Workflow 40814437014 passed the full native/WASM/worklet/Chrome/MIDI/mobile suite for source commit `137fdfec9ec330596e08d08430703d14f74c5837`.
+- Packaged a uniquely named standalone preview. Owner musical retest is pending; no plugin or hardware image was built or flashed.
