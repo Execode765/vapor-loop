@@ -2,6 +2,7 @@
 #include "memory.h"
 void echo_memory_init(EchoMemory *m) {
     echo_voice_init(&m->voice);
+    echo_voice_init(&m->bass_voice);
     m->count = m->reply_count = m->length = m->reply_length = m->play_length = m->position = m->next = 0;
     m->mode = ECHO_IDLE; m->active = m->playing = -1; m->limit = ECHO_NO_LIMIT;
     m->playback = ECHO_NO_PLAYBACK;
@@ -10,6 +11,10 @@ void echo_memory_init(EchoMemory *m) {
     m->phrase_style = ECHO_PHRASE_ORIGINAL; m->phrase_amount = 0;
     m->last_reply_valid = 0; m->candidate_slot = 0; m->reply_generation = 0;
     for (uint32_t i = 0; i < ECHO_CANDIDATE_SLOTS; ++i) m->candidates[i].filled = 0;
+    m->bass_mode = ECHO_BASS_OFF; m->bass_density = ECHO_BASS_HALF;
+    m->bass_octave = 1; m->bass_volume = 70;
+    m->bass_count = m->bass_next = 0; m->bass_playing = -1;
+    m->bass_manual = 0; m->bass_manual_note = -1;
 }
 static void close_event(EchoMemory *m) {
     if (m->active < 0) return;
@@ -30,6 +35,9 @@ void echo_memory_stop(EchoMemory *m) {
     echo_memory_finish(m);
     m->mode = ECHO_IDLE; m->playing = -1; m->playback = ECHO_NO_PLAYBACK;
     echo_voice_stop(&m->voice);
+    echo_voice_stop(&m->bass_voice);
+    m->bass_count = m->bass_next = 0; m->bass_playing = -1;
+    m->bass_manual = 0; m->bass_manual_note = -1;
 }
 void echo_memory_clear(EchoMemory *m) {
     echo_memory_stop(m);
@@ -47,6 +55,7 @@ int echo_memory_replay(EchoMemory *m) {
     m->mode = ECHO_PLAYING; m->position = m->next = 0; m->playing = -1;
     m->play_length = m->length;
     m->playback = ECHO_EXACT_PLAYBACK;
+    echo_memory_set_bass(m, m->bass_mode, m->bass_density, m->bass_octave, m->bass_volume);
     return 1;
 }
 int echo_memory_reply(EchoMemory *m) {
@@ -77,6 +86,7 @@ int echo_memory_reply(EchoMemory *m) {
     m->play_length = m->reply_length;
     m->playback = ECHO_REPLY_PLAYBACK;
     m->last_reply_valid = 1;
+    echo_memory_set_bass(m, m->bass_mode, m->bass_density, m->bass_octave, m->bass_volume);
     return 1;
 }
 int echo_memory_keep(EchoMemory *m, int slot) {
@@ -101,6 +111,7 @@ int echo_memory_play_candidate(EchoMemory *m, int slot) {
     m->mode = ECHO_PLAYING; m->position = m->next = 0; m->playing = -1;
     m->play_length = m->candidates[slot].length;
     m->playback = ECHO_CANDIDATE_PLAYBACK;
+    echo_memory_set_bass(m, m->bass_mode, m->bass_density, m->bass_octave, m->bass_volume);
     return 1;
 }
 void echo_memory_clear_candidate(EchoMemory *m, int slot) {
@@ -164,6 +175,76 @@ static uint32_t playback_duration(const EchoMemory *m, uint32_t index) {
     if (m->playback == ECHO_CANDIDATE_PLAYBACK) return m->candidates[m->candidate_slot].duration[index];
     return m->events[index].duration;
 }
+static int playback_root(const EchoMemory *m) {
+    return m->playback == ECHO_CANDIDATE_PLAYBACK ? m->candidates[m->candidate_slot].root : m->root;
+}
+static int playback_scale(const EchoMemory *m) {
+    return m->playback == ECHO_CANDIDATE_PLAYBACK ? m->candidates[m->candidate_slot].scale : m->scale;
+}
+static int playback_bpm(const EchoMemory *m) {
+    return m->playback == ECHO_CANDIDATE_PLAYBACK ? m->candidates[m->candidate_slot].bpm : m->bpm;
+}
+static int pitch_distance(int a, int b) {
+    int d = a - b; if (d < 0) d = -d; return d > 6 ? 12 - d : d;
+}
+static int bass_follow_pitch(const EchoMemory *m, uint32_t frame) {
+    uint32_t count = playback_count(m), chosen = 0;
+    for (uint32_t i = 0; i < count && playback_onset(m, i) <= frame; ++i) chosen = i;
+    int pc = playback_pitch(m, chosen) % 12;
+    int root = playback_root(m);
+    int scale = playback_scale(m);
+    int third = root + ((scale == ECHO_SCALE_NATURAL_MINOR || scale == ECHO_SCALE_MINOR_PENTATONIC) ? 3 : 4);
+    int tones[3] = {root % 12, third % 12, (root + 7) % 12};
+    int best = tones[0], distance = pitch_distance(pc, tones[0]);
+    for (int i = 1; i < 3; ++i) { int d = pitch_distance(pc, tones[i]); if (d < distance) { distance = d; best = tones[i]; } }
+    return 12 * (m->bass_octave + 1) + best;
+}
+static void prepare_bass(EchoMemory *m) {
+    echo_voice_stop(&m->bass_voice);
+    m->bass_count = m->bass_next = 0; m->bass_playing = -1;
+    if (m->bass_mode != ECHO_BASS_ROOT && m->bass_mode != ECHO_BASS_FOLLOW) return;
+    if (m->mode != ECHO_PLAYING || !m->play_length) return;
+    int bpm = playback_bpm(m); if (bpm < 40) bpm = 40; if (bpm > 240) bpm = 240;
+    uint32_t beat = 2646000u / (uint32_t)bpm;
+    uint32_t spacing = m->bass_density == ECHO_BASS_QUARTER ? beat :
+                       m->bass_density == ECHO_BASS_HALF ? beat * 2u : m->play_length;
+    if (!spacing) spacing = 1;
+    for (uint32_t onset = 0; onset < m->play_length && m->bass_count < ECHO_MAX_BASS_EVENTS; onset += spacing) {
+        uint32_t i = m->bass_count++;
+        m->bass_onset[i] = onset;
+        uint32_t remaining = m->play_length - onset;
+        uint32_t gate = m->bass_density == ECHO_BASS_PEDAL ? remaining : spacing * 4u / 5u;
+        m->bass_duration[i] = gate < remaining ? gate : remaining;
+        m->bass_pitch[i] = (uint8_t)(m->bass_mode == ECHO_BASS_ROOT ?
+            12 * (m->bass_octave + 1) + playback_root(m) : bass_follow_pitch(m, onset));
+    }
+    /* A control change during playback joins at the next boundary, never rewinds to frame zero. */
+    while (m->bass_next < m->bass_count && m->bass_onset[m->bass_next] < m->position) ++m->bass_next;
+}
+void echo_memory_set_bass(EchoMemory *m, int mode, int density, int octave, int volume) {
+    if (mode < 0 || mode >= ECHO_BASS_MODE_COUNT) mode = ECHO_BASS_OFF;
+    if (density < 0 || density >= ECHO_BASS_DENSITY_COUNT) density = ECHO_BASS_HALF;
+    if (octave < 0) octave = 0;
+    if (octave > 3) octave = 3;
+    if (volume < 0) volume = 0;
+    if (volume > 100) volume = 100;
+    m->bass_mode = mode; m->bass_density = density; m->bass_octave = octave; m->bass_volume = volume;
+    m->bass_manual = 0; m->bass_manual_note = -1;
+    prepare_bass(m);
+}
+void echo_memory_bass_on(EchoMemory *m, int pitch, int velocity) {
+    if (m->bass_mode == ECHO_BASS_OFF || pitch < 0 || pitch > 127) return;
+    if (velocity <= 0) { echo_memory_bass_off(m, pitch); return; }
+    if (velocity > 127) velocity = 127;
+    m->bass_manual = 1; m->bass_manual_note = pitch; m->bass_playing = -1;
+    echo_voice_on(&m->bass_voice, pitch, velocity);
+}
+void echo_memory_bass_off(EchoMemory *m, int pitch) {
+    if (!m->bass_manual || m->bass_manual_note != pitch) return;
+    echo_voice_off(&m->bass_voice, pitch);
+    m->bass_manual = 0; m->bass_manual_note = -1;
+    while (m->bass_next < m->bass_count && m->bass_onset[m->bass_next] <= m->position) ++m->bass_next;
+}
 void echo_memory_on(EchoMemory *m, int pitch, int velocity) {
     if (pitch < 0 || pitch > 127) return;
     if (velocity <= 0) { echo_memory_off(m, pitch); return; }
@@ -208,6 +289,14 @@ void echo_memory_render(EchoMemory *m, int32_t *out, uint32_t frames) {
             uint32_t remaining = ECHO_MAX_FRAMES - m->position;
             if (n > remaining) n = remaining;
         } else if (m->mode == ECHO_PLAYING) {
+            if (!m->bass_manual && m->bass_playing >= 0 &&
+                m->position >= m->bass_onset[m->bass_playing] + m->bass_duration[m->bass_playing]) {
+                echo_voice_off(&m->bass_voice, m->bass_pitch[m->bass_playing]); m->bass_playing = -1;
+            }
+            if (!m->bass_manual && m->bass_next < m->bass_count && m->bass_onset[m->bass_next] == m->position) {
+                echo_voice_on(&m->bass_voice, m->bass_pitch[m->bass_next], 105);
+                m->bass_playing = (int)m->bass_next++;
+            }
             /* End before onset: adjacent notes and retriggers have unambiguous ownership. */
             if (m->playing >= 0) {
                 if (m->position >= playback_onset(m, (uint32_t)m->playing) +
@@ -228,9 +317,28 @@ void echo_memory_render(EchoMemory *m, int32_t *out, uint32_t frames) {
             }
             if (m->next < playback_count(m) && playback_onset(m, m->next) < boundary)
                 boundary = playback_onset(m, m->next);
+            if (!m->bass_manual && m->bass_playing >= 0) {
+                uint32_t end = m->bass_onset[m->bass_playing] + m->bass_duration[m->bass_playing];
+                if (end < boundary) boundary = end;
+            }
+            if (!m->bass_manual && m->bass_next < m->bass_count && m->bass_onset[m->bass_next] < boundary)
+                boundary = m->bass_onset[m->bass_next];
             if (n > boundary - m->position) n = boundary - m->position;
         }
-        echo_voice_render(&m->voice, out + 2u * offset, n);
+        uint32_t mixed = 0;
+        while (mixed < n) {
+            uint32_t chunk = n - mixed; if (chunk > 128u) chunk = 128u;
+            int32_t bass[256] = {0};
+            echo_voice_render(&m->voice, out + 2u * (offset + mixed), chunk);
+            echo_voice_render(&m->bass_voice, bass, chunk);
+            for (uint32_t i = 0; i < 2u * chunk; ++i) {
+                int32_t value = out[2u * (offset + mixed) + i] + bass[i] * m->bass_volume / 100;
+                if (value > 8128) value = 8128;
+                if (value < -8128) value = -8128;
+                out[2u * (offset + mixed) + i] = value;
+            }
+            mixed += chunk;
+        }
         offset += n;
         if (m->mode == ECHO_RECORDING || m->mode == ECHO_PLAYING) m->position += n;
     }

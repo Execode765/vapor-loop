@@ -49,6 +49,9 @@ class FM1 extends AudioWorkletProcessor {
     else if (m.type === 'keep' && ex.echo_keep) ex.echo_keep(m.slot | 0)
     else if (m.type === 'candidate-play' && ex.echo_play_candidate) ex.echo_play_candidate(m.slot | 0)
     else if (m.type === 'candidate-clear' && ex.echo_clear_candidate) ex.echo_clear_candidate(m.slot | 0)
+    else if (m.type === 'bass' && ex.echo_set_bass) ex.echo_set_bass(m.mode | 0, m.density | 0, m.octave | 0, m.volume | 0)
+    else if (m.type === 'bass-on' && ex.echo_bass_on) ex.echo_bass_on(m.pitch | 0, m.velocity | 0)
+    else if (m.type === 'bass-off' && ex.echo_bass_off) ex.echo_bass_off(m.pitch | 0)
   }
 
   crash(err) {
@@ -59,7 +62,7 @@ class FM1 extends AudioWorkletProcessor {
   publish() {
     const ex = this.ex
     const msg = { type: 'frame', ms: ex.web_now(), keys: ex.web_led_keys() >>> 0, buttons: ex.web_led_buttons() >>> 0, backlight: ex.web_led_backlight ? ex.web_led_backlight() : 0 }
-    if (ex.echo_mode) msg.phrase = {mode:ex.echo_mode(),count:ex.echo_count(),replyCount:ex.echo_reply_count?ex.echo_reply_count():ex.echo_count(),length:ex.echo_length(),playLength:ex.echo_play_length?ex.echo_play_length():ex.echo_length(),position:ex.echo_position(),limit:ex.echo_limit(),playback:ex.echo_playback?ex.echo_playback():0,root:ex.echo_root?ex.echo_root():0,scale:ex.echo_scale?ex.echo_scale():0,adventure:ex.echo_adventure?ex.echo_adventure():0,variation:ex.echo_variation?ex.echo_variation():0,bpm:ex.echo_bpm?ex.echo_bpm():120,grooveStyle:ex.echo_groove_style?ex.echo_groove_style():0,grooveAmount:ex.echo_groove_amount?ex.echo_groove_amount():0,phraseStyle:ex.echo_phrase_style?ex.echo_phrase_style():0,phraseAmount:ex.echo_phrase_amount?ex.echo_phrase_amount():0,candidateMask:ex.echo_candidate_mask?ex.echo_candidate_mask():0,candidateSlot:ex.echo_candidate_slot?ex.echo_candidate_slot():0,lastReplyValid:ex.echo_last_reply_valid?ex.echo_last_reply_valid():0,candidateCounts:ex.echo_candidate_count?[ex.echo_candidate_count(0),ex.echo_candidate_count(1),ex.echo_candidate_count(2)]:[0,0,0]}
+    if (ex.echo_mode) msg.phrase = {mode:ex.echo_mode(),count:ex.echo_count(),replyCount:ex.echo_reply_count?ex.echo_reply_count():ex.echo_count(),length:ex.echo_length(),playLength:ex.echo_play_length?ex.echo_play_length():ex.echo_length(),position:ex.echo_position(),limit:ex.echo_limit(),playback:ex.echo_playback?ex.echo_playback():0,root:ex.echo_root?ex.echo_root():0,scale:ex.echo_scale?ex.echo_scale():0,adventure:ex.echo_adventure?ex.echo_adventure():0,variation:ex.echo_variation?ex.echo_variation():0,bpm:ex.echo_bpm?ex.echo_bpm():120,grooveStyle:ex.echo_groove_style?ex.echo_groove_style():0,grooveAmount:ex.echo_groove_amount?ex.echo_groove_amount():0,phraseStyle:ex.echo_phrase_style?ex.echo_phrase_style():0,phraseAmount:ex.echo_phrase_amount?ex.echo_phrase_amount():0,candidateMask:ex.echo_candidate_mask?ex.echo_candidate_mask():0,candidateSlot:ex.echo_candidate_slot?ex.echo_candidate_slot():0,lastReplyValid:ex.echo_last_reply_valid?ex.echo_last_reply_valid():0,candidateCounts:ex.echo_candidate_count?[ex.echo_candidate_count(0),ex.echo_candidate_count(1),ex.echo_candidate_count(2)]:[0,0,0],bassMode:ex.echo_bass_mode?ex.echo_bass_mode():0,bassDensity:ex.echo_bass_density?ex.echo_bass_density():1,bassOctave:ex.echo_bass_octave?ex.echo_bass_octave():1,bassVolume:ex.echo_bass_volume?ex.echo_bass_volume():70,bassCount:ex.echo_bass_count?ex.echo_bass_count():0}
     const transfer = []
     const gen = ex.web_fb_gen()
     if (gen !== this.sentFb) {

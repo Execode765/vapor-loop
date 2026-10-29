@@ -243,3 +243,14 @@ Never record a planned test as a passed test.
 - Treat browser milestones through 0.5.0 as a successful bare-bones musical architecture. Effects and deeper synthesis remain enhancement layers rather than prerequisites for musical validity.
 - Owner approved Bass Companion as the next experiment and requested both direct player control and automatic following.
 - Recommended design boundary: a genuinely independent second voice with Off, Manual, Root, and Follow behaviors. Follow should use a reduced-density low-register interpretation of the generated response rather than mirror every upper note.
+
+
+## 2026-10-28 — Bass Companion, 0.6.0
+- Added an independent second integer-voice path and bounded two-voice mixer.
+- Added Off, Manual, Root, and Follow modes; Pedal, Half-note, and Quarter-note movement; octave 0–3; and bass volume.
+- Manual bass accepts dedicated browser keys, Z/X/C/V/B/N/M white-note keys, and MIDI channel 2. It does not interrupt upper Reply/candidate playback.
+- Manual notes temporarily override Root/Follow; automatic bass rejoins at the next future boundary after release.
+- Root anchors the selected key. Follow samples the upper phrase at bass boundaries and maps movement to low root/third/fifth tones using the Reply or candidate's stored harmony/BPM context.
+- Live mode changes join at the next boundary rather than rewinding playback. Stop and panic silence both voices.
+- Native sanitizer tests pass for simultaneous voices, Root/Follow generation, manual override, candidate context, bounds, and lifecycle. JavaScript syntax checks pass.
+- Compiled WASM, real-Chrome CI, and owner musical evaluation remain pending. No plugin or hardware image was built or flashed.

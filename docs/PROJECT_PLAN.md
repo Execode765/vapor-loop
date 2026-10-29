@@ -6,7 +6,7 @@ Current browser milestone: 0.4.0 Phrase Architecture gives Reply an independent 
 
 Next implemented browser milestone: 0.5.0 Keep and Candidate Memory provides three deep-copy session slots for generated responses. Compiled-browser and owner validation remain gates.
 
-Future musical layer: investigate a **Bass Companion** with a second voice/sub-oscillator and independent bass-note memory so a generated upper phrase can play simultaneously over a bass foundation. This requires deliberate polyphonic mixing and voice ownership; it is not part of 0.5.0.
+Current implementation milestone: 0.6.0 **Bass Companion** adds deliberate two-voice mixing and ownership, Manual/Root/Follow behaviors, low-register movement density, MIDI-channel-2 control, and manual override. Compiled-browser and owner musical validation remain gates. Recording manual bass remains future work.
 
 Name exploration: **Vapor Loop** is the owner's current leading candidate for the finished instrument name. ECHOLOG and psychic-octo-spork remain the prototype/interface and repository names until a final naming decision is made.
 

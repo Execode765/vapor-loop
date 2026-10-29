@@ -1,6 +1,6 @@
-# Browser prototype build — 0.5.0
+# Browser prototype build — 0.6.0
 
-This milestone adds portable three-slot Candidate Memory to Phrase Architecture, scale-aware Reply, Adventure, groove shaping, exact Replay, and Web MIDI. See [CANDIDATE_MEMORY.md](CANDIDATE_MEMORY.md). Persistent saving, chord progressions, automatic key detection, MIDI clock, polyphony, bass accompaniment, and richer synthesis are not implemented yet.
+This milestone adds the portable two-voice Bass Companion to Candidate Memory, Phrase Architecture, scale-aware Reply, Adventure, groove shaping, exact Replay, and Web MIDI. See [BASS_COMPANION.md](BASS_COMPANION.md). Persistent saving, chord progressions, automatic key detection, MIDI clock, recorded manual bass, and richer synthesis are not implemented yet.
 
 ## Foundation decision
 

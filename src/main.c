@@ -7,7 +7,7 @@ void setup(void) {
     echo_memory_init(&memory);
     clear(RGB(10, 20, 24));
     text(24, 24, "ECHOLOG", RGB(141, 238, 192), FONT_BIG);
-    text(24, 66, "KEEP 0.5.0", WHITE, FONT_SMALL);
+    text(24, 66, "BASS 0.6.0", WHITE, FONT_SMALL);
     text(24, 198, "32 NOTES / 8 SEC", WHITE, FONT_SMALL);
 }
 void loop(void) {
@@ -24,8 +24,15 @@ void loop(void) {
     }
     uint8_t st, note, vel;
     while (midi_read(&st, &note, &vel)) {
-        if ((st & 0xf0) == 0x90) echo_memory_on(&memory, note, vel);
-        if ((st & 0xf0) == 0x80) echo_memory_off(&memory, note);
+        int bass_channel = (st & 0x0f) == 1; /* MIDI channel 2 */
+        if ((st & 0xf0) == 0x90) {
+            if (bass_channel) echo_memory_bass_on(&memory, note, vel);
+            else echo_memory_on(&memory, note, vel);
+        }
+        if ((st & 0xf0) == 0x80) {
+            if (bass_channel) echo_memory_bass_off(&memory, note);
+            else echo_memory_off(&memory, note);
+        }
         if ((st & 0xf0) == 0xb0 && (note == 120 || note == 123)) echo_memory_stop(&memory);
     }
     if (shown_note != memory.voice.note || shown_mode != memory.mode ||
@@ -72,6 +79,11 @@ ECHO_EXPORT(echo_candidate_count) uint32_t echo_candidate_count(int slot) {
     return slot >= 0 && slot < (int)ECHO_CANDIDATE_SLOTS && memory.candidates[slot].filled ? memory.candidates[slot].count : 0;
 }
 ECHO_EXPORT(echo_last_reply_valid) int echo_last_reply_valid(void) { return memory.last_reply_valid; }
+ECHO_EXPORT(echo_bass_mode) int echo_bass_mode(void) { return memory.bass_mode; }
+ECHO_EXPORT(echo_bass_density) int echo_bass_density(void) { return memory.bass_density; }
+ECHO_EXPORT(echo_bass_octave) int echo_bass_octave(void) { return memory.bass_octave; }
+ECHO_EXPORT(echo_bass_volume) int echo_bass_volume(void) { return memory.bass_volume; }
+ECHO_EXPORT(echo_bass_count) uint32_t echo_bass_count(void) { return memory.bass_count; }
 ECHO_EXPORT(echo_set_harmony) void echo_set_harmony(int root, int scale) {
     echo_memory_set_harmony(&memory, root, scale);
 }
@@ -87,4 +99,9 @@ ECHO_EXPORT(echo_set_phrase) void echo_set_phrase(int style, int amount) {
 ECHO_EXPORT(echo_keep) int echo_keep(int slot) { return echo_memory_keep(&memory, slot); }
 ECHO_EXPORT(echo_play_candidate) int echo_play_candidate(int slot) { return echo_memory_play_candidate(&memory, slot); }
 ECHO_EXPORT(echo_clear_candidate) void echo_clear_candidate(int slot) { echo_memory_clear_candidate(&memory, slot); }
+ECHO_EXPORT(echo_set_bass) void echo_set_bass(int mode, int density, int octave, int volume) {
+    echo_memory_set_bass(&memory, mode, density, octave, volume);
+}
+ECHO_EXPORT(echo_bass_on) void echo_bass_on(int pitch, int velocity) { echo_memory_bass_on(&memory, pitch, velocity); }
+ECHO_EXPORT(echo_bass_off) void echo_bass_off(int pitch) { echo_memory_bass_off(&memory, pitch); }
 #endif

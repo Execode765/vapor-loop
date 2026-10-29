@@ -54,6 +54,25 @@ int main(void) {
     assert(echo_memory_play_candidate(&m,0) && m.playback==ECHO_CANDIDATE_PLAYBACK && m.play_length==m.candidates[0].length);
     advance(&m,1); assert(m.voice.note==kept_first); echo_memory_stop(&m);
     echo_memory_clear_candidate(&m,0); assert(echo_memory_candidate_mask(&m)==2u && !echo_memory_play_candidate(&m,0));
+    /* Bass Companion is a simultaneous second voice with deterministic auto modes. */
+    echo_memory_set_bass(&m,ECHO_BASS_ROOT,ECHO_BASS_QUARTER,1,70);
+    assert(echo_memory_play_candidate(&m,1) && m.bass_count>0 && m.bass_pitch[0]==24);
+    advance(&m,1); assert(m.voice.note>=0 && m.bass_voice.note==24 && m.mode==ECHO_PLAYING);
+    echo_memory_bass_on(&m,30,110); assert(m.bass_manual && m.bass_voice.note==30 && m.mode==ECHO_PLAYING);
+    echo_memory_bass_off(&m,30); assert(!m.bass_manual && m.mode==ECHO_PLAYING); echo_memory_stop(&m);
+    echo_memory_set_bass(&m,ECHO_BASS_FOLLOW,ECHO_BASS_QUARTER,1,80);
+    assert(echo_memory_play_candidate(&m,1) && m.bass_count>0);
+    for(uint32_t i=0;i<m.bass_count;i++) {
+        int pc=m.bass_pitch[i]%12; assert(pc==0 || pc==4 || pc==7);
+        assert(m.bass_pitch[i]>=24 && m.bass_pitch[i]<=35);
+    }
+    echo_memory_stop(&m);
+    echo_memory_set_bass(&m,ECHO_BASS_MANUAL,ECHO_BASS_HALF,1,65);
+    echo_memory_bass_on(&m,28,100); assert(m.mode==ECHO_IDLE && m.bass_voice.note==28);
+    advance(&m,64); echo_memory_bass_off(&m,28); advance(&m,4096); assert(m.bass_voice.level==0);
+    echo_memory_set_bass(&m,99,99,99,999);
+    assert(m.bass_mode==ECHO_BASS_OFF && m.bass_density==ECHO_BASS_HALF && m.bass_octave==3 && m.bass_volume==100);
+    echo_memory_set_bass(&m,ECHO_BASS_OFF,ECHO_BASS_HALF,1,70);
     echo_memory_set_phrase(&m,ECHO_PHRASE_ORIGINAL,0);
     uint8_t source[5]={60,62,64,62,60}, reply[5]={0};
     echo_harmony_reply(source,reply,5,0,ECHO_SCALE_MAJOR,0,0);
@@ -168,5 +187,5 @@ int main(void) {
     assert(echo_memory_candidate_mask(&m)==2u); /* phrase Clear does not erase kept work */
     echo_memory_clear_candidate(&m,1); assert(!echo_memory_candidate_mask(&m));
     echo_memory_on(&m,-1,100); echo_memory_on(&m,128,100); assert(m.voice.note==-1);
-    puts("PASS memory/candidates: deep-copy Keep, three-slot bounds, independent audition/clear, phrase persistence, harmony/phrase/groove lifecycle");
+    puts("PASS two-voice memory: manual/root/follow bass, override/resume, candidate context, deep-copy Keep and phrase/groove lifecycle");
 }

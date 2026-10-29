@@ -3,10 +3,10 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ECHOLOG · Phrase Architecture</title>
+<title>ECHOLOG · Bass Companion</title>
 <link rel="stylesheet" href="style.css">
 <main>
-  <header><p class="eyebrow">PSYCHIC-OCTO-SPORK / DEVELOPMENT 0.5.0</p><h1>Hear it. Keep it.<br>Keep searching.</h1><p class="intro">Candidate Memory preserves the exact generated response you choose while Reply continues exploring new variations.</p></header>
+  <header><p class="eyebrow">PSYCHIC-OCTO-SPORK / DEVELOPMENT 0.6.0</p><h1>A voice above.<br>A foundation below.</h1><p class="intro">Bass Companion adds an independent second voice for live bass, tonic support, or reduced-density accompaniment that follows each generated phrase.</p></header>
   <section class="instrument" aria-label="ECHOLOG sound check">
     <div class="top"><div><p class="eyebrow">ECHOLOG</p><p class="hint">Musical conversation, in development.</p><button id="start">Enable sound</button><p id="status" role="status">Sound is off.</p></div><canvas id="screen" width="240" height="240" aria-label="Simulated FM-1 display"></canvas></div>
     <div class="harmony-panel" aria-label="Reply harmony">
@@ -58,6 +58,23 @@
       <div class="candidate-actions"><button id="keep" disabled>Keep latest Reply</button><button id="play-candidate" disabled>Play kept</button><button id="clear-candidate" disabled>Forget slot</button></div>
       <p id="candidate-status" role="status">Three session-memory slots are empty.</p>
     </div>
+    <div class="bass-panel" aria-label="Bass Companion controls">
+      <label for="bass-mode">Bass mode
+        <select id="bass-mode"><option value="0">Off</option><option value="1">Manual</option><option value="2">Root</option><option value="3">Follow</option></select>
+      </label>
+      <label for="bass-density">Movement
+        <select id="bass-density"><option value="0">Pedal</option><option value="1" selected>Half notes</option><option value="2">Quarter notes</option></select>
+      </label>
+      <label for="bass-octave">Octave
+        <select id="bass-octave"><option value="0">0</option><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option></select>
+      </label>
+      <label class="bass-volume-control" for="bass-volume">Bass volume
+        <input id="bass-volume" type="range" min="0" max="100" step="5" value="70"><output id="bass-volume-value" for="bass-volume">70</output>
+      </label>
+      <p id="bass-status">Bass Companion · Off</p>
+      <div id="bass-keys" aria-label="Playable bass keys"></div>
+      <p class="hint">Manual/override: MIDI channel 2, the bass keys, or Z X C V B N M for the white notes. Automatic bass resumes after a manual note is released.</p>
+    </div>
     <div class="midi-panel" aria-label="MIDI controller connection">
       <button id="midi-enable" type="button">Enable MIDI</button>
       <label for="midi-input">MIDI input
@@ -69,7 +86,7 @@
     <div id="keys" aria-label="Playable keys"></div>
     <p class="hint">Click and hold a key, or use A W S E D F T G Y H U J K. Release to stop.</p>
   </section>
-  <section class="notes"><div><h2>Three candidate slots</h2><p>Keep the latest generated Reply in A, B, or C. Continue generating, then audition any kept candidate without changing the captured source or the latest response.</p></div><div><h2>Honest scope</h2><p>Candidate memory lasts only for this browser session. File saving, chord progressions, automatic key detection, MIDI clock, polyphony, bass accompaniment, and richer synthesis remain separate milestones.</p></div></section>
+  <section class="notes"><div><h2>Four bass behaviors</h2><p>Manual accepts a separate performance. Root anchors the selected key. Follow samples the upper phrase at musical boundaries and favors low root, third, and fifth tones. Manual notes temporarily override either automatic mode.</p></div><div><h2>Honest scope</h2><p>This is a two-voice prototype, not chord recognition or a finished bass synthesizer. MIDI clock, recorded manual-bass memory, effects, persistent files, and deeper sound design remain separate milestones.</p></div></section>
   <footer>Browser simulation, not a full CPU emulator or a hardware compatibility test. Memory lasts until Clear, a new capture, or closing the page. No installer or hardware access.<br>Platform: <a href="https://github.com/konsumer/foma">foma</a>, with Felucca / SLOOP / Dinghy lineage. GPL-3.0-only. AI-assisted development.</footer>
 </main><script type="module" src="app.js"></script>
 </html>

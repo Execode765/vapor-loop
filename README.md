@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: browser capture/replay, physical Web MIDI, scale-aware Reply, Adventure, groove shaping, Phrase Architecture, and three-slot Candidate Memory are implemented. Native C, compiled WASM, and real-Chrome checks for 0.5.0 pass; owner validation is pending. No hardware firmware build or flashing has occurred.**
+**Status: the browser instrument includes capture/replay, physical Web MIDI, scale-aware Reply, Adventure, groove shaping, Phrase Architecture, Candidate Memory, and an independent Bass Companion voice. Native C checks for 0.6.0 pass; compiled WASM, real-Chrome CI, and owner validation are pending. No hardware firmware build or flashing has occurred.**
 
 psychic-octo-spork is the working code name, not the final firmware name. The first prototype will explore ECHOLOG: melodic conversation.
 
@@ -12,6 +12,12 @@ Create something creative, unusual, and musically useful that FM-1 owners want t
 Initial candidates are GENOME (musical evolution), ECHOLOG (musical memory and response), and GRAVITY (physics-based composition). The owner selected ECHOLOG's melodic conversation interaction for the first prototype; the final product scope remains open. Originality and feasibility require further investigation.
 
 This project is separate from the completed Local LLM Infrastructure Lab.
+
+## Bass Companion — prototype 0.6.0
+
+An independent second voice can be played manually, hold the selected root, or generate reduced-density accompaniment from the current Reply or kept candidate. MIDI channel 2 and dedicated bass keys provide manual performance and temporary override without interrupting the upper phrase.
+
+[Bass Companion guide](docs/BASS_COMPANION.md)
 
 ## Keep and Candidate Memory — prototype 0.5.0
 
@@ -35,7 +41,7 @@ These names are design targets, not claims of authentic genre emulation. See the
 
 Version 0.3.0 separates pitch generation from rhythm shaping. Original preserves captured timing; Pulse quantizes and tightens; Swing delays off-sixteenths; Pocket alternates laid-back placement and articulation; Half-time stretches toward twice the duration. BPM and Shape amount are manual. Replay always remains exact.
 
-[Candidate Memory guide](docs/CANDIDATE_MEMORY.md) · [Phrase Architecture guide](docs/PHRASE_ARCHITECTURE.md) · [Groove guide](docs/GROOVE.md) · [Adventure guide](docs/ADVENTURE.md) · [Musical Reply guide](docs/MUSICAL_REPLY.md) · [Browser MIDI guide](docs/BROWSER_MIDI.md) · [build instructions](docs/BROWSER_BUILD.md) · [validation record](docs/BROWSER_VALIDATION.md).
+[Bass Companion guide](docs/BASS_COMPANION.md) · [Candidate Memory guide](docs/CANDIDATE_MEMORY.md) · [Phrase Architecture guide](docs/PHRASE_ARCHITECTURE.md) · [Groove guide](docs/GROOVE.md) · [Adventure guide](docs/ADVENTURE.md) · [Musical Reply guide](docs/MUSICAL_REPLY.md) · [Browser MIDI guide](docs/BROWSER_MIDI.md) · [build instructions](docs/BROWSER_BUILD.md) · [validation record](docs/BROWSER_VALIDATION.md).
 
 ## Documentation
 - [First prototype specification](docs/PROTOTYPE_SPEC.md)
