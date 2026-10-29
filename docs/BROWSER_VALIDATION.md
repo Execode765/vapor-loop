@@ -324,3 +324,22 @@ Version 0.7.2 derives Follow anchors from the final playback onsets after the up
 | Plugin / FM-1 hardware | NOT TESTED | No plugin or hardware image was built or flashed |
 
 [Successful 0.7.2 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40818538942) validates source commit 40b49480d9f23d5db9b3409fb066c6dbf4e15b34.
+
+## Tempo-Aware Capture — 0.8.0
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Count-in and downbeat origin | PASS | Native regression requires a complete one-bar count-in before recording begins on beat one |
+| Audible metronome | PASS | Native and compiled-WASM tests detect the accented click at onset; Chrome exercises the user-facing control |
+| Bar-length boundary | PASS | Capture automatically closes at the exact selected 1/2/4-bar boundary |
+| Opening-rest preservation | PASS | Native test confirms recording time begins at the bar line before the first played note |
+| Off/Light/Tight correction | PASS | Native test verifies Tight sixteenth-note onsets and preserves note lengths; normalization covers invalid settings |
+| Existing Reply/Bass behavior | PASS | Native sanitizer suite retains Reply-derived Follow anchors, modes, candidates, and lifecycle behavior |
+| Compiled WASM/worklet | PASS | Workflow 40826957158 |
+| Served and standalone Chrome | PASS | Workflow 40826957158 |
+| MIDI and mobile layout | PASS | Workflow 40826957158 |
+| Owner musical validation | PENDING | Packaged 0.8.0 preview is ready for hands-on syncopated-phrase testing |
+| External MIDI clock / plugin / FM-1 hardware | NOT TESTED | No external clock following, plugin build, firmware image, or flashing occurred |
+
+[Successful 0.8.0 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40826957158) validates source commit `8fcc88d33f8d133d2015baf62c6f6e50be6e7138`. Tempo-Aware Capture gives the first Reply and Follow bass a shared rhythmic origin; whether that resolves the owner's reported musical mismatch remains an owner listening gate.
+
