@@ -130,10 +130,10 @@ const assert=require('node:assert/strict');
     assert(await page.getByRole('button',{name:'Replay',exact:true}).isDisabled());
     // Capture real note range and velocity through the browser Web MIDI connection.
     await page.getByRole('button',{name:'Capture',exact:true}).click();
-    await page.evaluate(()=>window.__fakeMidi.emit([0x91,48,42])); await page.waitForTimeout(120);
-    await page.evaluate(()=>window.__fakeMidi.emit([0x81,48,0])); await page.waitForTimeout(80);
-    await page.evaluate(()=>window.__fakeMidi.emit([0x91,76,119])); await page.waitForTimeout(160);
-    await page.evaluate(()=>window.__fakeMidi.emit([0x91,76,0]));
+    await page.evaluate(()=>window.__fakeMidi.emit([0x92,48,42])); await page.waitForTimeout(120);
+    await page.evaluate(()=>window.__fakeMidi.emit([0x82,48,0])); await page.waitForTimeout(80);
+    await page.evaluate(()=>window.__fakeMidi.emit([0x92,76,119])); await page.waitForTimeout(160);
+    await page.evaluate(()=>window.__fakeMidi.emit([0x92,76,0]));
     await page.getByRole('button',{name:'Finish',exact:true}).click();
     await page.waitForFunction(()=>document.getElementById('phrase-status').textContent.startsWith('Phrase ready · 2 notes'));
     await page.getByRole('button',{name:'Replay',exact:true}).click();
