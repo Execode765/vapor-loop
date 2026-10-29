@@ -236,3 +236,10 @@ Never record a planned test as a passed test.
 - A is later deliberately replaced with a ten-note Techno Motion/Pulse candidate and recalled successfully.
 - Owner-observed functionality passes for save, deep-copy isolation across later generation/control changes, replacement, recall, and Replay independence.
 - Slots B/C, Forget, and persistence across source Clear/new Capture were not owner-tested in this video; they remain automation-tested. No separate subjective usefulness verdict was stated.
+
+
+### Musical foundation gate passed; Bass Companion approved
+- Owner judged the current system melodic, rhythmic, tune-capable, and musically correct in feel.
+- Treat browser milestones through 0.5.0 as a successful bare-bones musical architecture. Effects and deeper synthesis remain enhancement layers rather than prerequisites for musical validity.
+- Owner approved Bass Companion as the next experiment and requested both direct player control and automatic following.
+- Recommended design boundary: a genuinely independent second voice with Off, Manual, Root, and Follow behaviors. Follow should use a reduced-density low-register interpretation of the generated response rather than mirror every upper note.
