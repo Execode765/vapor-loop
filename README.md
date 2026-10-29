@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: Bass Groove Engine 0.7.1 is implemented in the browser instrument. Native C, compiled WASM, worklet, served-Chrome, direct-file, MIDI, and mobile-layout checks pass; owner musical validation is pending. No hardware firmware build or flashing has occurred.**
+**Status: browser prototype 0.7.2 includes capture/replay, physical Web MIDI, scale-aware Reply, Adventure, groove shaping, Phrase Architecture, Candidate Memory, and a synchronized Bass Companion voice. Native C checks pass; compiled WASM and real-Chrome CI remain release gates for this revision. No hardware firmware build or flashing has occurred.**
 
 psychic-octo-spork is the working code name, not the final firmware name. The first prototype will explore ECHOLOG: melodic conversation.
 
@@ -13,21 +13,17 @@ Initial candidates are GENOME (musical evolution), ECHOLOG (musical memory and r
 
 This project is separate from the completed Local LLM Infrastructure Lab.
 
-## Bass Groove Engine — prototype 0.7.0
-
-[Versioned downloadable preview — 0.7.1](preview/echolog-bass-groove-v0.7.1.html) — download and open in current Chrome or Edge. Follow now establishes the root and preserves both opportunities in short phrases. [Previous 0.7.0 preview](preview/echolog-bass-groove-v0.7.0.html) remains available for A/B testing.
-
-Bass Groove adds controlled rests, timing displacement, gate variation, and velocity accents through Auto, Trap Pocket, R&B Flow, and Techno Motion profiles. It preserves Off/Manual/Root/Follow, octave, volume, MIDI channel 2, candidate context, and manual override.
-
-[Bass Groove guide](docs/BASS_GROOVE.md)
-
 ## Bass Companion — prototype 0.6.0
-
-[Versioned downloadable preview](preview/echolog-bass-v0.6.0.html) — download and open in current Chrome or Edge. MIDI channel 2 is reserved for manual bass; use channel 1 or channels 3–16 for the upper voice.
 
 An independent second voice can be played manually, hold the selected root, or generate reduced-density accompaniment from the current Reply or kept candidate. MIDI channel 2 and dedicated bass keys provide manual performance and temporary override without interrupting the upper phrase.
 
 [Bass Companion guide](docs/BASS_COMPANION.md)
+
+## Reply–Bass Synchronization — prototype 0.7.2
+
+Follow bass timing is now derived from the completed upper Reply, after Phrase Architecture and Reply Groove have produced its final note onsets. The bass profile can add pocket around those shared anchors, but it no longer begins from an unrelated free-running grid. Root, Manual, Straight, and Pedal behavior remain available as deliberate alternatives.
+
+[Bass Groove and synchronization guide](docs/BASS_GROOVE.md)
 
 ## Keep and Candidate Memory — prototype 0.5.0
 
@@ -58,6 +54,7 @@ Version 0.3.0 separates pitch generation from rhythm shaping. Original preserves
 - [Project plan and milestones](docs/PROJECT_PLAN.md)
 - [Development log](docs/DEVELOPMENT_LOG.md)
 - [Hardware testing and recovery record](docs/HARDWARE_TESTING.md)
+- [Future Chord Companion concept](docs/CHORD_COMPANION_CONCEPT.md)
 - [AI assistance and attribution](AI_ATTRIBUTION.md)
 
 ## Intended release

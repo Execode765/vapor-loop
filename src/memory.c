@@ -203,6 +203,17 @@ static int bass_follow_pitch(const EchoMemory *m, uint32_t frame) {
     for (int i = 1; i < 3; ++i) { int d = pitch_distance(pc, tones[i]); if (d < distance) { distance = d; best = tones[i]; } }
     return 12 * (m->bass_octave + 1) + best;
 }
+static int next_follow_anchor(const EchoMemory *m, uint32_t target, uint32_t *anchor) {
+    uint32_t count = playback_count(m);
+    for (uint32_t i = 0; i < count; ++i) {
+        uint32_t onset = playback_onset(m, i);
+        if (onset >= target && onset < m->play_length) {
+            *anchor = onset;
+            return 1;
+        }
+    }
+    return 0;
+}
 static void prepare_bass(EchoMemory *m) {
     echo_voice_stop(&m->bass_voice);
     m->bass_count = m->bass_next = 0; m->bass_playing = -1;
@@ -213,16 +224,28 @@ static void prepare_bass(EchoMemory *m) {
     uint32_t spacing = m->bass_density == ECHO_BASS_QUARTER ? beat :
                        m->bass_density == ECHO_BASS_HALF ? beat * 2u : m->play_length;
     if (!spacing) spacing = 1;
-    for (uint32_t onset = 0; onset < m->play_length && m->bass_count < ECHO_MAX_BASS_EVENTS; onset += spacing) {
+    uint32_t next_target = 0;
+    while (next_target < m->play_length && m->bass_count < ECHO_MAX_BASS_EVENTS) {
+        uint32_t onset = next_target;
+        if (m->bass_mode == ECHO_BASS_FOLLOW &&
+            !next_follow_anchor(m, next_target, &onset)) break;
         uint32_t i = m->bass_count++;
         m->bass_onset[i] = onset;
-        uint32_t remaining = m->play_length - onset;
-        uint32_t gate = m->bass_density == ECHO_BASS_PEDAL ? remaining : spacing * 4u / 5u;
-        m->bass_duration[i] = gate < remaining ? gate : remaining;
         m->bass_velocity[i] = 105;
         /* Follow begins from solid ground; later boundaries may answer with a third or fifth. */
-        m->bass_pitch[i] = (uint8_t)(m->bass_mode == ECHO_BASS_ROOT || onset == 0 ?
+        m->bass_pitch[i] = (uint8_t)(m->bass_mode == ECHO_BASS_ROOT || i == 0 ?
             12 * (m->bass_octave + 1) + playback_root(m) : bass_follow_pitch(m, onset));
+        if (m->bass_density == ECHO_BASS_PEDAL) break;
+        next_target = onset + spacing;
+        if (next_target <= onset) break;
+    }
+    for (uint32_t i = 0; i < m->bass_count; ++i) {
+        uint32_t onset = m->bass_onset[i];
+        uint32_t remaining = m->play_length - onset;
+        uint32_t window = i + 1u < m->bass_count ? m->bass_onset[i + 1u] - onset : spacing;
+        if (!window || window > remaining) window = remaining;
+        uint32_t gate = m->bass_density == ECHO_BASS_PEDAL ? remaining : window * 4u / 5u;
+        m->bass_duration[i] = gate ? gate : 1u;
     }
     int style = m->bass_groove_style;
     if (style == ECHO_BASS_GROOVE_AUTO) {

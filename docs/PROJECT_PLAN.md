@@ -6,7 +6,7 @@ Current browser milestone: 0.4.0 Phrase Architecture gives Reply an independent 
 
 Next implemented browser milestone: 0.5.0 Keep and Candidate Memory provides three deep-copy session slots for generated responses. Compiled-browser and owner validation remain gates.
 
-Current implementation milestone: 0.7.1 **Bass Groove refinement** preserves the validated two-voice engine and genre profiles while guaranteeing a root anchor and both bass opportunities in short phrases. Straight and amount zero remain exact bypasses. Compiled-browser and owner musical validation remain gates. Recording manual bass remains future work.
+Current implementation milestone: 0.7.2 **Reply–Bass Synchronization** derives Follow timing anchors from the completed transformed Reply instead of an independent fixed grid. The upper phrase is fully shaped by Phrase Architecture and Reply Groove first; bass pitch, density, and pocket are then built against that exact result. Native regression checks pass. Compiled-browser and owner musical validation remain gates.
 
 Name exploration: **Vapor Loop** is the owner's current leading candidate for the finished instrument name. ECHOLOG and psychic-octo-spork remain the prototype/interface and repository names until a final naming decision is made.
 
@@ -42,6 +42,10 @@ A local Codex installation is optional for the browser phase. It becomes useful 
 
 ## First prototype proposal
 Approved direction: capture a monophonic phrase of up to 32 notes; play a related response using one lightweight internal sound. Start with explicit capture/reply controls. Automatic phrase detection, multiple memories, and richer synthesis are later possibilities.
+
+## Recorded future concept — Chord Companion
+
+The owner proposed a third musical role that can automatically create scale-aware chords around the lead, with automatic accompaniment disabled when the player wants direct keyboard performance. This is intentionally deferred until Reply–Bass synchronization is validated. Honest implementation requires polyphony and input-role design because the current upper engine is monophonic. See [CHORD_COMPANION_CONCEPT.md](CHORD_COMPANION_CONCEPT.md).
 
 ## Release goals
 - Dedicated public GitHub source repository with appropriate licensing and upstream credits.

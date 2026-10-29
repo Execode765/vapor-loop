@@ -78,6 +78,32 @@ int main(void) {
     }
     assert(bass_accent && bass_gate_change);
     echo_memory_stop(&m);
+    /* Follow anchors to the final transformed Reply on the first generation, not a free-running grid. */
+    EchoMemory synced; echo_memory_init(&synced);
+    synced.count=8; synced.length=160000;
+    for(uint32_t i=0;i<synced.count;i++) {
+        synced.events[i].pitch=(uint8_t)(60+(i%5)); synced.events[i].velocity=100;
+        synced.events[i].onset=i*20000u; synced.events[i].duration=9000;
+    }
+    echo_memory_set_phrase(&synced,ECHO_PHRASE_TRAP_POCKET,60);
+    echo_memory_set_groove(&synced,77,ECHO_GROOVE_SWING,80);
+    echo_memory_set_bass_groove(&synced,ECHO_BASS_GROOVE_STRAIGHT,100);
+    echo_memory_set_bass(&synced,ECHO_BASS_FOLLOW,ECHO_BASS_HALF,3,70);
+    for(int generation=0;generation<2;generation++) {
+        assert(echo_memory_reply(&synced) && synced.bass_count>=2);
+        int moved_off_grid=0;
+        uint32_t spacing=5292000u/77u;
+        for(uint32_t i=0;i<synced.bass_count;i++) {
+            int matches_reply=0;
+            for(uint32_t j=0;j<synced.reply_count;j++)
+                if(synced.bass_onset[i]==synced.reply_onset[j]) matches_reply=1;
+            assert(matches_reply);
+            if(synced.bass_onset[i]!=i*spacing) moved_off_grid=1;
+            if(i) assert(synced.bass_onset[i]>synced.bass_onset[i-1]);
+        }
+        assert(moved_off_grid && synced.bass_pitch[0]%12==synced.root);
+        echo_memory_stop(&synced);
+    }
     echo_memory_set_bass(&m,ECHO_BASS_MANUAL,ECHO_BASS_HALF,1,65);
     echo_memory_bass_on(&m,28,100); assert(m.mode==ECHO_IDLE && m.bass_voice.note==28);
     advance(&m,64); echo_memory_bass_off(&m,28); advance(&m,4096); assert(m.bass_voice.level==0);
@@ -220,5 +246,5 @@ int main(void) {
     assert(echo_memory_candidate_mask(&m)==2u); /* phrase Clear does not erase kept work */
     echo_memory_clear_candidate(&m,1); assert(!echo_memory_candidate_mask(&m));
     echo_memory_on(&m,-1,100); echo_memory_on(&m,128,100); assert(m.voice.note==-1);
-    puts("PASS two-voice memory: bass groove/bypass, manual/root/follow, override/resume, candidate context, Keep and phrase lifecycle");
+    puts("PASS two-voice memory: synchronized Reply bass, groove/bypass, manual/root/follow, candidate context, Keep and phrase lifecycle");
 }

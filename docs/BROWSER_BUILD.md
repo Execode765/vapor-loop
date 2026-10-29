@@ -1,6 +1,6 @@
-# Browser prototype build — 0.7.1
+# Browser prototype build — 0.7.2
 
-This milestone adds the portable two-voice Bass Companion to Candidate Memory, Phrase Architecture, scale-aware Reply, Adventure, groove shaping, exact Replay, and Web MIDI. See [BASS_COMPANION.md](BASS_COMPANION.md). Persistent saving, chord progressions, automatic key detection, MIDI clock, recorded manual bass, and richer synthesis are not implemented yet.
+This milestone synchronizes the portable Bass Companion with the completed upper Reply while preserving Candidate Memory, Phrase Architecture, scale-aware Reply, Adventure, groove shaping, exact Replay, and Web MIDI. See [BASS_COMPANION.md](BASS_COMPANION.md) and [BASS_GROOVE.md](BASS_GROOVE.md). Persistent saving, the proposed Chord Companion, automatic key detection, MIDI clock, recorded manual bass, and richer synthesis are not implemented yet.
 
 ## Foundation decision
 
