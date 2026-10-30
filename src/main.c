@@ -4,12 +4,28 @@
 static EchoMemory memory;
 static int shown_note = -2, shown_mode = -1, shown_count = -1, shown_limit = -1;
 static int shown_bar = -1, shown_beat = -1;
+static void performance_on(int note, int velocity) {
+    if (memory.input_track == ECHO_TRACK_BASS ||
+        (memory.input_track == ECHO_INPUT_SPLIT && note < memory.split_point))
+        echo_memory_bass_on(&memory, note, velocity);
+    else if (memory.input_track == ECHO_TRACK_CHORDS)
+        echo_memory_keys_on(&memory, note, velocity);
+    else echo_memory_on(&memory, note, velocity);
+}
+static void performance_off(int note) {
+    if (memory.input_track == ECHO_TRACK_BASS ||
+        (memory.input_track == ECHO_INPUT_SPLIT && note < memory.split_point))
+        echo_memory_bass_off(&memory, note);
+    else if (memory.input_track == ECHO_TRACK_CHORDS)
+        echo_memory_keys_off(&memory, note);
+    else echo_memory_off(&memory, note);
+}
 void setup(void) {
     echo_memory_init(&memory);
     clear(RGB(10, 20, 24));
     text(24, 24, "VAPOR LOOP", RGB(141, 238, 192), FONT_BIG);
-    text(24, 66, "SEQUENCER 0.9.0", WHITE, FONT_SMALL);
-    text(24, 198, "96 PPQN / 1-16 BARS", WHITE, FONT_SMALL);
+    text(24, 66, "PERFORMANCE 0.10", WHITE, FONT_SMALL);
+    text(24, 198, "SPLIT / 4-VOICE KEYS", WHITE, FONT_SMALL);
 }
 void loop(void) {
     /* Commands precede input so a note arriving with Capture belongs to the new take. */
@@ -20,18 +36,20 @@ void loop(void) {
     if (button_pressed(BTN_SEQ)) echo_memory_replay(&memory);
     if (button_pressed(BTN_FX)) echo_memory_reply(&memory);
     for (int k = 0; k < KEY_COUNT; ++k) {
-        if (key_released(k)) echo_memory_off(&memory, KEY_FIRST_NOTE + k);
-        if (key_pressed(k)) echo_memory_on(&memory, KEY_FIRST_NOTE + k, 100);
+        if (key_released(k)) performance_off(KEY_FIRST_NOTE + k);
+        if (key_pressed(k)) performance_on(KEY_FIRST_NOTE + k, 100);
     }
     uint8_t st, note, vel;
     while (midi_read(&st, &note, &vel)) {
-        int bass_channel = (st & 0x0f) == 1; /* MIDI channel 2 */
+        int channel = st & 0x0f;
         if ((st & 0xf0) == 0x90) {
-            if (bass_channel) echo_memory_bass_on(&memory, note, vel);
+            if (channel == 1) echo_memory_bass_on(&memory, note, vel); /* MIDI channel 2 */
+            else if (channel == 2) echo_memory_keys_on(&memory, note, vel); /* MIDI channel 3 */
             else echo_memory_on(&memory, note, vel);
         }
         if ((st & 0xf0) == 0x80) {
-            if (bass_channel) echo_memory_bass_off(&memory, note);
+            if (channel == 1) echo_memory_bass_off(&memory, note);
+            else if (channel == 2) echo_memory_keys_off(&memory, note);
             else echo_memory_off(&memory, note);
         }
         if ((st & 0xf0) == 0xb0 && (note == 120 || note == 123)) echo_memory_stop(&memory);
@@ -118,6 +136,16 @@ ECHO_EXPORT(echo_sequence_resolution) int echo_sequence_resolution(void) { retur
 ECHO_EXPORT(echo_manual_bass_count) uint32_t echo_manual_bass_count(void) {
     return echo_seq_track_count(&memory.sequencer, ECHO_TRACK_BASS);
 }
+ECHO_EXPORT(echo_manual_keys_count) uint32_t echo_manual_keys_count(void) {
+    return echo_seq_track_count(&memory.sequencer, ECHO_TRACK_CHORDS);
+}
+ECHO_EXPORT(echo_keys_mode) int echo_keys_mode(void) { return memory.keys_mode; }
+ECHO_EXPORT(echo_keys_volume) int echo_keys_volume(void) { return memory.keys_volume; }
+ECHO_EXPORT(echo_keys_active) int echo_keys_active_export(void) { return echo_keys_active(&memory.keys); }
+ECHO_EXPORT(echo_split_point) int echo_split_point(void) { return memory.split_point; }
+ECHO_EXPORT(echo_recording_track) int echo_recording_track(void) {
+    return memory.sequencer.recording ? memory.sequencer.record_track : -1;
+}
 ECHO_EXPORT(echo_drum_step_mask) int echo_drum_step_mask(int step) {
     return echo_seq_drum_mask(&memory.sequencer, step);
 }
@@ -149,6 +177,9 @@ ECHO_EXPORT(echo_toggle_drum) void echo_toggle_drum(int step, int voice) {
 ECHO_EXPORT(echo_set_input_track) void echo_set_input_track(int track) {
     echo_memory_set_input_track(&memory, track);
 }
+ECHO_EXPORT(echo_set_split_point) void echo_set_split_point(int note) {
+    echo_memory_set_split_point(&memory, note);
+}
 ECHO_EXPORT(echo_record_track) int echo_record_track(int track) {
     return echo_memory_record_track(&memory, track);
 }
@@ -166,5 +197,15 @@ ECHO_EXPORT(echo_set_bass_groove) void echo_set_bass_groove(int style, int amoun
 }
 ECHO_EXPORT(echo_bass_on) void echo_bass_on(int pitch, int velocity) { echo_memory_bass_on(&memory, pitch, velocity); }
 ECHO_EXPORT(echo_bass_off) void echo_bass_off(int pitch) { echo_memory_bass_off(&memory, pitch); }
+ECHO_EXPORT(echo_set_keys) void echo_set_keys(int mode, int volume) {
+    echo_memory_set_keys(&memory, mode, volume);
+}
+ECHO_EXPORT(echo_keys_on) void echo_keys_on_export(int pitch, int velocity) {
+    echo_memory_keys_on(&memory, pitch, velocity);
+}
+ECHO_EXPORT(echo_keys_off) void echo_keys_off_export(int pitch) {
+    echo_memory_keys_off(&memory, pitch);
+}
 #endif
+
 
