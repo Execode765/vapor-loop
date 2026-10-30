@@ -1,12 +1,12 @@
 # Project plan
 
-Status: Vapor Loop browser prototype with a shared track/sequencer foundation. Updated: 2026-10-29.
+Status: Vapor Loop browser prototype with a shared four-role performance timeline. Updated: 2026-10-30.
 
 Current browser milestone: 0.4.0 Phrase Architecture gives Reply an independent event count and adds experimental structural personalities with rests, repetition, accents, note-length hierarchy, and ratchets. Browser CI and owner listening remain gates; this is not a plugin or hardware firmware build.
 
 Next implemented browser milestone: 0.5.0 Keep and Candidate Memory provides three deep-copy session slots for generated responses. Compiled-browser and owner validation remain gates.
 
-Current implementation milestone: 0.9.0 **Track and Sequencer Foundation** gives Lead, Bass, and Drums one 96-PPQN event timeline. It adds Lead/Bass Web-MIDI input routing, a count-in/manual bass recording pass, quarter/eighth/sixteenth input resolution, and a repeating 16-step manual kick/snare/hat lane while preserving companion behavior. Native validation passes; compiled-browser and owner validation remain gates.
+Current implementation milestone: 0.10.0 **Split Performance and Poly Keys** extends the shared 96-PPQN timeline to Lead, Bass, Drums, and a four-voice chord track. It adds configurable lower-bass/upper-lead split performance, MIDI channel 3 Poly Keys, simultaneous chord input, and manual chord-pass recording while preserving 0.9.0 behavior. Native validation passes; compiled-browser and owner validation remain gates.
 
 Name decision: **Vapor Loop** is the instrument name. ECHOLOG identifies the initial conversation prototype and psychic-octo-spork remains the repository code name until a deliberate repository rename.
 
@@ -45,7 +45,7 @@ Approved direction: capture a monophonic phrase of up to 32 notes; play a relate
 
 ## Recorded future concept — Chord Companion
 
-The owner proposed a third musical role that can automatically create scale-aware chords around the lead, with automatic accompaniment disabled when the player wants direct keyboard performance. This is intentionally deferred until Reply–Bass synchronization is validated. Honest implementation requires polyphony and input-role design because the current upper engine is monophonic. See [CHORD_COMPANION_CONCEPT.md](CHORD_COMPANION_CONCEPT.md).
+The owner proposed a third musical role that can automatically create scale-aware chords around the lead, with automatic accompaniment disabled when the player wants direct keyboard performance. Automatic generation remains deferred, but 0.10.0 establishes the required four-voice manual chord track and input-role design. The next Chord Companion milestone must build on owner-validated polyphony rather than replacing it. See [CHORD_COMPANION_CONCEPT.md](CHORD_COMPANION_CONCEPT.md).
 
 ## Release goals
 - Dedicated public GitHub source repository with appropriate licensing and upstream credits.
