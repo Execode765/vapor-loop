@@ -330,3 +330,14 @@ Never record a planned test as a passed test.
 - Repository visibility remains private. Recommended public-alpha gate: successful 0.9.0 CI, owner validation, refreshed README, and an explicit prototype/no-hardware-flashing notice.
 
 
+
+
+## 2026-10-30 — Split Performance and Poly Keys 0.10.0
+
+- Owner validation closed the 0.9.0 gate: manual bass, shared sequencing, drums, capture, Reply, and musical behavior passed hands-on testing with MPC input.
+- Added a configurable lower-bass/upper-lead split while preserving direct channel roles: MIDI channel 1 Lead, channel 2 Bass, and channel 3 Poly Keys.
+- Added a bounded four-voice integer Poly Keys engine, simultaneous chord input, deterministic voice stealing, independent Off/Manual and level controls, and quantized chord-pass recording on the shared 96-PPQN timeline.
+- The sequencer now tracks open notes per pitch so simultaneous chord notes retain independent durations.
+- Local native address/undefined-behavior sanitizer, voice, polyphony, chord-recording, split-bound, and all earlier memory regressions pass.
+- Compiled WebAssembly, AudioWorklet, served/direct-file Chrome, MIDI, and mobile-layout CI are pending at the time of this entry. Owner musical validation of 0.10.0 is also pending.
+- Chord Companion generation, sustain pedal support, finished electric-piano modeling, plugin builds, and FM-1 firmware remain deliberately out of scope for this milestone. No hardware image was built or flashed.
