@@ -38,6 +38,7 @@ assert(out[0][0].some(x=>Math.abs(x)>.001));
 await p.onMessage({type:'keys-off',pitch:60});
 await p.onMessage({type:'keys-off',pitch:64});
 await p.onMessage({type:'keys-off',pitch:67});
+await p.onMessage({type:'drum-mode',mode:0,volume:60});
 for(let i=0;i<100;i++){out=[[new Float32Array(128),new Float32Array(128)]];p.process([],out);}
 assert(out[0][0].every(x=>x===0));
 assert(!messages.some(m=>m.type==='crash'));
