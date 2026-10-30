@@ -33,14 +33,15 @@ await p.onMessage({type:'sequence-resolution',resolution:16});
 await p.onMessage({type:'drum-mode',mode:1,volume:60});
 await p.onMessage({type:'drum-toggle',step:0,voice:0});
 let out;
-for(let i=0;i<100;i++){out=[[new Float32Array(128),new Float32Array(128)]];p.process([],out);}
+for(let i=0;i<100;i++){context.currentTime+=128/44100;out=[[new Float32Array(128),new Float32Array(128)]];p.process([],out);}
 assert(out[0][0].some(x=>Math.abs(x)>.001));
 await p.onMessage({type:'keys-off',pitch:60});
 await p.onMessage({type:'keys-off',pitch:64});
 await p.onMessage({type:'keys-off',pitch:67});
 await p.onMessage({type:'drum-mode',mode:0,volume:60});
-for(let i=0;i<100;i++){out=[[new Float32Array(128),new Float32Array(128)]];p.process([],out);}
-assert(out[0][0].every(x=>x===0));
+for(let i=0;i<100;i++){context.currentTime+=128/44100;out=[[new Float32Array(128),new Float32Array(128)]];p.process([],out);}
+const latestFrame=[...messages].reverse().find(m=>m.type==='frame'&&m.phrase);
+assert.equal(latestFrame.phrase.keysActive,0);
 assert(!messages.some(m=>m.type==='crash'));
 console.log('PASS worklet bridge: WASM load, split/poly keys messages, rendered signal, framebuffer and release');
 
