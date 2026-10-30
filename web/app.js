@@ -58,12 +58,19 @@ function syncCaptureClock() {
 }
 for(const id of ['capture-bars','count-in-bars','capture-quantize','capture-metronome']) $(id).onchange=syncCaptureClock;
 const resolutionNames={4:'quarter-note',8:'eighth-note',16:'sixteenth-note'};
+const inputTrackNames={0:'Lead',1:'Bass',3:'Poly Keys',4:'Split'};
 function syncSequencer() {
   const track=Number($('input-track').value), resolution=Number($('sequence-resolution').value);
-  send({type:'input-track',track}); send({type:'sequence-resolution',resolution});
-  $('sequencer-status').textContent=`${track?'Bass':'Lead'} input · ${resolutionNames[resolution]} grid · ${lastPhraseState.manualBassCount||0} manual bass notes`;
+  const splitPoint=Number($('split-point').value);
+  send({type:'input-track',track}); send({type:'split-point',note:splitPoint});
+  send({type:'sequence-resolution',resolution});
+  $('split-point').disabled=track!==4;
+  const split=track===4?` · split at ${midiNoteName(splitPoint)}`:'';
+  $('sequencer-status').textContent=`${inputTrackNames[track]} input${split} · ${resolutionNames[resolution]} grid · bass ${lastPhraseState.manualBassCount||0} · keys ${lastPhraseState.manualKeysCount||0}`;
+  updateRecordButton(lastPhraseState);
 }
 $('input-track').onchange=syncSequencer;
+$('split-point').onchange=syncSequencer;
 $('sequence-resolution').onchange=syncSequencer;
 const drumModeNames=['Off','Manual','Companion'];
 function syncDrums() {
@@ -112,6 +119,7 @@ function syncBass() {
   bassButtons.forEach(b=>b.disabled=!ready||mode===0);
   if(mode===0) releaseBass();
   send({type:'bass',mode,density,octave,volume});
+  updateRecordButton(lastPhraseState);
 }
 for(const id of ['bass-mode','bass-density','bass-octave']) $(id).onchange=syncBass;
 $('bass-volume').oninput=syncBass;
@@ -124,6 +132,15 @@ function syncBassGroove() {
 }
 $('bass-groove-style').onchange=syncBassGroove;
 $('bass-groove-amount').oninput=syncBassGroove;
+function syncKeys() {
+  const mode=Number($('keys-mode').value), volume=Number($('keys-volume').value);
+  $('keys-volume-value').textContent=String(volume);
+  $('keys-status').textContent=`Poly Keys · ${mode?'Manual':'Off'} · ${lastPhraseState.keysActive||0}/4 voices active · ${lastPhraseState.manualKeysCount||0} recorded notes`;
+  send({type:'keys-mode',mode,volume});
+  updateRecordButton(lastPhraseState);
+}
+$('keys-mode').onchange=syncKeys;
+$('keys-volume').oninput=syncKeys;
 function midiNoteName(n) {
   const names=['C','C♯','D','E♭','E','F','F♯','G','A♭','A','B♭','B'];
   return `${names[n%12]}${Math.floor(n/12)-1}`;
@@ -137,10 +154,13 @@ function onMidiMessage(event) {
   const note=data[1]&0x7f, value=data[2]&0x7f;
   if (kind===0x80 || kind===0x90) {
     const inputTrack=Number($('input-track').value);
-    const routedStatus=kind|(inputTrack===1?1:0);
+    const splitPoint=Number($('split-point').value);
+    const routedTrack=inputTrack===4?(note<splitPoint?1:0):inputTrack;
+    const routedChannel=routedTrack===1?1:routedTrack===3?2:0;
+    const routedStatus=kind|routedChannel;
     send({type:'midi',data:[routedStatus,note,value]});
     const on=kind===0x90 && value>0;
-    const lane=inputTrack===1?' · routed to Bass':' · routed to Lead';
+    const lane=` · routed to ${inputTrackNames[routedTrack]}`;
     $('midi-status').textContent=on?`${midiInput?.name||'MIDI'} · ${midiNoteName(note)} · velocity ${value}${lane}`:
       `${midiInput?.name||'MIDI'} · ${midiNoteName(note)} released${lane}`;
   } else if (kind===0xb0 && (note===120 || note===123)) {
@@ -197,8 +217,20 @@ $('finish').onclick=()=>action(3);
 $('replay').onclick=()=>action(11);
 $('reply').onclick=()=>action(2);
 $('clear').onclick=()=>action(8);
-let lastPhraseState={candidateMask:0,lastReplyValid:0,candidateCounts:[0,0,0],manualBassCount:0};
-$('record-bass').onclick=()=>{releaseBass();send({type:'track-record',track:1});};
+let lastPhraseState={candidateMask:0,lastReplyValid:0,candidateCounts:[0,0,0],manualBassCount:0,manualKeysCount:0,keysActive:0};
+function updateRecordButton(p=lastPhraseState) {
+  const track=Number($('input-track').value);
+  const valid=track===1?Number($('bass-mode').value)===1:track===3?Number($('keys-mode').value)===1:false;
+  const label=track===1?'Record bass pass':track===3?'Record keys pass':'Select Bass or Poly Keys';
+  $('record-track').textContent=label;
+  const capturing=p.mode===1||p.mode===2||p.mode===4;
+  $('record-track').disabled=!ready||!p.count||capturing||!valid;
+}
+$('record-track').onclick=()=>{
+  releaseBass();
+  const track=Number($('input-track').value);
+  if(track===1||track===3)send({type:'track-record',track});
+};
 function candidateSlot(){return Number($('candidate-slot').value);}
 function syncCandidateUi(p=lastPhraseState) {
   lastPhraseState=p;
@@ -223,8 +255,13 @@ function phraseStatus(p) {
   $('replay').disabled=!ready || !p.count || capturing;
   $('reply').disabled=!ready || !p.count || capturing;
   $('clear').disabled=!ready || (!p.count && !capturing);
-  $('record-bass').disabled=!ready || !p.count || capturing || Number($('bass-mode').value)!==1;
-  $('sequencer-status').textContent=p.trackRecording?`Recording Bass · ${p.manualBassCount||0} notes · ${resolutionNames[p.sequenceResolution||16]} grid`:`${Number($('input-track').value)?'Bass':'Lead'} input · ${resolutionNames[p.sequenceResolution||16]} grid · ${p.manualBassCount||0} manual bass notes`;
+  updateRecordButton(p);
+  const track=Number($('input-track').value), splitPoint=Number($('split-point').value);
+  const split=track===4?` · split at ${midiNoteName(splitPoint)}`:'';
+  const recordingName=p.recordingTrack===3?'Poly Keys':'Bass';
+  $('sequencer-status').textContent=p.trackRecording?`Recording ${recordingName} · bass ${p.manualBassCount||0} · keys ${p.manualKeysCount||0} · ${resolutionNames[p.sequenceResolution||16]} grid`:
+    `${inputTrackNames[track]} input${split} · ${resolutionNames[p.sequenceResolution||16]} grid · bass ${p.manualBassCount||0} · keys ${p.manualKeysCount||0}`;
+  $('keys-status').textContent=`Poly Keys · ${Number($('keys-mode').value)?'Manual':'Off'} · ${p.keysActive||0}/4 voices active · ${p.manualKeysCount||0} recorded notes`;
   const shownLength=p.mode===2||p.mode===4?p.position:p.mode===3?(p.playLength||p.length):p.length;
   const duration=(shownLength/44100).toFixed(2);
   const limit=p.limit===1?' · 128-note limit reached':p.limit===2?' · 8-second free-time limit reached':p.limit===3?` · ${p.captureBars||2} bars complete`:'';
@@ -285,7 +322,7 @@ $('start').onclick=async()=>{
     const wasm=await response.arrayBuffer();
     node=new AudioWorkletNode(ctx,'fm1',{numberOfInputs:0,numberOfOutputs:1,outputChannelCount:[2]});
     node.port.onmessage=({data:m})=>{
-      if(m.type==='ready'){ready=true;$('status').textContent='Ready · 44.1 kHz · three-track sequencer clock';$('start').textContent='Sound enabled';$('stop').disabled=false;keyButtons.forEach(b=>b.disabled=false);syncHarmony();syncAdventure();syncGroove();syncCaptureClock();syncPhrase();syncBass();syncBassGroove();syncSequencer();syncDrums();phraseStatus({mode:0,count:0,replyCount:0,length:0,playLength:0,position:0,limit:0,playback:0,root:Number($('root').value),scale:Number($('scale').value),adventure:Number($('adventure').value),variation:0,grooveStyle:Number($('groove-style').value),grooveAmount:Number($('groove-amount').value),phraseStyle:Number($('phrase-style').value),phraseAmount:Number($('phrase-amount').value),candidateMask:0,candidateSlot:0,lastReplyValid:0,candidateCounts:[0,0,0],bassMode:Number($('bass-mode').value),bassDensity:Number($('bass-density').value),bassOctave:Number($('bass-octave').value),bassVolume:Number($('bass-volume').value),bassGrooveStyle:Number($('bass-groove-style').value),bassGrooveAmount:Number($('bass-groove-amount').value),bassCount:0,manualBassCount:0,trackRecording:0,inputTrack:Number($('input-track').value),sequenceResolution:Number($('sequence-resolution').value),drumMode:Number($('drum-mode').value),captureBars:Number($('capture-bars').value),countInBars:Number($('count-in-bars').value),captureQuantize:Number($('capture-quantize').value),metronomeEnabled:Number($('capture-metronome').value),rhythmEnabled:Number($('drum-mode').value)>0?1:0,rhythmVolume:Number($('drum-volume').value),captureLength:0,tempoBeat:0,clockBar:0,clockBeat:0});}
+      if(m.type==='ready'){ready=true;$('status').textContent='Ready · 44.1 kHz · four-track performance clock';$('start').textContent='Sound enabled';$('stop').disabled=false;keyButtons.forEach(b=>b.disabled=false);syncHarmony();syncAdventure();syncGroove();syncCaptureClock();syncPhrase();syncBass();syncBassGroove();syncKeys();syncSequencer();syncDrums();phraseStatus({mode:0,count:0,replyCount:0,length:0,playLength:0,position:0,limit:0,playback:0,root:Number($('root').value),scale:Number($('scale').value),adventure:Number($('adventure').value),variation:0,grooveStyle:Number($('groove-style').value),grooveAmount:Number($('groove-amount').value),phraseStyle:Number($('phrase-style').value),phraseAmount:Number($('phrase-amount').value),candidateMask:0,candidateSlot:0,lastReplyValid:0,candidateCounts:[0,0,0],bassMode:Number($('bass-mode').value),bassDensity:Number($('bass-density').value),bassOctave:Number($('bass-octave').value),bassVolume:Number($('bass-volume').value),bassGrooveStyle:Number($('bass-groove-style').value),bassGrooveAmount:Number($('bass-groove-amount').value),bassCount:0,manualBassCount:0,manualKeysCount:0,keysMode:Number($('keys-mode').value),keysVolume:Number($('keys-volume').value),keysActive:0,splitPoint:Number($('split-point').value),recordingTrack:-1,trackRecording:0,inputTrack:Number($('input-track').value),sequenceResolution:Number($('sequence-resolution').value),drumMode:Number($('drum-mode').value),captureBars:Number($('capture-bars').value),countInBars:Number($('count-in-bars').value),captureQuantize:Number($('capture-quantize').value),metronomeEnabled:Number($('capture-metronome').value),rhythmEnabled:Number($('drum-mode').value)>0?1:0,rhythmVolume:Number($('drum-volume').value),captureLength:0,tempoBeat:0,clockBar:0,clockBeat:0});}
       if(m.type==='frame'){if(m.fb)draw(m.fb);if(m.phrase)phraseStatus(m.phrase);}
       if(m.type==='crash'){ready=false;$('status').textContent='Audio stopped: '+m.message;node.disconnect();}
     };
@@ -294,4 +331,5 @@ $('start').onclick=async()=>{
     node.port.postMessage({type:'load',wasm,master:Number($('volume').value)},[wasm]);
   }catch(error){$('status').textContent=error.message;node?.disconnect();await ctx?.close();$('start').disabled=false;}
 };
+
 
