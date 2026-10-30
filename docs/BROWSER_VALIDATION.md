@@ -343,3 +343,21 @@ Version 0.7.2 derives Follow anchors from the final playback onsets after the up
 
 [Successful 0.8.0 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40826957158) validates source commit `8fcc88d33f8d133d2015baf62c6f6e50be6e7138`. Tempo-Aware Capture gives the first Reply and Follow bass a shared rhythmic origin; whether that resolves the owner's reported musical mismatch remains an owner listening gate.
 
+## Rhythm Reference and Extended Capture — 0.8.1
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| One/two-bar count-in | PASS | Native and compiled-WASM tests require a complete selectable count-in before recording beat one |
+| 1/2/4/8/16-bar bounds | PASS | Native checks verify exact 16-bar length at 240 BPM and existing automatic bar completion |
+| 128-note fixed capacity | PASS | Native sanitizer and compiled-WASM limit regressions |
+| Bar/beat position | PASS | Native clock assertions plus served/direct-file Chrome UI check |
+| Integer reference kit | PASS | Native and compiled-WASM tests detect kick/snare/hat output on recording beat one |
+| Reference isolation | PASS | Existing exact Replay, Reply, Candidate Memory, Bass Companion, Stop, and Clear regressions remain green |
+| Compiled WASM/worklet | PASS | Workflow 40984346867 |
+| Served and standalone Chrome | PASS | Workflow 40984346867 |
+| MIDI and mobile layout | PASS | Workflow 40984346867 |
+| Owner musical validation | PENDING | Packaged 0.8.1 preview is ready for one/two-bar count-in and rhythm-context testing |
+| Full drums / samples / plugin / FM-1 hardware | NOT TESTED | No drum sequencer, sample bank, plugin build, firmware image, or flashing occurred |
+
+[Successful 0.8.1 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40984346867) validates source/test commit `9fc7e68a722b7163f039a8176d02546c51ba8aa6`. The reference pattern is deliberately fixed and diagnostic; classic-machine-inspired kits and editable drum patterns remain later design work.
+

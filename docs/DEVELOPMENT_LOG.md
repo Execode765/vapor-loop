@@ -306,3 +306,16 @@ Never record a planned test as a passed test.
 - GitHub Actions workflow 40826957158 passed compiled WebAssembly, worklet, served-Chrome, direct-file standalone, MIDI, audio, and mobile-layout checks at commit 8fcc88d33f8d133d2015baf62c6f6e50be6e7138.
 - Owner musical validation is pending. This is a browser prototype, not an external MIDI-clock implementation, plugin, or FM-1 firmware image.
 
+## 2026-10-29 — Rhythm Reference and Extended Capture, 0.8.1
+
+- Owner audiovisual review established that v0.8.0 first-Reply bass synchronization passes: measured Follow-bass attacks were a subset of upper-Reply attacks across the recording. The remaining ambiguity was metrical context, not drift.
+- Added selectable one- or two-bar count-in; the browser default is two bars.
+- Extended tempo-aware capture to 1, 2, 4, 8, or 16 bars and increased fixed event capacity from 32 to 128 notes.
+- Added a visible one-based bar/beat position to the browser and simulated FM-1 display.
+- Added an optional deterministic integer-synthesized reference kit: kick on beats 1/3, snare on 2/4, and closed hat on eighth notes, with independent level/mute.
+- Reference drums accompany recording and playback but are not recorded, copied into candidates, or used to alter Reply/Bass timing.
+- Expanded the bounded Reply timeline so Original replies can retain a complete 16-bar capture even at 40 BPM; compact Phrase Architecture personalities remain deliberate one-bar answers.
+- Native sanitizer validation passed. Initial compiled-WASM testing sampled after the short kick transient had decayed; the assertion was corrected to sample the exact downbeat without changing the engine.
+- Workflow 40984346867 passed compiled WebAssembly, worklet, served-Chrome, direct-file standalone, MIDI, audio, and mobile-layout checks at commit 9fc7e68a722b7163f039a8176d02546c51ba8aa6.
+- Owner musical validation is pending. This milestone is not a full Drum Companion, sample engine, plugin, external MIDI-clock implementation, or FM-1 firmware image.
+

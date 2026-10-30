@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: Tempo-Aware Capture 0.8.0 is implemented in the browser instrument. Native C, compiled WASM, worklet, served-Chrome, direct-file, MIDI, and mobile-layout checks pass; owner musical validation is pending. No hardware firmware build or flashing has occurred.**
+**Status: Rhythm Reference and Extended Capture 0.8.1 is implemented in the browser instrument. Native C, compiled WASM, worklet, served-Chrome, direct-file, MIDI, audio, and mobile-layout checks pass; owner musical validation is pending. No hardware firmware build or flashing has occurred.**
 
 psychic-octo-spork is the working code name, not the final firmware name. The first prototype will explore ECHOLOG: melodic conversation.
 
@@ -12,6 +12,14 @@ Create something creative, unusual, and musically useful that FM-1 owners want t
 Initial candidates are GENOME (musical evolution), ECHOLOG (musical memory and response), and GRAVITY (physics-based composition). The owner selected ECHOLOG's melodic conversation interaction for the first prototype; the final product scope remains open. Originality and feasibility require further investigation.
 
 This project is separate from the completed Local LLM Infrastructure Lab.
+
+## Rhythm Reference and Extended Capture — prototype 0.8.1
+
+[Versioned downloadable preview — 0.8.1](preview/echolog-rhythm-reference-v0.8.1.html) — download and open in current Chrome or Edge.
+
+Choose a one- or two-bar count-in and capture 1, 2, 4, 8, or 16 bars with a bounded 128-note event memory. A visible bar/beat counter and optional integer-synthesized kick, snare, and eighth-note hat provide metrical context during recording and playback without changing the captured phrase, Reply, Candidate Memory, or synchronized Follow bass.
+
+[Rhythm Reference and Extended Capture guide](docs/RHYTHM_REFERENCE.md)
 
 ## Tempo-Aware Capture — prototype 0.8.0
 
