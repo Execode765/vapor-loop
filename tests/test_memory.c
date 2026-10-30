@@ -312,6 +312,45 @@ int main(void) {
     echo_memory_stop(&seq);
     echo_memory_set_drum_mode(&seq,99,999);
     assert(seq.drum_mode==ECHO_TRACK_OFF && seq.rhythm_volume==100);
-    puts("PASS memory: 0.9.0 track/sequencer foundation plus all 0.8.1 regressions");
+    /* v0.10.0: bounded four-voice keys, polyphonic recording, and split routing state. */
+    EchoMemory poly; echo_memory_init(&poly);
+    echo_memory_set_keys(&poly,ECHO_KEYS_MANUAL,65);
+    echo_memory_keys_on(&poly,60,100); echo_memory_keys_on(&poly,64,100);
+    echo_memory_keys_on(&poly,67,100); echo_memory_keys_on(&poly,71,100);
+    assert(echo_keys_active(&poly.keys)==4);
+    echo_memory_keys_on(&poly,74,100); assert(echo_keys_active(&poly.keys)==4);
+    int32_t poly_audio[512]={0}; echo_memory_render(&poly,poly_audio,256);
+    int heard_poly=0; for(int i=0;i<512;i++) if(poly_audio[i]) heard_poly=1;
+    assert(heard_poly);
+    echo_memory_keys_off(&poly,64); echo_memory_keys_off(&poly,67);
+    echo_memory_keys_off(&poly,71); echo_memory_keys_off(&poly,74);
+    advance(&poly,4096); assert(echo_keys_active(&poly.keys)==0);
+    echo_memory_set_input_track(&poly,ECHO_INPUT_SPLIT);
+    echo_memory_set_split_point(&poly,60);
+    assert(poly.input_track==ECHO_INPUT_SPLIT && poly.split_point==60);
+    echo_memory_set_split_point(&poly,-1); assert(poly.split_point==24);
+    echo_memory_set_split_point(&poly,200); assert(poly.split_point==96);
+
+    poly.count=1; poly.events[0].pitch=60; poly.events[0].velocity=100;
+    poly.events[0].onset=0; poly.events[0].duration=11025; poly.length=44100;
+    echo_memory_set_capture_clock(&poly,1,1,ECHO_QUANTIZE_OFF,0);
+    echo_memory_set_sequence_resolution(&poly,ECHO_RES_SIXTEENTH);
+    assert(echo_memory_record_track(&poly,ECHO_TRACK_CHORDS));
+    advance(&poly,poly.count_in_length);
+    assert(poly.mode==ECHO_PLAYING && poly.sequencer.recording);
+    echo_memory_keys_on(&poly,60,100); echo_memory_keys_on(&poly,64,96);
+    echo_memory_keys_on(&poly,67,92); advance(&poly,11025);
+    echo_memory_keys_off(&poly,60); echo_memory_keys_off(&poly,64); echo_memory_keys_off(&poly,67);
+    advance(&poly,poly.play_length-poly.position);
+    assert(poly.mode==ECHO_IDLE);
+    assert(echo_seq_track_count(&poly.sequencer,ECHO_TRACK_CHORDS)==3);
+    assert(echo_memory_replay(&poly)); advance(&poly,1);
+    assert(echo_keys_active(&poly.keys)==3);
+    echo_memory_stop(&poly);
+    echo_memory_set_keys(&poly,99,999);
+    assert(poly.keys_mode==ECHO_KEYS_OFF && poly.keys_volume==100);
+
+    puts("PASS memory: 0.10.0 split/poly keys plus all 0.9.0 regressions");
 }
+
 
