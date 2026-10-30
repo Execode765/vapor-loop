@@ -381,7 +381,9 @@ Version 0.7.2 derives Follow anchors from the final playback onsets after the up
 | Split routing state and bounds | PASS | Native memory regressions cover the configurable split and safe normalization |
 | Polyphonic chord recording | PASS | Native tests record simultaneous C/E/G events and replay three active Keys voices |
 | Existing 0.9.0 behavior | PASS | Native sanitizer suite retains capture, Reply, candidates, bass, drums, and shared-clock regressions |
-| Compiled WebAssembly/worklet | PENDING | GitHub Actions gate for this branch |
-| Served and standalone Chrome | PENDING | GitHub Actions gate for this branch |
-| Owner musical validation | PENDING | Downloadable 0.10.0 build will follow green CI |
+| Compiled WebAssembly/worklet | PASS | Workflow 41139551280 |
+| Served and standalone Chrome | PASS | Workflow 41139551280 |
+| Owner musical validation | PENDING | Packaged 0.10.0 build is ready for hands-on testing |
 | Plugin / FM-1 hardware | NOT TESTED | No plugin or hardware image was built or flashed |
+
+[Successful 0.10.0 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/41139551280) validates source commit `f650731c433a0996471422f808c2d5cd8a97cd11` before the documentation-only evidence update.
