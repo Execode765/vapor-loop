@@ -361,3 +361,13 @@ Version 0.7.2 derives Follow anchors from the final playback onsets after the up
 
 [Successful 0.8.1 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/40984346867) validates source/test commit `9fc7e68a722b7163f039a8176d02546c51ba8aa6`. The reference pattern is deliberately fixed and diagnostic; classic-machine-inspired kits and editable drum patterns remain later design work.
 
+
+
+## 2026-10-30 — Vapor Loop Track and Sequencer Foundation 0.9.0
+
+- Pull-request workflow [41013008484](https://github.com/Execode765/psychic-octo-spork/actions/runs/41013008484) passed at source commit `cdf1cbde9ab03efe454339be822fb5adb9a93fb1`.
+- Native sanitizer and voice tests passed, including all 0.8.1 regression coverage.
+- The compiled WebAssembly tests passed for the 96-PPQN clock, manual bass recording lifecycle, manual drum masks, companion playback, capture, Reply, candidates, and bounds.
+- The AudioWorklet bridge accepted input-track, sequence-resolution, drum-mode, and drum-step messages and rendered audio without a processor crash.
+- Served and direct-file Chrome runs passed Web MIDI Lead/Bass routing, manual bass pass recording, manual drum-step editing, Reply/candidate workflows, audio checks, and mobile-width validation.
+- This is browser evidence only. It does not establish plugin or physical FM-1 compatibility, and no hardware image was built or flashed.
