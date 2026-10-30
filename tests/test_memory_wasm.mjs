@@ -66,7 +66,7 @@ e.echo_keys_off(60);e.echo_keys_off(64);e.echo_keys_off(67);
 while(e.echo_mode()===3)advance(1);
 assert.equal(e.echo_manual_keys_count(),3);
 command(11);assert(render().some(x=>Math.abs(x)>.001));command(12);
-e.echo_set_capture_clock(0,1,0,0);e.echo_set_rhythm_reference(0,55);command(8);
+e.echo_set_input_track(0);e.echo_set_capture_clock(0,1,0,0);e.echo_set_rhythm_reference(0,55);command(8);
 command(13);e.web_keys(1);advance(360);assert.equal(e.echo_mode(),0);assert.equal(e.echo_limit(),2);assert.equal(e.echo_length(),352800);
 e.web_keys(0);command(8);command(13);
 for(let i=0;i<128;i++){e.web_keys(1);advance(1);e.web_keys(0);advance(1);}
