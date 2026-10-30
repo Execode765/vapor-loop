@@ -339,5 +339,5 @@ Never record a planned test as a passed test.
 - Added a bounded four-voice integer Poly Keys engine, simultaneous chord input, deterministic voice stealing, independent Off/Manual and level controls, and quantized chord-pass recording on the shared 96-PPQN timeline.
 - The sequencer now tracks open notes per pitch so simultaneous chord notes retain independent durations.
 - Local native address/undefined-behavior sanitizer, voice, polyphony, chord-recording, split-bound, and all earlier memory regressions pass.
-- Compiled WebAssembly, AudioWorklet, served/direct-file Chrome, MIDI, and mobile-layout CI are pending at the time of this entry. Owner musical validation of 0.10.0 is also pending.
+- GitHub Actions run 41139551280 passed compiled WebAssembly, AudioWorklet, served/direct-file Chrome, split/MIDI routing, chord recording/playback, screenshots, and mobile-layout checks at source commit `f650731c433a0996471422f808c2d5cd8a97cd11`. Owner musical validation of 0.10.0 remains pending.
 - Chord Companion generation, sustain pedal support, finished electric-piano modeling, plugin builds, and FM-1 firmware remain deliberately out of scope for this milestone. No hardware image was built or flashed.
