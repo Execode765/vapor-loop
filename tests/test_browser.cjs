@@ -82,10 +82,10 @@ const assert=require('node:assert/strict');
     await page.waitForFunction(()=>document.getElementById('phrase-status').textContent.startsWith('Phrase ready · 3 notes'));
     // Manual drum editing and a quantized manual bass pass use the same transport.
     await page.locator('#drum-mode').selectOption('1');
-    await page.getByRole('button',{name:'Kick step 1'}).click();
-    await page.getByRole('button',{name:'Snare step 5'}).click();
-    await page.getByRole('button',{name:'Hat step 3'}).click();
-    assert(await page.getByRole('button',{name:'Kick step 1'}).evaluate(b=>b.classList.contains('active')));
+    await page.getByRole('button',{name:'Kick step 1',exact:true}).click();
+    await page.getByRole('button',{name:'Snare step 5',exact:true}).click();
+    await page.getByRole('button',{name:'Hat step 3',exact:true}).click();
+    assert(await page.getByRole('button',{name:'Kick step 1',exact:true}).evaluate(b=>b.classList.contains('active')));
     await page.locator('#bass-mode').selectOption('1');
     await page.locator('#input-track').selectOption('1');
     await page.getByRole('button',{name:'Record bass pass',exact:true}).click();
