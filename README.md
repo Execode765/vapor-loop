@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: Vapor Loop Track and Sequencer Foundation 0.9.0 passes native C, compiled WebAssembly, worklet, served-Chrome, direct-file, Web MIDI, audio, sequencer, and mobile-layout automation. Owner musical testing remains the next gate. No hardware firmware build or flashing has occurred.**
+**Status: Vapor Loop Split Performance and Poly Keys 0.10.0 passes local native C regression testing and is undergoing compiled WebAssembly/browser CI. Version 0.9.0 is owner-validated as functional and musical. No hardware firmware build or flashing has occurred.**
 
 psychic-octo-spork remains the repository code name. **Vapor Loop** is the instrument name. ECHOLOG is the original melodic-conversation experiment that established its capture, Reply, and candidate-memory core.
 
@@ -12,6 +12,12 @@ Create something creative, unusual, and musically useful that FM-1 owners want t
 Initial concepts included GENOME, ECHOLOG, and GRAVITY. ECHOLOG's musical-memory experiment evolved into Vapor Loop: a melodic looper whose generated ideas disappear unless the player captures them. Originality and feasibility remain engineering and community-research questions rather than marketing claims.
 
 This project is separate from the completed Local LLM Infrastructure Lab.
+
+## Split Performance and Poly Keys — prototype 0.10.0
+
+Vapor Loop now supports a configurable lower-bass/upper-lead split from one controller and a separate four-voice Poly Keys track for manual chords. MIDI channel 1 addresses Lead, channel 2 Bass, and channel 3 Poly Keys. Chord notes can be recorded as a quantized pass on the shared 96-PPQN arrangement. The electric-keys tone is a compact synthesis foundation; Chord Companion generation, sustain-pedal behavior, and a finished Rhodes model remain future work.
+
+[Split Performance and Poly Keys guide](docs/SPLIT_POLY_KEYS.md)
 
 ## Track and Sequencer Foundation — prototype 0.9.0
 
@@ -82,6 +88,7 @@ Version 0.3.0 separates pitch generation from rhythm shaping. Original preserves
 - [Hardware testing and recovery record](docs/HARDWARE_TESTING.md)
 - [Future Chord Companion concept](docs/CHORD_COMPANION_CONCEPT.md)
 - [Track and Sequencer Foundation](docs/SEQUENCER_FOUNDATION.md)
+- [Split Performance and Poly Keys](docs/SPLIT_POLY_KEYS.md)
 - [AI assistance and attribution](AI_ATTRIBUTION.md)
 
 ## Intended release
