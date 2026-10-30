@@ -276,5 +276,42 @@ int main(void) {
     echo_memory_finish(&clock);
     echo_memory_set_rhythm_reference(&clock,0,999);
     assert(!clock.rhythm_enabled && clock.rhythm_volume==100);
-    puts("PASS memory: 0.8.1 extended clock/rhythm reference plus synchronized Reply bass and candidates");
+    /* v0.9.0: one 96-PPQN timeline owns a manual bass pass and manual drum lane. */
+    EchoMemory seq; echo_memory_init(&seq);
+    echo_memory_set_groove(&seq,120,ECHO_GROOVE_ORIGINAL,0);
+    echo_memory_set_capture_clock(&seq,1,1,ECHO_QUANTIZE_TIGHT,1);
+    echo_memory_set_sequence_resolution(&seq,ECHO_RES_SIXTEENTH);
+    assert(seq.sequencer.length_ticks==384 && echo_seq_tick_to_frame(96,120)==22050);
+    echo_memory_capture(&seq); advance(&seq,seq.count_in_length);
+    echo_memory_on(&seq,60,100); advance(&seq,11025); echo_memory_off(&seq,60);
+    advance(&seq,seq.capture_length-seq.position);
+    assert(seq.mode==ECHO_IDLE && seq.count==1 && seq.length==88200);
+    echo_memory_set_bass(&seq,ECHO_BASS_MANUAL,ECHO_BASS_HALF,1,75);
+    echo_memory_set_input_track(&seq,ECHO_TRACK_BASS);
+    assert(echo_memory_record_track(&seq,ECHO_TRACK_BASS));
+    assert(seq.mode==ECHO_COUNT_IN && seq.track_record_pending);
+    advance(&seq,seq.count_in_length);
+    assert(seq.mode==ECHO_PLAYING && seq.sequencer.recording);
+    echo_memory_bass_on(&seq,24,110); advance(&seq,11025); echo_memory_bass_off(&seq,24);
+    advance(&seq,11025); echo_memory_bass_on(&seq,31,96); advance(&seq,11025); echo_memory_bass_off(&seq,31);
+    advance(&seq,seq.play_length-seq.position);
+    assert(seq.mode==ECHO_IDLE && !seq.sequencer.recording);
+    assert(echo_seq_track_count(&seq.sequencer,ECHO_TRACK_BASS)==2);
+    assert(seq.sequencer.events[0].tick==0 && seq.sequencer.events[0].duration==48);
+    assert(seq.sequencer.events[1].tick==96 && seq.sequencer.events[1].value==31);
+    echo_memory_set_drum_mode(&seq,ECHO_TRACK_MANUAL,60);
+    echo_memory_toggle_drum(&seq,0,ECHO_DRUM_KICK);
+    echo_memory_toggle_drum(&seq,2,ECHO_DRUM_HAT);
+    echo_memory_toggle_drum(&seq,4,ECHO_DRUM_SNARE);
+    assert(echo_seq_drum_mask(&seq.sequencer,0)==1u);
+    assert(echo_seq_drum_mask(&seq.sequencer,2)==4u);
+    assert(echo_memory_replay(&seq) && seq.bass_count==2);
+    int32_t sequence_audio[512]={0}; echo_memory_render(&seq,sequence_audio,256);
+    int heard_sequence=0; for(int i=0;i<512;i++) if(sequence_audio[i]) heard_sequence=1;
+    assert(heard_sequence && seq.bass_voice.note==24 && seq.drums.kick_env>0);
+    echo_memory_stop(&seq);
+    echo_memory_set_drum_mode(&seq,99,999);
+    assert(seq.drum_mode==ECHO_TRACK_OFF && seq.rhythm_volume==100);
+    puts("PASS memory: 0.9.0 track/sequencer foundation plus all 0.8.1 regressions");
 }
+

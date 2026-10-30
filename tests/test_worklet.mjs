@@ -23,8 +23,13 @@ for(let i=0;i<100;i++){
 assert(peak>.01);
 assert(messages.some(m=>m.type==='frame'&&m.fb?.length===240*240));
 await p.onMessage({type:'keys',mask:0});
+await p.onMessage({type:'input-track',track:1});
+await p.onMessage({type:'sequence-resolution',resolution:16});
+await p.onMessage({type:'drum-mode',mode:1,volume:60});
+await p.onMessage({type:'drum-toggle',step:0,voice:0});
 let out;
 for(let i=0;i<100;i++){out=[[new Float32Array(128),new Float32Array(128)]];p.process([],out);}
 assert(out[0][0].every(x=>x===0));
 assert(!messages.some(m=>m.type==='crash'));
-console.log('PASS worklet bridge: WASM load, ready, rendered signal, framebuffer messages, note release');
+console.log('PASS worklet bridge: WASM load, sequencer messages, rendered signal, framebuffer and note release');
+

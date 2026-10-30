@@ -11,6 +11,8 @@ typedef struct {
 
 void echo_drums_init(EchoDrums *d);
 void echo_drums_trigger(EchoDrums *d, uint32_t eighth_step);
+void echo_drums_trigger_voice(EchoDrums *d, int voice);
 void echo_drums_render(EchoDrums *d, int32_t *stereo, uint32_t frames);
 
 #endif
+

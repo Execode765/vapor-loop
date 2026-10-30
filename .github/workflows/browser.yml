@@ -17,7 +17,7 @@ jobs:
         run: python3 tests/test_voice.py
       - name: Test memory timing and bounds
         run: |
-          gcc -std=c11 -Wall -Wextra -Werror -fsanitize=address,undefined -Isrc src/voice.c src/drums.c src/harmony.c src/phrase.c src/groove.c src/bass_groove.c src/memory.c tests/test_memory.c -o /tmp/echolog-memory-test
+          gcc -std=c11 -Wall -Wextra -Werror -fsanitize=address,undefined -Isrc src/voice.c src/drums.c src/sequencer.c src/harmony.c src/phrase.c src/groove.c src/bass_groove.c src/memory.c tests/test_memory.c -o /tmp/echolog-memory-test
           /tmp/echolog-memory-test
       - name: Build WebAssembly simulation
         run: |
@@ -48,5 +48,10 @@ jobs:
           path: build/web/
       - uses: actions/upload-artifact@v4
         with:
+          name: vapor-loop-standalone-0.9.0
+          path: preview/echolog-soundcheck.html
+      - uses: actions/upload-artifact@v4
+        with:
           name: first-sound-reference
           path: build/first-sound.wav
+

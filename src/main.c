@@ -7,9 +7,9 @@ static int shown_bar = -1, shown_beat = -1;
 void setup(void) {
     echo_memory_init(&memory);
     clear(RGB(10, 20, 24));
-    text(24, 24, "ECHOLOG", RGB(141, 238, 192), FONT_BIG);
-    text(24, 66, "RHYTHM 0.8.1", WHITE, FONT_SMALL);
-    text(24, 198, "128 NOTES / 1-16 BARS", WHITE, FONT_SMALL);
+    text(24, 24, "VAPOR LOOP", RGB(141, 238, 192), FONT_BIG);
+    text(24, 66, "SEQUENCER 0.9.0", WHITE, FONT_SMALL);
+    text(24, 198, "96 PPQN / 1-16 BARS", WHITE, FONT_SMALL);
 }
 void loop(void) {
     /* Commands precede input so a note arriving with Capture belongs to the new take. */
@@ -111,6 +111,16 @@ ECHO_EXPORT(echo_clock_bar) uint32_t echo_clock_bar(void) { return echo_memory_c
 ECHO_EXPORT(echo_clock_beat) uint32_t echo_clock_beat(void) { return echo_memory_clock_beat(&memory); }
 ECHO_EXPORT(echo_rhythm_enabled) int echo_rhythm_enabled(void) { return memory.rhythm_enabled; }
 ECHO_EXPORT(echo_rhythm_volume) int echo_rhythm_volume(void) { return memory.rhythm_volume; }
+ECHO_EXPORT(echo_drum_mode) int echo_drum_mode(void) { return memory.drum_mode; }
+ECHO_EXPORT(echo_input_track) int echo_input_track(void) { return memory.input_track; }
+ECHO_EXPORT(echo_track_recording) int echo_track_recording(void) { return memory.sequencer.recording; }
+ECHO_EXPORT(echo_sequence_resolution) int echo_sequence_resolution(void) { return memory.sequencer.resolution; }
+ECHO_EXPORT(echo_manual_bass_count) uint32_t echo_manual_bass_count(void) {
+    return echo_seq_track_count(&memory.sequencer, ECHO_TRACK_BASS);
+}
+ECHO_EXPORT(echo_drum_step_mask) int echo_drum_step_mask(int step) {
+    return echo_seq_drum_mask(&memory.sequencer, step);
+}
 ECHO_EXPORT(echo_set_harmony) void echo_set_harmony(int root, int scale) {
     echo_memory_set_harmony(&memory, root, scale);
 }
@@ -130,6 +140,21 @@ ECHO_EXPORT(echo_set_capture_clock) void echo_set_capture_clock(int bars, int co
 ECHO_EXPORT(echo_set_rhythm_reference) void echo_set_rhythm_reference(int enabled, int volume) {
     echo_memory_set_rhythm_reference(&memory, enabled, volume);
 }
+ECHO_EXPORT(echo_set_drum_mode) void echo_set_drum_mode(int mode, int volume) {
+    echo_memory_set_drum_mode(&memory, mode, volume);
+}
+ECHO_EXPORT(echo_toggle_drum) void echo_toggle_drum(int step, int voice) {
+    echo_memory_toggle_drum(&memory, step, voice);
+}
+ECHO_EXPORT(echo_set_input_track) void echo_set_input_track(int track) {
+    echo_memory_set_input_track(&memory, track);
+}
+ECHO_EXPORT(echo_record_track) int echo_record_track(int track) {
+    return echo_memory_record_track(&memory, track);
+}
+ECHO_EXPORT(echo_set_sequence_resolution) void echo_set_sequence_resolution(int resolution) {
+    echo_memory_set_sequence_resolution(&memory, resolution);
+}
 ECHO_EXPORT(echo_keep) int echo_keep(int slot) { return echo_memory_keep(&memory, slot); }
 ECHO_EXPORT(echo_play_candidate) int echo_play_candidate(int slot) { return echo_memory_play_candidate(&memory, slot); }
 ECHO_EXPORT(echo_clear_candidate) void echo_clear_candidate(int slot) { echo_memory_clear_candidate(&memory, slot); }
@@ -142,3 +167,4 @@ ECHO_EXPORT(echo_set_bass_groove) void echo_set_bass_groove(int style, int amoun
 ECHO_EXPORT(echo_bass_on) void echo_bass_on(int pitch, int velocity) { echo_memory_bass_on(&memory, pitch, velocity); }
 ECHO_EXPORT(echo_bass_off) void echo_bass_off(int pitch) { echo_memory_bass_off(&memory, pitch); }
 #endif
+

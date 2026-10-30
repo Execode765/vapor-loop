@@ -3,12 +3,12 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ECHOLOG · Rhythm Reference 0.8.1</title>
+<title>Vapor Loop · Sequencer Foundation 0.9.0</title>
 <link rel="stylesheet" href="style.css">
 <main>
-  <header><p class="eyebrow">PSYCHIC-OCTO-SPORK / DEVELOPMENT 0.8.1</p><h1>Give the phrase<br>a pocket.</h1><p class="intro">Rhythm Reference extends the shared clock with a selectable count-in, longer event capture, a visible bar/beat position, and a lightweight synthesized kick, snare, and hat.</p></header>
-  <section class="instrument" aria-label="ECHOLOG sound check">
-    <div class="top"><div><p class="eyebrow">ECHOLOG</p><p class="hint">Musical conversation, in development.</p><button id="start">Enable sound</button><p id="status" role="status">Sound is off.</p></div><canvas id="screen" width="240" height="240" aria-label="Simulated FM-1 display"></canvas></div>
+  <header><p class="eyebrow">PSYCHIC-OCTO-SPORK / DEVELOPMENT 0.9.0</p><h1>Catch it before<br>it disappears.</h1><p class="intro">Vapor Loop now shares one 96-PPQN timeline across captured phrases, manual bass, and a compact manual or companion drum track.</p></header>
+  <section class="instrument" aria-label="Vapor Loop browser prototype">
+    <div class="top"><div><p class="eyebrow">VAPOR LOOP</p><p class="hint">A melodic memory instrument, in development.</p><button id="start">Enable sound</button><p id="status" role="status">Sound is off.</p></div><canvas id="screen" width="240" height="240" aria-label="Simulated FM-1 display"></canvas></div>
     <div class="harmony-panel" aria-label="Reply harmony">
       <label for="root">Key center
         <select id="root"><option value="0">C</option><option value="1">C♯</option><option value="2">D</option><option value="3">E♭</option><option value="4">E</option><option value="5">F</option><option value="6">F♯</option><option value="7">G</option><option value="8">A♭</option><option value="9">A</option><option value="10">B♭</option><option value="11">B</option></select>
@@ -60,15 +60,26 @@
       </label>
       <p id="capture-clock-status">Capture clock · 2 bars · 2-bar count-in · Light sixteenth correction · metronome on</p>
     </div>
-    <div class="rhythm-reference-panel" aria-label="Rhythm reference controls">
-      <label for="rhythm-reference">Rhythm reference
-        <select id="rhythm-reference"><option value="0">Off</option><option value="1" selected>On</option></select>
+    <div class="sequencer-panel" aria-label="Track sequencer controls">
+      <label for="input-track">MIDI input track
+        <select id="input-track"><option value="0" selected>Lead</option><option value="1">Bass</option></select>
       </label>
-      <label class="rhythm-volume-control" for="rhythm-volume">Drum level
-        <input id="rhythm-volume" type="range" min="0" max="100" step="5" value="55"><output id="rhythm-volume-value" for="rhythm-volume">55</output>
+      <label for="sequence-resolution">Sequence resolution
+        <select id="sequence-resolution"><option value="4">Quarter notes</option><option value="8">Eighth notes</option><option value="16" selected>Sixteenth notes</option></select>
+      </label>
+      <button id="record-bass" disabled>Record bass pass</button>
+      <p id="sequencer-status">Lead input · sixteenth-note grid · no manual bass pass</p>
+    </div>
+    <div class="rhythm-reference-panel" aria-label="Drum track controls">
+      <label for="drum-mode">Drum track
+        <select id="drum-mode"><option value="0">Off</option><option value="1">Manual</option><option value="2" selected>Companion</option></select>
+      </label>
+      <label class="rhythm-volume-control" for="drum-volume">Drum level
+        <input id="drum-volume" type="range" min="0" max="100" step="5" value="55"><output id="drum-volume-value" for="drum-volume">55</output>
       </label>
       <output id="clock-position" aria-live="polite">Clock standing by</output>
-      <p id="rhythm-reference-status">Reference kit · kick on 1/3 · snare on 2/4 · eighth-note hat · level 55</p>
+      <div id="drum-grid" aria-label="One-bar 16-step drum pattern"></div>
+      <p id="drum-status">Companion drums · synchronized reference groove · level 55</p>
     </div>
     <div class="transport" aria-label="Phrase controls">
       <button id="capture" disabled>Capture</button><button id="finish" disabled>Finish</button><button id="replay" disabled>Replay</button><button id="reply" disabled>Reply</button><button id="clear" disabled>Clear</button>
@@ -104,7 +115,7 @@
       </label>
       <p id="bass-status">Bass Companion · Off</p>
       <div id="bass-keys" aria-label="Playable bass keys"></div>
-      <p class="hint">Auto follows the upper Phrase Architecture, including kept-candidate context. Straight or amount 0 reproduces the original even pulse. Manual/override: MIDI channel 2, the bass keys, or Z X C V B N M.</p>
+      <p class="hint">Auto follows the upper Phrase Architecture, including kept-candidate context. Manual mode can be played live or recorded for one synchronized pass using Record bass pass. MIDI channel 2, Bass input routing, the bass keys, or Z X C V B N M address the bass track.</p>
     </div>
     <div class="midi-panel" aria-label="MIDI controller connection">
       <button id="midi-enable" type="button">Enable MIDI</button>
@@ -117,7 +128,8 @@
     <div id="keys" aria-label="Playable keys"></div>
     <p class="hint">Click and hold a key, or use A W S E D F T G Y H U J K. Release to stop.</p>
   </section>
-  <section class="notes"><div><h2>Rhythm without samples</h2><p>The reference kit is generated with compact integer synthesis so this timing layer remains appropriate for an eventual FM-1 build. It accompanies recording and playback but is not written into the captured phrase.</p></div><div><h2>Honest scope</h2><p>This is a fixed diagnostic kick/snare/hat pattern, not the future Drum Companion. MIDI clock, user samples, drum sequencing, effects, persistent files, and deeper sound design remain separate milestones.</p></div></section>
+  <section class="notes"><div><h2>One timeline, three parts</h2><p>The captured lead, manual bass pass, and manual or companion drums now resolve against the same compact 96-PPQN clock. The one-bar drum grid repeats across the selected capture length.</p></div><div><h2>Honest scope</h2><p>This release establishes sequencing architecture with the existing diagnostic drum synthesis. Ratchets, probability, triplets, 32nd notes, full drum voices, effects, persistent files, and deeper sound design remain later milestones.</p></div></section>
   <footer>Browser simulation, not a full CPU emulator or a hardware compatibility test. Memory lasts until Clear, a new capture, or closing the page. No installer or hardware access.<br>Platform: <a href="https://github.com/konsumer/foma">foma</a>, with Felucca / SLOOP / Dinghy lineage. GPL-3.0-only. AI-assisted development.</footer>
 </main><script type="module" src="app.js"></script>
 </html>
+

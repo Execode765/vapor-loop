@@ -9,15 +9,21 @@ void echo_drums_init(EchoDrums *d) {
     d->previous_noise = 0;
 }
 
-void echo_drums_trigger(EchoDrums *d, uint32_t step) {
-    /* Eighth-note reference: kick on 1/3, snare on 2/4, hat on every eighth. */
-    if ((step & 3u) == 0u) {
+void echo_drums_trigger_voice(EchoDrums *d, int voice) {
+    if (voice == 0) {
         d->kick_phase = 0;
         d->kick_increment = echo_increments[48]; /* starts near C3, falls toward C2 */
         d->kick_env = 7600;
     }
-    if ((step & 3u) == 2u) d->snare_env = 5200;
-    d->hat_env = (step & 1u) ? 1900 : 2600;
+    if (voice == 1) d->snare_env = 5200;
+    if (voice == 2) d->hat_env = 2300;
+}
+
+void echo_drums_trigger(EchoDrums *d, uint32_t step) {
+    /* Eighth-note companion reference: kick on 1/3, snare on 2/4, hat throughout. */
+    if ((step & 3u) == 0u) echo_drums_trigger_voice(d, 0);
+    if ((step & 3u) == 2u) echo_drums_trigger_voice(d, 1);
+    echo_drums_trigger_voice(d, 2);
 }
 
 static int32_t decay(int32_t value, int shift) {
@@ -51,3 +57,4 @@ void echo_drums_render(EchoDrums *d, int32_t *stereo, uint32_t frames) {
         d->hat_env = decay(d->hat_env, 9);
     }
 }
+

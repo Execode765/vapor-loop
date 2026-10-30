@@ -1,20 +1,20 @@
 # Project plan
 
-Status: first deterministic musical Reply implemented in the browser prototype. Updated: 2026-10-28.
+Status: Vapor Loop browser prototype with a shared track/sequencer foundation. Updated: 2026-10-29.
 
 Current browser milestone: 0.4.0 Phrase Architecture gives Reply an independent event count and adds experimental structural personalities with rests, repetition, accents, note-length hierarchy, and ratchets. Browser CI and owner listening remain gates; this is not a plugin or hardware firmware build.
 
 Next implemented browser milestone: 0.5.0 Keep and Candidate Memory provides three deep-copy session slots for generated responses. Compiled-browser and owner validation remain gates.
 
-Current implementation milestone: 0.8.1 **Rhythm Reference and Extended Capture** adds a selectable one/two-bar count-in, 1/2/4/8/16-bar capture, 128-note capacity, visible bar/beat position, and a compact synthesized kick/snare/hat reference. Native, compiled-WebAssembly, worklet, served-Chrome, direct-file, MIDI, audio, and mobile-layout validation pass in workflow 40984346867; owner musical validation remains the gate. Tempo-Aware Capture 0.8.0 and Reply–Bass Synchronization 0.7.2 remain intact.
+Current implementation milestone: 0.9.0 **Track and Sequencer Foundation** gives Lead, Bass, and Drums one 96-PPQN event timeline. It adds Lead/Bass Web-MIDI input routing, a count-in/manual bass recording pass, quarter/eighth/sixteenth input resolution, and a repeating 16-step manual kick/snare/hat lane while preserving companion behavior. Native validation passes; compiled-browser and owner validation remain gates.
 
-Name exploration: **Vapor Loop** is the owner's current leading candidate for the finished instrument name. ECHOLOG and psychic-octo-spork remain the prototype/interface and repository names until a final naming decision is made.
+Name decision: **Vapor Loop** is the instrument name. ECHOLOG identifies the initial conversation prototype and psychic-octo-spork remains the repository code name until a deliberate repository rename.
 
 ## Purpose
 Develop an original, unusual, musically useful firmware for the M-VAVE FM-1. This project is separate from the completed Local LLM Infrastructure Lab.
 
 ## Creative direction
-The first prototype direction is ECHOLOG: melodic conversation. The final product scope and name remain open. psychic-octo-spork is the working code name.
+The initial ECHOLOG direction—melodic conversation—became Vapor Loop: musical ideas appear, transform, and disappear unless captured. psychic-octo-spork remains the working repository name.
 
 | Candidate | Core interaction | Question to resolve |
 | --- | --- | --- |
@@ -67,3 +67,4 @@ The first memory engine captures and replays one monophonic phrase with original
 
 ## First transformed reply — 0.0.3
 The first Reply preserves the captured onset times, durations, and velocities. It places the first answer note a perfect fifth above the captured first note, then mirrors every subsequent interval: `reply = 2 × first + 7 − captured`. MIDI-range results are clamped safely. This deterministic rule is a musical baseline for owner evaluation, not the final variation system. See [FIRST_REPLY.md](FIRST_REPLY.md).
+
