@@ -3,12 +3,13 @@
 #include "memory.h"
 static EchoMemory memory;
 static int shown_note = -2, shown_mode = -1, shown_count = -1, shown_limit = -1;
+static int shown_bar = -1, shown_beat = -1;
 void setup(void) {
     echo_memory_init(&memory);
     clear(RGB(10, 20, 24));
     text(24, 24, "ECHOLOG", RGB(141, 238, 192), FONT_BIG);
-    text(24, 66, "CLOCK 0.8.0", WHITE, FONT_SMALL);
-    text(24, 198, "32 NOTES / 1-4 BARS", WHITE, FONT_SMALL);
+    text(24, 66, "RHYTHM 0.8.1", WHITE, FONT_SMALL);
+    text(24, 198, "128 NOTES / 1-16 BARS", WHITE, FONT_SMALL);
 }
 void loop(void) {
     /* Commands precede input so a note arriving with Capture belongs to the new take. */
@@ -35,10 +36,14 @@ void loop(void) {
         }
         if ((st & 0xf0) == 0xb0 && (note == 120 || note == 123)) echo_memory_stop(&memory);
     }
+    int clock_bar = (int)echo_memory_clock_bar(&memory);
+    int clock_beat = (int)echo_memory_clock_beat(&memory);
     if (shown_note != memory.voice.note || shown_mode != memory.mode ||
-        shown_count != (int)memory.count || shown_limit != memory.limit) {
+        shown_count != (int)memory.count || shown_limit != memory.limit ||
+        shown_bar != clock_bar || shown_beat != clock_beat) {
         shown_note = memory.voice.note; shown_mode = memory.mode;
         shown_count = (int)memory.count; shown_limit = memory.limit;
+        shown_bar = clock_bar; shown_beat = clock_beat;
         rect(16, 96, 216, 92, RGB(10, 20, 24));
         const char *state = memory.mode == ECHO_COUNT_IN ? "COUNT IN" :
             memory.mode == ECHO_ARMED ? "PLAY TO BEGIN" :
@@ -51,7 +56,13 @@ void loop(void) {
         char num[12]; format_int(num, (int32_t)memory.count);
         text(16, 128, num, WHITE, FONT_BIG);
         text(80, 138, "NOTES", WHITE, FONT_SMALL);
-        if (memory.limit) text(16, 168,
+        if (clock_bar && clock_beat) {
+            char bar[12], beat[12]; format_int(bar, clock_bar); format_int(beat, clock_beat);
+            text(16, 168, "BAR", RGB(245, 215, 148), FONT_SMALL);
+            text(54, 168, bar, WHITE, FONT_SMALL);
+            text(90, 168, "BEAT", RGB(245, 215, 148), FONT_SMALL);
+            text(140, 168, beat, WHITE, FONT_SMALL);
+        } else if (memory.limit) text(16, 168,
             memory.limit == ECHO_TIME_LIMIT ? "TIME LIMIT" :
             memory.limit == ECHO_BAR_COMPLETE ? "BARS COMPLETE" : "NOTE LIMIT",
             RGB(245, 215, 148), FONT_SMALL);
@@ -93,8 +104,13 @@ ECHO_EXPORT(echo_bass_groove_amount) int echo_bass_groove_amount(void) { return 
 ECHO_EXPORT(echo_capture_bars) int echo_capture_bars(void) { return memory.capture_bars; }
 ECHO_EXPORT(echo_capture_quantize) int echo_capture_quantize(void) { return memory.capture_quantize; }
 ECHO_EXPORT(echo_metronome_enabled) int echo_metronome_enabled(void) { return memory.metronome_enabled; }
+ECHO_EXPORT(echo_count_in_bars) int echo_count_in_bars(void) { return memory.count_in_bars; }
 ECHO_EXPORT(echo_capture_length) uint32_t echo_capture_length(void) { return memory.capture_length; }
 ECHO_EXPORT(echo_tempo_beat) uint32_t echo_tempo_beat(void) { return memory.tempo_beat; }
+ECHO_EXPORT(echo_clock_bar) uint32_t echo_clock_bar(void) { return echo_memory_clock_bar(&memory); }
+ECHO_EXPORT(echo_clock_beat) uint32_t echo_clock_beat(void) { return echo_memory_clock_beat(&memory); }
+ECHO_EXPORT(echo_rhythm_enabled) int echo_rhythm_enabled(void) { return memory.rhythm_enabled; }
+ECHO_EXPORT(echo_rhythm_volume) int echo_rhythm_volume(void) { return memory.rhythm_volume; }
 ECHO_EXPORT(echo_set_harmony) void echo_set_harmony(int root, int scale) {
     echo_memory_set_harmony(&memory, root, scale);
 }
@@ -107,8 +123,12 @@ ECHO_EXPORT(echo_set_groove) void echo_set_groove(int bpm, int style, int amount
 ECHO_EXPORT(echo_set_phrase) void echo_set_phrase(int style, int amount) {
     echo_memory_set_phrase(&memory, style, amount);
 }
-ECHO_EXPORT(echo_set_capture_clock) void echo_set_capture_clock(int bars, int quantize, int metronome) {
-    echo_memory_set_capture_clock(&memory, bars, quantize, metronome);
+ECHO_EXPORT(echo_set_capture_clock) void echo_set_capture_clock(int bars, int count_in_bars,
+                                                               int quantize, int metronome) {
+    echo_memory_set_capture_clock(&memory, bars, count_in_bars, quantize, metronome);
+}
+ECHO_EXPORT(echo_set_rhythm_reference) void echo_set_rhythm_reference(int enabled, int volume) {
+    echo_memory_set_rhythm_reference(&memory, enabled, volume);
 }
 ECHO_EXPORT(echo_keep) int echo_keep(int slot) { return echo_memory_keep(&memory, slot); }
 ECHO_EXPORT(echo_play_candidate) int echo_play_candidate(int slot) { return echo_memory_play_candidate(&memory, slot); }

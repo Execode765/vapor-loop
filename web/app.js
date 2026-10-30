@@ -51,11 +51,19 @@ $('groove-amount').oninput=syncGroove;
 const quantizeNames=['Off','Light','Tight'];
 function syncCaptureClock() {
   const bars=Number($('capture-bars').value), quantize=Number($('capture-quantize').value);
-  const metronome=Number($('capture-metronome').value);
-  $('capture-clock-status').textContent=`Capture clock · ${bars} ${bars===1?'bar':'bars'} · ${quantizeNames[quantize]} sixteenth correction · metronome ${metronome?'on':'off'}`;
-  send({type:'capture-clock',bars,quantize,metronome});
+  const countInBars=Number($('count-in-bars').value), metronome=Number($('capture-metronome').value);
+  $('capture-clock-status').textContent=`Capture clock · ${bars} ${bars===1?'bar':'bars'} · ${countInBars}-bar count-in · ${quantizeNames[quantize]} sixteenth correction · metronome ${metronome?'on':'off'}`;
+  send({type:'capture-clock',bars,countInBars,quantize,metronome});
 }
-for(const id of ['capture-bars','capture-quantize','capture-metronome']) $(id).onchange=syncCaptureClock;
+for(const id of ['capture-bars','count-in-bars','capture-quantize','capture-metronome']) $(id).onchange=syncCaptureClock;
+function syncRhythmReference() {
+  const enabled=Number($('rhythm-reference').value), volume=Number($('rhythm-volume').value);
+  $('rhythm-volume-value').textContent=String(volume);
+  $('rhythm-reference-status').textContent=enabled?`Reference kit · kick on 1/3 · snare on 2/4 · eighth-note hat · level ${volume}`:'Reference kit off · captured notes and Bass Companion remain unchanged';
+  send({type:'rhythm-reference',enabled,volume});
+}
+$('rhythm-reference').onchange=syncRhythmReference;
+$('rhythm-volume').oninput=syncRhythmReference;
 const phraseNames=['Original','Trap Pocket','R&B Flow','Techno Motion'];
 function syncPhrase() {
   const style=Number($('phrase-style').value), amount=Number($('phrase-amount').value);
@@ -193,16 +201,18 @@ function phraseStatus(p) {
   $('clear').disabled=!ready || (!p.count && !capturing);
   const shownLength=p.mode===2||p.mode===4?p.position:p.mode===3?(p.playLength||p.length):p.length;
   const duration=(shownLength/44100).toFixed(2);
-  const limit=p.limit===1?' · 32-note limit reached':p.limit===2?' · 8-second limit reached':p.limit===3?` · ${p.captureBars||2} bars complete`:'';
+  const limit=p.limit===1?' · 128-note limit reached':p.limit===2?' · 8-second free-time limit reached':p.limit===3?` · ${p.captureBars||2} bars complete`:'';
   const beat=Math.max(p.tempoBeat||1,1), barFrames=beat*4;
   const countBeat=Math.min(4,Math.floor((p.position||0)/beat)+1);
+  const countBar=Math.min(p.countInBars||1,Math.floor((p.position||0)/barFrames)+1);
   const recordBar=Math.min(p.captureBars||1,Math.floor((p.position||0)/barFrames)+1);
-  $('phrase-status').textContent=p.mode===4?`Count-in · beat ${countBeat} of 4 · enter on the next beat 1`:
+  $('clock-position').textContent=p.clockBar&&p.clockBeat?`Bar ${p.clockBar} · Beat ${p.clockBeat}`:'Clock standing by';
+  $('phrase-status').textContent=p.mode===4?`Count-in · bar ${countBar} of ${p.countInBars||1} · beat ${countBeat} of 4 · enter after the final bar`:
     p.mode===1?'Armed · play your first note':
     p.mode===2?`Recording · bar ${recordBar} of ${p.captureBars||1} · ${p.count} notes · ${duration}s`:
     p.mode===3?`${p.playback===2?`Replying · ${phraseNames[p.phraseStyle||0]} ${p.phraseAmount||0} · ${p.replyCount||p.count} notes · variation ${p.variation||1}`:p.playback===3?`Playing kept candidate ${'ABC'[p.candidateSlot||0]} · ${p.candidateCounts?.[p.candidateSlot||0]||0} notes`:'Replaying'} · ${p.count} source notes · ${duration}s`:
     p.count?`Phrase ready · ${p.count} notes · ${duration}s${limit}`:'No phrase yet · press Capture';
-  $('phrase-progress').max=p.mode===4?Math.max(beat*4,1):p.mode===2?Math.max(p.captureLength||352800,1):p.mode===1?352800:p.mode===3?Math.max(p.playLength||p.length,1):Math.max(p.length,1);
+  $('phrase-progress').max=p.mode===4?Math.max(beat*4*(p.countInBars||1),1):p.mode===2?Math.max(p.captureLength||352800,1):p.mode===1?352800:p.mode===3?Math.max(p.playLength||p.length,1):Math.max(p.length,1);
   $('phrase-progress').value=p.mode===2 || p.mode===3 || p.mode===4?p.position:0;
 }
 const names=['F3','F♯3','G3','G♯3','A3','A♯3','B3','C4','C♯4','D4','D♯4','E4','F4'];
@@ -249,7 +259,7 @@ $('start').onclick=async()=>{
     const wasm=await response.arrayBuffer();
     node=new AudioWorkletNode(ctx,'fm1',{numberOfInputs:0,numberOfOutputs:1,outputChannelCount:[2]});
     node.port.onmessage=({data:m})=>{
-      if(m.type==='ready'){ready=true;$('status').textContent='Ready · 44.1 kHz · two voices + clock';$('start').textContent='Sound enabled';$('stop').disabled=false;keyButtons.forEach(b=>b.disabled=false);syncHarmony();syncAdventure();syncGroove();syncCaptureClock();syncPhrase();syncBass();syncBassGroove();phraseStatus({mode:0,count:0,replyCount:0,length:0,playLength:0,position:0,limit:0,playback:0,root:Number($('root').value),scale:Number($('scale').value),adventure:Number($('adventure').value),variation:0,grooveStyle:Number($('groove-style').value),grooveAmount:Number($('groove-amount').value),phraseStyle:Number($('phrase-style').value),phraseAmount:Number($('phrase-amount').value),candidateMask:0,candidateSlot:0,lastReplyValid:0,candidateCounts:[0,0,0],bassMode:Number($('bass-mode').value),bassDensity:Number($('bass-density').value),bassOctave:Number($('bass-octave').value),bassVolume:Number($('bass-volume').value),bassGrooveStyle:Number($('bass-groove-style').value),bassGrooveAmount:Number($('bass-groove-amount').value),bassCount:0,captureBars:Number($('capture-bars').value),captureQuantize:Number($('capture-quantize').value),metronomeEnabled:Number($('capture-metronome').value),captureLength:0,tempoBeat:0});}
+      if(m.type==='ready'){ready=true;$('status').textContent='Ready · 44.1 kHz · lead + bass + rhythm clock';$('start').textContent='Sound enabled';$('stop').disabled=false;keyButtons.forEach(b=>b.disabled=false);syncHarmony();syncAdventure();syncGroove();syncCaptureClock();syncRhythmReference();syncPhrase();syncBass();syncBassGroove();phraseStatus({mode:0,count:0,replyCount:0,length:0,playLength:0,position:0,limit:0,playback:0,root:Number($('root').value),scale:Number($('scale').value),adventure:Number($('adventure').value),variation:0,grooveStyle:Number($('groove-style').value),grooveAmount:Number($('groove-amount').value),phraseStyle:Number($('phrase-style').value),phraseAmount:Number($('phrase-amount').value),candidateMask:0,candidateSlot:0,lastReplyValid:0,candidateCounts:[0,0,0],bassMode:Number($('bass-mode').value),bassDensity:Number($('bass-density').value),bassOctave:Number($('bass-octave').value),bassVolume:Number($('bass-volume').value),bassGrooveStyle:Number($('bass-groove-style').value),bassGrooveAmount:Number($('bass-groove-amount').value),bassCount:0,captureBars:Number($('capture-bars').value),countInBars:Number($('count-in-bars').value),captureQuantize:Number($('capture-quantize').value),metronomeEnabled:Number($('capture-metronome').value),rhythmEnabled:Number($('rhythm-reference').value),rhythmVolume:Number($('rhythm-volume').value),captureLength:0,tempoBeat:0,clockBar:0,clockBeat:0});}
       if(m.type==='frame'){if(m.fb)draw(m.fb);if(m.phrase)phraseStatus(m.phrase);}
       if(m.type==='crash'){ready=false;$('status').textContent='Audio stopped: '+m.message;node.disconnect();}
     };

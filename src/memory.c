@@ -4,6 +4,7 @@ void echo_memory_init(EchoMemory *m) {
     echo_voice_init(&m->voice);
     echo_voice_init(&m->bass_voice);
     echo_voice_init(&m->click_voice);
+    echo_drums_init(&m->drums);
     m->count = m->reply_count = m->length = m->reply_length = m->play_length = m->position = m->next = 0;
     m->mode = ECHO_IDLE; m->active = m->playing = -1; m->limit = ECHO_NO_LIMIT;
     m->playback = ECHO_NO_PLAYBACK;
@@ -17,9 +18,12 @@ void echo_memory_init(EchoMemory *m) {
     m->bass_groove_style = ECHO_BASS_GROOVE_AUTO; m->bass_groove_amount = 55;
     m->bass_count = m->bass_next = 0; m->bass_playing = -1;
     m->bass_manual = 0; m->bass_manual_note = -1;
-    m->capture_bars = 0; m->capture_quantize = ECHO_QUANTIZE_OFF; m->metronome_enabled = 0;
+    m->capture_bars = 0; m->count_in_bars = 2;
+    m->capture_quantize = ECHO_QUANTIZE_OFF; m->metronome_enabled = 0;
     m->capture_length = m->count_in_length = m->tempo_beat = m->metronome_next = m->click_off = 0;
     m->click_playing = 0;
+    m->rhythm_enabled = 0; m->rhythm_volume = 55;
+    m->rhythm_beat = m->rhythm_next = m->rhythm_step = 0;
 }
 static void close_event(EchoMemory *m) {
     if (m->active < 0) return;
@@ -67,6 +71,7 @@ void echo_memory_finish(EchoMemory *m) {
     m->mode = ECHO_IDLE;
     echo_voice_stop(&m->voice);
     echo_voice_stop(&m->click_voice); m->click_playing = 0;
+    echo_drums_init(&m->drums);
 }
 void echo_memory_stop(EchoMemory *m) {
     echo_memory_finish(m);
@@ -74,9 +79,11 @@ void echo_memory_stop(EchoMemory *m) {
     echo_voice_stop(&m->voice);
     echo_voice_stop(&m->bass_voice);
     echo_voice_stop(&m->click_voice);
+    echo_drums_init(&m->drums);
     m->bass_count = m->bass_next = 0; m->bass_playing = -1;
     m->bass_manual = 0; m->bass_manual_note = -1;
     m->click_playing = 0;
+    m->rhythm_next = m->rhythm_step = 0;
 }
 void echo_memory_clear(EchoMemory *m) {
     echo_memory_stop(m);
@@ -89,11 +96,19 @@ void echo_memory_capture(EchoMemory *m) {
     if (!m->capture_bars) { m->mode = ECHO_ARMED; return; }
     int bpm = m->bpm; if (bpm < 40) bpm = 40; if (bpm > 240) bpm = 240;
     m->tempo_beat = 2646000u / (uint32_t)bpm;
-    m->count_in_length = m->tempo_beat * 4u;
-    uint64_t length = (uint64_t)m->count_in_length * (uint32_t)m->capture_bars;
+    uint32_t bar_length = m->tempo_beat * 4u;
+    m->count_in_length = bar_length * (uint32_t)m->count_in_bars;
+    uint64_t length = (uint64_t)bar_length * (uint32_t)m->capture_bars;
     if (length > ECHO_MAX_TEMPO_FRAMES) length = ECHO_MAX_TEMPO_FRAMES;
     m->capture_length = (uint32_t)length;
     m->metronome_next = 0; m->position = 0; m->mode = ECHO_COUNT_IN;
+}
+static void start_rhythm_reference(EchoMemory *m, int bpm) {
+    echo_drums_init(&m->drums);
+    if (bpm < 40) bpm = 40;
+    if (bpm > 240) bpm = 240;
+    m->rhythm_beat = 2646000u / (uint32_t)bpm;
+    m->rhythm_next = m->rhythm_step = 0;
 }
 int echo_memory_replay(EchoMemory *m) {
     echo_memory_stop(m);
@@ -103,6 +118,7 @@ int echo_memory_replay(EchoMemory *m) {
     m->play_length = m->length;
     m->playback = ECHO_EXACT_PLAYBACK;
     echo_memory_set_bass(m, m->bass_mode, m->bass_density, m->bass_octave, m->bass_volume);
+    start_rhythm_reference(m, m->bpm);
     return 1;
 }
 int echo_memory_reply(EchoMemory *m) {
@@ -134,6 +150,7 @@ int echo_memory_reply(EchoMemory *m) {
     m->playback = ECHO_REPLY_PLAYBACK;
     m->last_reply_valid = 1;
     echo_memory_set_bass(m, m->bass_mode, m->bass_density, m->bass_octave, m->bass_volume);
+    start_rhythm_reference(m, m->bpm);
     return 1;
 }
 int echo_memory_keep(EchoMemory *m, int slot) {
@@ -159,6 +176,7 @@ int echo_memory_play_candidate(EchoMemory *m, int slot) {
     m->play_length = m->candidates[slot].length;
     m->playback = ECHO_CANDIDATE_PLAYBACK;
     echo_memory_set_bass(m, m->bass_mode, m->bass_density, m->bass_octave, m->bass_volume);
+    start_rhythm_reference(m, m->candidates[slot].bpm);
     return 1;
 }
 void echo_memory_clear_candidate(EchoMemory *m, int slot) {
@@ -197,10 +215,30 @@ void echo_memory_set_phrase(EchoMemory *m, int style, int amount) {
     if (amount > 100) amount = 100;
     m->phrase_style = style; m->phrase_amount = amount; m->variation = 0;
 }
-void echo_memory_set_capture_clock(EchoMemory *m, int bars, int quantize, int metronome) {
-    if (bars != 0 && bars != 1 && bars != 2 && bars != 4) bars = 2;
+void echo_memory_set_capture_clock(EchoMemory *m, int bars, int count_in_bars,
+                                   int quantize, int metronome) {
+    if (bars != 0 && bars != 1 && bars != 2 && bars != 4 && bars != 8 && bars != 16) bars = 2;
+    if (count_in_bars != 1 && count_in_bars != 2) count_in_bars = 2;
     if (quantize < 0 || quantize >= ECHO_QUANTIZE_COUNT) quantize = ECHO_QUANTIZE_OFF;
-    m->capture_bars = bars; m->capture_quantize = quantize; m->metronome_enabled = metronome ? 1 : 0;
+    m->capture_bars = bars; m->count_in_bars = count_in_bars;
+    m->capture_quantize = quantize; m->metronome_enabled = metronome ? 1 : 0;
+}
+void echo_memory_set_rhythm_reference(EchoMemory *m, int enabled, int volume) {
+    if (volume < 0) volume = 0;
+    if (volume > 100) volume = 100;
+    m->rhythm_enabled = enabled ? 1 : 0;
+    m->rhythm_volume = volume;
+    if (!m->rhythm_enabled) echo_drums_init(&m->drums);
+}
+uint32_t echo_memory_clock_bar(const EchoMemory *m) {
+    uint32_t beat = m->mode == ECHO_PLAYING ? m->rhythm_beat : m->tempo_beat;
+    if (!beat || (m->mode != ECHO_COUNT_IN && m->mode != ECHO_RECORDING && m->mode != ECHO_PLAYING)) return 0;
+    return m->position / (beat * 4u) + 1u;
+}
+uint32_t echo_memory_clock_beat(const EchoMemory *m) {
+    uint32_t beat = m->mode == ECHO_PLAYING ? m->rhythm_beat : m->tempo_beat;
+    if (!beat || (m->mode != ECHO_COUNT_IN && m->mode != ECHO_RECORDING && m->mode != ECHO_PLAYING)) return 0;
+    return (m->position / beat) % 4u + 1u;
 }
 static uint32_t playback_count(const EchoMemory *m) {
     if (m->playback == ECHO_REPLY_PLAYBACK) return m->reply_count;
@@ -391,7 +429,8 @@ void echo_memory_render(EchoMemory *m, int32_t *out, uint32_t frames) {
         uint32_t n = frames - offset;
         if (m->mode == ECHO_COUNT_IN && m->position >= m->count_in_length) {
             echo_voice_stop(&m->click_voice); m->click_playing = 0;
-            m->mode = ECHO_RECORDING; m->position = 0; m->metronome_next = 0; continue;
+            m->mode = ECHO_RECORDING; m->position = 0; m->metronome_next = 0;
+            start_rhythm_reference(m, m->bpm); continue;
         }
         if (m->mode == ECHO_RECORDING) {
             uint32_t limit = m->capture_bars ? m->capture_length : ECHO_MAX_FRAMES;
@@ -453,16 +492,27 @@ void echo_memory_render(EchoMemory *m, int32_t *out, uint32_t frames) {
                 boundary = m->bass_onset[m->bass_next];
             if (n > boundary - m->position) n = boundary - m->position;
         }
+        if (m->rhythm_enabled && (m->mode == ECHO_RECORDING || m->mode == ECHO_PLAYING) && m->rhythm_beat) {
+            uint32_t step = m->rhythm_beat / 2u; if (!step) step = 1u;
+            if (m->position == m->rhythm_next) {
+                echo_drums_trigger(&m->drums, m->rhythm_step++);
+                m->rhythm_next += step;
+            }
+            if (m->rhythm_next > m->position && n > m->rhythm_next - m->position)
+                n = m->rhythm_next - m->position;
+        }
         uint32_t mixed = 0;
         while (mixed < n) {
             uint32_t chunk = n - mixed; if (chunk > 128u) chunk = 128u;
-            int32_t bass[256] = {0}, click[256] = {0};
+            int32_t bass[256] = {0}, click[256] = {0}, drums[256] = {0};
             echo_voice_render(&m->voice, out + 2u * (offset + mixed), chunk);
             echo_voice_render(&m->bass_voice, bass, chunk);
             echo_voice_render(&m->click_voice, click, chunk);
+            echo_drums_render(&m->drums, drums, chunk);
             for (uint32_t i = 0; i < 2u * chunk; ++i) {
                 int32_t value = out[2u * (offset + mixed) + i] +
-                    bass[i] * m->bass_volume / 100 + click[i] * 32 / 100;
+                    bass[i] * m->bass_volume / 100 + click[i] * 32 / 100 +
+                    drums[i] * m->rhythm_volume / 100;
                 if (value > 8128) value = 8128;
                 if (value < -8128) value = -8128;
                 out[2u * (offset + mixed) + i] = value;
@@ -482,5 +532,6 @@ void echo_memory_render(EchoMemory *m, int32_t *out, uint32_t frames) {
     if (m->mode == ECHO_COUNT_IN && m->position == m->count_in_length) {
         echo_voice_stop(&m->click_voice); m->click_playing = 0;
         m->mode = ECHO_RECORDING; m->position = 0; m->metronome_next = 0;
+        start_rhythm_reference(m, m->bpm);
     }
 }

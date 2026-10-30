@@ -1,8 +1,8 @@
 /* SPDX-License-Identifier: GPL-3.0-only */
 #include "phrase.h"
 
-#define PHRASE_CAPACITY 32u
-#define PHRASE_MAX_FRAMES (44100u * 16u)
+#define PHRASE_CAPACITY 128u
+#define PHRASE_MAX_FRAMES (44100u * 96u)
 
 static uint8_t velocity_scaled(uint8_t value, int percent) {
     int v = (int)value * percent / 100;

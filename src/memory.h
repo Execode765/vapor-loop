@@ -6,11 +6,12 @@
 #include "groove.h"
 #include "phrase.h"
 #include "bass_groove.h"
-#define ECHO_MAX_NOTES 32u
+#include "drums.h"
+#define ECHO_MAX_NOTES 128u
 #define ECHO_MAX_FRAMES (44100u * 8u)
-#define ECHO_MAX_TEMPO_FRAMES (44100u * 24u)
+#define ECHO_MAX_TEMPO_FRAMES (44100u * 96u)
 #define ECHO_CANDIDATE_SLOTS 3u
-#define ECHO_MAX_BASS_EVENTS 32u
+#define ECHO_MAX_BASS_EVENTS 128u
 enum { ECHO_IDLE, ECHO_ARMED, ECHO_RECORDING, ECHO_PLAYING, ECHO_COUNT_IN };
 enum { ECHO_NO_LIMIT, ECHO_NOTE_LIMIT, ECHO_TIME_LIMIT, ECHO_BAR_COMPLETE };
 enum { ECHO_NO_PLAYBACK, ECHO_EXACT_PLAYBACK, ECHO_REPLY_PLAYBACK, ECHO_CANDIDATE_PLAYBACK };
@@ -30,6 +31,7 @@ typedef struct {
 } EchoCandidate;
 typedef struct {
     EchoVoice voice, bass_voice, click_voice;
+    EchoDrums drums;
     EchoEvent events[ECHO_MAX_NOTES];
     uint8_t reply[ECHO_MAX_NOTES], reply_velocity[ECHO_MAX_NOTES];
     uint32_t reply_onset[ECHO_MAX_NOTES], reply_duration[ECHO_MAX_NOTES];
@@ -46,8 +48,10 @@ typedef struct {
     int bass_mode, bass_density, bass_octave, bass_volume;
     int bass_groove_style, bass_groove_amount;
     int bass_playing, bass_manual, bass_manual_note;
-    int capture_bars, capture_quantize, metronome_enabled, click_playing;
+    int capture_bars, count_in_bars, capture_quantize, metronome_enabled, click_playing;
+    int rhythm_enabled, rhythm_volume;
     uint32_t capture_length, count_in_length, tempo_beat, metronome_next, click_off;
+    uint32_t rhythm_beat, rhythm_next, rhythm_step;
 } EchoMemory;
 /* One serialized owner; a future threaded/interrupt adapter must queue commands. */
 void echo_memory_init(EchoMemory *m);
@@ -67,7 +71,11 @@ void echo_memory_set_harmony(EchoMemory *m, int root, int scale);
 void echo_memory_set_adventure(EchoMemory *m, int adventure);
 void echo_memory_set_groove(EchoMemory *m, int bpm, int style, int amount);
 void echo_memory_set_phrase(EchoMemory *m, int style, int amount);
-void echo_memory_set_capture_clock(EchoMemory *m, int bars, int quantize, int metronome);
+void echo_memory_set_capture_clock(EchoMemory *m, int bars, int count_in_bars,
+                                   int quantize, int metronome);
+void echo_memory_set_rhythm_reference(EchoMemory *m, int enabled, int volume);
+uint32_t echo_memory_clock_bar(const EchoMemory *m);
+uint32_t echo_memory_clock_beat(const EchoMemory *m);
 void echo_memory_stop(EchoMemory *m);
 void echo_memory_clear(EchoMemory *m);
 void echo_memory_on(EchoMemory *m, int pitch, int velocity);

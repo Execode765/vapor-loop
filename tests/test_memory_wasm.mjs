@@ -36,15 +36,18 @@ e.echo_clear_candidate(0);assert.equal(e.echo_candidate_mask(),2);assert.equal(e
 e.echo_set_groove(120,4,100);command(2);assert(e.echo_play_length()>e.echo_length());command(12);
 command(8);assert.equal(e.echo_count(),0);assert.equal(e.echo_length(),0);
 assert.equal(e.echo_candidate_mask(),2);e.echo_clear_candidate(1);assert.equal(e.echo_candidate_mask(),0);
-e.echo_set_groove(120,0,0);e.echo_set_capture_clock(1,2,1);
+e.echo_set_groove(120,0,0);e.echo_set_capture_clock(1,2,2,1);e.echo_set_rhythm_reference(1,55);
 assert.equal(e.echo_capture_bars(),1);assert.equal(e.echo_capture_quantize(),2);assert.equal(e.echo_metronome_enabled(),1);
+assert.equal(e.echo_count_in_bars(),2);assert.equal(e.echo_rhythm_enabled(),1);assert.equal(e.echo_rhythm_volume(),55);
 e.web_buttons(1<<13);const countInClick=render();e.web_buttons(0);render();
 assert.equal(e.echo_mode(),4);assert(countInClick.some(x=>Math.abs(x)>.001));
-advance(92);assert.equal(e.echo_mode(),2);e.web_keys(1);advance(2);e.web_keys(0);command(3);
+advance(178);assert.equal(e.echo_mode(),2);assert.equal(e.echo_clock_bar(),1);assert.equal(e.echo_clock_beat(),1);
+assert(render().some(x=>Math.abs(x)>.001));e.web_keys(1);advance(2);e.web_keys(0);command(3);
 assert.equal(e.echo_mode(),0);assert.equal(e.echo_count(),1);assert(e.echo_length()>0);assert.equal(e.echo_position(),e.echo_length());
-e.echo_set_capture_clock(0,0,0);command(8);
+e.echo_set_capture_clock(0,1,0,0);e.echo_set_rhythm_reference(0,55);command(8);
 command(13);e.web_keys(1);advance(360);assert.equal(e.echo_mode(),0);assert.equal(e.echo_limit(),2);assert.equal(e.echo_length(),352800);
 e.web_keys(0);command(8);command(13);
-for(let i=0;i<32;i++){e.web_keys(1);advance(1);e.web_keys(0);advance(1);}
-assert.equal(e.echo_count(),32);assert.equal(e.echo_mode(),0);assert.equal(e.echo_limit(),1);
-console.log('PASS WASM: tempo-aware capture plus independent bass groove/manual/root/follow, candidates, replay and limits');
+for(let i=0;i<128;i++){e.web_keys(1);advance(1);e.web_keys(0);advance(1);}
+assert.equal(e.echo_count(),128);assert.equal(e.echo_mode(),0);assert.equal(e.echo_limit(),1);
+e.echo_set_capture_clock(16,1,1,1);assert.equal(e.echo_capture_bars(),16);assert.equal(e.echo_count_in_bars(),1);
+console.log('PASS WASM: 0.8.1 rhythm reference, extended capture, bass, candidates, replay and limits');

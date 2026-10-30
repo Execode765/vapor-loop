@@ -226,19 +226,19 @@ int main(void) {
     echo_memory_capture(&m); echo_memory_on(&m,60,100); advance(&m,ECHO_MAX_FRAMES+1000);
     assert(m.mode==ECHO_IDLE && m.limit==ECHO_TIME_LIMIT);
     assert(m.length==ECHO_MAX_FRAMES && m.events[0].duration==ECHO_MAX_FRAMES);
-    /* Capacity: last release finishes, never writes a 33rd event. */
+    /* Capacity: last release finishes, never writes a 129th event. */
     echo_memory_capture(&m);
     for(uint32_t i=0;i<ECHO_MAX_NOTES;i++) {
         echo_memory_on(&m,60,100); advance(&m,100); echo_memory_off(&m,60);
     }
-    assert(m.mode==ECHO_IDLE && m.count==32 && m.limit==ECHO_NOTE_LIMIT);
-    echo_memory_on(&m,61,100); assert(m.count==32);
+    assert(m.mode==ECHO_IDLE && m.count==128 && m.limit==ECHO_NOTE_LIMIT);
+    echo_memory_on(&m,61,100); assert(m.count==128);
     /* Capacity with overlapping notes also finalizes safely. */
     echo_memory_capture(&m);
-    for(uint32_t i=0;i<33;i++){echo_memory_on(&m,60+(int)(i%12),100);advance(&m,10);}
-    assert(m.count==32 && m.limit==ECHO_NOTE_LIMIT);
+    for(uint32_t i=0;i<129;i++){echo_memory_on(&m,60+(int)(i%12),100);advance(&m,10);}
+    assert(m.count==128 && m.limit==ECHO_NOTE_LIMIT);
     echo_memory_replay(&m); echo_memory_on(&m,72,100);
-    assert(m.mode==ECHO_IDLE && m.voice.note==72 && m.count==32);
+    assert(m.mode==ECHO_IDLE && m.voice.note==72 && m.count==128);
     echo_memory_capture(&m); echo_memory_on(&m,60,100); advance(&m,100); echo_memory_stop(&m);
     assert(m.count==1 && m.events[0].duration==100 && m.mode==ECHO_IDLE);
     advance(&m,4096); assert(m.voice.level==0);
@@ -249,19 +249,32 @@ int main(void) {
     /* Tempo-aware capture owns beat one, preserves an opening rest, and corrects to sixteenths. */
     EchoMemory clock; echo_memory_init(&clock);
     echo_memory_set_groove(&clock,120,ECHO_GROOVE_ORIGINAL,0);
-    echo_memory_set_capture_clock(&clock,2,ECHO_QUANTIZE_TIGHT,1);
+    echo_memory_set_capture_clock(&clock,2,2,ECHO_QUANTIZE_TIGHT,1);
+    echo_memory_set_rhythm_reference(&clock,1,55);
     echo_memory_capture(&clock);
-    assert(clock.mode==ECHO_COUNT_IN && clock.tempo_beat==22050 && clock.count_in_length==88200);
+    assert(clock.mode==ECHO_COUNT_IN && clock.tempo_beat==22050 && clock.count_in_length==176400);
+    assert(echo_memory_clock_bar(&clock)==1 && echo_memory_clock_beat(&clock)==1);
     int32_t click[512]={0}; echo_memory_render(&clock,click,256);
     int heard_click=0; for(int i=0;i<512;i++) if(click[i]) heard_click=1; assert(heard_click);
     advance(&clock,clock.count_in_length-256); assert(clock.mode==ECHO_RECORDING && clock.position==0);
-    advance(&clock,3000); echo_memory_on(&clock,60,100); advance(&clock,2000); echo_memory_off(&clock,60);
+    int32_t drums[512]={0}; echo_memory_render(&clock,drums,256);
+    int heard_drums=0; for(int i=0;i<512;i++) if(drums[i]) heard_drums=1; assert(heard_drums);
+    assert(echo_memory_clock_bar(&clock)==1 && echo_memory_clock_beat(&clock)==1);
+    advance(&clock,2744); echo_memory_on(&clock,60,100); advance(&clock,2000); echo_memory_off(&clock,60);
     advance(&clock,5000); echo_memory_on(&clock,64,90); advance(&clock,2500); echo_memory_off(&clock,64);
     advance(&clock,clock.capture_length-clock.position);
     assert(clock.mode==ECHO_IDLE && clock.limit==ECHO_BAR_COMPLETE && clock.length==176400 && clock.count==2);
     assert(clock.events[0].onset==5512 && clock.events[1].onset==11024);
     assert(clock.events[0].duration>0 && clock.events[1].duration>0);
-    echo_memory_set_capture_clock(&clock,3,99,0);
-    assert(clock.capture_bars==2 && clock.capture_quantize==ECHO_QUANTIZE_OFF && !clock.metronome_enabled);
-    puts("PASS memory: tempo-aware count-in/quantize plus synchronized Reply bass, groove, manual/follow and candidates");
+    echo_memory_set_capture_clock(&clock,3,3,99,0);
+    assert(clock.capture_bars==2 && clock.count_in_bars==2 &&
+           clock.capture_quantize==ECHO_QUANTIZE_OFF && !clock.metronome_enabled);
+    echo_memory_set_groove(&clock,240,ECHO_GROOVE_ORIGINAL,0);
+    echo_memory_set_capture_clock(&clock,16,1,ECHO_QUANTIZE_LIGHT,0);
+    echo_memory_capture(&clock);
+    assert(clock.count_in_length==44100 && clock.capture_length==705600);
+    echo_memory_finish(&clock);
+    echo_memory_set_rhythm_reference(&clock,0,999);
+    assert(!clock.rhythm_enabled && clock.rhythm_volume==100);
+    puts("PASS memory: 0.8.1 extended clock/rhythm reference plus synchronized Reply bass and candidates");
 }

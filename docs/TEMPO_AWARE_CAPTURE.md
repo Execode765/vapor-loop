@@ -27,3 +27,7 @@ Correction changes note onsets, not pitches or velocities. Note lengths remain p
 This is an internal browser clock, not MIDI clock synchronization. It uses 4/4 and a one-bar count-in. It does not yet record notes played before the recording downbeat as negative-time pickups; play an intended pickup inside the selected capture window. Phrase Architecture still supplies its designed structural personalities after capture. Human listening remains required to judge how much correction suits different performances.
 
 No plugin or FM-1 hardware timing claim is made from this browser implementation.
+
+## Extended in 0.8.1
+
+[Rhythm Reference and Extended Capture](RHYTHM_REFERENCE.md) adds a selectable one/two-bar count-in, 1/2/4/8/16-bar capture, 128-note capacity, visible bar/beat position, and an optional synthesized reference kit. The v0.8.0 rules above describe the original milestone; the 0.8.1 guide is authoritative for the current controls.

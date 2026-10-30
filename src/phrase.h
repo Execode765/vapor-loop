@@ -11,7 +11,7 @@ enum {
     ECHO_PHRASE_COUNT
 };
 
-/* May remove, repeat, or reposition reply notes. Arrays have capacity 32. */
+/* May remove, repeat, or reposition reply notes. Arrays have capacity 128. */
 void echo_phrase_apply(const uint8_t *source_pitch, const uint8_t *source_velocity,
                        const uint32_t *source_onset, const uint32_t *source_duration,
                        uint32_t source_count, uint32_t source_length,

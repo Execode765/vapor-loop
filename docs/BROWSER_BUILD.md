@@ -1,6 +1,6 @@
-# Browser prototype build — 0.8.0
+# Browser prototype build — 0.8.1
 
-This milestone adds a portable musical clock to the synchronized Reply and Bass Companion engine. Tempo-Aware Capture provides a one-bar count-in, metronome, selectable bar length, and optional sixteenth-note onset correction while preserving Candidate Memory, Phrase Architecture, scale-aware Reply, Adventure, exact Replay, and Web MIDI. See [TEMPO_AWARE_CAPTURE.md](TEMPO_AWARE_CAPTURE.md). Persistent saving, the proposed Chord Companion, external MIDI clock, recorded manual bass, and richer synthesis are not implemented yet.
+This milestone extends the portable musical clock with a one/two-bar count-in, 1/2/4/8/16-bar capture, 128-note capacity, visible bar/beat position, and an optional integer-synthesized kick/snare/hat reference. It preserves Candidate Memory, Phrase Architecture, scale-aware Reply, Adventure, exact Replay, Web MIDI, and v0.8.0 Reply/Bass synchronization. See [RHYTHM_REFERENCE.md](RHYTHM_REFERENCE.md) and [TEMPO_AWARE_CAPTURE.md](TEMPO_AWARE_CAPTURE.md). Persistent saving, the proposed Chord Companion, external MIDI clock, recorded manual bass, user samples, and a full Drum Companion are not implemented yet.
 
 ## Foundation decision
 
@@ -16,6 +16,7 @@ This is a **source-compiled browser simulation**, not an emulation of the AC791N
 | --- | --- |
 | `src/memory.c`, `src/memory.h` | Capture/replay state machine and event scheduler |
 | `src/voice.c`, `src/voice.h` | Portable monophonic integer oscillator and envelope |
+| `src/drums.c`, `src/drums.h` | Compact integer reference kick, snare, and hat |
 | `src/voice_tables.h` | Generated constants; C audio processing needs no floating point |
 | `src/main.c` | foma adapter: keys/MIDI, note display, Stop |
 | `vendor/foma/platform/` | Pinned upstream browser platform and its dependencies |
