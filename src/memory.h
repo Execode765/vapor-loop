@@ -8,6 +8,7 @@
 #include "bass_groove.h"
 #include "drums.h"
 #include "sequencer.h"
+#include "keys.h"
 #define ECHO_MAX_NOTES 128u
 #define ECHO_MAX_FRAMES (44100u * 8u)
 #define ECHO_MAX_TEMPO_FRAMES (44100u * 96u)
@@ -19,6 +20,8 @@ enum { ECHO_NO_PLAYBACK, ECHO_EXACT_PLAYBACK, ECHO_REPLY_PLAYBACK, ECHO_CANDIDAT
 enum { ECHO_BASS_OFF, ECHO_BASS_MANUAL, ECHO_BASS_ROOT, ECHO_BASS_FOLLOW, ECHO_BASS_MODE_COUNT };
 enum { ECHO_BASS_PEDAL, ECHO_BASS_HALF, ECHO_BASS_QUARTER, ECHO_BASS_DENSITY_COUNT };
 enum { ECHO_QUANTIZE_OFF, ECHO_QUANTIZE_LIGHT, ECHO_QUANTIZE_TIGHT, ECHO_QUANTIZE_COUNT };
+enum { ECHO_KEYS_OFF, ECHO_KEYS_MANUAL, ECHO_KEYS_MODE_COUNT };
+enum { ECHO_INPUT_SPLIT = ECHO_TRACK_COUNT };
 typedef struct {
     uint32_t onset, duration; /* 44.1 kHz audio frames, relative to first note */
     uint8_t pitch, velocity;
@@ -33,6 +36,7 @@ typedef struct {
 typedef struct {
     EchoVoice voice, bass_voice, click_voice;
     EchoDrums drums;
+    EchoKeys keys;
     EchoSequencer sequencer;
     EchoEvent events[ECHO_MAX_NOTES];
     uint8_t reply[ECHO_MAX_NOTES], reply_velocity[ECHO_MAX_NOTES];
@@ -52,7 +56,9 @@ typedef struct {
     int bass_playing, bass_manual, bass_manual_note;
     int capture_bars, count_in_bars, capture_quantize, metronome_enabled, click_playing;
     int rhythm_enabled, rhythm_volume, drum_mode;
-    int input_track, track_record_pending;
+    int input_track, split_point, track_record_pending;
+    int keys_mode, keys_volume;
+    uint8_t keys_event_active[ECHO_SEQ_MAX_EVENTS];
     uint32_t capture_length, count_in_length, tempo_beat, metronome_next, click_off;
     uint32_t rhythm_beat, rhythm_next, rhythm_step;
 } EchoMemory;
@@ -70,6 +76,9 @@ void echo_memory_set_bass(EchoMemory *m, int mode, int density, int octave, int 
 void echo_memory_set_bass_groove(EchoMemory *m, int style, int amount);
 void echo_memory_bass_on(EchoMemory *m, int pitch, int velocity);
 void echo_memory_bass_off(EchoMemory *m, int pitch);
+void echo_memory_set_keys(EchoMemory *m, int mode, int volume);
+void echo_memory_keys_on(EchoMemory *m, int pitch, int velocity);
+void echo_memory_keys_off(EchoMemory *m, int pitch);
 void echo_memory_set_harmony(EchoMemory *m, int root, int scale);
 void echo_memory_set_adventure(EchoMemory *m, int adventure);
 void echo_memory_set_groove(EchoMemory *m, int bpm, int style, int amount);
@@ -80,6 +89,7 @@ void echo_memory_set_rhythm_reference(EchoMemory *m, int enabled, int volume);
 void echo_memory_set_drum_mode(EchoMemory *m, int mode, int volume);
 void echo_memory_toggle_drum(EchoMemory *m, int step, int voice);
 void echo_memory_set_input_track(EchoMemory *m, int track);
+void echo_memory_set_split_point(EchoMemory *m, int note);
 int echo_memory_record_track(EchoMemory *m, int track);
 void echo_memory_set_sequence_resolution(EchoMemory *m, int resolution);
 uint32_t echo_memory_clock_bar(const EchoMemory *m);
@@ -90,4 +100,5 @@ void echo_memory_on(EchoMemory *m, int pitch, int velocity);
 void echo_memory_off(EchoMemory *m, int pitch);
 void echo_memory_render(EchoMemory *m, int32_t *stereo, uint32_t frames);
 #endif
+
 

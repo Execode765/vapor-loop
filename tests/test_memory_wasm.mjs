@@ -55,11 +55,23 @@ e.echo_bass_on(24,110);advance(8);e.echo_bass_off(24);
 while(e.echo_mode()===3)advance(1);
 assert.equal(e.echo_track_recording(),0);assert.equal(e.echo_manual_bass_count(),1);
 command(11);assert(e.echo_bass_count()>0);assert(render().some(x=>Math.abs(x)>.001));command(12);
-e.echo_set_capture_clock(0,1,0,0);e.echo_set_rhythm_reference(0,55);command(8);
+e.echo_set_input_track(4);e.echo_set_split_point(60);
+assert.equal(e.echo_input_track(),4);assert.equal(e.echo_split_point(),60);
+e.echo_set_keys(1,65);assert.equal(e.echo_keys_mode(),1);assert.equal(e.echo_keys_volume(),65);
+e.echo_set_input_track(3);assert.equal(e.echo_record_track(3),1);
+while(e.echo_mode()===4)advance(1);assert.equal(e.echo_track_recording(),1);assert.equal(e.echo_recording_track(),3);
+e.echo_keys_on(60,100);e.echo_keys_on(64,96);e.echo_keys_on(67,92);
+assert.equal(e.echo_keys_active(),3);advance(8);
+e.echo_keys_off(60);e.echo_keys_off(64);e.echo_keys_off(67);
+while(e.echo_mode()===3)advance(1);
+assert.equal(e.echo_manual_keys_count(),3);
+command(11);assert(render().some(x=>Math.abs(x)>.001));command(12);
+e.echo_set_input_track(0);e.echo_set_capture_clock(0,1,0,0);e.echo_set_rhythm_reference(0,55);command(8);
 command(13);e.web_keys(1);advance(360);assert.equal(e.echo_mode(),0);assert.equal(e.echo_limit(),2);assert.equal(e.echo_length(),352800);
 e.web_keys(0);command(8);command(13);
 for(let i=0;i<128;i++){e.web_keys(1);advance(1);e.web_keys(0);advance(1);}
 assert.equal(e.echo_count(),128);assert.equal(e.echo_mode(),0);assert.equal(e.echo_limit(),1);
 e.echo_set_capture_clock(16,1,1,1);assert.equal(e.echo_capture_bars(),16);assert.equal(e.echo_count_in_bars(),1);
-console.log('PASS WASM: 0.9.0 sequencer foundation plus rhythm, capture, bass, candidates, replay and limits');
+console.log('PASS WASM: 0.10.0 split/poly keys plus rhythm, capture, bass, candidates, replay and limits');
+
 

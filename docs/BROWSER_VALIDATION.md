@@ -371,3 +371,19 @@ Version 0.7.2 derives Follow anchors from the final playback onsets after the up
 - The AudioWorklet bridge accepted input-track, sequence-resolution, drum-mode, and drum-step messages and rendered audio without a processor crash.
 - Served and direct-file Chrome runs passed Web MIDI Lead/Bass routing, manual bass pass recording, manual drum-step editing, Reply/candidate workflows, audio checks, and mobile-width validation.
 - This is browser evidence only. It does not establish plugin or physical FM-1 compatibility, and no hardware image was built or flashed.
+
+
+## Split Performance and Poly Keys — 0.10.0
+
+| Check | Result at implementation | Evidence |
+| --- | --- | --- |
+| Four-voice Keys engine | PASS | Native C tests cover triads, seventh chords, audio output, release, and fifth-note voice stealing |
+| Split routing state and bounds | PASS | Native memory regressions cover the configurable split and safe normalization |
+| Polyphonic chord recording | PASS | Native tests record simultaneous C/E/G events and replay three active Keys voices |
+| Existing 0.9.0 behavior | PASS | Native sanitizer suite retains capture, Reply, candidates, bass, drums, and shared-clock regressions |
+| Compiled WebAssembly/worklet | PASS | Workflow 41139551280 |
+| Served and standalone Chrome | PASS | Workflow 41139551280 |
+| Owner musical validation | PENDING | Packaged 0.10.0 build is ready for hands-on testing |
+| Plugin / FM-1 hardware | NOT TESTED | No plugin or hardware image was built or flashed |
+
+[Successful 0.10.0 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/41139551280) validates source commit `f650731c433a0996471422f808c2d5cd8a97cd11` before the documentation-only evidence update.

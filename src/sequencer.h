@@ -22,7 +22,7 @@ typedef struct {
     uint32_t count;
     uint16_t length_ticks;
     uint8_t bars, resolution, recording, record_track;
-    int open_event;
+    int16_t open_event[128];
     uint8_t drum_steps[ECHO_DRUM_STEPS];
 } EchoSequencer;
 
@@ -42,3 +42,4 @@ void echo_seq_toggle_drum(EchoSequencer *s, int step, int voice);
 uint8_t echo_seq_drum_mask(const EchoSequencer *s, int step);
 
 #endif
+
