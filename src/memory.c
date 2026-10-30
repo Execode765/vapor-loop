@@ -5,6 +5,7 @@ void echo_memory_init(EchoMemory *m) {
     echo_voice_init(&m->bass_voice);
     echo_voice_init(&m->click_voice);
     echo_drums_init(&m->drums);
+    echo_keys_init(&m->keys);
     echo_seq_init(&m->sequencer);
     m->count = m->reply_count = m->length = m->reply_length = m->play_length = m->position = m->next = 0;
     m->mode = ECHO_IDLE; m->active = m->playing = -1; m->limit = ECHO_NO_LIMIT;
@@ -24,7 +25,9 @@ void echo_memory_init(EchoMemory *m) {
     m->capture_length = m->count_in_length = m->tempo_beat = m->metronome_next = m->click_off = 0;
     m->click_playing = 0;
     m->rhythm_enabled = 0; m->rhythm_volume = 55; m->drum_mode = ECHO_TRACK_OFF;
-    m->input_track = ECHO_TRACK_LEAD; m->track_record_pending = 0;
+    m->input_track = ECHO_TRACK_LEAD; m->split_point = 48; m->track_record_pending = 0;
+    m->keys_mode = ECHO_KEYS_OFF; m->keys_volume = 65;
+    for (uint32_t i = 0; i < ECHO_SEQ_MAX_EVENTS; ++i) m->keys_event_active[i] = 0;
     m->rhythm_beat = m->rhythm_next = m->rhythm_step = 0;
 }
 static void close_event(EchoMemory *m) {
@@ -84,12 +87,14 @@ void echo_memory_stop(EchoMemory *m) {
     echo_voice_stop(&m->voice);
     echo_voice_stop(&m->bass_voice);
     echo_voice_stop(&m->click_voice);
+    echo_keys_stop(&m->keys);
     echo_drums_init(&m->drums);
     m->bass_count = m->bass_next = 0; m->bass_playing = -1;
     m->bass_manual = 0; m->bass_manual_note = -1;
     m->click_playing = 0;
     m->rhythm_next = m->rhythm_step = 0;
     m->track_record_pending = 0;
+    for (uint32_t i = 0; i < ECHO_SEQ_MAX_EVENTS; ++i) m->keys_event_active[i] = 0;
 }
 void echo_memory_clear(EchoMemory *m) {
     echo_memory_stop(m);
@@ -97,6 +102,7 @@ void echo_memory_clear(EchoMemory *m) {
     m->active = -1; m->limit = ECHO_NO_LIMIT;
     m->last_reply_valid = 0;
     echo_seq_clear_track(&m->sequencer, ECHO_TRACK_BASS);
+    echo_seq_clear_track(&m->sequencer, ECHO_TRACK_CHORDS);
 }
 void echo_memory_capture(EchoMemory *m) {
     echo_memory_clear(m); m->variation = 0; echo_voice_init(&m->voice); echo_voice_init(&m->click_voice);
@@ -126,6 +132,8 @@ int echo_memory_replay(EchoMemory *m) {
     m->play_length = m->length;
     m->playback = ECHO_EXACT_PLAYBACK;
     echo_memory_set_bass(m, m->bass_mode, m->bass_density, m->bass_octave, m->bass_volume);
+    echo_keys_stop(&m->keys);
+    for (uint32_t i = 0; i < ECHO_SEQ_MAX_EVENTS; ++i) m->keys_event_active[i] = 0;
     start_rhythm_reference(m, m->bpm);
     return 1;
 }
@@ -158,6 +166,8 @@ int echo_memory_reply(EchoMemory *m) {
     m->playback = ECHO_REPLY_PLAYBACK;
     m->last_reply_valid = 1;
     echo_memory_set_bass(m, m->bass_mode, m->bass_density, m->bass_octave, m->bass_volume);
+    echo_keys_stop(&m->keys);
+    for (uint32_t i = 0; i < ECHO_SEQ_MAX_EVENTS; ++i) m->keys_event_active[i] = 0;
     start_rhythm_reference(m, m->bpm);
     return 1;
 }
@@ -184,6 +194,8 @@ int echo_memory_play_candidate(EchoMemory *m, int slot) {
     m->play_length = m->candidates[slot].length;
     m->playback = ECHO_CANDIDATE_PLAYBACK;
     echo_memory_set_bass(m, m->bass_mode, m->bass_density, m->bass_octave, m->bass_volume);
+    echo_keys_stop(&m->keys);
+    for (uint32_t i = 0; i < ECHO_SEQ_MAX_EVENTS; ++i) m->keys_event_active[i] = 0;
     start_rhythm_reference(m, m->candidates[slot].bpm);
     return 1;
 }
@@ -246,21 +258,30 @@ void echo_memory_toggle_drum(EchoMemory *m, int step, int voice) {
     echo_seq_toggle_drum(&m->sequencer, step, voice);
 }
 void echo_memory_set_input_track(EchoMemory *m, int track) {
-    if (track != ECHO_TRACK_LEAD && track != ECHO_TRACK_BASS) track = ECHO_TRACK_LEAD;
+    if (track != ECHO_TRACK_LEAD && track != ECHO_TRACK_BASS &&
+        track != ECHO_TRACK_CHORDS && track != ECHO_INPUT_SPLIT) track = ECHO_TRACK_LEAD;
     m->input_track = track;
+}
+void echo_memory_set_split_point(EchoMemory *m, int note) {
+    if (note < 24) note = 24;
+    if (note > 96) note = 96;
+    m->split_point = note;
 }
 void echo_memory_set_sequence_resolution(EchoMemory *m, int resolution) {
     echo_seq_configure(&m->sequencer, m->capture_bars ? m->capture_bars : 2, resolution);
 }
 int echo_memory_record_track(EchoMemory *m, int track) {
-    if (track != ECHO_TRACK_BASS || m->bass_mode != ECHO_BASS_MANUAL || !m->count || !m->length) return 0;
+    int valid = (track == ECHO_TRACK_BASS && m->bass_mode == ECHO_BASS_MANUAL) ||
+                (track == ECHO_TRACK_CHORDS && m->keys_mode == ECHO_KEYS_MANUAL);
+    if (!valid || !m->count || !m->length) return 0;
     echo_memory_stop(m);
     echo_seq_configure(&m->sequencer, m->capture_bars ? m->capture_bars : 2, m->sequencer.resolution);
     echo_seq_clear_track(&m->sequencer, track);
     int bpm = m->bpm; if (bpm < 40) bpm = 40; if (bpm > 240) bpm = 240;
     m->tempo_beat = 2646000u / (uint32_t)bpm;
     m->count_in_length = m->tempo_beat * 4u * (uint32_t)m->count_in_bars;
-    m->metronome_next = 0; m->position = 0; m->track_record_pending = 1; m->mode = ECHO_COUNT_IN;
+    m->metronome_next = 0; m->position = 0;
+    m->track_record_pending = track + 1; m->mode = ECHO_COUNT_IN;
     return 1;
 }
 uint32_t echo_memory_clock_bar(const EchoMemory *m) {
@@ -435,6 +456,27 @@ void echo_memory_bass_off(EchoMemory *m, int pitch) {
     m->bass_manual = 0; m->bass_manual_note = -1;
     while (m->bass_next < m->bass_count && m->bass_onset[m->bass_next] <= m->position) ++m->bass_next;
 }
+void echo_memory_set_keys(EchoMemory *m, int mode, int volume) {
+    if (mode < 0 || mode >= ECHO_KEYS_MODE_COUNT) mode = ECHO_KEYS_OFF;
+    if (volume < 0) volume = 0;
+    if (volume > 100) volume = 100;
+    m->keys_mode = mode; m->keys_volume = volume;
+    if (mode == ECHO_KEYS_OFF) echo_keys_stop(&m->keys);
+}
+void echo_memory_keys_on(EchoMemory *m, int pitch, int velocity) {
+    if (m->keys_mode != ECHO_KEYS_MANUAL || pitch < 0 || pitch > 127) return;
+    if (velocity <= 0) { echo_memory_keys_off(m, pitch); return; }
+    if (velocity > 127) velocity = 127;
+    if (m->sequencer.recording && m->sequencer.record_track == ECHO_TRACK_CHORDS)
+        echo_seq_note_on(&m->sequencer, ECHO_TRACK_CHORDS, pitch, velocity, m->position, m->bpm);
+    echo_keys_on(&m->keys, pitch, velocity);
+}
+void echo_memory_keys_off(EchoMemory *m, int pitch) {
+    if (pitch < 0 || pitch > 127) return;
+    echo_keys_off(&m->keys, pitch);
+    if (m->sequencer.recording && m->sequencer.record_track == ECHO_TRACK_CHORDS)
+        echo_seq_note_off(&m->sequencer, ECHO_TRACK_CHORDS, pitch, m->position, m->bpm);
+}
 void echo_memory_on(EchoMemory *m, int pitch, int velocity) {
     if (pitch < 0 || pitch > 127) return;
     if (velocity <= 0) { echo_memory_off(m, pitch); return; }
@@ -476,12 +518,52 @@ static void start_metronome_click(EchoMemory *m) {
     m->click_off = m->position + m->tempo_beat / 12u;
     if (m->click_off <= m->position) m->click_off = m->position + 1u;
 }
+static uint32_t keys_event_onset(const EchoMemory *m, uint32_t index) {
+    return echo_seq_tick_to_frame(m->sequencer.events[index].tick, playback_bpm(m));
+}
+static uint32_t keys_event_end(const EchoMemory *m, uint32_t index) {
+    const EchoSeqEvent *e = &m->sequencer.events[index];
+    uint32_t onset = keys_event_onset(m, index);
+    uint32_t duration = echo_seq_tick_to_frame(e->duration, playback_bpm(m));
+    if (!duration) duration = 1;
+    if (duration > m->play_length - (onset < m->play_length ? onset : m->play_length))
+        duration = m->play_length - (onset < m->play_length ? onset : m->play_length);
+    return onset + duration;
+}
+static void update_keys_playback(EchoMemory *m) {
+    if (m->keys_mode != ECHO_KEYS_MANUAL || m->sequencer.recording) return;
+    for (uint32_t i = 0; i < m->sequencer.count; ++i) {
+        EchoSeqEvent *e = &m->sequencer.events[i];
+        if (e->track != ECHO_TRACK_CHORDS) continue;
+        if (m->keys_event_active[i] && m->position >= keys_event_end(m, i)) {
+            echo_keys_off(&m->keys, e->value); m->keys_event_active[i] = 0;
+        }
+    }
+    for (uint32_t i = 0; i < m->sequencer.count; ++i) {
+        EchoSeqEvent *e = &m->sequencer.events[i];
+        if (e->track == ECHO_TRACK_CHORDS && keys_event_onset(m, i) == m->position) {
+            echo_keys_on(&m->keys, e->value, e->velocity); m->keys_event_active[i] = 1;
+        }
+    }
+}
+static uint32_t next_keys_boundary(const EchoMemory *m, uint32_t boundary) {
+    if (m->keys_mode != ECHO_KEYS_MANUAL || m->sequencer.recording) return boundary;
+    for (uint32_t i = 0; i < m->sequencer.count; ++i) {
+        const EchoSeqEvent *e = &m->sequencer.events[i];
+        if (e->track != ECHO_TRACK_CHORDS) continue;
+        uint32_t point = m->keys_event_active[i] ? keys_event_end(m, i) : keys_event_onset(m, i);
+        if (point > m->position && point < boundary) boundary = point;
+    }
+    return boundary;
+}
 static void start_track_recording(EchoMemory *m) {
-    echo_voice_init(&m->voice); echo_voice_init(&m->bass_voice);
+    int track = m->track_record_pending - 1;
+    echo_voice_init(&m->voice); echo_voice_init(&m->bass_voice); echo_keys_stop(&m->keys);
     m->mode = ECHO_PLAYING; m->position = m->next = 0; m->playing = -1;
     m->play_length = m->length; m->playback = ECHO_EXACT_PLAYBACK;
     m->track_record_pending = 0;
-    echo_seq_start_record(&m->sequencer, ECHO_TRACK_BASS);
+    echo_seq_start_record(&m->sequencer, track);
+    for (uint32_t i = 0; i < ECHO_SEQ_MAX_EVENTS; ++i) m->keys_event_active[i] = 0;
     start_rhythm_reference(m, m->bpm);
     prepare_bass(m);
 }
@@ -522,6 +604,7 @@ void echo_memory_render(EchoMemory *m, int32_t *out, uint32_t frames) {
                 boundary = m->metronome_next;
             if (n > boundary - m->position) n = boundary - m->position;
         } else if (m->mode == ECHO_PLAYING) {
+            update_keys_playback(m);
             if (!m->bass_manual && m->bass_playing >= 0 &&
                 m->position >= m->bass_onset[m->bass_playing] + m->bass_duration[m->bass_playing]) {
                 echo_voice_off(&m->bass_voice, m->bass_pitch[m->bass_playing]); m->bass_playing = -1;
@@ -556,6 +639,7 @@ void echo_memory_render(EchoMemory *m, int32_t *out, uint32_t frames) {
             }
             if (!m->bass_manual && m->bass_next < m->bass_count && m->bass_onset[m->bass_next] < boundary)
                 boundary = m->bass_onset[m->bass_next];
+            boundary = next_keys_boundary(m, boundary);
             if (n > boundary - m->position) n = boundary - m->position;
         }
         if (m->rhythm_enabled && (m->mode == ECHO_RECORDING || m->mode == ECHO_PLAYING) && m->rhythm_beat) {
@@ -577,14 +661,16 @@ void echo_memory_render(EchoMemory *m, int32_t *out, uint32_t frames) {
         uint32_t mixed = 0;
         while (mixed < n) {
             uint32_t chunk = n - mixed; if (chunk > 128u) chunk = 128u;
-            int32_t bass[256] = {0}, click[256] = {0}, drums[256] = {0};
+            int32_t bass[256] = {0}, keys[256] = {0}, click[256] = {0}, drums[256] = {0};
             echo_voice_render(&m->voice, out + 2u * (offset + mixed), chunk);
             echo_voice_render(&m->bass_voice, bass, chunk);
+            echo_keys_render(&m->keys, keys, chunk);
             echo_voice_render(&m->click_voice, click, chunk);
             echo_drums_render(&m->drums, drums, chunk);
             for (uint32_t i = 0; i < 2u * chunk; ++i) {
                 int32_t value = out[2u * (offset + mixed) + i] +
-                    bass[i] * m->bass_volume / 100 + click[i] * 32 / 100 +
+                    bass[i] * m->bass_volume / 100 + keys[i] * m->keys_volume / 100 +
+                    click[i] * 32 / 100 +
                     drums[i] * m->rhythm_volume / 100;
                 if (value > 8128) value = 8128;
                 if (value < -8128) value = -8128;
@@ -611,4 +697,5 @@ void echo_memory_render(EchoMemory *m, int32_t *out, uint32_t frames) {
         }
     }
 }
+
 
