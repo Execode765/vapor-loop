@@ -9,7 +9,8 @@ static int valid_resolution(int resolution) {
 void echo_seq_init(EchoSequencer *s) {
     s->count = 0; s->bars = 2; s->resolution = ECHO_RES_SIXTEENTH;
     s->length_ticks = (uint16_t)(s->bars * 4u * ECHO_PPQN);
-    s->recording = 0; s->record_track = ECHO_TRACK_LEAD; s->open_event = -1;
+    s->recording = 0; s->record_track = ECHO_TRACK_LEAD;
+    for (int i = 0; i < 128; ++i) s->open_event[i] = -1;
     for (uint32_t i = 0; i < ECHO_DRUM_STEPS; ++i) s->drum_steps[i] = 0;
 }
 
@@ -24,7 +25,8 @@ void echo_seq_clear_track(EchoSequencer *s, int track) {
     uint32_t out = 0;
     for (uint32_t i = 0; i < s->count; ++i)
         if (s->events[i].track != track) s->events[out++] = s->events[i];
-    s->count = out; s->open_event = -1;
+    s->count = out;
+    for (int i = 0; i < 128; ++i) s->open_event[i] = -1;
     if (track == ECHO_TRACK_DRUMS)
         for (uint32_t i = 0; i < ECHO_DRUM_STEPS; ++i) s->drum_steps[i] = 0;
 }
@@ -53,7 +55,8 @@ static uint16_t quantized_tick(const EchoSequencer *s, uint32_t frame, int bpm) 
 void echo_seq_start_record(EchoSequencer *s, int track) {
     if (track < 0 || track >= ECHO_TRACK_COUNT) return;
     echo_seq_clear_track(s, track);
-    s->recording = 1; s->record_track = (uint8_t)track; s->open_event = -1;
+    s->recording = 1; s->record_track = (uint8_t)track;
+    for (int i = 0; i < 128; ++i) s->open_event[i] = -1;
 }
 
 int echo_seq_note_on(EchoSequencer *s, int track, int value, int velocity,
@@ -61,36 +64,37 @@ int echo_seq_note_on(EchoSequencer *s, int track, int value, int velocity,
     if (!s->recording || s->record_track != track || s->count >= ECHO_SEQ_MAX_EVENTS) return 0;
     if (value < 0 || value > 127 || velocity <= 0) return 0;
     if (velocity > 127) velocity = 127;
-    if (s->open_event >= 0) {
-        EchoSeqEvent *old = &s->events[s->open_event];
+    if (s->open_event[value] >= 0) {
+        EchoSeqEvent *old = &s->events[s->open_event[value]];
         uint16_t end = quantized_tick(s, frame, bpm);
         old->duration = end > old->tick ? (uint16_t)(end - old->tick) : (uint16_t)1u;
     }
     EchoSeqEvent *e = &s->events[s->count];
     e->tick = quantized_tick(s, frame, bpm); e->duration = 1;
     e->track = (uint8_t)track; e->value = (uint8_t)value; e->velocity = (uint8_t)velocity;
-    s->open_event = (int)s->count++;
+    s->open_event[value] = (int16_t)s->count++;
     return 1;
 }
 
 void echo_seq_note_off(EchoSequencer *s, int track, int value,
                        uint32_t frame, int bpm) {
-    if (!s->recording || s->open_event < 0) return;
-    EchoSeqEvent *e = &s->events[s->open_event];
+    if (!s->recording || value < 0 || value > 127 || s->open_event[value] < 0) return;
+    EchoSeqEvent *e = &s->events[s->open_event[value]];
     if (e->track != track || e->value != value) return;
     uint16_t end = quantized_tick(s, frame, bpm);
     e->duration = end > e->tick ? (uint16_t)(end - e->tick) : (uint16_t)1u;
-    s->open_event = -1;
+    s->open_event[value] = -1;
 }
 
 void echo_seq_stop_record(EchoSequencer *s, uint32_t frame, int bpm) {
-    if (s->open_event >= 0) {
-        EchoSeqEvent *e = &s->events[s->open_event];
-        uint16_t end = echo_seq_frame_to_tick(frame, bpm);
-        if (end > s->length_ticks) end = s->length_ticks;
+    uint16_t end = echo_seq_frame_to_tick(frame, bpm);
+    if (end > s->length_ticks) end = s->length_ticks;
+    for (int value = 0; value < 128; ++value) if (s->open_event[value] >= 0) {
+        EchoSeqEvent *e = &s->events[s->open_event[value]];
         e->duration = end > e->tick ? (uint16_t)(end - e->tick) : (uint16_t)1u;
+        s->open_event[value] = -1;
     }
-    s->recording = 0; s->open_event = -1;
+    s->recording = 0;
 }
 
 uint32_t echo_seq_track_count(const EchoSequencer *s, int track) {
@@ -107,3 +111,4 @@ void echo_seq_toggle_drum(EchoSequencer *s, int step, int voice) {
 uint8_t echo_seq_drum_mask(const EchoSequencer *s, int step) {
     return step >= 0 && step < (int)ECHO_DRUM_STEPS ? s->drum_steps[step] : 0;
 }
+
