@@ -7,6 +7,7 @@
 #include "phrase.h"
 #include "bass_groove.h"
 #include "drums.h"
+#include "sequencer.h"
 #define ECHO_MAX_NOTES 128u
 #define ECHO_MAX_FRAMES (44100u * 8u)
 #define ECHO_MAX_TEMPO_FRAMES (44100u * 96u)
@@ -32,6 +33,7 @@ typedef struct {
 typedef struct {
     EchoVoice voice, bass_voice, click_voice;
     EchoDrums drums;
+    EchoSequencer sequencer;
     EchoEvent events[ECHO_MAX_NOTES];
     uint8_t reply[ECHO_MAX_NOTES], reply_velocity[ECHO_MAX_NOTES];
     uint32_t reply_onset[ECHO_MAX_NOTES], reply_duration[ECHO_MAX_NOTES];
@@ -49,7 +51,8 @@ typedef struct {
     int bass_groove_style, bass_groove_amount;
     int bass_playing, bass_manual, bass_manual_note;
     int capture_bars, count_in_bars, capture_quantize, metronome_enabled, click_playing;
-    int rhythm_enabled, rhythm_volume;
+    int rhythm_enabled, rhythm_volume, drum_mode;
+    int input_track, track_record_pending;
     uint32_t capture_length, count_in_length, tempo_beat, metronome_next, click_off;
     uint32_t rhythm_beat, rhythm_next, rhythm_step;
 } EchoMemory;
@@ -74,6 +77,11 @@ void echo_memory_set_phrase(EchoMemory *m, int style, int amount);
 void echo_memory_set_capture_clock(EchoMemory *m, int bars, int count_in_bars,
                                    int quantize, int metronome);
 void echo_memory_set_rhythm_reference(EchoMemory *m, int enabled, int volume);
+void echo_memory_set_drum_mode(EchoMemory *m, int mode, int volume);
+void echo_memory_toggle_drum(EchoMemory *m, int step, int voice);
+void echo_memory_set_input_track(EchoMemory *m, int track);
+int echo_memory_record_track(EchoMemory *m, int track);
+void echo_memory_set_sequence_resolution(EchoMemory *m, int resolution);
 uint32_t echo_memory_clock_bar(const EchoMemory *m);
 uint32_t echo_memory_clock_beat(const EchoMemory *m);
 void echo_memory_stop(EchoMemory *m);
@@ -82,3 +90,4 @@ void echo_memory_on(EchoMemory *m, int pitch, int velocity);
 void echo_memory_off(EchoMemory *m, int pitch);
 void echo_memory_render(EchoMemory *m, int32_t *stereo, uint32_t frames);
 #endif
+

@@ -319,3 +319,14 @@ Never record a planned test as a passed test.
 - Workflow 40984346867 passed compiled WebAssembly, worklet, served-Chrome, direct-file standalone, MIDI, audio, and mobile-layout checks at commit 9fc7e68a722b7163f039a8176d02546c51ba8aa6.
 - Owner musical validation is pending. This milestone is not a full Drum Companion, sample engine, plugin, external MIDI-clock implementation, or FM-1 firmware image.
 
+## 2026-10-29 — Vapor Loop identity and Track/Sequencer Foundation, 0.9.0
+
+- Owner audiovisual testing passed 0.8.1 end to end: selectable count-in, two-bar capture, exact Replay, first-Reply bass synchronization, repeated Reply generation, candidate keep/recall, rhythm reference, and multiple Phrase/Bass Groove combinations remained musical and synchronized.
+- The project name is now **Vapor Loop**. ECHOLOG remains the originating melodic-conversation experiment; psychic-octo-spork remains the repository code name.
+- Added a bounded 96-PPQN sequencer representation with 1/2/4/8/16-bar lengths, 128 events, and quarter/eighth/sixteenth manual-input resolution.
+- Added Lead/Bass Web-MIDI input routing and a count-in/manual bass recording pass. The original lead and drum track play once while the bass is recorded; subsequent Replay, Reply, and candidate playback reuse the stored bass events.
+- Added Off, Manual, and Companion drum-track modes. Manual mode exposes a repeating one-bar 16-step kick/snare/hat lane using the existing diagnostic integer voices.
+- Native sanitizer tests pass for frame/tick conversion, recording lifecycle, quantized bass events, manual drum masks, synchronized playback, bounds, and all 0.8.1 regressions. Compiled-WASM and browser validation remain pending.
+- Repository visibility remains private. Recommended public-alpha gate: successful 0.9.0 CI, owner validation, refreshed README, and an explicit prototype/no-hardware-flashing notice.
+
+

@@ -2,16 +2,22 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: Rhythm Reference and Extended Capture 0.8.1 is implemented in the browser instrument. Native C, compiled WASM, worklet, served-Chrome, direct-file, MIDI, audio, and mobile-layout checks pass; owner musical validation is pending. No hardware firmware build or flashing has occurred.**
+**Status: Vapor Loop Track and Sequencer Foundation 0.9.0 is in validation. Native C and JavaScript checks pass; compiled WASM, browser automation, and owner musical testing remain gates. No hardware firmware build or flashing has occurred.**
 
-psychic-octo-spork is the working code name, not the final firmware name. The first prototype will explore ECHOLOG: melodic conversation.
+psychic-octo-spork remains the repository code name. **Vapor Loop** is the instrument name. ECHOLOG is the original melodic-conversation experiment that established its capture, Reply, and candidate-memory core.
 
 ## Vision
 Create something creative, unusual, and musically useful that FM-1 owners want to install and play. The aim goes beyond another Juno clone, conventional virtual analog synth, basic sampler, or ordinary groovebox.
 
-Initial candidates are GENOME (musical evolution), ECHOLOG (musical memory and response), and GRAVITY (physics-based composition). The owner selected ECHOLOG's melodic conversation interaction for the first prototype; the final product scope remains open. Originality and feasibility require further investigation.
+Initial concepts included GENOME, ECHOLOG, and GRAVITY. ECHOLOG's musical-memory experiment evolved into Vapor Loop: a melodic looper whose generated ideas disappear unless the player captures them. Originality and feasibility remain engineering and community-research questions rather than marketing claims.
 
 This project is separate from the completed Local LLM Infrastructure Lab.
+
+## Track and Sequencer Foundation — prototype 0.9.0
+
+Vapor Loop now uses a compact 96-PPQN timeline for the captured lead, a recordable manual bass pass, and manual or companion drums. Web MIDI can be routed to Lead or Bass; the bass pass records after the configured count-in while the original phrase plays. A one-bar 16-step kick/snare/hat grid repeats across the selected pattern length. Quarter-, eighth-, and sixteenth-note bass input resolutions establish the path to later triplets, ratchets, ties, probability, and 32nd-note editing.
+
+[Track and Sequencer Foundation guide](docs/SEQUENCER_FOUNDATION.md)
 
 ## Rhythm Reference and Extended Capture — prototype 0.8.1
 
@@ -75,6 +81,7 @@ Version 0.3.0 separates pitch generation from rhythm shaping. Original preserves
 - [Development log](docs/DEVELOPMENT_LOG.md)
 - [Hardware testing and recovery record](docs/HARDWARE_TESTING.md)
 - [Future Chord Companion concept](docs/CHORD_COMPANION_CONCEPT.md)
+- [Track and Sequencer Foundation](docs/SEQUENCER_FOUNDATION.md)
 - [AI assistance and attribution](AI_ATTRIBUTION.md)
 
 ## Intended release
@@ -92,4 +99,5 @@ There is currently no installable project firmware or verified project-specific 
 The browser simulation uses a pinned foma platform subset, with Felucca / SLOOP / Dinghy lineage, under GPL-3.0-only. See LICENSE, vendor/foma/LICENSING.md, and the browser build guide. Hardware and plugin adapters have not yet been validated.
 
 ChatGPT/Codex assists development and documentation; see [AI attribution](AI_ATTRIBUTION.md).
+
 

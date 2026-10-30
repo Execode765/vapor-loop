@@ -1,6 +1,6 @@
-# Browser prototype build — 0.8.1
+# Browser prototype build — 0.9.0
 
-This milestone extends the portable musical clock with a one/two-bar count-in, 1/2/4/8/16-bar capture, 128-note capacity, visible bar/beat position, and an optional integer-synthesized kick/snare/hat reference. It preserves Candidate Memory, Phrase Architecture, scale-aware Reply, Adventure, exact Replay, Web MIDI, and v0.8.0 Reply/Bass synchronization. See [RHYTHM_REFERENCE.md](RHYTHM_REFERENCE.md) and [TEMPO_AWARE_CAPTURE.md](TEMPO_AWARE_CAPTURE.md). Persistent saving, the proposed Chord Companion, external MIDI clock, recorded manual bass, user samples, and a full Drum Companion are not implemented yet.
+This milestone adds a shared 96-PPQN track/sequencer timeline, Lead/Bass Web-MIDI routing, a count-in/manual bass recording pass, and a repeating 16-step manual drum lane. It preserves Candidate Memory, Phrase Architecture, scale-aware Reply, Adventure, exact Replay, extended capture, and Reply/Bass synchronization. See [SEQUENCER_FOUNDATION.md](SEQUENCER_FOUNDATION.md), [RHYTHM_REFERENCE.md](RHYTHM_REFERENCE.md), and [TEMPO_AWARE_CAPTURE.md](TEMPO_AWARE_CAPTURE.md). Persistent saving, Chord Companion, external MIDI clock, full drum synthesis, effects, plugin formats, and hardware firmware remain later milestones.
 
 ## Foundation decision
 
@@ -17,6 +17,7 @@ This is a **source-compiled browser simulation**, not an emulation of the AC791N
 | `src/memory.c`, `src/memory.h` | Capture/replay state machine and event scheduler |
 | `src/voice.c`, `src/voice.h` | Portable monophonic integer oscillator and envelope |
 | `src/drums.c`, `src/drums.h` | Compact integer reference kick, snare, and hat |
+| `src/sequencer.c`, `src/sequencer.h` | 96-PPQN event clock, manual track recording, and drum-step state |
 | `src/voice_tables.h` | Generated constants; C audio processing needs no floating point |
 | `src/main.c` | foma adapter: keys/MIDI, note display, Stop |
 | `vendor/foma/platform/` | Pinned upstream browser platform and its dependencies |
@@ -73,3 +74,4 @@ The browser must support WebAssembly, Web Audio, AudioWorklet and a 44.1 kHz Aud
 ## Licensing
 
 The browser implementation includes GPL-3.0-only foma platform code; the combined implementation is distributed under GPL-3.0-only in `LICENSE`. The bundled Terminus font retains its SIL OFL notice. Original upstream licensing/credits remain in `vendor/foma/LICENSING.md`; that file describes upstream components, including ones this project does not bundle. Future plugin dependencies must be evaluated before adoption.
+
