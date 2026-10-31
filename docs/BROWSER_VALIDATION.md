@@ -413,3 +413,16 @@ Version 0.7.2 derives Follow anchors from the final playback onsets after the up
 | Existing 0.10.1 behavior | PENDING | Full native/WASM/worklet/Chrome regression pipeline |
 | Owner musical evaluation | PENDING | Packaged 0.11.0 build will require comparative listening |
 | FM-1 hardware | NOT TESTED | No firmware image or flashing occurred |
+
+
+## Engine Verification — 0.11.1
+
+| Check | Result at implementation | Evidence |
+| --- | --- | --- |
+| 0.11.0 owner engine switching | PASS | Owner video after browser refresh |
+| Distinct engine behavior | PASS | Sine, FM, VA, and Karplus selection/retrigger/release confirmed |
+| Live output level | PASS | Owner reports loud, healthy MPC/soundbar output; quiet video is capture-path attenuation |
+| Compiled engine readback | IMPLEMENTED | UI displays the engine exported by the WebAssembly audio core |
+| Mismatch/reload guidance | IMPLEMENTED | Selection receives warning outline when readback differs; build cue requests reload |
+| Full automated regression | PENDING | Pull-request workflow is the release gate |
+| FM-1 hardware | NOT TESTED | No firmware image or flashing occurred |
