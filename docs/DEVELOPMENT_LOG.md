@@ -369,3 +369,13 @@ Never record a planned test as a passed test.
 - Preserve mix headroom for future Lead, Bass, Poly Keys, Chord Companion, and drum summing. Harder drums should use transient design, saturation, harmonics, and controlled limiting rather than uncontrolled master gain.
 - Version 0.11.1 adds audio-core engine readback, visible mismatch state, build/reload guidance, and browser assertions for every selected-to-active transition.
 - Full workflow result is pending at this entry. No FM-1 image or flashing occurred.
+
+
+## 2026-10-31 — Chord Companion foundation 0.12.0
+
+- Extended the existing four-voice Poly Keys lane with Off/live-free, Manual/recordable, Root Follow, and Phrase Follow modes.
+- Root Follow holds a scale-aware key-center triad. Phrase Follow derives a new scale-aware triad from each Lead playback onset.
+- Live Poly Keys input temporarily replaces generated harmony; releasing the manual notes permits automatic harmony to resume.
+- The first implementation uses deterministic root-position triads and fixed memory. Smooth inversions, advanced voice-leading, chord rhythms, sustain, richer chord timbres, and MIDI-output harmony are deferred.
+- Native and browser regression coverage now exercises scale membership, register bounds, three-voice generation, manual takeover, Off-mode live playing, and all existing Lead/Bass/Drum behavior.
+- Automated workflow and owner musical validation are pending. No plugin build, FM-1 firmware image, or hardware flashing occurred.
