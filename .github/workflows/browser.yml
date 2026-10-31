@@ -48,11 +48,12 @@ jobs:
           path: build/web/
       - uses: actions/upload-artifact@v4
         with:
-          name: vapor-loop-standalone-0.10.0
+          name: vapor-loop-standalone-0.10.1
           path: preview/echolog-soundcheck.html
       - uses: actions/upload-artifact@v4
         with:
           name: first-sound-reference
           path: build/first-sound.wav
+
 
 
