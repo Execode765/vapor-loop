@@ -438,5 +438,5 @@ Version 0.7.2 derives Follow anchors from the final playback onsets after the up
 | Temporary manual override | IMPLEMENTED | Live Poly Keys input replaces the generated triad with the played note |
 | Off/live-free and Manual/recordable | IMPLEMENTED | Existing manual chord recording remains covered; Off permits live playing without recording |
 | Full automated regression | PENDING | Pull-request workflow is the release gate |
-| Owner musical validation | PENDING | Packaged standalone build will require hands-on listening |
+| Owner musical validation | PASS | Clean video test confirms 13-note Lead capture, six-note manual chord pass, synchronized Replay, Root Follow, and Phrase Follow |
 | Plugin / FM-1 hardware | NOT TESTED | No plugin or hardware image was built or flashed |
