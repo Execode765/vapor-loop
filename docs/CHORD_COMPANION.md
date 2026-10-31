@@ -1,4 +1,4 @@
-# Chord Companion — prototype 0.12.0
+# Chord Companion — prototype 0.12.1
 
 Chord Companion extends Vapor Loop's existing four-voice Poly Keys lane. It does not add a second unbounded synth or claim finished harmonic intelligence; it adds a compact, deterministic harmony layer suitable for browser prototyping and later FM-1 feasibility work.
 
@@ -11,7 +11,9 @@ Chord Companion extends Vapor Loop's existing four-voice Poly Keys lane. It does
 | Root Follow | Holds a three-note, scale-aware triad anchored to the selected key center. |
 | Phrase Follow | Generates a three-note, scale-aware triad from each Lead playback onset. |
 
-Root and Phrase Follow accept live Poly Keys input. The generated triad stops while the player holds manual notes, then automatic operation can resume. Chord volume remains independent of Lead and Bass.
+Root and Phrase Follow accept live Poly Keys input. The generated triad hands the lane over immediately when the first manual note arrives, eliminating release-tail overlap and transient voice stealing. Exact held-pitch tracking prevents repeated or stray MIDI messages from leaving override state stuck. Chord volume remains independent of Lead and Bass.
+
+During a manual chord-pass count-in, notes played slightly before beat one are latched. Any notes still held when recording begins are written at tick zero, so a natural early entrance is not heard live and then omitted from playback.
 
 ## Musical rules
 
@@ -57,5 +59,6 @@ Proposed behavior:
 
 Interaction references include Telepathic Instruments Orchid and the open-source ChoralRoot FM-1 project. Vapor Loop should learn from their immediacy while retaining its own identity: captured phrases, disappearing variations, generated replies, candidate memory, and switchable player/companion relationships.
 
-This is a later refinement, not part of the 0.12.0 validation build. Before implementation, define an original control map and review applicable licenses and attribution requirements. Do not copy names, visual identity, presets, proprietary assets, or undocumented behavior.
+This is a later refinement, not part of the 0.12.x validation builds. Before implementation, define an original control map and review applicable licenses and attribution requirements. Do not copy names, visual identity, presets, proprietary assets, or undocumented behavior.
+
 

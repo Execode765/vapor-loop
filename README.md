@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: Vapor Loop 0.11.1 preserves the owner-validated four-engine Lead lab and adds compiled-core verification. Version 0.12.0 adds the first Chord Companion foundation—manual recording, Root Follow, Phrase Follow, temporary live override, and independent level. Automated validation and the owner’s clean channel-1/channel-3 video test passed. No hardware firmware build or flashing has occurred.**
+**Status: Vapor Loop 0.12.1 refines the Chord Companion foundation with beat-one held-note capture, immediate generated-to-manual handoff, and exact held-pitch tracking. Version 0.12.0 established manual recording, Root Follow, Phrase Follow, temporary live override, and independent level. No hardware firmware build or flashing has occurred.**
 
 psychic-octo-spork remains the repository code name. **Vapor Loop** is the instrument name. ECHOLOG is the original melodic-conversation experiment that established its capture, Reply, and candidate-memory core.
 
@@ -13,9 +13,9 @@ Initial concepts included GENOME, ECHOLOG, and GRAVITY. ECHOLOG's musical-memory
 
 This project is separate from the completed Local LLM Infrastructure Lab.
 
-## Chord Companion — prototype 0.12.0
+## Chord Companion — prototype 0.12.1
 
-The four-voice Poly Keys lane can remain freely playable, record a manual chord pass, hold a scale-aware key-center triad, or follow each Lead event with a scale-aware triad. Playing live temporarily replaces generated harmony. This first version intentionally uses simple root-position triads; inversions, advanced voice-leading, rhythmic chord patterns, sustain, and sound-design refinements remain later work.
+The four-voice Poly Keys lane can remain freely playable, record a manual chord pass, hold a scale-aware key-center triad, or follow each Lead event with a scale-aware triad. Notes held across the count-in boundary are captured at tick zero, and playing live immediately replaces generated harmony without sharing the voice pool with its release tails. This version intentionally uses simple root-position triads; inversions, advanced voice-leading, rhythmic chord patterns, sustain, and sound-design refinements remain later work.
 
 [Chord Companion guide](docs/CHORD_COMPANION.md)
 
@@ -130,5 +130,6 @@ There is currently no installable project firmware or verified project-specific 
 The browser simulation uses a pinned foma platform subset, with Felucca / SLOOP / Dinghy lineage, under GPL-3.0-only. See LICENSE, vendor/foma/LICENSING.md, and the browser build guide. Hardware and plugin adapters have not yet been validated.
 
 ChatGPT/Codex assists development and documentation; see [AI attribution](AI_ATTRIBUTION.md).
+
 
 

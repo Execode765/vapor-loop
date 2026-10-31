@@ -372,10 +372,43 @@ int main(void) {
     advance(&poly,1); assert(echo_keys_active(&poly.keys)==3);
     echo_memory_stop(&poly);
 
+    /* v0.12.1: notes entered just before beat one are latched at tick zero. */
+    echo_memory_set_keys(&poly,ECHO_KEYS_MANUAL,70);
+    assert(echo_memory_record_track(&poly,ECHO_TRACK_CHORDS));
+    advance(&poly,poly.count_in_length-64);
+    echo_memory_keys_on(&poly,60,101); echo_memory_keys_on(&poly,64,99);
+    echo_memory_keys_on(&poly,67,97);
+    assert(!poly.sequencer.recording);
+    advance(&poly,64);
+    assert(poly.sequencer.recording);
+    assert(echo_seq_track_count(&poly.sequencer,ECHO_TRACK_CHORDS)==3);
+    for(uint32_t i=0;i<poly.sequencer.count;i++)
+        if(poly.sequencer.events[i].track==ECHO_TRACK_CHORDS)
+            assert(poly.sequencer.events[i].tick==0);
+    advance(&poly,11025);
+    echo_memory_keys_off(&poly,60); echo_memory_keys_off(&poly,64); echo_memory_keys_off(&poly,67);
+    advance(&poly,poly.play_length-poly.position);
+    assert(poly.mode==ECHO_IDLE && echo_seq_track_count(&poly.sequencer,ECHO_TRACK_CHORDS)==3);
+
     echo_memory_set_keys(&poly,ECHO_KEYS_FOLLOW,70);
     assert(echo_memory_replay(&poly)); advance(&poly,1);
     assert(echo_keys_active(&poly.keys)==3 && poly.chord_note_count==3);
     for(int i=0;i<3;i++) assert(echo_harmony_contains(poly.chord_notes[i],0,ECHO_SCALE_MAJOR));
+    echo_memory_stop(&poly);
+
+    /* Manual takeover hard-clears generated tails and counts held pitches exactly. */
+    echo_memory_set_keys(&poly,ECHO_KEYS_ROOT,70);
+    assert(echo_memory_replay(&poly)); advance(&poly,256);
+    echo_memory_keys_on(&poly,72,110);
+    assert(poly.chord_override==1 && echo_keys_active(&poly.keys)==1);
+    for(int i=0;i<ECHO_KEYS_VOICES;i++)
+        if(poly.keys.voices[i].note!=72) assert(poly.keys.voices[i].level==0);
+    echo_memory_keys_on(&poly,72,110); assert(poly.chord_override==1);
+    echo_memory_keys_on(&poly,76,105); assert(poly.chord_override==2);
+    echo_memory_keys_off(&poly,79); assert(poly.chord_override==2);
+    echo_memory_keys_off(&poly,72); assert(poly.chord_override==1);
+    echo_memory_keys_off(&poly,76); assert(poly.chord_override==0);
+    advance(&poly,1); assert(echo_keys_active(&poly.keys)==3);
     echo_memory_stop(&poly);
 
     /* Off disables generation but preserves a free, unrecorded live keyboard. */
@@ -389,7 +422,8 @@ int main(void) {
     echo_memory_set_keys(&poly,99,999);
     assert(poly.keys_mode==ECHO_KEYS_OFF && poly.keys_volume==100);
 
-    puts("PASS memory: 0.12.0 Chord Companion plus all 0.11.1 regressions");
+    puts("PASS memory: 0.12.1 chord handoff and beat-one capture plus all regressions");
 }
+
 
 

@@ -29,6 +29,7 @@ void echo_memory_init(EchoMemory *m) {
     m->keys_mode = ECHO_KEYS_OFF; m->keys_volume = 65;
     m->chord_note_count = m->chord_override = 0;
     for (int i = 0; i < 3; ++i) m->chord_notes[i] = 0;
+    for (int i = 0; i < 128; ++i) m->keys_held[i] = m->keys_held_velocity[i] = 0;
     for (uint32_t i = 0; i < ECHO_SEQ_MAX_EVENTS; ++i) m->keys_event_active[i] = 0;
     m->rhythm_beat = m->rhythm_next = m->rhythm_step = 0;
 }
@@ -91,6 +92,7 @@ void echo_memory_stop(EchoMemory *m) {
     echo_voice_stop(&m->click_voice);
     echo_keys_stop(&m->keys);
     m->chord_note_count = m->chord_override = 0;
+    for (int i = 0; i < 128; ++i) m->keys_held[i] = m->keys_held_velocity[i] = 0;
     echo_drums_init(&m->drums);
     m->bass_count = m->bass_next = 0; m->bass_playing = -1;
     m->bass_manual = 0; m->bass_manual_note = -1;
@@ -475,23 +477,32 @@ void echo_memory_set_keys(EchoMemory *m, int mode, int volume) {
     if (volume < 0) volume = 0;
     if (volume > 100) volume = 100;
     echo_keys_stop(&m->keys); m->chord_note_count = m->chord_override = 0;
+    for (int i = 0; i < 128; ++i) m->keys_held[i] = m->keys_held_velocity[i] = 0;
     m->keys_mode = mode; m->keys_volume = volume;
 }
 void echo_memory_keys_on(EchoMemory *m, int pitch, int velocity) {
     if (pitch < 0 || pitch > 127) return;
     if (velocity <= 0) { echo_memory_keys_off(m, pitch); return; }
     if (velocity > 127) velocity = 127;
+    int newly_held = !m->keys_held[pitch];
     if (m->keys_mode == ECHO_KEYS_ROOT || m->keys_mode == ECHO_KEYS_FOLLOW) {
-        if (!m->chord_override) stop_companion_chord(m);
-        ++m->chord_override;
+        if (!m->chord_override && newly_held) {
+            /* Manual performance owns the lane immediately: do not leave the
+               generated triad's release tails in the four-voice pool. */
+            echo_keys_init(&m->keys); m->chord_note_count = 0;
+        }
+        if (newly_held) ++m->chord_override;
     }
-    if (m->sequencer.recording && m->sequencer.record_track == ECHO_TRACK_CHORDS &&
+    m->keys_held[pitch] = 1; m->keys_held_velocity[pitch] = (uint8_t)velocity;
+    if (newly_held && m->sequencer.recording && m->sequencer.record_track == ECHO_TRACK_CHORDS &&
         m->keys_mode == ECHO_KEYS_MANUAL)
         echo_seq_note_on(&m->sequencer, ECHO_TRACK_CHORDS, pitch, velocity, m->position, m->bpm);
     echo_keys_on(&m->keys, pitch, velocity);
 }
 void echo_memory_keys_off(EchoMemory *m, int pitch) {
     if (pitch < 0 || pitch > 127) return;
+    if (!m->keys_held[pitch]) return;
+    m->keys_held[pitch] = m->keys_held_velocity[pitch] = 0;
     echo_keys_off(&m->keys, pitch);
     if ((m->keys_mode == ECHO_KEYS_ROOT || m->keys_mode == ECHO_KEYS_FOLLOW) && m->chord_override > 0)
         --m->chord_override;
@@ -585,6 +596,15 @@ static void start_track_recording(EchoMemory *m) {
     m->play_length = m->length; m->playback = ECHO_EXACT_PLAYBACK;
     m->track_record_pending = 0;
     echo_seq_start_record(&m->sequencer, track);
+    if (track == ECHO_TRACK_CHORDS && m->keys_mode == ECHO_KEYS_MANUAL) {
+        /* A player commonly enters a fraction early at the end of count-in.
+           Recreate every still-held note at tick zero so beat one is kept. */
+        for (int pitch = 0; pitch < 128; ++pitch) if (m->keys_held[pitch]) {
+            echo_seq_note_on(&m->sequencer, ECHO_TRACK_CHORDS, pitch,
+                             m->keys_held_velocity[pitch], 0, m->bpm);
+            echo_keys_on(&m->keys, pitch, m->keys_held_velocity[pitch]);
+        }
+    }
     for (uint32_t i = 0; i < ECHO_SEQ_MAX_EVENTS; ++i) m->keys_event_active[i] = 0;
     start_rhythm_reference(m, m->bpm);
     prepare_bass(m);
@@ -723,5 +743,6 @@ void echo_memory_render(EchoMemory *m, int32_t *out, uint32_t frames) {
         }
     }
 }
+
 
 

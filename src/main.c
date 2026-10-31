@@ -24,7 +24,7 @@ void setup(void) {
     echo_memory_init(&memory);
     clear(RGB(10, 20, 24));
     text(24, 24, "VAPOR LOOP", RGB(141, 238, 192), FONT_BIG);
-    text(24, 66, "CHORDS 0.12.0", WHITE, FONT_SMALL);
+    text(24, 66, "CHORDS 0.12.1", WHITE, FONT_SMALL);
     text(24, 198, "SPLIT / 4-VOICE KEYS", WHITE, FONT_SMALL);
 }
 void loop(void) {
@@ -145,7 +145,8 @@ ECHO_EXPORT(echo_keys_active) int echo_keys_active_export(void) { return echo_ke
 ECHO_EXPORT(echo_split_point) int echo_split_point(void) { return memory.split_point; }
 ECHO_EXPORT(echo_lead_engine) int echo_lead_engine(void) { return memory.voice.engine; }
 ECHO_EXPORT(echo_recording_track) int echo_recording_track(void) {
-    return memory.sequencer.recording ? memory.sequencer.record_track : -1;
+    if (memory.sequencer.recording) return memory.sequencer.record_track;
+    return memory.track_record_pending ? memory.track_record_pending - 1 : -1;
 }
 ECHO_EXPORT(echo_drum_step_mask) int echo_drum_step_mask(int step) {
     return echo_seq_drum_mask(&memory.sequencer, step);
@@ -211,6 +212,7 @@ ECHO_EXPORT(echo_keys_off) void echo_keys_off_export(int pitch) {
     echo_memory_keys_off(&memory, pitch);
 }
 #endif
+
 
 
 

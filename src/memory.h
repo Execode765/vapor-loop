@@ -60,6 +60,7 @@ typedef struct {
     int keys_mode, keys_volume;
     uint8_t chord_notes[3];
     int chord_note_count, chord_override;
+    uint8_t keys_held[128], keys_held_velocity[128];
     uint8_t keys_event_active[ECHO_SEQ_MAX_EVENTS];
     uint32_t capture_length, count_in_length, tempo_beat, metronome_next, click_off;
     uint32_t rhythm_beat, rhythm_next, rhythm_step;
@@ -102,5 +103,6 @@ void echo_memory_on(EchoMemory *m, int pitch, int velocity);
 void echo_memory_off(EchoMemory *m, int pitch);
 void echo_memory_render(EchoMemory *m, int32_t *stereo, uint32_t frames);
 #endif
+
 
 

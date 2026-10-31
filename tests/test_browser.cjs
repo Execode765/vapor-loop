@@ -30,7 +30,7 @@ const assert=require('node:assert/strict');
     await page.getByRole('button',{name:'Enable sound',exact:true}).click();
     await page.waitForFunction(()=>{const t=document.getElementById('status').textContent;return t.startsWith('Ready') || t!=='Sound is off.';});
     assert((await page.locator('#status').textContent()).startsWith('Ready'),await page.locator('#status').textContent());
-    assert.equal(await page.locator('#build-status').textContent(),'Build 0.12.0 · if the selected and active engines ever disagree, reload this page.');
+    assert.equal(await page.locator('#build-status').textContent(),'Build 0.12.1 · if the selected and active engines ever disagree, reload this page.');
     assert.equal(await page.locator('#lead-engine').inputValue(),'1');
     for (const [value,label] of [['0','Sine Diagnostic'],['1','FM Glass'],['2','Virtual Analog Warm'],['3','Karplus–Strong String']]) {
       await page.locator('#lead-engine').selectOption(value);
@@ -119,7 +119,8 @@ const assert=require('node:assert/strict');
     await page.locator('#input-track').selectOption('1');
     await page.getByRole('button',{name:'Record bass pass',exact:true}).click();
     await page.waitForFunction(()=>document.getElementById('phrase-status').textContent.startsWith('Count-in'));
-    await page.waitForFunction(()=>document.getElementById('sequencer-status').textContent.startsWith('Recording Bass'));
+    await page.waitForFunction(()=>document.getElementById('sequencer-status').textContent.startsWith('ARMED · Bass'));
+    await page.waitForFunction(()=>document.getElementById('sequencer-status').textContent.startsWith('RECORDING Bass'));
     await page.evaluate(()=>window.__fakeMidi.emit([0x90,36,108]));await page.waitForTimeout(180);
     await page.evaluate(()=>window.__fakeMidi.emit([0x80,36,0]));
     await page.waitForFunction(()=>document.getElementById('phrase-status').textContent.startsWith('Phrase ready'));
@@ -142,9 +143,11 @@ const assert=require('node:assert/strict');
     await page.locator('#input-track').selectOption('3');
     await page.getByRole('button',{name:'Record keys pass',exact:true}).click();
     await page.waitForFunction(()=>document.getElementById('phrase-status').textContent.startsWith('Count-in'));
-    await page.waitForFunction(()=>document.getElementById('sequencer-status').textContent.startsWith('Recording Poly Keys'));
+    await page.waitForFunction(()=>document.getElementById('sequencer-status').textContent.startsWith('ARMED · Poly Keys'));
+    await page.waitForTimeout(850);
     await page.evaluate(()=>{window.__fakeMidi.emit([0x90,60,100]);window.__fakeMidi.emit([0x90,64,96]);window.__fakeMidi.emit([0x90,67,92]);});
     await page.waitForFunction(()=>document.getElementById('keys-status').textContent.includes('3/4 voices active'));
+    await page.waitForFunction(()=>document.getElementById('sequencer-status').textContent.startsWith('RECORDING Poly Keys'));
     await page.waitForFunction(()=>document.getElementById('midi-status').textContent.includes('MIDI 67 · G4 → POLY KEYS'));
     assert(await page.locator('#midi-status').evaluate(e=>e.classList.contains('route-keys')));
     await page.waitForTimeout(180);
@@ -233,9 +236,10 @@ const assert=require('node:assert/strict');
     assert(await page.locator('#midi-input').isDisabled());
     await page.waitForFunction(()=>{const a=window.__audioProbe,x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return x.every(v=>Math.abs(v)<.00001);});
     assert.deepEqual(errors,[]);
-    console.log('PASS Chromium: 0.12.0 Chord Companion plus 0.11.1 engine and 0.10.1 performance regressions');
+    console.log('PASS Chromium: 0.12.1 chord handoff and beat-one capture plus all regressions');
   } finally {await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1);});
+
 
 
 

@@ -276,7 +276,9 @@ function phraseStatus(p) {
   const track=Number($('input-track').value), splitPoint=Number($('split-point').value);
   const split=track===4?` · split at ${midiNoteName(splitPoint)} (MIDI ${splitPoint})`:'';
   const recordingName=p.recordingTrack===3?'Poly Keys':'Bass';
-  $('sequencer-status').textContent=p.trackRecording?`Recording ${recordingName} · bass ${p.manualBassCount||0} · keys ${p.manualKeysCount||0} · ${resolutionNames[p.sequenceResolution||16]} grid`:
+  const trackArmed=p.mode===4 && (p.recordingTrack===1||p.recordingTrack===3);
+  $('sequencer-status').textContent=trackArmed?`ARMED · ${p.recordingTrack===3?'Poly Keys':'Bass'} pass begins after count-in · enter slightly early or on beat one`:
+    p.trackRecording?`RECORDING ${recordingName} · bass ${p.manualBassCount||0} · keys ${p.manualKeysCount||0} · ${resolutionNames[p.sequenceResolution||16]} grid`:
     `${inputTrackNames[track]} input${split} · ${resolutionNames[p.sequenceResolution||16]} grid · bass ${p.manualBassCount||0} · keys ${p.manualKeysCount||0}`;
   const keyModeNames=['Off · live free','Manual · recordable','Root Follow','Phrase Follow'];
   $('keys-status').textContent=`Chord Companion · ${keyModeNames[Number($('keys-mode').value)]} · ${p.keysActive||0}/4 voices active · ${p.manualKeysCount||0} recorded notes`;
@@ -349,6 +351,7 @@ $('start').onclick=async()=>{
     node.port.postMessage({type:'load',wasm,master:Number($('volume').value)},[wasm]);
   }catch(error){$('status').textContent=error.message;node?.disconnect();await ctx?.close();$('start').disabled=false;}
 };
+
 
 
 
