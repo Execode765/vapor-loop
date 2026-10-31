@@ -24,7 +24,7 @@ void setup(void) {
     echo_memory_init(&memory);
     clear(RGB(10, 20, 24));
     text(24, 24, "VAPOR LOOP", RGB(141, 238, 192), FONT_BIG);
-    text(24, 66, "PERFORMANCE 0.10.1", WHITE, FONT_SMALL);
+    text(24, 66, "ENGINE LAB 0.11.0", WHITE, FONT_SMALL);
     text(24, 198, "SPLIT / 4-VOICE KEYS", WHITE, FONT_SMALL);
 }
 void loop(void) {
@@ -143,6 +143,7 @@ ECHO_EXPORT(echo_keys_mode) int echo_keys_mode(void) { return memory.keys_mode; 
 ECHO_EXPORT(echo_keys_volume) int echo_keys_volume(void) { return memory.keys_volume; }
 ECHO_EXPORT(echo_keys_active) int echo_keys_active_export(void) { return echo_keys_active(&memory.keys); }
 ECHO_EXPORT(echo_split_point) int echo_split_point(void) { return memory.split_point; }
+ECHO_EXPORT(echo_lead_engine) int echo_lead_engine(void) { return memory.voice.engine; }
 ECHO_EXPORT(echo_recording_track) int echo_recording_track(void) {
     return memory.sequencer.recording ? memory.sequencer.record_track : -1;
 }
@@ -179,6 +180,9 @@ ECHO_EXPORT(echo_set_input_track) void echo_set_input_track(int track) {
 }
 ECHO_EXPORT(echo_set_split_point) void echo_set_split_point(int note) {
     echo_memory_set_split_point(&memory, note);
+}
+ECHO_EXPORT(echo_set_lead_engine) void echo_set_lead_engine(int engine) {
+    echo_voice_set_engine(&memory.voice, engine);
 }
 ECHO_EXPORT(echo_record_track) int echo_record_track(int track) {
     return echo_memory_record_track(&memory, track);

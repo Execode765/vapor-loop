@@ -350,3 +350,12 @@ Never record a planned test as a passed test.
 - The connected MPC displays octave names one number lower than Vapor Loop for the same MIDI note; this is a naming convention difference, not a routing error.
 - Version 0.10.1 therefore preserves all engine behavior and changes only interface terminology, split-point labels, route visibility, tests, and documentation.
 - Automated workflow result is pending at this entry. No plugin build, FM-1 firmware image, or hardware flashing occurred.
+
+
+## 2026-10-30 — Owner validation of 0.10.1 and Lead Engine Lab 0.11.0
+
+- Owner video confirms the G3 / MIDI 55 split boundary: MIDI 54 routes to Bass while MIDI 55 and 56 route to Lead.
+- The exact-number and color-coded routing interface resolves the controller octave-label ambiguity; 0.10.1 is owner-validated.
+- Version 0.11.0 begins sound design with four selectable Lead engines: the retained diagnostic sine, two-operator FM, filtered saw virtual analog, and bounded Karplus–Strong string synthesis.
+- Engine implementations are integer-only, fixed-allocation, and preset-based for the first listening comparison.
+- Native C engine checks pass locally. Full workflow and owner musical evaluation are pending. No FM-1 firmware image or flashing occurred.

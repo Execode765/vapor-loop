@@ -3,12 +3,19 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Vapor Loop · Performance Clarity 0.10.1</title>
+<title>Vapor Loop · Engine Lab 0.11.0</title>
 <link rel="stylesheet" href="style.css">
 <main>
-  <header><p class="eyebrow">PSYCHIC-OCTO-SPORK / DEVELOPMENT 0.10.1</p><h1>Catch it before<br>it disappears.</h1><p class="intro">A clarity pass for Vapor Loop’s validated split performance, four-voice electric keys, and shared 96-PPQN timeline.</p></header>
+  <header><p class="eyebrow">PSYCHIC-OCTO-SPORK / DEVELOPMENT 0.11.0</p><h1>Catch it before<br>it disappears.</h1><p class="intro">Vapor Loop’s first portable sound-design lab: diagnostic sine, two-operator FM, filtered virtual analog, and Karplus–Strong string synthesis.</p></header>
   <section class="instrument" aria-label="Vapor Loop browser prototype">
     <div class="top"><div><p class="eyebrow">VAPOR LOOP</p><p class="hint">A melodic memory instrument, in development.</p><button id="start">Enable sound</button><p id="status" role="status">Sound is off.</p></div><canvas id="screen" width="240" height="240" aria-label="Simulated FM-1 display"></canvas></div>
+    <div class="engine-panel" aria-label="Lead synthesis engine">
+      <label for="lead-engine">Lead engine
+        <select id="lead-engine"><option value="0">Sine · Diagnostic</option><option value="1" selected>FM · Glass</option><option value="2">Virtual Analog · Warm</option><option value="3">Karplus–Strong · String</option></select>
+      </label>
+      <p id="engine-status">Lead synthesis · FM Glass · fixed musical preset</p>
+      <p class="hint">This first engine lab compares stable low-cost synthesis models. Operator, filter, envelope, damping, and brightness controls follow after listening validation.</p>
+    </div>
     <div class="harmony-panel" aria-label="Reply harmony">
       <label for="root">Key center
         <select id="root"><option value="0">C</option><option value="1">C♯</option><option value="2">D</option><option value="3">E♭</option><option value="4">E</option><option value="5">F</option><option value="6">F♯</option><option value="7">G</option><option value="8">A♭</option><option value="9">A</option><option value="10">B♭</option><option value="11">B</option></select>

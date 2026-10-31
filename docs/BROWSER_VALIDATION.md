@@ -399,3 +399,17 @@ Version 0.7.2 derives Follow anchors from the final playback onsets after the up
 | Engine changes | NONE | 0.10.1 changes terminology, labels, routing feedback, tests, and documentation only |
 | Native/WASM/worklet/browser regression | PENDING | Pull-request workflow will provide the release gate |
 | Plugin / FM-1 hardware | NOT TESTED | No plugin or hardware image was built or flashed |
+
+
+## Lead Engine Lab — 0.11.0
+
+| Check | Result at implementation | Evidence |
+| --- | --- | --- |
+| Diagnostic sine regression | PASS | Existing A4 pitch, amplitude, lifecycle, and 128-note native checks |
+| Two-operator FM | PASS | Native output is nonzero, bounded, and distinct from other engines |
+| Filtered virtual analog | PASS | Integer saw/low-pass output is nonzero, bounded, and distinct |
+| Karplus–Strong string | PASS | Fixed 2,048-sample delay line produces bounded distinct output without heap allocation |
+| Browser engine selection | PENDING | Pull-request workflow is the release gate |
+| Existing 0.10.1 behavior | PENDING | Full native/WASM/worklet/Chrome regression pipeline |
+| Owner musical evaluation | PENDING | Packaged 0.11.0 build will require comparative listening |
+| FM-1 hardware | NOT TESTED | No firmware image or flashing occurred |

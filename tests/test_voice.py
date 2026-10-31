@@ -8,31 +8,22 @@ import wave
 import struct
 root = Path(__file__).resolve().parents[1]
 class Voice(C.Structure):
-    _fields_ = [('phase', C.c_uint32), ('increment', C.c_uint32),
-                ('level', C.c_int32), ('target', C.c_int32), ('note', C.c_int)]
-class KeysVoice(C.Structure):
-    _fields_ = [('phase', C.c_uint32), ('tine_phase', C.c_uint32),
-                ('increment', C.c_uint32), ('age', C.c_uint32),
-                ('level', C.c_int32), ('target', C.c_int32),
-                ('note', C.c_int), ('brightness', C.c_int)]
-class Keys(C.Structure):
-    _fields_ = [('voices', KeysVoice * 4), ('age', C.c_uint32)]
+    _fields_ = [('phase', C.c_uint32), ('mod_phase', C.c_uint32), ('increment', C.c_uint32),
+                ('level', C.c_int32), ('target', C.c_int32), ('filter', C.c_int32),
+                ('noise', C.c_uint32), ('string_length', C.c_uint16),
+                ('string_position', C.c_uint16), ('note', C.c_int), ('engine', C.c_int),
+                ('string_buffer', C.c_int16 * 2048)]
 with tempfile.TemporaryDirectory() as temp:
     libpath = str(Path(temp) / 'voice.so')
     subprocess.run(['gcc','-std=c11','-Wall','-Wextra','-Werror','-fsanitize=undefined',
-        '-shared','-fPIC','-Isrc','src/voice.c','src/keys.c','-o',libpath],cwd=root,check=True)
+        '-shared','-fPIC','-Isrc','src/voice.c','-o',libpath],cwd=root,check=True)
     lib = C.CDLL(libpath)
     lib.echo_voice_init.argtypes = [C.POINTER(Voice)]
     lib.echo_voice_on.argtypes = [C.POINTER(Voice), C.c_int, C.c_int]
+    lib.echo_voice_set_engine.argtypes = [C.POINTER(Voice), C.c_int]
     lib.echo_voice_off.argtypes = [C.POINTER(Voice), C.c_int]
     lib.echo_voice_stop.argtypes = [C.POINTER(Voice)]
     lib.echo_voice_render.argtypes = [C.POINTER(Voice), C.POINTER(C.c_int32), C.c_uint32]
-    lib.echo_keys_init.argtypes = [C.POINTER(Keys)]
-    lib.echo_keys_on.argtypes = [C.POINTER(Keys), C.c_int, C.c_int]
-    lib.echo_keys_off.argtypes = [C.POINTER(Keys), C.c_int]
-    lib.echo_keys_active.argtypes = [C.POINTER(Keys)]
-    lib.echo_keys_active.restype = C.c_int
-    lib.echo_keys_render.argtypes = [C.POINTER(Keys), C.POINTER(C.c_int32), C.c_uint32]
     v=Voice(); lib.echo_voice_init(C.byref(v))
     def render(n):
         out=(C.c_int32 * (2*n))()
@@ -47,6 +38,16 @@ with tempfile.TemporaryDirectory() as temp:
     hz=crossings*44100/(len(signal)-4096)
     assert abs(hz-440)<2, hz
     assert 5000<rms<6000 and max(map(abs,signal))<=8128, rms
+    engine_signals=[]
+    for engine in (1,2,3):
+        lib.echo_voice_stop(C.byref(v));render(4096)
+        lib.echo_voice_set_engine(C.byref(v),engine)
+        lib.echo_voice_on(C.byref(v),60,110)
+        shaped=render(4096)
+        assert any(shaped) and max(map(abs,shaped))<=8128
+        engine_signals.append(shaped[512:1024])
+    assert len({tuple(x) for x in engine_signals})==3
+    lib.echo_voice_set_engine(C.byref(v),99);assert v.engine==0
     lib.echo_voice_on(C.byref(v),72,100)
     lib.echo_voice_off(C.byref(v),69)
     assert v.note==72 and v.target>0
@@ -57,19 +58,8 @@ with tempfile.TemporaryDirectory() as temp:
         assert max(map(abs,render(256)))<=8128
     lib.echo_voice_stop(C.byref(v)); render(4096)
     assert not any(render(256))
-    keys=Keys();lib.echo_keys_init(C.byref(keys))
-    for note in (60,64,67,71):lib.echo_keys_on(C.byref(keys),note,100)
-    assert lib.echo_keys_active(C.byref(keys))==4
-    chord=(C.c_int32 * 2048)();lib.echo_keys_render(C.byref(keys),chord,1024)
-    assert any(chord) and list(chord[::2])==list(chord[1::2])
-    lib.echo_keys_on(C.byref(keys),74,100)
-    assert lib.echo_keys_active(C.byref(keys))==4
-    for note in (60,64,67,71,74):lib.echo_keys_off(C.byref(keys),note)
-    tail=(C.c_int32 * 8192)();lib.echo_keys_render(C.byref(keys),tail,4096)
-    assert lib.echo_keys_active(C.byref(keys))==0
     out=root/'build/first-sound.wav';out.parent.mkdir(exist_ok=True)
     with wave.open(str(out),'wb') as w:
         w.setparams((1,2,44100,0,'NONE','not compressed'))
         w.writeframes(struct.pack('<'+'h'*len(signal),*signal))
-    print(f'PASS native C: A4 {hz:.2f} Hz, RMS {rms:.1f}; mono bounds plus four-voice keys')
-
+    print(f'PASS native C: A4 {hz:.2f} Hz, RMS {rms:.1f}; bounds, ownership, release, stop, 128 pitches')
