@@ -20,7 +20,7 @@ enum { ECHO_NO_PLAYBACK, ECHO_EXACT_PLAYBACK, ECHO_REPLY_PLAYBACK, ECHO_CANDIDAT
 enum { ECHO_BASS_OFF, ECHO_BASS_MANUAL, ECHO_BASS_ROOT, ECHO_BASS_FOLLOW, ECHO_BASS_MODE_COUNT };
 enum { ECHO_BASS_PEDAL, ECHO_BASS_HALF, ECHO_BASS_QUARTER, ECHO_BASS_DENSITY_COUNT };
 enum { ECHO_QUANTIZE_OFF, ECHO_QUANTIZE_LIGHT, ECHO_QUANTIZE_TIGHT, ECHO_QUANTIZE_COUNT };
-enum { ECHO_KEYS_OFF, ECHO_KEYS_MANUAL, ECHO_KEYS_MODE_COUNT };
+enum { ECHO_KEYS_OFF, ECHO_KEYS_MANUAL, ECHO_KEYS_ROOT, ECHO_KEYS_FOLLOW, ECHO_KEYS_MODE_COUNT };
 enum { ECHO_INPUT_SPLIT = ECHO_TRACK_COUNT };
 typedef struct {
     uint32_t onset, duration; /* 44.1 kHz audio frames, relative to first note */
@@ -58,6 +58,8 @@ typedef struct {
     int rhythm_enabled, rhythm_volume, drum_mode;
     int input_track, split_point, track_record_pending;
     int keys_mode, keys_volume;
+    uint8_t chord_notes[3];
+    int chord_note_count, chord_override;
     uint8_t keys_event_active[ECHO_SEQ_MAX_EVENTS];
     uint32_t capture_length, count_in_length, tempo_beat, metronome_next, click_off;
     uint32_t rhythm_beat, rhythm_next, rhythm_step;
