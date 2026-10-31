@@ -48,7 +48,7 @@ jobs:
           path: build/web/
       - uses: actions/upload-artifact@v4
         with:
-          name: vapor-loop-standalone-0.11.0
+          name: vapor-loop-standalone-0.11.1
           path: preview/echolog-soundcheck.html
       - uses: actions/upload-artifact@v4
         with:
