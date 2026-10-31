@@ -12,7 +12,7 @@ function send(m) { if (ready) node.port.postMessage(m); }
 const leadEngineNames=['Sine Diagnostic','FM Glass','Virtual Analog Warm','Karplus–Strong String'];
 function syncLeadEngine() {
   const engine=Number($('lead-engine').value);
-  $('engine-status').textContent=`Lead synthesis · ${leadEngineNames[engine]} · fixed musical preset`;
+  $('engine-status').textContent=ready?`Selected · ${leadEngineNames[engine]} · verifying audio core…`:`Selected · ${leadEngineNames[engine]} · enable sound to verify audio core`;
   send({type:'lead-engine',engine});
 }
 $('lead-engine').onchange=syncLeadEngine;
@@ -261,6 +261,9 @@ $('play-candidate').onclick=()=>{releaseKeys();send({type:'candidate-play',slot:
 $('clear-candidate').onclick=()=>send({type:'candidate-clear',slot:candidateSlot()});
 function phraseStatus(p) {
   syncCandidateUi(p);
+  const activeEngine=Math.max(0,Math.min(leadEngineNames.length-1,Number(p.leadEngine)||0));
+  $('engine-status').textContent=`Active in audio core · ${leadEngineNames[activeEngine]} · fixed musical preset`;
+  $('lead-engine').classList.toggle('engine-mismatch',activeEngine!==Number($('lead-engine').value));
   const capturing=p.mode===1 || p.mode===2 || p.mode===4;
   $('capture').disabled=!ready || capturing;
   $('capture').classList.toggle('recording',capturing);
