@@ -24,7 +24,7 @@ void setup(void) {
     echo_memory_init(&memory);
     clear(RGB(10, 20, 24));
     text(24, 24, "VAPOR LOOP", RGB(141, 238, 192), FONT_BIG);
-    text(24, 66, "PERFORMANCE 0.10", WHITE, FONT_SMALL);
+    text(24, 66, "PERFORMANCE 0.10.1", WHITE, FONT_SMALL);
     text(24, 198, "SPLIT / 4-VOICE KEYS", WHITE, FONT_SMALL);
 }
 void loop(void) {
@@ -207,5 +207,6 @@ ECHO_EXPORT(echo_keys_off) void echo_keys_off_export(int pitch) {
     echo_memory_keys_off(&memory, pitch);
 }
 #endif
+
 
 
