@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: Vapor Loop 0.10.1 is owner-validated through exact split routing, Poly Keys, manual bass, MIDI, sequencing, and musical operation. Version 0.11.0 introduces the first portable Lead Engine Lab: diagnostic sine, two-operator FM, filtered virtual analog, and Karplus–Strong string synthesis. Automated validation is pending. No hardware firmware build or flashing has occurred.**
+**Status: Vapor Loop 0.11.0 is owner-validated: all four Lead engines switch correctly, retrigger, release, and are clearly distinct; live output is loud and healthy through the MPC/soundbar. Version 0.11.1 adds compiled audio-core engine readback, mismatch warning, and an explicit reload/build cue. Automated validation is pending. No hardware firmware build or flashing has occurred.**
 
 psychic-octo-spork remains the repository code name. **Vapor Loop** is the instrument name. ECHOLOG is the original melodic-conversation experiment that established its capture, Reply, and candidate-memory core.
 
@@ -12,6 +12,10 @@ Create something creative, unusual, and musically useful that FM-1 owners want t
 Initial concepts included GENOME, ECHOLOG, and GRAVITY. ECHOLOG's musical-memory experiment evolved into Vapor Loop: a melodic looper whose generated ideas disappear unless the player captures them. Originality and feasibility remain engineering and community-research questions rather than marketing claims.
 
 This project is separate from the completed Local LLM Infrastructure Lab.
+
+## Engine Verification — prototype 0.11.1
+
+The interface now reports the engine actually active inside the compiled audio core rather than assuming a dropdown selection succeeded. A selected/active mismatch is visibly flagged, and the build cue instructs the player to reload when an older browser audio context remains open.
 
 ## Lead Engine Lab — prototype 0.11.0
 

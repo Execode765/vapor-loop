@@ -30,10 +30,12 @@ const assert=require('node:assert/strict');
     await page.getByRole('button',{name:'Enable sound',exact:true}).click();
     await page.waitForFunction(()=>{const t=document.getElementById('status').textContent;return t.startsWith('Ready') || t!=='Sound is off.';});
     assert((await page.locator('#status').textContent()).startsWith('Ready'),await page.locator('#status').textContent());
+    assert.equal(await page.locator('#build-status').textContent(),'Build 0.11.1 · if the selected and active engines ever disagree, reload this page.');
     assert.equal(await page.locator('#lead-engine').inputValue(),'1');
     for (const [value,label] of [['0','Sine Diagnostic'],['1','FM Glass'],['2','Virtual Analog Warm'],['3','Karplus–Strong String']]) {
       await page.locator('#lead-engine').selectOption(value);
-      await page.waitForFunction(expected=>document.getElementById('engine-status').textContent.includes(expected),label);
+      await page.waitForFunction(expected=>document.getElementById('engine-status').textContent===`Active in audio core · ${expected} · fixed musical preset`,label);
+      assert(!(await page.locator('#lead-engine').evaluate(e=>e.classList.contains('engine-mismatch'))));
       await page.keyboard.down('a');
       await page.waitForFunction(()=>{const a=window.__audioProbe,x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return x.some(v=>Math.abs(v)>.005);});
       await page.keyboard.up('a');
@@ -215,7 +217,7 @@ const assert=require('node:assert/strict');
     assert(await page.locator('#midi-input').isDisabled());
     await page.waitForFunction(()=>{const a=window.__audioProbe,x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return x.every(v=>Math.abs(v)<.00001);});
     assert.deepEqual(errors,[]);
-    console.log('PASS Chromium: 0.11.0 engine lab plus 0.10.1 performance regressions');
+    console.log('PASS Chromium: 0.11.1 engine readback plus 0.11.0 sound and 0.10.1 performance regressions');
   } finally {await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1);});
 
