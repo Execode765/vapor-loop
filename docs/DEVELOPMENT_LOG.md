@@ -359,3 +359,13 @@ Never record a planned test as a passed test.
 - Version 0.11.0 begins sound design with four selectable Lead engines: the retained diagnostic sine, two-operator FM, filtered saw virtual analog, and bounded Karplus–Strong string synthesis.
 - Engine implementations are integer-only, fixed-allocation, and preset-based for the first listening comparison.
 - Native C engine checks pass locally. Full workflow and owner musical evaluation are pending. No FM-1 firmware image or flashing occurred.
+
+
+## 2026-10-30 — Owner Engine Lab validation and 0.11.1 verification refinement
+
+- Owner initially heard the older sine engine because the browser tab had not been refreshed; refreshing loaded the new WebAssembly/AudioWorklet build.
+- Owner video then confirmed successful selection, retriggering, release, and distinct behavior for Sine Diagnostic, FM Glass, Virtual Analog Warm, and Karplus–Strong String.
+- The video capture embedded a quiet signal, but the owner confirmed the live Chrome → MPC → soundbar path is loud enough to require reducing the MPC level. No synthesis gain increase is justified.
+- Preserve mix headroom for future Lead, Bass, Poly Keys, Chord Companion, and drum summing. Harder drums should use transient design, saturation, harmonics, and controlled limiting rather than uncontrolled master gain.
+- Version 0.11.1 adds audio-core engine readback, visible mismatch state, build/reload guidance, and browser assertions for every selected-to-active transition.
+- Full workflow result is pending at this entry. No FM-1 image or flashing occurred.
