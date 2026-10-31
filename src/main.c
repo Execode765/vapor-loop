@@ -24,7 +24,7 @@ void setup(void) {
     echo_memory_init(&memory);
     clear(RGB(10, 20, 24));
     text(24, 24, "VAPOR LOOP", RGB(141, 238, 192), FONT_BIG);
-    text(24, 66, "ENGINE LAB 0.11.1", WHITE, FONT_SMALL);
+    text(24, 66, "CHORDS 0.12.0", WHITE, FONT_SMALL);
     text(24, 198, "SPLIT / 4-VOICE KEYS", WHITE, FONT_SMALL);
 }
 void loop(void) {
