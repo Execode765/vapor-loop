@@ -30,7 +30,7 @@ const assert=require('node:assert/strict');
     await page.getByRole('button',{name:'Enable sound',exact:true}).click();
     await page.waitForFunction(()=>{const t=document.getElementById('status').textContent;return t.startsWith('Ready') || t!=='Sound is off.';});
     assert((await page.locator('#status').textContent()).startsWith('Ready'),await page.locator('#status').textContent());
-    assert.equal(await page.locator('#build-status').textContent(),'Build 0.11.1 · if the selected and active engines ever disagree, reload this page.');
+    assert.equal(await page.locator('#build-status').textContent(),'Build 0.12.0 · if the selected and active engines ever disagree, reload this page.');
     assert.equal(await page.locator('#lead-engine').inputValue(),'1');
     for (const [value,label] of [['0','Sine Diagnostic'],['1','FM Glass'],['2','Virtual Analog Warm'],['3','Karplus–Strong String']]) {
       await page.locator('#lead-engine').selectOption(value);
@@ -93,6 +93,22 @@ const assert=require('node:assert/strict');
     await page.waitForTimeout(80); await page.keyboard.down('j'); await page.waitForTimeout(160); await page.keyboard.up('j');
     await page.getByRole('button',{name:'Finish',exact:true}).click();
     await page.waitForFunction(()=>document.getElementById('phrase-status').textContent.startsWith('Phrase ready · 3 notes'));
+    // Chord Companion: Root holds the key-center triad; Phrase follows Lead events.
+    await page.locator('#keys-mode').selectOption('2');
+    await page.getByRole('button',{name:'Replay',exact:true}).click();
+    await page.waitForFunction(()=>document.getElementById('keys-status').textContent.includes('Root Follow · 3/4 voices active'));
+    await page.getByRole('button',{name:'Stop all notes'}).click();
+    await page.waitForFunction(()=>document.getElementById('phrase-status').textContent.startsWith('Phrase ready'));
+    await page.locator('#keys-mode').selectOption('3');
+    await page.getByRole('button',{name:'Replay',exact:true}).click();
+    await page.waitForFunction(()=>document.getElementById('keys-status').textContent.includes('Phrase Follow · 3/4 voices active'));
+    await page.locator('#input-track').selectOption('3');
+    await page.evaluate(()=>window.__fakeMidi.emit([0x90,72,100]));
+    await page.waitForFunction(()=>document.getElementById('keys-status').textContent.includes('1/4 voices active'));
+    await page.evaluate(()=>window.__fakeMidi.emit([0x80,72,0]));
+    await page.locator('#input-track').selectOption('0');
+    await page.getByRole('button',{name:'Stop all notes'}).click();
+    await page.locator('#keys-mode').selectOption('0');
     // Manual drum editing and a quantized manual bass pass use the same transport.
     await page.locator('#drum-mode').selectOption('1');
     await page.getByRole('button',{name:'Kick step 1',exact:true}).click();
@@ -217,7 +233,7 @@ const assert=require('node:assert/strict');
     assert(await page.locator('#midi-input').isDisabled());
     await page.waitForFunction(()=>{const a=window.__audioProbe,x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return x.every(v=>Math.abs(v)<.00001);});
     assert.deepEqual(errors,[]);
-    console.log('PASS Chromium: 0.11.1 engine readback plus 0.11.0 sound and 0.10.1 performance regressions');
+    console.log('PASS Chromium: 0.12.0 Chord Companion plus 0.11.1 engine and 0.10.1 performance regressions');
   } finally {await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1);});
 
