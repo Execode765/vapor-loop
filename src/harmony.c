@@ -68,6 +68,20 @@ int echo_harmony_contains(int pitch, int root, int scale) {
     return 0;
 }
 
+void echo_harmony_triad(int anchor, int root, int scale, uint8_t chord[3]) {
+    root = normalize_root(root); scale = valid_scale(scale);
+    int index = nearest_index(anchor, root, scale);
+    int len = lengths[scale];
+    while (scale_pitch(index, root, scale) < 48) index += len;
+    while (scale_pitch(index, root, scale) > 67) index -= len;
+    chord[0] = (uint8_t)scale_pitch(index, root, scale);
+    chord[1] = (uint8_t)scale_pitch(index + 2, root, scale);
+    chord[2] = (uint8_t)scale_pitch(index + 4, root, scale);
+    while (chord[2] > 84) {
+        chord[0] -= 12; chord[1] -= 12; chord[2] -= 12;
+    }
+}
+
 void echo_harmony_reply(const uint8_t *source, uint8_t *reply, uint32_t count,
                         int root, int scale, int adventure, uint32_t variation) {
     if (!count) return;
