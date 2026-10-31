@@ -341,3 +341,12 @@ Never record a planned test as a passed test.
 - Local native address/undefined-behavior sanitizer, voice, polyphony, chord-recording, split-bound, and all earlier memory regressions pass.
 - GitHub Actions run 41139551280 passed compiled WebAssembly, AudioWorklet, served/direct-file Chrome, split/MIDI routing, chord recording/playback, screenshots, and mobile-layout checks at source commit `f650731c433a0996471422f808c2d5cd8a97cd11`. Owner musical validation of 0.10.0 remains pending.
 - Chord Companion generation, sustain pedal support, finished electric-piano modeling, plugin builds, and FM-1 firmware remain deliberately out of scope for this milestone. No hardware image was built or flashed.
+
+
+## 2026-10-31 — Owner validation of 0.10.0 and Performance Clarity 0.10.1
+
+- Owner confirmed that 0.10.0 polyphony, manual bass, Poly Keys, MIDI input, and the broader musical workflow function correctly and sound musical.
+- Video analysis confirmed the split is exact: with G3 / MIDI 55 selected, F♯3 / MIDI 54 routes to Bass while G3 / MIDI 55 and A♭3 / MIDI 56 route to Lead.
+- The connected MPC displays octave names one number lower than Vapor Loop for the same MIDI note; this is a naming convention difference, not a routing error.
+- Version 0.10.1 therefore preserves all engine behavior and changes only interface terminology, split-point labels, route visibility, tests, and documentation.
+- Automated workflow result is pending at this entry. No plugin build, FM-1 firmware image, or hardware flashing occurred.
