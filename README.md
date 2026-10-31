@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: Vapor Loop 0.10.0 is owner-validated as functional and musical, including split performance and Poly Keys. Version 0.10.1 is a usability-only refinement with clearer musical terminology, exact MIDI-number split labels, and live color-coded Bass/Lead/Poly Keys routing feedback. Full automated validation is pending. No hardware firmware build or flashing has occurred.**
+**Status: Vapor Loop 0.10.1 is owner-validated through exact split routing, Poly Keys, manual bass, MIDI, sequencing, and musical operation. Version 0.11.0 introduces the first portable Lead Engine Lab: diagnostic sine, two-operator FM, filtered virtual analog, and Karplus–Strong string synthesis. Automated validation is pending. No hardware firmware build or flashing has occurred.**
 
 psychic-octo-spork remains the repository code name. **Vapor Loop** is the instrument name. ECHOLOG is the original melodic-conversation experiment that established its capture, Reply, and candidate-memory core.
 
@@ -12,6 +12,12 @@ Create something creative, unusual, and musically useful that FM-1 owners want t
 Initial concepts included GENOME, ECHOLOG, and GRAVITY. ECHOLOG's musical-memory experiment evolved into Vapor Loop: a melodic looper whose generated ideas disappear unless the player captures them. Originality and feasibility remain engineering and community-research questions rather than marketing claims.
 
 This project is separate from the completed Local LLM Infrastructure Lab.
+
+## Lead Engine Lab — prototype 0.11.0
+
+The first sound-design milestone adds four selectable Lead engines while preserving the validated musical-memory system: Sine Diagnostic, FM Glass, Virtual Analog Warm, and Karplus–Strong String. The initial models use fixed musical presets so listening tests can judge character, stability, and eventual FM-1 feasibility before deeper parameters are exposed.
+
+[Lead Engine Lab guide](docs/ENGINE_LAB.md)
 
 ## Performance Clarity — prototype 0.10.1
 
@@ -96,6 +102,7 @@ Version 0.3.0 separates pitch generation from rhythm shaping. Original preserves
 - [Track and Sequencer Foundation](docs/SEQUENCER_FOUNDATION.md)
 - [Split Performance and Poly Keys](docs/SPLIT_POLY_KEYS.md)
 - [Performance Clarity](docs/PERFORMANCE_CLARITY.md)
+- [Lead Engine Lab](docs/ENGINE_LAB.md)
 - [AI assistance and attribution](AI_ATTRIBUTION.md)
 
 ## Intended release
