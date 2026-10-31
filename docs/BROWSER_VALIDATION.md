@@ -440,3 +440,19 @@ Version 0.7.2 derives Follow anchors from the final playback onsets after the up
 | Full automated regression | PENDING | Pull-request workflow is the release gate |
 | Owner musical validation | PASS | Clean video test confirms 13-note Lead capture, six-note manual chord pass, synchronized Replay, Root Follow, and Phrase Follow |
 | Plugin / FM-1 hardware | NOT TESTED | No plugin or hardware image was built or flashed |
+
+## Chord handoff and beat-one capture — 0.12.1
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Slightly-early beat-one chord | PASS | Native regression holds C/E/G across the final 64 count-in frames and requires all three events at tick zero |
+| Exact override ownership | PASS | Duplicate note-on and unrelated note-off tests preserve the correct held-pitch count |
+| Generated-to-manual handoff | PASS | Native regression requires generated release levels to be cleared before manual voices enter |
+| Root Follow resume | PASS | Native regression requires the generated triad to return after the last manual note releases |
+| ARMED / RECORDING clarity | PASS | Chromium test observes both states during the chord-pass workflow |
+| Full automated regression | PASS | Workflow 41222801370 at `f0e45e0f0503e0825543e5d8db8216f77ac3994a` |
+| Owner musical validation | PENDING | Packaged standalone 0.12.1 build is ready for the targeted retest |
+| Plugin / FM-1 hardware | NOT TESTED | No plugin or hardware image was built or flashed |
+
+[Successful 0.12.1 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/41222801370) validates the synchronized handoff and beat-one capture source commit.
+

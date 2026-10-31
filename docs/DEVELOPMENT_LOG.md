@@ -388,3 +388,14 @@ Never record a planned test as a passed test.
 - The recorded-note count remains visible when switching follow modes, confirming the manual pass remains stored while automatic harmony is auditioned.
 - Owner reports the clean workflow worked perfectly. No plugin build, FM-1 firmware image, or hardware flashing occurred.
 
+## 2026-10-31 — Chord handoff and beat-one capture 0.12.1
+
+- Follow-up owner video exposed two boundary defects: a chord held slightly before the end of count-in could sound live but miss the recorded pass, and generated chord release tails could overlap a manual takeover in the shared four-voice pool.
+- Manual Poly Keys input now tracks exact held pitches and velocities. Duplicate note-ons and stray note-offs no longer corrupt override ownership.
+- A first manual note in Root or Phrase Follow immediately clears generated voices before taking ownership, preventing transient overlap and voice stealing.
+- Manual chord notes still held when count-in ends are injected into the sequencer at tick zero, preserving natural slightly-early entrances on beat one.
+- The browser now distinguishes an ARMED track pass from active RECORDING and explicitly tells the player that a slightly early entry is accepted.
+- GitHub Actions workflow 41222801370 passed native sanitizer, compiled WebAssembly, worklet, served and standalone Chromium audio/control, MIDI, and layout checks at commit `f0e45e0f0503e0825543e5d8db8216f77ac3994a`.
+- Owner musical validation of the packaged 0.12.1 build remains pending. No plugin build, FM-1 firmware image, or hardware flashing occurred.
+
+
