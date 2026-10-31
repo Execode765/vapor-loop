@@ -49,7 +49,7 @@ function syncGroove() {
 $('bpm').onchange=syncGroove;
 $('groove-style').onchange=syncGroove;
 $('groove-amount').oninput=syncGroove;
-const quantizeNames=['Off','Light','Tight'];
+const quantizeNames=['Free','Humanized','Grid'];
 function syncCaptureClock() {
   const bars=Number($('capture-bars').value), quantize=Number($('capture-quantize').value);
   const countInBars=Number($('count-in-bars').value), metronome=Number($('capture-metronome').value);
@@ -65,7 +65,7 @@ function syncSequencer() {
   send({type:'input-track',track}); send({type:'split-point',note:splitPoint});
   send({type:'sequence-resolution',resolution});
   $('split-point').disabled=track!==4;
-  const split=track===4?` · split at ${midiNoteName(splitPoint)}`:'';
+  const split=track===4?` · split at ${midiNoteName(splitPoint)} (MIDI ${splitPoint})`:'';
   $('sequencer-status').textContent=`${inputTrackNames[track]} input${split} · ${resolutionNames[resolution]} grid · bass ${lastPhraseState.manualBassCount||0} · keys ${lastPhraseState.manualKeysCount||0}`;
   updateRecordButton(lastPhraseState);
 }
@@ -149,6 +149,11 @@ function midiPanic() {
   if (!ready) return;
   for (let channel=0; channel<16; channel++) send({type:'midi',data:[0xb0|channel,123,0]});
 }
+function setMidiStatus(text, route='idle') {
+  const status=$('midi-status');
+  status.textContent=text;
+  status.className=`route-${route}`;
+}
 function onMidiMessage(event) {
   const data=Array.from(event.data||[]), status=data[0]||0, kind=status&0xf0;
   const note=data[1]&0x7f, value=data[2]&0x7f;
@@ -160,12 +165,13 @@ function onMidiMessage(event) {
     const routedStatus=kind|routedChannel;
     send({type:'midi',data:[routedStatus,note,value]});
     const on=kind===0x90 && value>0;
-    const lane=` · routed to ${inputTrackNames[routedTrack]}`;
-    $('midi-status').textContent=on?`${midiInput?.name||'MIDI'} · ${midiNoteName(note)} · velocity ${value}${lane}`:
-      `${midiInput?.name||'MIDI'} · ${midiNoteName(note)} released${lane}`;
+    const route=inputTrackNames[routedTrack];
+    const routeClass=routedTrack===1?'bass':routedTrack===3?'keys':'lead';
+    setMidiStatus(on?`MIDI ${note} · ${midiNoteName(note)} → ${route.toUpperCase()} · velocity ${value}`:
+      `MIDI ${note} · ${midiNoteName(note)} released → ${route.toUpperCase()}`,routeClass);
   } else if (kind===0xb0 && (note===120 || note===123)) {
     send({type:'midi',data:[status,note,value]});
-    $('midi-status').textContent=`${midiInput?.name||'MIDI'} · all notes off`;
+    setMidiStatus(`${midiInput?.name||'MIDI'} · all notes off`);
   }
 }
 function chooseMidiInput(id) {
@@ -174,8 +180,8 @@ function chooseMidiInput(id) {
   midiInput=id && midiAccess ? midiAccess.inputs.get(id)||null : null;
   if (midiInput) {
     midiInput.onmidimessage=onMidiMessage;
-    $('midi-status').textContent=`Connected · ${midiInput.name||'Unnamed MIDI input'}`;
-  } else if (midiAccess) $('midi-status').textContent='No MIDI input selected.';
+    setMidiStatus(`Connected · ${midiInput.name||'Unnamed MIDI input'}`);
+  } else if (midiAccess) setMidiStatus('No MIDI input selected.');
 }
 function refreshMidiInputs() {
   if (!midiAccess) return;
@@ -186,7 +192,7 @@ function refreshMidiInputs() {
     select.add(new Option('No MIDI inputs',''));
     select.disabled=true;
     chooseMidiInput('');
-    $('midi-status').textContent='MIDI enabled · no connected input found.';
+    setMidiStatus('MIDI enabled · no connected input found.');
     return;
   }
   for (const input of inputs) select.add(new Option(input.name||`MIDI input ${input.id}`,input.id));
@@ -197,11 +203,11 @@ function refreshMidiInputs() {
 $('midi-input').onchange=e=>chooseMidiInput(e.target.value);
 $('midi-enable').onclick=async()=>{
   if (!navigator.requestMIDIAccess) {
-    $('midi-status').textContent='Web MIDI is unavailable. Use a current Chrome or Edge browser.';
+    setMidiStatus('Web MIDI is unavailable. Use a current Chrome or Edge browser.');
     return;
   }
   $('midi-enable').disabled=true;
-  $('midi-status').textContent='Waiting for browser MIDI permission…';
+  setMidiStatus('Waiting for browser MIDI permission…');
   try {
     midiAccess=await navigator.requestMIDIAccess({sysex:false});
     midiAccess.onstatechange=refreshMidiInputs;
@@ -209,7 +215,7 @@ $('midi-enable').onclick=async()=>{
     refreshMidiInputs();
   } catch(error) {
     $('midi-enable').disabled=false;
-    $('midi-status').textContent=`MIDI access failed: ${error.message||error}`;
+    setMidiStatus(`MIDI access failed: ${error.message||error}`);
   }
 };
 $('capture').onclick=()=>action(13);
@@ -257,7 +263,7 @@ function phraseStatus(p) {
   $('clear').disabled=!ready || (!p.count && !capturing);
   updateRecordButton(p);
   const track=Number($('input-track').value), splitPoint=Number($('split-point').value);
-  const split=track===4?` · split at ${midiNoteName(splitPoint)}`:'';
+  const split=track===4?` · split at ${midiNoteName(splitPoint)} (MIDI ${splitPoint})`:'';
   const recordingName=p.recordingTrack===3?'Poly Keys':'Bass';
   $('sequencer-status').textContent=p.trackRecording?`Recording ${recordingName} · bass ${p.manualBassCount||0} · keys ${p.manualKeysCount||0} · ${resolutionNames[p.sequenceResolution||16]} grid`:
     `${inputTrackNames[track]} input${split} · ${resolutionNames[p.sequenceResolution||16]} grid · bass ${p.manualBassCount||0} · keys ${p.manualKeysCount||0}`;
@@ -331,5 +337,6 @@ $('start').onclick=async()=>{
     node.port.postMessage({type:'load',wasm,master:Number($('volume').value)},[wasm]);
   }catch(error){$('status').textContent=error.message;node?.disconnect();await ctx?.close();$('start').disabled=false;}
 };
+
 
 
