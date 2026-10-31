@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: Vapor Loop Split Performance and Poly Keys 0.10.0 passes native C, compiled WebAssembly, AudioWorklet, served/direct-file Chrome, Web MIDI, sequencer, and responsive-layout automation. Version 0.9.0 is owner-validated as functional and musical; 0.10.0 owner testing is next. No hardware firmware build or flashing has occurred.**
+**Status: Vapor Loop 0.10.0 is owner-validated as functional and musical, including split performance and Poly Keys. Version 0.10.1 is a usability-only refinement with clearer musical terminology, exact MIDI-number split labels, and live color-coded Bass/Lead/Poly Keys routing feedback. Full automated validation is pending. No hardware firmware build or flashing has occurred.**
 
 psychic-octo-spork remains the repository code name. **Vapor Loop** is the instrument name. ECHOLOG is the original melodic-conversation experiment that established its capture, Reply, and candidate-memory core.
 
@@ -12,6 +12,12 @@ Create something creative, unusual, and musically useful that FM-1 owners want t
 Initial concepts included GENOME, ECHOLOG, and GRAVITY. ECHOLOG's musical-memory experiment evolved into Vapor Loop: a melodic looper whose generated ideas disappear unless the player captures them. Originality and feasibility remain engineering and community-research questions rather than marketing claims.
 
 This project is separate from the completed Local LLM Infrastructure Lab.
+
+## Performance Clarity — prototype 0.10.1
+
+Version 0.10.1 preserves the validated 0.10.0 engine while renaming ambiguous controls, presenting capture correction as Free/Humanized/Grid, showing exact MIDI numbers at every split point, and displaying the live destination of every incoming note. This is a usability refinement, not a new synthesis or sequencing engine.
+
+[Performance Clarity guide](docs/PERFORMANCE_CLARITY.md)
 
 ## Split Performance and Poly Keys — prototype 0.10.0
 
@@ -89,6 +95,7 @@ Version 0.3.0 separates pitch generation from rhythm shaping. Original preserves
 - [Future Chord Companion concept](docs/CHORD_COMPANION_CONCEPT.md)
 - [Track and Sequencer Foundation](docs/SEQUENCER_FOUNDATION.md)
 - [Split Performance and Poly Keys](docs/SPLIT_POLY_KEYS.md)
+- [Performance Clarity](docs/PERFORMANCE_CLARITY.md)
 - [AI assistance and attribution](AI_ATTRIBUTION.md)
 
 ## Intended release

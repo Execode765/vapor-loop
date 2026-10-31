@@ -3,10 +3,10 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Vapor Loop · Split and Polyphonic Keys 0.10.0</title>
+<title>Vapor Loop · Performance Clarity 0.10.1</title>
 <link rel="stylesheet" href="style.css">
 <main>
-  <header><p class="eyebrow">PSYCHIC-OCTO-SPORK / DEVELOPMENT 0.10.0</p><h1>Catch it before<br>it disappears.</h1><p class="intro">Dual-style split performance and four-voice electric keys now join Vapor Loop’s shared 96-PPQN timeline.</p></header>
+  <header><p class="eyebrow">PSYCHIC-OCTO-SPORK / DEVELOPMENT 0.10.1</p><h1>Catch it before<br>it disappears.</h1><p class="intro">A clarity pass for Vapor Loop’s validated split performance, four-voice electric keys, and shared 96-PPQN timeline.</p></header>
   <section class="instrument" aria-label="Vapor Loop browser prototype">
     <div class="top"><div><p class="eyebrow">VAPOR LOOP</p><p class="hint">A melodic memory instrument, in development.</p><button id="start">Enable sound</button><p id="status" role="status">Sound is off.</p></div><canvas id="screen" width="240" height="240" aria-label="Simulated FM-1 display"></canvas></div>
     <div class="harmony-panel" aria-label="Reply harmony">
@@ -16,17 +16,17 @@
       <label for="scale">Scale
         <select id="scale"><option value="0">Major</option><option value="1">Natural minor</option><option value="2">Major pentatonic</option><option value="3">Minor pentatonic</option></select>
       </label>
-      <label class="adventure-control" for="adventure">Adventure
+      <label class="adventure-control" for="adventure">Melodic variation
         <input id="adventure" type="range" min="0" max="100" step="10" value="0">
         <output id="adventure-value" for="adventure">0 · Faithful</output>
       </label>
       <p id="harmony-status">Reply context · C major</p>
     </div>
     <div class="groove-panel" aria-label="Reply phrase architecture">
-      <label for="phrase-style">Architecture
+      <label for="phrase-style">Phrase style
         <select id="phrase-style"><option value="0">Original</option><option value="1">Trap Pocket</option><option value="2">R&amp;B Flow</option><option value="3">Techno Motion</option></select>
       </label>
-      <label class="groove-amount-control" for="phrase-amount">Intensity
+      <label class="groove-amount-control" for="phrase-amount">Phrase amount
         <input id="phrase-amount" type="range" min="0" max="100" step="10" value="0">
         <output id="phrase-value" for="phrase-amount">0 · Original</output>
       </label>
@@ -39,7 +39,7 @@
       <label for="groove-style">Groove
         <select id="groove-style"><option value="0">Original</option><option value="1">Pulse</option><option value="2">Swing</option><option value="3">Pocket</option><option value="4">Half-time</option></select>
       </label>
-      <label class="groove-amount-control" for="groove-amount">Shape
+      <label class="groove-amount-control" for="groove-amount">Timing amount
         <input id="groove-amount" type="range" min="0" max="100" step="10" value="0">
         <output id="groove-value" for="groove-amount">0 · Unshaped</output>
       </label>
@@ -53,19 +53,19 @@
         <select id="count-in-bars"><option value="1">1 bar</option><option value="2" selected>2 bars</option></select>
       </label>
       <label for="capture-quantize">Input correction
-        <select id="capture-quantize"><option value="0">Off</option><option value="1" selected>Light</option><option value="2">Tight</option></select>
+        <select id="capture-quantize"><option value="0">Free</option><option value="1" selected>Humanized</option><option value="2">Grid</option></select>
       </label>
       <label for="capture-metronome">Metronome
         <select id="capture-metronome"><option value="1" selected>On</option><option value="0">Off</option></select>
       </label>
-      <p id="capture-clock-status">Capture clock · 2 bars · 2-bar count-in · Light sixteenth correction · metronome on</p>
+      <p id="capture-clock-status">Capture clock · 2 bars · 2-bar count-in · Humanized sixteenth correction · metronome on</p>
     </div>
     <div class="sequencer-panel" aria-label="Track sequencer controls">
       <label for="input-track">MIDI input track
         <select id="input-track"><option value="0" selected>Lead</option><option value="1">Bass</option><option value="4">Split: Bass + Lead</option><option value="3">Poly Keys</option></select>
       </label>
       <label for="split-point">Split point
-        <select id="split-point"><option value="36">C2</option><option value="41">F2</option><option value="43">G2</option><option value="48" selected>C3</option><option value="53">F3</option><option value="55">G3</option><option value="60">C4</option></select>
+        <select id="split-point"><option value="36">C2 · MIDI 36</option><option value="41">F2 · MIDI 41</option><option value="43">G2 · MIDI 43</option><option value="48" selected>C3 · MIDI 48</option><option value="53">F3 · MIDI 53</option><option value="55">G3 · MIDI 55</option><option value="60">C4 · MIDI 60</option></select>
       </label>
       <label for="sequence-resolution">Sequence resolution
         <select id="sequence-resolution"><option value="4">Quarter notes</option><option value="8">Eighth notes</option><option value="16" selected>Sixteenth notes</option></select>
@@ -89,7 +89,7 @@
     </div>
     <p id="phrase-status" role="status">No phrase yet. Enable sound to begin.</p>
     <progress id="phrase-progress" max="352800" value="0" aria-label="Phrase position"></progress>
-    <p class="hint">Adventure changes pitch choices. Architecture changes note count, rests, motifs, accents, and ratchets. Groove applies final timing feel. Replay never changes.</p>
+    <p class="hint">Melodic variation changes pitch choices. Phrase style changes note count, rests, motifs, accents, and ratchets. Groove applies the final timing feel. Replay never changes.</p>
     <div class="candidate-panel" aria-label="Kept candidate memory">
       <label for="candidate-slot">Candidate slot
         <select id="candidate-slot"><option value="0">A · Empty</option><option value="1">B · Empty</option><option value="2">C · Empty</option></select>
@@ -128,14 +128,15 @@
       </label>
       <p id="bass-status">Bass Companion · Off</p>
       <div id="bass-keys" aria-label="Playable bass keys"></div>
-      <p class="hint">Auto follows the upper Phrase Architecture, including kept-candidate context. Manual mode can be played live or recorded for one synchronized pass. MIDI channel 2, Bass input routing, the bass keys, or Z X C V B N M address the bass track.</p>
+      <p class="hint">Auto follows the upper phrase style, including kept-candidate context. Manual mode can be played live or recorded for one synchronized pass. MIDI channel 2, Bass input routing, the bass keys, or Z X C V B N M address the bass track.</p>
     </div>
     <div class="midi-panel" aria-label="MIDI controller connection">
       <button id="midi-enable" type="button">Enable MIDI</button>
       <label for="midi-input">MIDI input
         <select id="midi-input" disabled><option value="">No MIDI inputs</option></select>
       </label>
-      <p id="midi-status" role="status">Connect a USB MIDI controller, then enable MIDI.</p>
+      <p id="midi-status" class="route-idle" role="status">Connect a USB MIDI controller, then enable MIDI.</p>
+      <p class="midi-hint">Split rule: notes below the split point route to Bass; the split note and everything above it route to Lead. MIDI numbers remain exact even when a controller displays a different octave name.</p>
     </div>
     <div class="controls"><button id="stop" disabled>Stop all notes</button><label>Volume <input id="volume" type="range" min="0" max="900" value="600"></label></div>
     <div id="keys" aria-label="Playable keys"></div>
@@ -145,5 +146,6 @@
   <footer>Browser simulation, not a full CPU emulator or a hardware compatibility test. Memory lasts until Clear, a new capture, or closing the page. No installer or hardware access.<br>Platform: <a href="https://github.com/konsumer/foma">foma</a>, with Felucca / SLOOP / Dinghy lineage. GPL-3.0-only. AI-assisted development.</footer>
 </main><script type="module" src="app.js"></script>
 </html>
+
 
 
