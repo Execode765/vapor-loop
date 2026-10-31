@@ -387,3 +387,15 @@ Version 0.7.2 derives Follow anchors from the final playback onsets after the up
 | Plugin / FM-1 hardware | NOT TESTED | No plugin or hardware image was built or flashed |
 
 [Successful 0.10.0 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/41139551280) validates source commit `f650731c433a0996471422f808c2d5cd8a97cd11` before the documentation-only evidence update.
+
+
+## Performance Clarity — 0.10.1
+
+| Check | Result at implementation | Evidence |
+| --- | --- | --- |
+| 0.10.0 owner validation | PASS | Owner hands-on testing and video confirm musical polyphony, manual bass, Poly Keys, and split performance |
+| Exact split boundary | PASS | MIDI 54 routes to Bass; selected split MIDI 55 and MIDI 56 route to Lead |
+| Controller octave-label diagnosis | PASS | MPC G2 and Vapor Loop G3 identify the same MIDI 55 event under different naming conventions |
+| Engine changes | NONE | 0.10.1 changes terminology, labels, routing feedback, tests, and documentation only |
+| Native/WASM/worklet/browser regression | PENDING | Pull-request workflow will provide the release gate |
+| Plugin / FM-1 hardware | NOT TESTED | No plugin or hardware image was built or flashed |
