@@ -40,3 +40,22 @@ The existing routing remains unchanged:
 ## Deferred
 
 Smooth inversions, richer chord vocabulary, chord rhythm/stab patterns, sustain pedal handling, chord sound presets, effects, plugin builds, and hardware flashing are separate milestones.
+
+## Future direction: Manual Chord Designer
+
+After the 0.12.x Companion foundation is validated, the non-generative side may evolve from a plain keyboard lane into an intentional chord-performance instrument.
+
+Proposed behavior:
+
+- **Companion modes:** Root Follow and Phrase Follow continue generating harmony from Vapor Loop's musical context.
+- **Manual Designer mode:** one input chooses a root while chord controls choose quality and extensions.
+- **Chord vocabulary:** major, minor, diminished, suspended, sixth, minor seventh, major seventh, dominant seventh, ninth, and a deliberately curated set of modern voicings.
+- **Voicing control:** inversions, spread, register, drop voicings, and smooth movement between consecutive chords.
+- **Performance shaping:** strum up/down, two-octave strum, humanized/slop timing, tempo-synced arpeggiation, rhythmic patterns, and harp-like cascades.
+- **Shared treatment:** a selected chord can feed the existing looper, candidate memory, bass relationship, future effects, and external MIDI without duplicating separate musical state.
+- **Hardware discipline:** the eventual FM-1 mapping must remain playable from its limited keys, buttons, knobs, screen, memory, and CPU budget.
+
+Interaction references include Telepathic Instruments Orchid and the open-source ChoralRoot FM-1 project. Vapor Loop should learn from their immediacy while retaining its own identity: captured phrases, disappearing variations, generated replies, candidate memory, and switchable player/companion relationships.
+
+This is a later refinement, not part of the 0.12.0 validation build. Before implementation, define an original control map and review applicable licenses and attribution requirements. Do not copy names, visual identity, presets, proprietary assets, or undocumented behavior.
+
