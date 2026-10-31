@@ -379,3 +379,12 @@ Never record a planned test as a passed test.
 - The first implementation uses deterministic root-position triads and fixed memory. Smooth inversions, advanced voice-leading, chord rhythms, sustain, richer chord timbres, and MIDI-output harmony are deferred.
 - Native and browser regression coverage now exercises scale membership, register bounds, three-voice generation, manual takeover, Off-mode live playing, and all existing Lead/Bass/Drum behavior.
 - Automated workflow and owner musical validation are pending. No plugin build, FM-1 firmware image, or hardware flashing occurred.
+
+## 2026-10-31 — Owner validation of Chord Companion 0.12.0
+
+- The first test exposed a routing/workflow mismatch rather than a recorder defect: main Capture records Lead, while a Poly Keys pass requires an existing Lead timeline and the separate Record keys pass action.
+- The owner repeated the test with MPC USB MIDI Port 1, channel 1 for the Lead capture and channel 3 for Poly Keys.
+- Video evidence confirms a 13-note, two-bar Lead phrase; a synchronized six-note manual chord pass; preserved Replay; Root Follow; and Phrase Follow with three active generated chord voices.
+- The recorded-note count remains visible when switching follow modes, confirming the manual pass remains stored while automatic harmony is auditioned.
+- Owner reports the clean workflow worked perfectly. No plugin build, FM-1 firmware image, or hardware flashing occurred.
+
