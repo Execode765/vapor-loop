@@ -35,7 +35,7 @@ const assert=require('node:assert/strict');
     assert.equal(await page.locator('#midi-input').inputValue(),'smk-pro-elite');
     assert.deepEqual(await page.evaluate(()=>window.__fakeMidi.requested),{sysex:false});
     await page.evaluate(()=>window.__fakeMidi.emit([0x90,60,37]));
-    await page.waitForFunction(()=>document.getElementById('midi-status').textContent.includes('C4 · velocity 37'));
+    await page.waitForFunction(()=>document.getElementById('midi-status').textContent.includes('MIDI 60 · C4 → LEAD · velocity 37'));
     await page.waitForFunction(()=>{const a=window.__audioProbe,x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return x.some(v=>Math.abs(v)>.01);});
     await page.evaluate(()=>window.__fakeMidi.emit([0x80,60,0]));
     await page.waitForFunction(()=>{const a=window.__audioProbe,x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return x.every(v=>Math.abs(v)<.00001);});
@@ -59,6 +59,7 @@ const assert=require('node:assert/strict');
     await page.locator('#capture-quantize').selectOption('2');
     await page.locator('#bpm').fill('240');
     await page.waitForFunction(()=>document.getElementById('capture-clock-status').textContent.includes('1-bar count-in'));
+    assert((await page.locator('#capture-clock-status').textContent()).includes('Grid sixteenth correction'));
     await page.locator('#drum-mode').selectOption('2');
     await page.locator('#drum-volume').fill('60');
     await page.waitForFunction(()=>document.getElementById('drum-status').textContent.includes('level 60'));
@@ -98,11 +99,15 @@ const assert=require('node:assert/strict');
     // Dual-style split routes low notes to Bass and high notes to Lead from one controller.
     await page.locator('#input-track').selectOption('4');
     await page.locator('#split-point').selectOption('60');
+    assert.equal(await page.locator('#split-point option:checked').textContent(),'C4 · MIDI 60');
+    await page.waitForFunction(()=>document.getElementById('sequencer-status').textContent.includes('split at C4 (MIDI 60)'));
     await page.evaluate(()=>window.__fakeMidi.emit([0x90,48,100]));
-    await page.waitForFunction(()=>document.getElementById('midi-status').textContent.includes('routed to Bass'));
+    await page.waitForFunction(()=>document.getElementById('midi-status').textContent.includes('MIDI 48 · C3 → BASS'));
+    assert(await page.locator('#midi-status').evaluate(e=>e.classList.contains('route-bass')));
     await page.evaluate(()=>window.__fakeMidi.emit([0x80,48,0]));
     await page.evaluate(()=>window.__fakeMidi.emit([0x90,72,100]));
-    await page.waitForFunction(()=>document.getElementById('midi-status').textContent.includes('routed to Lead'));
+    await page.waitForFunction(()=>document.getElementById('midi-status').textContent.includes('MIDI 72 · C5 → LEAD'));
+    assert(await page.locator('#midi-status').evaluate(e=>e.classList.contains('route-lead')));
     await page.evaluate(()=>window.__fakeMidi.emit([0x80,72,0]));
     // Four-voice Poly Keys record simultaneous chord notes on the same 96-PPQN pass.
     await page.locator('#keys-mode').selectOption('1');
@@ -112,6 +117,8 @@ const assert=require('node:assert/strict');
     await page.waitForFunction(()=>document.getElementById('sequencer-status').textContent.startsWith('Recording Poly Keys'));
     await page.evaluate(()=>{window.__fakeMidi.emit([0x90,60,100]);window.__fakeMidi.emit([0x90,64,96]);window.__fakeMidi.emit([0x90,67,92]);});
     await page.waitForFunction(()=>document.getElementById('keys-status').textContent.includes('3/4 voices active'));
+    await page.waitForFunction(()=>document.getElementById('midi-status').textContent.includes('MIDI 67 · G4 → POLY KEYS'));
+    assert(await page.locator('#midi-status').evaluate(e=>e.classList.contains('route-keys')));
     await page.waitForTimeout(180);
     await page.evaluate(()=>{window.__fakeMidi.emit([0x80,60,0]);window.__fakeMidi.emit([0x80,64,0]);window.__fakeMidi.emit([0x80,67,0]);});
     await page.waitForFunction(()=>document.getElementById('phrase-status').textContent.startsWith('Phrase ready'));
@@ -142,7 +149,7 @@ const assert=require('node:assert/strict');
     await page.waitForFunction(()=>{const a=window.__audioProbe,x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return x.some(v=>Math.abs(v)>.01);});
     await page.locator('#input-track').selectOption('1');
     await page.evaluate(()=>window.__fakeMidi.emit([0x90,28,110]));
-    await page.waitForFunction(()=>document.getElementById('midi-status').textContent.includes('routed to Bass'));
+    await page.waitForFunction(()=>document.getElementById('midi-status').textContent.includes('MIDI 28 · E1 → BASS'));
     assert((await page.locator('#phrase-status').textContent()).startsWith('Replying'));
     await page.evaluate(()=>window.__fakeMidi.emit([0x80,28,0]));
     await page.locator('#input-track').selectOption('0');
@@ -198,8 +205,9 @@ const assert=require('node:assert/strict');
     assert(await page.locator('#midi-input').isDisabled());
     await page.waitForFunction(()=>{const a=window.__audioProbe,x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return x.every(v=>Math.abs(v)<.00001);});
     assert.deepEqual(errors,[]);
-    console.log('PASS Chromium: 0.10.0 split/poly keys plus 0.9.0 shared sequencer regressions');
+    console.log('PASS Chromium: 0.10.1 performance clarity plus 0.10.0 split/poly keys regressions');
   } finally {await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1);});
+
 
 
