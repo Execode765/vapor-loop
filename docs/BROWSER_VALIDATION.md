@@ -426,3 +426,17 @@ Version 0.7.2 derives Follow anchors from the final playback onsets after the up
 | Mismatch/reload guidance | IMPLEMENTED | Selection receives warning outline when readback differs; build cue requests reload |
 | Full automated regression | PENDING | Pull-request workflow is the release gate |
 | FM-1 hardware | NOT TESTED | No firmware image or flashing occurred |
+
+
+## Chord Companion — 0.12.0
+
+| Check | Result at implementation | Evidence |
+| --- | --- | --- |
+| Scale-safe triad construction | IMPLEMENTED | Native tests cover every root/scale combination and bounded ascending triads |
+| Root Follow | IMPLEMENTED | Native and Chrome tests require three active chord voices on Replay |
+| Phrase Follow | IMPLEMENTED | Native and Chrome tests require three voices derived from the first Lead onset |
+| Temporary manual override | IMPLEMENTED | Live Poly Keys input replaces the generated triad with the played note |
+| Off/live-free and Manual/recordable | IMPLEMENTED | Existing manual chord recording remains covered; Off permits live playing without recording |
+| Full automated regression | PENDING | Pull-request workflow is the release gate |
+| Owner musical validation | PENDING | Packaged standalone build will require hands-on listening |
+| Plugin / FM-1 hardware | NOT TESTED | No plugin or hardware image was built or flashed |

@@ -142,7 +142,8 @@ $('bass-groove-amount').oninput=syncBassGroove;
 function syncKeys() {
   const mode=Number($('keys-mode').value), volume=Number($('keys-volume').value);
   $('keys-volume-value').textContent=String(volume);
-  $('keys-status').textContent=`Poly Keys · ${mode?'Manual':'Off'} · ${lastPhraseState.keysActive||0}/4 voices active · ${lastPhraseState.manualKeysCount||0} recorded notes`;
+  const names=['Off · live free','Manual · recordable','Root Follow','Phrase Follow'];
+  $('keys-status').textContent=`Chord Companion · ${names[mode]} · ${lastPhraseState.keysActive||0}/4 voices active · ${lastPhraseState.manualKeysCount||0} recorded notes`;
   send({type:'keys-mode',mode,volume});
   updateRecordButton(lastPhraseState);
 }
@@ -277,7 +278,8 @@ function phraseStatus(p) {
   const recordingName=p.recordingTrack===3?'Poly Keys':'Bass';
   $('sequencer-status').textContent=p.trackRecording?`Recording ${recordingName} · bass ${p.manualBassCount||0} · keys ${p.manualKeysCount||0} · ${resolutionNames[p.sequenceResolution||16]} grid`:
     `${inputTrackNames[track]} input${split} · ${resolutionNames[p.sequenceResolution||16]} grid · bass ${p.manualBassCount||0} · keys ${p.manualKeysCount||0}`;
-  $('keys-status').textContent=`Poly Keys · ${Number($('keys-mode').value)?'Manual':'Off'} · ${p.keysActive||0}/4 voices active · ${p.manualKeysCount||0} recorded notes`;
+  const keyModeNames=['Off · live free','Manual · recordable','Root Follow','Phrase Follow'];
+  $('keys-status').textContent=`Chord Companion · ${keyModeNames[Number($('keys-mode').value)]} · ${p.keysActive||0}/4 voices active · ${p.manualKeysCount||0} recorded notes`;
   const shownLength=p.mode===2||p.mode===4?p.position:p.mode===3?(p.playLength||p.length):p.length;
   const duration=(shownLength/44100).toFixed(2);
   const limit=p.limit===1?' · 128-note limit reached':p.limit===2?' · 8-second free-time limit reached':p.limit===3?` · ${p.captureBars||2} bars complete`:'';

@@ -27,6 +27,8 @@ void echo_memory_init(EchoMemory *m) {
     m->rhythm_enabled = 0; m->rhythm_volume = 55; m->drum_mode = ECHO_TRACK_OFF;
     m->input_track = ECHO_TRACK_LEAD; m->split_point = 48; m->track_record_pending = 0;
     m->keys_mode = ECHO_KEYS_OFF; m->keys_volume = 65;
+    m->chord_note_count = m->chord_override = 0;
+    for (int i = 0; i < 3; ++i) m->chord_notes[i] = 0;
     for (uint32_t i = 0; i < ECHO_SEQ_MAX_EVENTS; ++i) m->keys_event_active[i] = 0;
     m->rhythm_beat = m->rhythm_next = m->rhythm_step = 0;
 }
@@ -88,6 +90,7 @@ void echo_memory_stop(EchoMemory *m) {
     echo_voice_stop(&m->bass_voice);
     echo_voice_stop(&m->click_voice);
     echo_keys_stop(&m->keys);
+    m->chord_note_count = m->chord_override = 0;
     echo_drums_init(&m->drums);
     m->bass_count = m->bass_next = 0; m->bass_playing = -1;
     m->bass_manual = 0; m->bass_manual_note = -1;
@@ -456,25 +459,44 @@ void echo_memory_bass_off(EchoMemory *m, int pitch) {
     m->bass_manual = 0; m->bass_manual_note = -1;
     while (m->bass_next < m->bass_count && m->bass_onset[m->bass_next] <= m->position) ++m->bass_next;
 }
+static void stop_companion_chord(EchoMemory *m) {
+    for (int i = 0; i < m->chord_note_count; ++i) echo_keys_off(&m->keys, m->chord_notes[i]);
+    m->chord_note_count = 0;
+}
+static void start_companion_chord(EchoMemory *m, int anchor, int velocity) {
+    if (m->chord_override || (m->keys_mode != ECHO_KEYS_ROOT && m->keys_mode != ECHO_KEYS_FOLLOW)) return;
+    stop_companion_chord(m);
+    echo_harmony_triad(anchor, m->root, m->scale, m->chord_notes);
+    m->chord_note_count = 3;
+    for (int i = 0; i < 3; ++i) echo_keys_on(&m->keys, m->chord_notes[i], velocity);
+}
 void echo_memory_set_keys(EchoMemory *m, int mode, int volume) {
     if (mode < 0 || mode >= ECHO_KEYS_MODE_COUNT) mode = ECHO_KEYS_OFF;
     if (volume < 0) volume = 0;
     if (volume > 100) volume = 100;
+    echo_keys_stop(&m->keys); m->chord_note_count = m->chord_override = 0;
     m->keys_mode = mode; m->keys_volume = volume;
-    if (mode == ECHO_KEYS_OFF) echo_keys_stop(&m->keys);
 }
 void echo_memory_keys_on(EchoMemory *m, int pitch, int velocity) {
-    if (m->keys_mode != ECHO_KEYS_MANUAL || pitch < 0 || pitch > 127) return;
+    if (pitch < 0 || pitch > 127) return;
     if (velocity <= 0) { echo_memory_keys_off(m, pitch); return; }
     if (velocity > 127) velocity = 127;
-    if (m->sequencer.recording && m->sequencer.record_track == ECHO_TRACK_CHORDS)
+    if (m->keys_mode == ECHO_KEYS_ROOT || m->keys_mode == ECHO_KEYS_FOLLOW) {
+        if (!m->chord_override) stop_companion_chord(m);
+        ++m->chord_override;
+    }
+    if (m->sequencer.recording && m->sequencer.record_track == ECHO_TRACK_CHORDS &&
+        m->keys_mode == ECHO_KEYS_MANUAL)
         echo_seq_note_on(&m->sequencer, ECHO_TRACK_CHORDS, pitch, velocity, m->position, m->bpm);
     echo_keys_on(&m->keys, pitch, velocity);
 }
 void echo_memory_keys_off(EchoMemory *m, int pitch) {
     if (pitch < 0 || pitch > 127) return;
     echo_keys_off(&m->keys, pitch);
-    if (m->sequencer.recording && m->sequencer.record_track == ECHO_TRACK_CHORDS)
+    if ((m->keys_mode == ECHO_KEYS_ROOT || m->keys_mode == ECHO_KEYS_FOLLOW) && m->chord_override > 0)
+        --m->chord_override;
+    if (m->sequencer.recording && m->sequencer.record_track == ECHO_TRACK_CHORDS &&
+        m->keys_mode == ECHO_KEYS_MANUAL)
         echo_seq_note_off(&m->sequencer, ECHO_TRACK_CHORDS, pitch, m->position, m->bpm);
 }
 void echo_memory_on(EchoMemory *m, int pitch, int velocity) {
@@ -605,6 +627,8 @@ void echo_memory_render(EchoMemory *m, int32_t *out, uint32_t frames) {
             if (n > boundary - m->position) n = boundary - m->position;
         } else if (m->mode == ECHO_PLAYING) {
             update_keys_playback(m);
+            if (m->keys_mode == ECHO_KEYS_ROOT && !m->chord_override && !m->chord_note_count)
+                start_companion_chord(m, 60 + m->root, 82);
             if (!m->bass_manual && m->bass_playing >= 0 &&
                 m->position >= m->bass_onset[m->bass_playing] + m->bass_duration[m->bass_playing]) {
                 echo_voice_off(&m->bass_voice, m->bass_pitch[m->bass_playing]); m->bass_playing = -1;
@@ -621,6 +645,8 @@ void echo_memory_render(EchoMemory *m, int32_t *out, uint32_t frames) {
                 }
             }
             if (m->next < playback_count(m) && playback_onset(m, m->next) == m->position) {
+                if (m->keys_mode == ECHO_KEYS_FOLLOW && !m->chord_override)
+                    start_companion_chord(m, playback_pitch(m, m->next), 78);
                 echo_voice_on(&m->voice, playback_pitch(m, m->next), playback_velocity(m, m->next));
                 m->playing = (int)m->next++;
             }

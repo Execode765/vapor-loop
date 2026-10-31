@@ -3,10 +3,10 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Vapor Loop · Engine Verification 0.11.1</title>
+<title>Vapor Loop · Chord Companion 0.12.0</title>
 <link rel="stylesheet" href="style.css">
 <main>
-  <header><p class="eyebrow">PSYCHIC-OCTO-SPORK / DEVELOPMENT 0.11.1</p><h1>Catch it before<br>it disappears.</h1><p class="intro">Verified audio-core readback for Vapor Loop’s diagnostic sine, two-operator FM, filtered virtual analog, and Karplus–Strong string synthesis.</p></header>
+  <header><p class="eyebrow">PSYCHIC-OCTO-SPORK / DEVELOPMENT 0.12.0</p><h1>Catch it before<br>it disappears.</h1><p class="intro">Scale-aware Root and Phrase Follow harmony now joins Vapor Loop’s manual four-voice chord track.</p></header>
   <section class="instrument" aria-label="Vapor Loop browser prototype">
     <div class="top"><div><p class="eyebrow">VAPOR LOOP</p><p class="hint">A melodic memory instrument, in development.</p><button id="start">Enable sound</button><p id="status" role="status">Sound is off.</p></div><canvas id="screen" width="240" height="240" aria-label="Simulated FM-1 display"></canvas></div>
     <div class="engine-panel" aria-label="Lead synthesis engine">
@@ -14,7 +14,7 @@
         <select id="lead-engine"><option value="0">Sine · Diagnostic</option><option value="1" selected>FM · Glass</option><option value="2">Virtual Analog · Warm</option><option value="3">Karplus–Strong · String</option></select>
       </label>
       <p id="engine-status" role="status">Selected · FM Glass · enable sound to verify audio core</p>
-      <p id="build-status">Build 0.11.1 · if the selected and active engines ever disagree, reload this page.</p>
+      <p id="build-status">Build 0.12.0 · if the selected and active engines ever disagree, reload this page.</p>
       <p class="hint">This first engine lab compares stable low-cost synthesis models. Operator, filter, envelope, damping, and brightness controls follow after listening validation.</p>
     </div>
     <div class="harmony-panel" aria-label="Reply harmony">
@@ -105,15 +105,15 @@
       <div class="candidate-actions"><button id="keep" disabled>Keep latest Reply</button><button id="play-candidate" disabled>Play kept</button><button id="clear-candidate" disabled>Forget slot</button></div>
       <p id="candidate-status" role="status">Three session-memory slots are empty.</p>
     </div>
-    <div class="keys-panel" aria-label="Polyphonic keys controls">
-      <label for="keys-mode">Poly Keys
-        <select id="keys-mode"><option value="0" selected>Off</option><option value="1">Manual</option></select>
+    <div class="keys-panel" aria-label="Chord Companion and polyphonic keys controls">
+      <label for="keys-mode">Chord Companion
+        <select id="keys-mode"><option value="0" selected>Off · Live free</option><option value="1">Manual · Recordable</option><option value="2">Root Follow</option><option value="3">Phrase Follow</option></select>
       </label>
       <label class="keys-volume-control" for="keys-volume">Keys volume
         <input id="keys-volume" type="range" min="0" max="100" step="5" value="65"><output id="keys-volume-value" for="keys-volume">65</output>
       </label>
-      <p id="keys-status">Poly Keys · Off · 4-voice electric keys foundation</p>
-      <p class="hint">Choose Poly Keys as the MIDI input track to play or record chords. MIDI channel 3 addresses this track directly. Manual chord passes accompany Replay, Reply, and kept candidates.</p>
+      <p id="keys-status">Chord Companion · Off · live Poly Keys remain playable</p>
+      <p class="hint">Off permits unrecorded live chords. Manual permits live playing and a recorded chord pass. Root Follow sustains the selected key-center chord. Phrase Follow builds a scale-safe triad from each Lead event. MIDI channel 3 or the Poly Keys input addresses this track; playing manually temporarily overrides automatic harmony.</p>
     </div>
     <div class="bass-panel" aria-label="Bass Companion controls">
       <label for="bass-mode">Bass mode
@@ -150,7 +150,7 @@
     <div id="keys" aria-label="Playable keys"></div>
     <p class="hint">Click and hold a key, or use A W S E D F T G Y H U J K. Release to stop.</p>
   </section>
-  <section class="notes"><div><h2>One timeline, four parts</h2><p>Lead, bass, four-voice keys, and manual or companion drums share the compact 96-PPQN clock. Split mode sends notes below the selected point to bass and notes at or above it to lead.</p></div><div><h2>Honest scope</h2><p>This release proves manual split performance and bounded polyphony. Chord Companion generation, sustain pedal, ratchets, probability, full drum voices, effects, persistence, and hardware flashing remain later milestones.</p></div></section>
+  <section class="notes"><div><h2>One timeline, four parts</h2><p>Lead, bass, four-voice keys or companion chords, and manual or companion drums share the compact 96-PPQN clock. Split mode sends notes below the selected point to bass and notes at or above it to lead.</p></div><div><h2>Honest scope</h2><p>This release establishes scale-safe, root-position Chord Companion triads with Root Follow, Phrase Follow, and temporary manual override. Smooth inversions, advanced voice-leading, chord rhythms, sustain pedal, ratchets, probability, full drum voices, effects, persistence, and hardware flashing remain later milestones.</p></div></section>
   <footer>Browser simulation, not a full CPU emulator or a hardware compatibility test. Memory lasts until Clear, a new capture, or closing the page. No installer or hardware access.<br>Platform: <a href="https://github.com/konsumer/foma">foma</a>, with Felucca / SLOOP / Dinghy lineage. GPL-3.0-only. AI-assisted development.</footer>
 </main><script type="module" src="app.js"></script>
 </html>

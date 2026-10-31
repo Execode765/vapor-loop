@@ -347,10 +347,49 @@ int main(void) {
     assert(echo_memory_replay(&poly)); advance(&poly,1);
     assert(echo_keys_active(&poly.keys)==3);
     echo_memory_stop(&poly);
+
+    /* v0.12.0: Chord Companion builds bounded scale-safe triads. */
+    uint8_t triad[3]={0};
+    for(int root=0;root<12;root++) for(int scale=0;scale<ECHO_SCALE_COUNT;scale++) {
+        echo_harmony_triad(60,root,scale,triad);
+        for(int i=0;i<3;i++) {
+            assert(triad[i]>=48 && triad[i]<=84);
+            assert(echo_harmony_contains(triad[i],root,scale));
+            if(i) assert(triad[i]>triad[i-1]);
+        }
+    }
+
+    echo_memory_set_harmony(&poly,0,ECHO_SCALE_MAJOR);
+    echo_memory_set_keys(&poly,ECHO_KEYS_ROOT,70);
+    assert(echo_memory_replay(&poly)); advance(&poly,1);
+    assert(echo_keys_active(&poly.keys)==3 && poly.chord_note_count==3);
+    for(int i=0;i<3;i++) assert(echo_harmony_contains(poly.chord_notes[i],0,ECHO_SCALE_MAJOR));
+
+    /* A live chord input temporarily owns the four-voice lane, then Root Follow resumes. */
+    echo_memory_keys_on(&poly,72,110);
+    assert(poly.chord_override && echo_keys_active(&poly.keys)==1);
+    echo_memory_keys_off(&poly,72); assert(!poly.chord_override);
+    advance(&poly,1); assert(echo_keys_active(&poly.keys)==3);
+    echo_memory_stop(&poly);
+
+    echo_memory_set_keys(&poly,ECHO_KEYS_FOLLOW,70);
+    assert(echo_memory_replay(&poly)); advance(&poly,1);
+    assert(echo_keys_active(&poly.keys)==3 && poly.chord_note_count==3);
+    for(int i=0;i<3;i++) assert(echo_harmony_contains(poly.chord_notes[i],0,ECHO_SCALE_MAJOR));
+    echo_memory_stop(&poly);
+
+    /* Off disables generation but preserves a free, unrecorded live keyboard. */
+    echo_memory_set_keys(&poly,ECHO_KEYS_OFF,70);
+    echo_memory_keys_on(&poly,65,100);
+    assert(echo_keys_active(&poly.keys)==1 && !poly.chord_override);
+    echo_memory_keys_off(&poly,65); advance(&poly,4096);
+    assert(echo_keys_active(&poly.keys)==0);
+    assert(!echo_memory_record_track(&poly,ECHO_TRACK_CHORDS));
+
     echo_memory_set_keys(&poly,99,999);
     assert(poly.keys_mode==ECHO_KEYS_OFF && poly.keys_volume==100);
 
-    puts("PASS memory: 0.10.0 split/poly keys plus all 0.9.0 regressions");
+    puts("PASS memory: 0.12.0 Chord Companion plus all 0.11.1 regressions");
 }
 
 

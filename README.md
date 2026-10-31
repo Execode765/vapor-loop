@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: Vapor Loop 0.11.0 is owner-validated: all four Lead engines switch correctly, retrigger, release, and are clearly distinct; live output is loud and healthy through the MPC/soundbar. Version 0.11.1 adds compiled audio-core engine readback, mismatch warning, and an explicit reload/build cue. Automated validation is pending. No hardware firmware build or flashing has occurred.**
+**Status: Vapor Loop 0.11.1 preserves the owner-validated four-engine Lead lab and adds compiled-core verification. Version 0.12.0 adds the first Chord Companion foundation—manual recording, Root Follow, Phrase Follow, temporary live override, and independent level—with automated and owner validation pending. No hardware firmware build or flashing has occurred.**
 
 psychic-octo-spork remains the repository code name. **Vapor Loop** is the instrument name. ECHOLOG is the original melodic-conversation experiment that established its capture, Reply, and candidate-memory core.
 
@@ -12,6 +12,12 @@ Create something creative, unusual, and musically useful that FM-1 owners want t
 Initial concepts included GENOME, ECHOLOG, and GRAVITY. ECHOLOG's musical-memory experiment evolved into Vapor Loop: a melodic looper whose generated ideas disappear unless the player captures them. Originality and feasibility remain engineering and community-research questions rather than marketing claims.
 
 This project is separate from the completed Local LLM Infrastructure Lab.
+
+## Chord Companion — prototype 0.12.0
+
+The four-voice Poly Keys lane can remain freely playable, record a manual chord pass, hold a scale-aware key-center triad, or follow each Lead event with a scale-aware triad. Playing live temporarily replaces generated harmony. This first version intentionally uses simple root-position triads; inversions, advanced voice-leading, rhythmic chord patterns, sustain, and sound-design refinements remain later work.
+
+[Chord Companion guide](docs/CHORD_COMPANION.md)
 
 ## Engine Verification — prototype 0.11.1
 

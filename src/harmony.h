@@ -12,4 +12,5 @@ enum {
 void echo_harmony_reply(const uint8_t *source, uint8_t *reply, uint32_t count,
                         int root, int scale, int adventure, uint32_t variation);
 int echo_harmony_contains(int pitch, int root, int scale);
+void echo_harmony_triad(int anchor, int root, int scale, uint8_t chord[3]);
 #endif
