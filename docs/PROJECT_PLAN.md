@@ -1,12 +1,19 @@
 # Project plan
 
-Status: Vapor Loop browser prototype with a shared four-role performance timeline. Updated: 2026-10-30.
+Status: Vapor Loop 0.12.2 browser prototype completed owner testing. Updated: 2026-11-09.
 
-Current browser milestone: 0.4.0 Phrase Architecture gives Reply an independent event count and adds experimental structural personalities with rests, repetition, accents, note-length hierarchy, and ratchets. Browser CI and owner listening remain gates; this is not a plugin or hardware firmware build.
+Current implementation milestone: 0.12.2 provides automatic key/scale detection, shared harmonic context for Reply/Bass/Chord, explicit manual override, exact manual accompaniment passes with mismatch warnings, and candidate-specific context storage.
 
-Next implemented browser milestone: 0.5.0 Keep and Candidate Memory provides three deep-copy session slots for generated responses. Compiled-browser and owner validation remain gates.
+Owner testing confirmed the main harmonic, candidate, companion, manual-track, drum-grid, and MIDI control paths. It also exposed a selected/active engine mismatch: FM Glass can revert to Sine Diagnostic after transport activity. The present scrolling interface has also reached its usability limit.
 
-Current implementation milestone: 0.10.0 **Split Performance and Poly Keys** extends the shared 96-PPQN timeline to Lead, Bass, Drums, and a four-voice chord track. It adds configurable lower-bass/upper-lead split performance, MIDI channel 3 Poly Keys, simultaneous chord input, and manual chord-pass recording while preserving 0.9.0 behavior. Native validation passes; compiled-browser and owner validation remain gates.
+Immediate next milestones:
+
+1. **0.12.3 Engine-state repair** — preserve the selected synthesis engine through all transport and memory operations and add regression coverage.
+2. **0.13.0 Vapor Loop Workbench** — reorganize the browser app into Play, Shape, Companions, and Setup pages with persistent transport/status and a visual multi-lane timeline.
+3. Use the Workbench timeline, playhead, and lane mute/solo controls to investigate the owner's unresolved timing observation.
+4. Build a standalone desktop wrapper around the shared C core only after the browser instrument is stable; follow with VST3 and DAW integration.
+
+The detailed evidence, cautions, acceptance criteria, and restart procedure are recorded in [V0.12.2_TEST_CHECKPOINT.md](V0.12.2_TEST_CHECKPOINT.md).
 
 Name decision: **Vapor Loop** is the instrument name. ECHOLOG identifies the initial conversation prototype and psychic-octo-spork remains the repository code name until a deliberate repository rename.
 
@@ -29,14 +36,15 @@ On 2026-10-28, the owner approved melodic conversation as the first ECHOLOG expe
 2. Verify platform choices, licenses, toolchain, memory limits, and recovery behavior.
 3. Choose a small musical interaction and write its acceptance criteria.
 4. Build an audible host/browser prototype and evaluate it with the project owner.
-5. Adapt the shared instrument core into a VST3 plugin for macOS and Windows; validate it in actual DAWs on both platforms.
-6. After browser and desktop validation, establish a measured hardware target build and designate one development FM-1.
-7. Only then perform hardware flashing and validate installation, operation, persistence, recovery, and departure to another firmware.
-8. Publish source, documentation, compiled firmware, and test evidence.
-9. Submit the tested release to The Firmware Hub.
+5. Adapt the shared instrument core into a standalone desktop application and validate audio, MIDI, state, and transport behavior.
+6. Add a VST3 wrapper for macOS and Windows and validate it in actual DAWs on both platforms.
+7. After browser and desktop/plugin validation, establish a measured hardware target build and designate one development FM-1.
+8. Only then perform hardware flashing and validate installation, operation, persistence, recovery, and departure to another firmware.
+9. Publish source, documentation, compiled firmware, and test evidence.
+10. Submit the tested release to The Firmware Hub.
 
 ## Execution order agreed 2026-10-28
-Browser/emulator first, desktop plugin second, hardware testing last. No hardware flashing is authorized at this stage. Keep the musical core portable so browser, plugin, and firmware can share behavior. Browser playback alone does not establish hardware timing or compatibility.
+Browser simulation first, desktop standalone second, VST3 plugin third, hardware testing last. No hardware flashing is authorized at this stage. Keep the musical core portable so browser, plugin, and firmware can share behavior. Browser playback alone does not establish hardware timing or compatibility.
 
 A local Codex installation is optional for the browser phase. It becomes useful when working with compilers, plugin builds, DAWs, and logs on the owner's computer. Native macOS and Windows plugin testing requires access to those environments; installing Codex does not provide their toolchains or substitute for testing.
 
