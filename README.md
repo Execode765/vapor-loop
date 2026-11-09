@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: Vapor Loop 0.12.2 adds automatic key/scale detection and one shared harmonic context for Reply, Bass, and Chord companions. Manual override remains available; manual bass/chord passes stay exact and receive a visible warning when their recorded context differs. Version 0.12.1 remains the validated chord-handoff foundation. No hardware firmware build or flashing has occurred.**
+**Status: Vapor Loop 0.12.2 completed owner testing of the shared harmonic-context milestone. The test confirmed the major control paths and exposed a transport-related engine-state defect plus an interface-usability limit. The next releases are the focused 0.12.3 engine-preservation repair and the 0.13.0 Vapor Loop Workbench interface reset. No hardware firmware build or flashing has occurred.**
 
 psychic-octo-spork remains the repository code name. **Vapor Loop** is the instrument name. ECHOLOG is the original melodic-conversation experiment that established its capture, Reply, and candidate-memory core.
 
@@ -12,6 +12,10 @@ Create something creative, unusual, and musically useful that FM-1 owners want t
 Initial concepts included GENOME, ECHOLOG, and GRAVITY. ECHOLOG's musical-memory experiment evolved into Vapor Loop: a melodic looper whose generated ideas disappear unless the player captures them. Originality and feasibility remain engineering and community-research questions rather than marketing claims.
 
 This project is separate from the completed Local LLM Infrastructure Lab.
+
+## Current development checkpoint
+
+The [0.12.2 owner-test checkpoint](docs/V0.12.2_TEST_CHECKPOINT.md) records confirmed behavior, the FM Glass-to-Sine Diagnostic engine reset, the unresolved timing observation, the decision to replace the scrolling prototype with a four-page Workbench, and the exact restart checklist. Read this checkpoint before beginning the next change.
 
 ## Shared Harmonic Context — prototype 0.12.2
 
@@ -113,6 +117,7 @@ Version 0.3.0 separates pitch generation from rhythm shaping. Original preserves
 - [First prototype specification](docs/PROTOTYPE_SPEC.md)
 - [Project plan and milestones](docs/PROJECT_PLAN.md)
 - [Development log](docs/DEVELOPMENT_LOG.md)
+- [0.12.2 owner-test checkpoint and restart plan](docs/V0.12.2_TEST_CHECKPOINT.md)
 - [Hardware testing and recovery record](docs/HARDWARE_TESTING.md)
 - [Future Chord Companion concept](docs/CHORD_COMPANION_CONCEPT.md)
 - [Track and Sequencer Foundation](docs/SEQUENCER_FOUNDATION.md)
