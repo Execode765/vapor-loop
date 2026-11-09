@@ -18,3 +18,6 @@
 
 
 
+
+
+.harmony-panel #harmony-warning{flex-basis:100%;margin:0;color:#b6efca;font-size:12px}.harmony-panel #harmony-warning:not(:empty){color:#f5d794;border-left:3px solid #f5d794;padding-left:10px}
