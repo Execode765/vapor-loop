@@ -407,5 +407,5 @@ Never record a planned test as a passed test.
 - Preserved exact Replay and exact manual bass/chord MIDI passes.
 - Added explicit Auto/Manual selection and visible mismatch warnings for recorded passes.
 - Confirmed kept candidates store and restore their own key/scale context.
-- Added native regression coverage; browser/WASM validation is required before packaging the owner-test build.
+- Clean GitHub Actions run 42684662979 passed native, sanitizer, WASM, AudioWorklet, Chromium, Web MIDI, served-page, and standalone-file validation before the owner-test build was packaged.
 
