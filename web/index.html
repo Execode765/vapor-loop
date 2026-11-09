@@ -3,10 +3,10 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Vapor Loop · Chord Handoff 0.12.1</title>
+<title>Vapor Loop · Harmonic Context 0.12.2</title>
 <link rel="stylesheet" href="style.css">
 <main>
-  <header><p class="eyebrow">PSYCHIC-OCTO-SPORK / DEVELOPMENT 0.12.1</p><h1>Catch it before<br>it disappears.</h1><p class="intro">Beat-one chord capture and immediate manual handoff refine Vapor Loop’s four-voice harmony track.</p></header>
+  <header><p class="eyebrow">PSYCHIC-OCTO-SPORK / DEVELOPMENT 0.12.2</p><h1>Catch it before<br>it disappears.</h1><p class="intro">Captured Lead notes now establish one shared harmonic context for Reply, Bass, and Chord companions.</p></header>
   <section class="instrument" aria-label="Vapor Loop browser prototype">
     <div class="top"><div><p class="eyebrow">VAPOR LOOP</p><p class="hint">A melodic memory instrument, in development.</p><button id="start">Enable sound</button><p id="status" role="status">Sound is off.</p></div><canvas id="screen" width="240" height="240" aria-label="Simulated FM-1 display"></canvas></div>
     <div class="engine-panel" aria-label="Lead synthesis engine">
@@ -14,10 +14,13 @@
         <select id="lead-engine"><option value="0">Sine · Diagnostic</option><option value="1" selected>FM · Glass</option><option value="2">Virtual Analog · Warm</option><option value="3">Karplus–Strong · String</option></select>
       </label>
       <p id="engine-status" role="status">Selected · FM Glass · enable sound to verify audio core</p>
-      <p id="build-status">Build 0.12.1 · if the selected and active engines ever disagree, reload this page.</p>
+      <p id="build-status">Build 0.12.2 · if the selected and active engines ever disagree, reload this page.</p>
       <p class="hint">This first engine lab compares stable low-cost synthesis models. Operator, filter, envelope, damping, and brightness controls follow after listening validation.</p>
     </div>
     <div class="harmony-panel" aria-label="Reply harmony">
+      <label for="harmony-mode">Key context
+        <select id="harmony-mode"><option value="0" selected>Auto · detect from Lead</option><option value="1">Manual override</option></select>
+      </label>
       <label for="root">Key center
         <select id="root"><option value="0">C</option><option value="1">C♯</option><option value="2">D</option><option value="3">E♭</option><option value="4">E</option><option value="5">F</option><option value="6">F♯</option><option value="7">G</option><option value="8">A♭</option><option value="9">A</option><option value="10">B♭</option><option value="11">B</option></select>
       </label>
@@ -28,7 +31,8 @@
         <input id="adventure" type="range" min="0" max="100" step="10" value="0">
         <output id="adventure-value" for="adventure">0 · Faithful</output>
       </label>
-      <p id="harmony-status">Reply context · C major</p>
+      <p id="harmony-status">Shared context · waiting for Lead capture</p>
+      <p id="harmony-warning" role="status"></p>
     </div>
     <div class="groove-panel" aria-label="Reply phrase architecture">
       <label for="phrase-style">Phrase style
@@ -150,10 +154,11 @@
     <div id="keys" aria-label="Playable keys"></div>
     <p class="hint">Click and hold a key, or use A W S E D F T G Y H U J K. Release to stop.</p>
   </section>
-  <section class="notes"><div><h2>One timeline, four parts</h2><p>Lead, bass, four-voice keys or companion chords, and manual or companion drums share the compact 96-PPQN clock. Split mode sends notes below the selected point to bass and notes at or above it to lead.</p></div><div><h2>Honest scope</h2><p>This release establishes scale-safe, root-position Chord Companion triads with Root Follow, Phrase Follow, and temporary manual override. Smooth inversions, advanced voice-leading, chord rhythms, sustain pedal, ratchets, probability, full drum voices, effects, persistence, and hardware flashing remain later milestones.</p></div></section>
+  <section class="notes"><div><h2>One timeline, one context</h2><p>Lead, Reply, Bass, and Chord companions share the detected or manually selected key and scale. Replay and recorded manual passes remain exact; kept candidates remember the context that created them.</p></div><div><h2>Honest scope</h2><p>Automatic detection is a compact musical estimate, not infallible music analysis. Manual override is provided for ambiguous phrases. Smooth inversions, advanced voice-leading, chord rhythms, sustain pedal, ratchets, probability, full drum voices, effects, persistence, and hardware flashing remain later milestones.</p></div></section>
   <footer>Browser simulation, not a full CPU emulator or a hardware compatibility test. Memory lasts until Clear, a new capture, or closing the page. No installer or hardware access.<br>Platform: <a href="https://github.com/konsumer/foma">foma</a>, with Felucca / SLOOP / Dinghy lineage. GPL-3.0-only. AI-assisted development.</footer>
 </main><script type="module" src="app.js"></script>
 </html>
+
 
 
 
