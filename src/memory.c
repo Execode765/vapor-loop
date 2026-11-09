@@ -1,5 +1,6 @@
 /* SPDX-License-Identifier: GPL-3.0-only */
 #include "memory.h"
+static void prepare_bass(EchoMemory *m);
 void echo_memory_init(EchoMemory *m) {
     echo_voice_init(&m->voice);
     echo_voice_init(&m->bass_voice);
@@ -11,6 +12,7 @@ void echo_memory_init(EchoMemory *m) {
     m->mode = ECHO_IDLE; m->active = m->playing = -1; m->limit = ECHO_NO_LIMIT;
     m->playback = ECHO_NO_PLAYBACK;
     m->root = 0; m->scale = ECHO_SCALE_MAJOR; m->adventure = 0; m->variation = 0;
+    m->harmony_mode = ECHO_HARMONY_AUTO; m->harmony_confidence = 0;
     m->bpm = 120; m->groove_style = ECHO_GROOVE_ORIGINAL; m->groove_amount = 0;
     m->phrase_style = ECHO_PHRASE_ORIGINAL; m->phrase_amount = 0;
     m->last_reply_valid = 0; m->candidate_slot = 0; m->reply_generation = 0;
@@ -26,6 +28,8 @@ void echo_memory_init(EchoMemory *m) {
     m->click_playing = 0;
     m->rhythm_enabled = 0; m->rhythm_volume = 55; m->drum_mode = ECHO_TRACK_OFF;
     m->input_track = ECHO_TRACK_LEAD; m->split_point = 48; m->track_record_pending = 0;
+    m->bass_pass_root = m->bass_pass_scale = m->bass_pass_context_valid = 0;
+    m->keys_pass_root = m->keys_pass_scale = m->keys_pass_context_valid = 0;
     m->keys_mode = ECHO_KEYS_OFF; m->keys_volume = 65;
     m->chord_note_count = m->chord_override = 0;
     for (int i = 0; i < 3; ++i) m->chord_notes[i] = 0;
@@ -67,6 +71,18 @@ static void quantize_capture(EchoMemory *m) {
         if (e->duration > remaining) e->duration = remaining;
     }
 }
+static void detect_capture_harmony(EchoMemory *m) {
+    if (m->harmony_mode != ECHO_HARMONY_AUTO || !m->count) return;
+    uint8_t pitch[ECHO_MAX_NOTES];
+    uint32_t onset[ECHO_MAX_NOTES], duration[ECHO_MAX_NOTES];
+    for (uint32_t i = 0; i < m->count; ++i) {
+        pitch[i] = m->events[i].pitch;
+        onset[i] = m->events[i].onset;
+        duration[i] = m->events[i].duration;
+    }
+    m->harmony_confidence = echo_harmony_detect(pitch, onset, duration, m->count,
+                                                 m->tempo_beat, &m->root, &m->scale);
+}
 void echo_memory_finish(EchoMemory *m) {
     if (m->mode == ECHO_COUNT_IN) {
         m->mode = ECHO_IDLE; m->position = 0;
@@ -78,6 +94,7 @@ void echo_memory_finish(EchoMemory *m) {
     close_event(m);
     m->length = m->count ? m->position : 0;
     quantize_capture(m);
+    detect_capture_harmony(m);
     m->mode = ECHO_IDLE;
     echo_voice_stop(&m->voice);
     echo_voice_stop(&m->click_voice); m->click_playing = 0;
@@ -108,6 +125,7 @@ void echo_memory_clear(EchoMemory *m) {
     m->last_reply_valid = 0;
     echo_seq_clear_track(&m->sequencer, ECHO_TRACK_BASS);
     echo_seq_clear_track(&m->sequencer, ECHO_TRACK_CHORDS);
+    m->bass_pass_context_valid = m->keys_pass_context_valid = 0;
 }
 void echo_memory_capture(EchoMemory *m) {
     echo_memory_clear(m); m->variation = 0; echo_voice_init(&m->voice); echo_voice_init(&m->click_voice);
@@ -218,6 +236,15 @@ uint32_t echo_memory_candidate_mask(const EchoMemory *m) {
 void echo_memory_set_harmony(EchoMemory *m, int root, int scale) {
     m->root = root >= 0 && root < 12 ? root : 0;
     m->scale = scale >= 0 && scale < ECHO_SCALE_COUNT ? scale : ECHO_SCALE_MAJOR;
+    m->harmony_mode = ECHO_HARMONY_MANUAL;
+    m->harmony_confidence = 100;
+    if (!m->bass_manual) prepare_bass(m);
+}
+void echo_memory_set_harmony_mode(EchoMemory *m, int mode) {
+    if (mode < 0 || mode >= ECHO_HARMONY_MODE_COUNT) mode = ECHO_HARMONY_AUTO;
+    m->harmony_mode = mode;
+    if (mode == ECHO_HARMONY_AUTO) detect_capture_harmony(m);
+    if (!m->bass_manual) prepare_bass(m);
 }
 void echo_memory_set_adventure(EchoMemory *m, int adventure) {
     if (adventure < 0) adventure = 0;
@@ -282,6 +309,8 @@ int echo_memory_record_track(EchoMemory *m, int track) {
     echo_memory_stop(m);
     echo_seq_configure(&m->sequencer, m->capture_bars ? m->capture_bars : 2, m->sequencer.resolution);
     echo_seq_clear_track(&m->sequencer, track);
+    if (track == ECHO_TRACK_BASS) m->bass_pass_context_valid = 0;
+    if (track == ECHO_TRACK_CHORDS) m->keys_pass_context_valid = 0;
     int bpm = m->bpm; if (bpm < 40) bpm = 40; if (bpm > 240) bpm = 240;
     m->tempo_beat = 2646000u / (uint32_t)bpm;
     m->count_in_length = m->tempo_beat * 4u * (uint32_t)m->count_in_bars;
@@ -329,6 +358,14 @@ static int playback_root(const EchoMemory *m) {
 }
 static int playback_scale(const EchoMemory *m) {
     return m->playback == ECHO_CANDIDATE_PLAYBACK ? m->candidates[m->candidate_slot].scale : m->scale;
+}
+int echo_memory_harmony_warning_mask(const EchoMemory *m) {
+    int root = playback_root(m), scale = playback_scale(m), mask = 0;
+    if (m->bass_pass_context_valid &&
+        (m->bass_pass_root != root || m->bass_pass_scale != scale)) mask |= ECHO_HARMONY_WARN_BASS;
+    if (m->keys_pass_context_valid &&
+        (m->keys_pass_root != root || m->keys_pass_scale != scale)) mask |= ECHO_HARMONY_WARN_KEYS;
+    return mask;
 }
 static int playback_bpm(const EchoMemory *m) {
     return m->playback == ECHO_CANDIDATE_PLAYBACK ? m->candidates[m->candidate_slot].bpm : m->bpm;
@@ -468,7 +505,7 @@ static void stop_companion_chord(EchoMemory *m) {
 static void start_companion_chord(EchoMemory *m, int anchor, int velocity) {
     if (m->chord_override || (m->keys_mode != ECHO_KEYS_ROOT && m->keys_mode != ECHO_KEYS_FOLLOW)) return;
     stop_companion_chord(m);
-    echo_harmony_triad(anchor, m->root, m->scale, m->chord_notes);
+    echo_harmony_triad(anchor, playback_root(m), playback_scale(m), m->chord_notes);
     m->chord_note_count = 3;
     for (int i = 0; i < 3; ++i) echo_keys_on(&m->keys, m->chord_notes[i], velocity);
 }
@@ -595,6 +632,13 @@ static void start_track_recording(EchoMemory *m) {
     m->mode = ECHO_PLAYING; m->position = m->next = 0; m->playing = -1;
     m->play_length = m->length; m->playback = ECHO_EXACT_PLAYBACK;
     m->track_record_pending = 0;
+    if (track == ECHO_TRACK_BASS) {
+        m->bass_pass_root = playback_root(m); m->bass_pass_scale = playback_scale(m);
+        m->bass_pass_context_valid = 1;
+    } else if (track == ECHO_TRACK_CHORDS) {
+        m->keys_pass_root = playback_root(m); m->keys_pass_scale = playback_scale(m);
+        m->keys_pass_context_valid = 1;
+    }
     echo_seq_start_record(&m->sequencer, track);
     if (track == ECHO_TRACK_CHORDS && m->keys_mode == ECHO_KEYS_MANUAL) {
         /* A player commonly enters a fraction early at the end of count-in.
@@ -648,7 +692,7 @@ void echo_memory_render(EchoMemory *m, int32_t *out, uint32_t frames) {
         } else if (m->mode == ECHO_PLAYING) {
             update_keys_playback(m);
             if (m->keys_mode == ECHO_KEYS_ROOT && !m->chord_override && !m->chord_note_count)
-                start_companion_chord(m, 60 + m->root, 82);
+                start_companion_chord(m, 60 + playback_root(m), 82);
             if (!m->bass_manual && m->bass_playing >= 0 &&
                 m->position >= m->bass_onset[m->bass_playing] + m->bass_duration[m->bass_playing]) {
                 echo_voice_off(&m->bass_voice, m->bass_pitch[m->bass_playing]); m->bass_playing = -1;
@@ -743,6 +787,7 @@ void echo_memory_render(EchoMemory *m, int32_t *out, uint32_t frames) {
         }
     }
 }
+
 
 
 
