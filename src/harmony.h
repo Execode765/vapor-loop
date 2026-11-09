@@ -13,4 +13,8 @@ void echo_harmony_reply(const uint8_t *source, uint8_t *reply, uint32_t count,
                         int root, int scale, int adventure, uint32_t variation);
 int echo_harmony_contains(int pitch, int root, int scale);
 void echo_harmony_triad(int anchor, int root, int scale, uint8_t chord[3]);
+int echo_harmony_detect(const uint8_t *pitch, const uint32_t *onset,
+                        const uint32_t *duration, uint32_t count, uint32_t beat,
+                        int *root, int *scale);
 #endif
+
