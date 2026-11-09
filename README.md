@@ -1,10 +1,10 @@
-# psychic-octo-spork
+# Vapor Loop
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
 **Status: Vapor Loop 0.12.2 completed owner testing of the shared harmonic-context milestone. The test confirmed the major control paths and exposed a transport-related engine-state defect plus an interface-usability limit. The next releases are the focused 0.12.3 engine-preservation repair and the 0.13.0 Vapor Loop Workbench interface reset. No hardware firmware build or flashing has occurred.**
 
-psychic-octo-spork remains the repository code name. **Vapor Loop** is the instrument name. ECHOLOG is the original melodic-conversation experiment that established its capture, Reply, and candidate-memory core.
+**Vapor Loop** is the project and instrument name. ECHOLOG is the original melodic-conversation experiment that established its capture, Reply, and candidate-memory core.
 
 ## Vision
 Create something creative, unusual, and musically useful that FM-1 owners want to install and play. The aim goes beyond another Juno clone, conventional virtual analog synth, basic sampler, or ordinary groovebox.

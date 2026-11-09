@@ -15,13 +15,13 @@ Immediate next milestones:
 
 The detailed evidence, cautions, acceptance criteria, and restart procedure are recorded in [V0.12.2_TEST_CHECKPOINT.md](V0.12.2_TEST_CHECKPOINT.md).
 
-Name decision: **Vapor Loop** is the instrument name. ECHOLOG identifies the initial conversation prototype and psychic-octo-spork remains the repository code name until a deliberate repository rename.
+Name decision: **Vapor Loop** is both the instrument name and the public repository identity. ECHOLOG identifies the initial conversation prototype.
 
 ## Purpose
 Develop an original, unusual, musically useful firmware for the M-VAVE FM-1. This project is separate from the completed Local LLM Infrastructure Lab.
 
 ## Creative direction
-The initial ECHOLOG direction—melodic conversation—became Vapor Loop: musical ideas appear, transform, and disappear unless captured. psychic-octo-spork remains the working repository name.
+The initial ECHOLOG direction—melodic conversation—became Vapor Loop: musical ideas appear, transform, and disappear unless captured. The repository was renamed to `vapor-loop` and made public on 2026-11-09.
 
 | Candidate | Core interaction | Question to resolve |
 | --- | --- | --- |
