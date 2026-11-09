@@ -24,7 +24,7 @@ void setup(void) {
     echo_memory_init(&memory);
     clear(RGB(10, 20, 24));
     text(24, 24, "VAPOR LOOP", RGB(141, 238, 192), FONT_BIG);
-    text(24, 66, "CHORDS 0.12.1", WHITE, FONT_SMALL);
+    text(24, 66, "HARMONY 0.12.2", WHITE, FONT_SMALL);
     text(24, 198, "SPLIT / 4-VOICE KEYS", WHITE, FONT_SMALL);
 }
 void loop(void) {
@@ -97,6 +97,17 @@ ECHO_EXPORT(echo_limit) int echo_limit(void) { return memory.limit; }
 ECHO_EXPORT(echo_playback) int echo_playback(void) { return memory.playback; }
 ECHO_EXPORT(echo_root) int echo_root(void) { return memory.root; }
 ECHO_EXPORT(echo_scale) int echo_scale(void) { return memory.scale; }
+ECHO_EXPORT(echo_harmony_mode) int echo_harmony_mode(void) { return memory.harmony_mode; }
+ECHO_EXPORT(echo_harmony_confidence) int echo_harmony_confidence(void) { return memory.harmony_confidence; }
+ECHO_EXPORT(echo_context_root) int echo_context_root(void) {
+    return memory.playback == ECHO_CANDIDATE_PLAYBACK ? memory.candidates[memory.candidate_slot].root : memory.root;
+}
+ECHO_EXPORT(echo_context_scale) int echo_context_scale(void) {
+    return memory.playback == ECHO_CANDIDATE_PLAYBACK ? memory.candidates[memory.candidate_slot].scale : memory.scale;
+}
+ECHO_EXPORT(echo_harmony_warning_mask) int echo_harmony_warning_mask(void) {
+    return echo_memory_harmony_warning_mask(&memory);
+}
 ECHO_EXPORT(echo_adventure) int echo_adventure(void) { return memory.adventure; }
 ECHO_EXPORT(echo_variation) uint32_t echo_variation(void) { return memory.variation; }
 ECHO_EXPORT(echo_play_length) uint32_t echo_play_length(void) { return memory.play_length; }
@@ -110,6 +121,12 @@ ECHO_EXPORT(echo_candidate_mask) uint32_t echo_candidate_mask(void) { return ech
 ECHO_EXPORT(echo_candidate_slot) int echo_candidate_slot(void) { return memory.candidate_slot; }
 ECHO_EXPORT(echo_candidate_count) uint32_t echo_candidate_count(int slot) {
     return slot >= 0 && slot < (int)ECHO_CANDIDATE_SLOTS && memory.candidates[slot].filled ? memory.candidates[slot].count : 0;
+}
+ECHO_EXPORT(echo_candidate_root) int echo_candidate_root(int slot) {
+    return slot >= 0 && slot < (int)ECHO_CANDIDATE_SLOTS && memory.candidates[slot].filled ? memory.candidates[slot].root : -1;
+}
+ECHO_EXPORT(echo_candidate_scale) int echo_candidate_scale(int slot) {
+    return slot >= 0 && slot < (int)ECHO_CANDIDATE_SLOTS && memory.candidates[slot].filled ? memory.candidates[slot].scale : -1;
 }
 ECHO_EXPORT(echo_last_reply_valid) int echo_last_reply_valid(void) { return memory.last_reply_valid; }
 ECHO_EXPORT(echo_bass_mode) int echo_bass_mode(void) { return memory.bass_mode; }
@@ -153,6 +170,9 @@ ECHO_EXPORT(echo_drum_step_mask) int echo_drum_step_mask(int step) {
 }
 ECHO_EXPORT(echo_set_harmony) void echo_set_harmony(int root, int scale) {
     echo_memory_set_harmony(&memory, root, scale);
+}
+ECHO_EXPORT(echo_set_harmony_mode) void echo_set_harmony_mode(int mode) {
+    echo_memory_set_harmony_mode(&memory, mode);
 }
 ECHO_EXPORT(echo_set_adventure) void echo_set_adventure(int adventure) {
     echo_memory_set_adventure(&memory, adventure);
@@ -212,6 +232,7 @@ ECHO_EXPORT(echo_keys_off) void echo_keys_off_export(int pitch) {
     echo_memory_keys_off(&memory, pitch);
 }
 #endif
+
 
 
 
