@@ -399,3 +399,13 @@ Never record a planned test as a passed test.
 - Owner musical validation of the packaged 0.12.1 build remains pending. No plugin build, FM-1 firmware image, or hardware flashing occurred.
 
 
+
+# 2026-11-09 — 0.12.2 Shared Harmonic Context
+
+- Added automatic post-capture root/scale detection using bounded integer scoring.
+- Unified generated Reply, Bass, and Chord companions under the active playback context.
+- Preserved exact Replay and exact manual bass/chord MIDI passes.
+- Added explicit Auto/Manual selection and visible mismatch warnings for recorded passes.
+- Confirmed kept candidates store and restore their own key/scale context.
+- Added native regression coverage; browser/WASM validation is required before packaging the owner-test build.
+

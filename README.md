@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: Vapor Loop 0.12.1 refines the Chord Companion foundation with beat-one held-note capture, immediate generated-to-manual handoff, and exact held-pitch tracking. Version 0.12.0 established manual recording, Root Follow, Phrase Follow, temporary live override, and independent level. No hardware firmware build or flashing has occurred.**
+**Status: Vapor Loop 0.12.2 adds automatic key/scale detection and one shared harmonic context for Reply, Bass, and Chord companions. Manual override remains available; manual bass/chord passes stay exact and receive a visible warning when their recorded context differs. Version 0.12.1 remains the validated chord-handoff foundation. No hardware firmware build or flashing has occurred.**
 
 psychic-octo-spork remains the repository code name. **Vapor Loop** is the instrument name. ECHOLOG is the original melodic-conversation experiment that established its capture, Reply, and candidate-memory core.
 
@@ -12,6 +12,12 @@ Create something creative, unusual, and musically useful that FM-1 owners want t
 Initial concepts included GENOME, ECHOLOG, and GRAVITY. ECHOLOG's musical-memory experiment evolved into Vapor Loop: a melodic looper whose generated ideas disappear unless the player captures them. Originality and feasibility remain engineering and community-research questions rather than marketing claims.
 
 This project is separate from the completed Local LLM Infrastructure Lab.
+
+## Shared Harmonic Context — prototype 0.12.2
+
+After Lead capture, a bounded integer scoring pass evaluates pitch membership, duration, strong beats, opening notes, and cadences across the four supported scale types. The detected context feeds Reply, Bass Root/Follow, and Chord Root/Phrase Follow. Replay never changes the captured Lead. Manual key override is explicit, recorded bass/chord passes are never silently transposed, and every kept candidate stores its own context.
+
+[Shared Harmonic Context guide](docs/HARMONIC_CONTEXT.md)
 
 ## Chord Companion — prototype 0.12.1
 
@@ -130,6 +136,7 @@ There is currently no installable project firmware or verified project-specific 
 The browser simulation uses a pinned foma platform subset, with Felucca / SLOOP / Dinghy lineage, under GPL-3.0-only. See LICENSE, vendor/foma/LICENSING.md, and the browser build guide. Hardware and plugin adapters have not yet been validated.
 
 ChatGPT/Codex assists development and documentation; see [AI attribution](AI_ATTRIBUTION.md).
+
 
 
 
