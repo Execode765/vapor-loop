@@ -456,3 +456,13 @@ Version 0.7.2 derives Follow anchors from the final playback onsets after the up
 
 [Successful 0.12.1 workflow](https://github.com/Execode765/psychic-octo-spork/actions/runs/41222801370) validates the synchronized handoff and beat-one capture source commit.
 
+
+# Vapor Loop 0.12.2 validation — 2026-11-09
+
+- Source under test: pull request 7, head `f9c557c88ed2b77d6fbeff51eb34916e9c00d5a8`.
+- Clean workflow: Browser sound check run 42684662979.
+- Result: passed.
+- Native voice, sanitizer-backed memory/timing, WebAssembly compilation, compiled simulation, AudioWorklet, Chromium controls, fake Web MIDI, served-page, and direct-file standalone checks passed.
+- Verified standalone artifact: `vapor-loop-standalone-0.12.2`, SHA-256 `1772e080fa40b4d231bce614dbbe93b93c65d5b2f5a64daa7fcd7613d119052c` for the workflow ZIP.
+- Browser simulation only. No FM-1 firmware image was built and no hardware was accessed or flashed.
+
