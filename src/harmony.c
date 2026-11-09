@@ -68,6 +68,73 @@ int echo_harmony_contains(int pitch, int root, int scale) {
     return 0;
 }
 
+static int pitch_class_distance(int a, int b) {
+    int d = normalize_root(a - b);
+    return d > 6 ? 12 - d : d;
+}
+
+static int is_strong_beat(uint32_t onset, uint32_t beat) {
+    if (!beat) return 0;
+    uint32_t remainder = onset % beat;
+    uint32_t distance = remainder < beat - remainder ? remainder : beat - remainder;
+    return distance <= beat / 16u;
+}
+
+int echo_harmony_detect(const uint8_t *pitch, const uint32_t *onset,
+                        const uint32_t *duration, uint32_t count, uint32_t beat,
+                        int *root, int *scale) {
+    if (!pitch || !count || !root || !scale) return 0;
+    uint32_t longest = 1;
+    for (uint32_t i = 0; i < count; ++i)
+        if (duration && duration[i] > longest) longest = duration[i];
+    int best_score = -2147483647, second_score = -2147483647;
+    int best_root = 0, best_scale = ECHO_SCALE_MAJOR;
+    for (int candidate_root = 0; candidate_root < 12; ++candidate_root) {
+        for (int candidate_scale = 0; candidate_scale < ECHO_SCALE_COUNT; ++candidate_scale) {
+            int minor = candidate_scale == ECHO_SCALE_NATURAL_MINOR ||
+                        candidate_scale == ECHO_SCALE_MINOR_PENTATONIC;
+            int third = (candidate_root + (minor ? 3 : 4)) % 12;
+            int fifth = (candidate_root + 7) % 12;
+            int score = candidate_scale >= ECHO_SCALE_MAJOR_PENTATONIC ? 12 : 0;
+            for (uint32_t i = 0; i < count; ++i) {
+                int pc = pitch[i] % 12;
+                int weight = 4 + (int)((duration ? duration[i] : 1u) * 8u / longest);
+                if (echo_harmony_contains(pc, candidate_root, candidate_scale)) score += 10 * weight;
+                else score -= 18 * weight;
+                if (pc == candidate_root) score += 5 * weight;
+                else if (pc == fifth) score += 4 * weight;
+                else if (pc == third) score += 3 * weight;
+                if (onset && is_strong_beat(onset[i], beat)) {
+                    if (pc == candidate_root) score += 16;
+                    else if (pc == third || pc == fifth) score += 7;
+                    else if (!echo_harmony_contains(pc, candidate_root, candidate_scale)) score -= 10;
+                }
+            }
+            int first = pitch[0] % 12, last = pitch[count - 1u] % 12;
+            if (first == candidate_root) score += 34;
+            else if (first == fifth) score += 14;
+            else if (first == third) score += 9;
+            if (last == candidate_root) score += 42;
+            else if (last == fifth) score += 17;
+            else if (last == third) score += 11;
+            /* Close ties prefer a root near the phrase boundaries. */
+            score -= pitch_class_distance(candidate_root, first);
+            score -= pitch_class_distance(candidate_root, last);
+            if (score > best_score) {
+                second_score = best_score; best_score = score;
+                best_root = candidate_root; best_scale = candidate_scale;
+            } else if (score > second_score) second_score = score;
+        }
+    }
+    *root = best_root; *scale = best_scale;
+    if (best_score <= 0) return 0;
+    int gap = best_score - second_score;
+    int confidence = 45 + gap * 100 / (best_score + 1);
+    if (confidence < 1) confidence = 1;
+    if (confidence > 100) confidence = 100;
+    return confidence;
+}
+
 void echo_harmony_triad(int anchor, int root, int scale, uint8_t chord[3]) {
     root = normalize_root(root); scale = valid_scale(scale);
     int index = nearest_index(anchor, root, scale);
@@ -110,3 +177,4 @@ void echo_harmony_reply(const uint8_t *source, uint8_t *reply, uint32_t count,
     }
     reply[count - 1] = (uint8_t)cadence_pitch(reply[count - 1], root, scale);
 }
+
