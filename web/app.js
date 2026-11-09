@@ -31,9 +31,18 @@ const rootNames=['C','C♯','D','E♭','E','F','F♯','G','A♭','A','B♭','B']
 const scaleNames=['major','natural minor','major pentatonic','minor pentatonic'];
 function syncHarmony() {
   const root=Number($('root').value), scale=Number($('scale').value);
+  if(Number($('harmony-mode').value)!==1)return;
   send({type:'harmony',root,scale});
-  $('harmony-status').textContent=`Reply context · ${rootNames[root]} ${scaleNames[scale]}`;
+  $('harmony-status').textContent=`Shared context · manual ${rootNames[root]} ${scaleNames[scale]}`;
 }
+function syncHarmonyMode() {
+  const mode=Number($('harmony-mode').value), manual=mode===1;
+  $('root').disabled=$('scale').disabled=!manual;
+  send({type:'harmony-mode',mode});
+  if(manual)syncHarmony();
+  else $('harmony-status').textContent=lastPhraseState.count?'Shared context · analyzing captured Lead…':'Shared context · waiting for Lead capture';
+}
+$('harmony-mode').onchange=syncHarmonyMode;
 $('root').onchange=syncHarmony;
 $('scale').onchange=syncHarmony;
 function syncAdventure() {
@@ -231,7 +240,7 @@ $('finish').onclick=()=>action(3);
 $('replay').onclick=()=>action(11);
 $('reply').onclick=()=>action(2);
 $('clear').onclick=()=>action(8);
-let lastPhraseState={candidateMask:0,lastReplyValid:0,candidateCounts:[0,0,0],manualBassCount:0,manualKeysCount:0,keysActive:0};
+let lastPhraseState={candidateMask:0,lastReplyValid:0,candidateCounts:[0,0,0],candidateRoots:[-1,-1,-1],candidateScales:[-1,-1,-1],manualBassCount:0,manualKeysCount:0,keysActive:0,count:0};
 function updateRecordButton(p=lastPhraseState) {
   const track=Number($('input-track').value);
   const valid=track===1?Number($('bass-mode').value)===1:track===3?Number($('keys-mode').value)===1:false;
@@ -249,7 +258,11 @@ function candidateSlot(){return Number($('candidate-slot').value);}
 function syncCandidateUi(p=lastPhraseState) {
   lastPhraseState=p;
   const slot=candidateSlot(), filled=!!(p.candidateMask&(1<<slot));
-  for(let i=0;i<3;i++) $('candidate-slot').options[i].textContent=`${'ABC'[i]} · ${(p.candidateMask&(1<<i))?`${p.candidateCounts?.[i]||0} notes`:'Empty'}`;
+  for(let i=0;i<3;i++) {
+    const filled=p.candidateMask&(1<<i), root=p.candidateRoots?.[i], scale=p.candidateScales?.[i];
+    const context=filled&&root>=0&&scale>=0?` · ${rootNames[root]} ${scaleNames[scale]}`:'';
+    $('candidate-slot').options[i].textContent=`${'ABC'[i]} · ${filled?`${p.candidateCounts?.[i]||0} notes${context}`:'Empty'}`;
+  }
   $('keep').disabled=!ready || !p.lastReplyValid;
   $('play-candidate').disabled=!ready || !filled;
   $('clear-candidate').disabled=!ready || !filled;
@@ -262,6 +275,19 @@ $('play-candidate').onclick=()=>{releaseKeys();send({type:'candidate-play',slot:
 $('clear-candidate').onclick=()=>send({type:'candidate-clear',slot:candidateSlot()});
 function phraseStatus(p) {
   syncCandidateUi(p);
+  const harmonyMode=Number(p.harmonyMode)||0;
+  $('harmony-mode').value=String(harmonyMode);
+  $('root').value=String(p.root??0);$('scale').value=String(p.scale??0);
+  $('root').disabled=$('scale').disabled=harmonyMode===0;
+  const activeRoot=p.contextRoot??p.root??0, activeScale=p.contextScale??p.scale??0;
+  const candidateContext=p.playback===3?` · candidate ${'ABC'[p.candidateSlot||0]}`:'';
+  $('harmony-status').textContent=harmonyMode===0?
+    (p.count?`Shared context · Auto ${rootNames[activeRoot]} ${scaleNames[activeScale]} · confidence ${p.harmonyConfidence||0}%${candidateContext}`:'Shared context · waiting for Lead capture'):
+    `Shared context · Manual ${rootNames[activeRoot]} ${scaleNames[activeScale]}${candidateContext}`;
+  const warnings=[];
+  if((p.harmonyWarningMask||0)&1)warnings.push('recorded bass');
+  if((p.harmonyWarningMask||0)&2)warnings.push('recorded chords');
+  $('harmony-warning').textContent=warnings.length?`Context warning · ${warnings.join(' and ')} remain exact in their recorded key. Re-record them or restore their original context if they clash.`:'';
   const activeEngine=Math.max(0,Math.min(leadEngineNames.length-1,Number(p.leadEngine)||0));
   $('engine-status').textContent=`Active in audio core · ${leadEngineNames[activeEngine]} · fixed musical preset`;
   $('lead-engine').classList.toggle('engine-mismatch',activeEngine!==Number($('lead-engine').value));
@@ -342,7 +368,7 @@ $('start').onclick=async()=>{
     const wasm=await response.arrayBuffer();
     node=new AudioWorkletNode(ctx,'fm1',{numberOfInputs:0,numberOfOutputs:1,outputChannelCount:[2]});
     node.port.onmessage=({data:m})=>{
-      if(m.type==='ready'){ready=true;$('status').textContent='Ready · 44.1 kHz · four-track performance clock';$('start').textContent='Sound enabled';$('stop').disabled=false;keyButtons.forEach(b=>b.disabled=false);syncLeadEngine();syncHarmony();syncAdventure();syncGroove();syncCaptureClock();syncPhrase();syncBass();syncBassGroove();syncKeys();syncSequencer();syncDrums();phraseStatus({mode:0,count:0,replyCount:0,length:0,playLength:0,position:0,limit:0,playback:0,root:Number($('root').value),scale:Number($('scale').value),adventure:Number($('adventure').value),variation:0,grooveStyle:Number($('groove-style').value),grooveAmount:Number($('groove-amount').value),phraseStyle:Number($('phrase-style').value),phraseAmount:Number($('phrase-amount').value),candidateMask:0,candidateSlot:0,lastReplyValid:0,candidateCounts:[0,0,0],bassMode:Number($('bass-mode').value),bassDensity:Number($('bass-density').value),bassOctave:Number($('bass-octave').value),bassVolume:Number($('bass-volume').value),bassGrooveStyle:Number($('bass-groove-style').value),bassGrooveAmount:Number($('bass-groove-amount').value),bassCount:0,manualBassCount:0,manualKeysCount:0,keysMode:Number($('keys-mode').value),keysVolume:Number($('keys-volume').value),keysActive:0,splitPoint:Number($('split-point').value),leadEngine:Number($('lead-engine').value),recordingTrack:-1,trackRecording:0,inputTrack:Number($('input-track').value),sequenceResolution:Number($('sequence-resolution').value),drumMode:Number($('drum-mode').value),captureBars:Number($('capture-bars').value),countInBars:Number($('count-in-bars').value),captureQuantize:Number($('capture-quantize').value),metronomeEnabled:Number($('capture-metronome').value),rhythmEnabled:Number($('drum-mode').value)>0?1:0,rhythmVolume:Number($('drum-volume').value),captureLength:0,tempoBeat:0,clockBar:0,clockBeat:0});}
+      if(m.type==='ready'){ready=true;$('status').textContent='Ready · 44.1 kHz · four-track performance clock';$('start').textContent='Sound enabled';$('stop').disabled=false;keyButtons.forEach(b=>b.disabled=false);syncLeadEngine();syncHarmonyMode();syncAdventure();syncGroove();syncCaptureClock();syncPhrase();syncBass();syncBassGroove();syncKeys();syncSequencer();syncDrums();phraseStatus({mode:0,count:0,replyCount:0,length:0,playLength:0,position:0,limit:0,playback:0,root:Number($('root').value),scale:Number($('scale').value),harmonyMode:Number($('harmony-mode').value),harmonyConfidence:0,contextRoot:Number($('root').value),contextScale:Number($('scale').value),harmonyWarningMask:0,adventure:Number($('adventure').value),variation:0,grooveStyle:Number($('groove-style').value),grooveAmount:Number($('groove-amount').value),phraseStyle:Number($('phrase-style').value),phraseAmount:Number($('phrase-amount').value),candidateMask:0,candidateSlot:0,lastReplyValid:0,candidateCounts:[0,0,0],candidateRoots:[-1,-1,-1],candidateScales:[-1,-1,-1],bassMode:Number($('bass-mode').value),bassDensity:Number($('bass-density').value),bassOctave:Number($('bass-octave').value),bassVolume:Number($('bass-volume').value),bassGrooveStyle:Number($('bass-groove-style').value),bassGrooveAmount:Number($('bass-groove-amount').value),bassCount:0,manualBassCount:0,manualKeysCount:0,keysMode:Number($('keys-mode').value),keysVolume:Number($('keys-volume').value),keysActive:0,splitPoint:Number($('split-point').value),leadEngine:Number($('lead-engine').value),recordingTrack:-1,trackRecording:0,inputTrack:Number($('input-track').value),sequenceResolution:Number($('sequence-resolution').value),drumMode:Number($('drum-mode').value),captureBars:Number($('capture-bars').value),countInBars:Number($('count-in-bars').value),captureQuantize:Number($('capture-quantize').value),metronomeEnabled:Number($('capture-metronome').value),rhythmEnabled:Number($('drum-mode').value)>0?1:0,rhythmVolume:Number($('drum-volume').value),captureLength:0,tempoBeat:0,clockBar:0,clockBeat:0});}
       if(m.type==='frame'){if(m.fb)draw(m.fb);if(m.phrase)phraseStatus(m.phrase);}
       if(m.type==='crash'){ready=false;$('status').textContent='Audio stopped: '+m.message;node.disconnect();}
     };
@@ -351,6 +377,7 @@ $('start').onclick=async()=>{
     node.port.postMessage({type:'load',wasm,master:Number($('volume').value)},[wasm]);
   }catch(error){$('status').textContent=error.message;node?.disconnect();await ctx?.close();$('start').disabled=false;}
 };
+
 
 
 
