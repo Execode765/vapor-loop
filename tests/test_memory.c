@@ -19,6 +19,8 @@ int main(void) {
     advance(&m,500); echo_memory_on(&m,64,80); advance(&m,2000); echo_memory_off(&m,64);
     advance(&m,250); echo_memory_finish(&m);
     assert(m.count==2 && m.length==3750);
+    assert(m.harmony_mode==ECHO_HARMONY_AUTO && m.harmony_confidence>0);
+    assert(m.root==0 && m.scale==ECHO_SCALE_MAJOR_PENTATONIC);
     assert(m.events[0].onset==0 && m.events[0].duration==1000 && m.events[0].pitch==60);
     assert(m.events[1].onset==1500 && m.events[1].duration==2000 && m.events[1].velocity==80);
     assert(echo_memory_replay(&m));
@@ -34,7 +36,9 @@ int main(void) {
     echo_memory_replay(&m);
     for(int i=0;i<4000;i++) echo_memory_render(&m,second+2*i,1);
     for(int i=0;i<8000;i++) assert(first[i]==second[i]);
-    /* Reply retains timing/velocity while moving in C-major scale degrees. */
+    /* Manual override remains available and Reply retains timing/velocity. */
+    echo_memory_set_harmony(&m,0,ECHO_SCALE_MAJOR);
+    assert(m.harmony_mode==ECHO_HARMONY_MANUAL && m.harmony_confidence==100);
     assert(echo_memory_reply(&m)); assert(m.playback==ECHO_REPLY_PLAYBACK);
     assert(m.reply[0]==67 && m.reply[1]==64);
     advance(&m,1); assert(m.voice.note==67 && m.voice.target==6400);
@@ -57,12 +61,15 @@ int main(void) {
     /* Bass Companion is a simultaneous second voice with an exact Straight bypass. */
     echo_memory_set_bass_groove(&m,ECHO_BASS_GROOVE_STRAIGHT,100);
     echo_memory_set_bass(&m,ECHO_BASS_ROOT,ECHO_BASS_QUARTER,1,70);
+    assert(m.candidates[1].root==0 && m.candidates[1].scale==ECHO_SCALE_MAJOR);
+    echo_memory_set_harmony(&m,2,ECHO_SCALE_NATURAL_MINOR);
     assert(echo_memory_play_candidate(&m,1) && m.bass_count>0 && m.bass_pitch[0]==24);
     uint32_t straight_bass_count=m.bass_count;
     for(uint32_t i=0;i<m.bass_count;i++) assert(m.bass_velocity[i]==105);
     advance(&m,1); assert(m.voice.note>=0 && m.bass_voice.note==24 && m.mode==ECHO_PLAYING);
     echo_memory_bass_on(&m,30,110); assert(m.bass_manual && m.bass_voice.note==30 && m.mode==ECHO_PLAYING);
     echo_memory_bass_off(&m,30); assert(!m.bass_manual && m.mode==ECHO_PLAYING); echo_memory_stop(&m);
+    echo_memory_set_harmony(&m,0,ECHO_SCALE_MAJOR);
     /* Auto reads the kept Trap context and introduces space, accents, and gate changes. */
     echo_memory_set_bass_groove(&m,ECHO_BASS_GROOVE_AUTO,60);
     echo_memory_set_bass(&m,ECHO_BASS_FOLLOW,ECHO_BASS_QUARTER,1,80);
@@ -145,6 +152,20 @@ int main(void) {
             assert(echo_harmony_contains(constrained[i],root,scale));
         }
     }
+    /* v0.12.2: deterministic capture analysis recognizes boundary-weighted contexts. */
+    uint8_t c_major_pitch[6]={60,64,67,71,62,60};
+    uint8_t a_minor_pitch[6]={57,60,64,67,65,57};
+    uint32_t detect_onset[6]={0,11025,22050,33075,44100,66150};
+    uint32_t detect_duration[6]={9000,7000,10000,7000,6000,15000};
+    int detected_root=-1,detected_scale=-1;
+    int detected_confidence=echo_harmony_detect(c_major_pitch,detect_onset,detect_duration,6,22050,
+                                                  &detected_root,&detected_scale);
+    assert(detected_root==0 && detected_scale==ECHO_SCALE_MAJOR && detected_confidence>45);
+    detected_confidence=echo_harmony_detect(a_minor_pitch,detect_onset,detect_duration,6,22050,
+                                             &detected_root,&detected_scale);
+    assert(detected_root==9 && detected_scale==ECHO_SCALE_NATURAL_MINOR && detected_confidence>45);
+    echo_memory_set_harmony_mode(&m,ECHO_HARMONY_AUTO);
+    assert(m.harmony_mode==ECHO_HARMONY_AUTO && m.harmony_confidence>0);
     echo_memory_set_harmony(&m,2,ECHO_SCALE_NATURAL_MINOR);
     assert(m.root==2 && m.scale==ECHO_SCALE_NATURAL_MINOR);
     echo_memory_set_adventure(&m,80); assert(m.adventure==80 && m.variation==0);
@@ -297,6 +318,14 @@ int main(void) {
     advance(&seq,seq.play_length-seq.position);
     assert(seq.mode==ECHO_IDLE && !seq.sequencer.recording);
     assert(echo_seq_track_count(&seq.sequencer,ECHO_TRACK_BASS)==2);
+    assert(seq.bass_pass_context_valid && !echo_memory_harmony_warning_mask(&seq));
+    uint8_t exact_bass_pitch=seq.sequencer.events[0].value;
+    int bass_pass_root=seq.bass_pass_root,bass_pass_scale=seq.bass_pass_scale;
+    echo_memory_set_harmony(&seq,7,ECHO_SCALE_NATURAL_MINOR);
+    assert(echo_memory_harmony_warning_mask(&seq)==ECHO_HARMONY_WARN_BASS);
+    assert(seq.sequencer.events[0].value==exact_bass_pitch);
+    echo_memory_set_harmony(&seq,bass_pass_root,bass_pass_scale);
+    assert(!echo_memory_harmony_warning_mask(&seq));
     assert(seq.sequencer.events[0].tick==0 && seq.sequencer.events[0].duration==48);
     assert(seq.sequencer.events[1].tick==96 && seq.sequencer.events[1].value==31);
     echo_memory_set_drum_mode(&seq,ECHO_TRACK_MANUAL,60);
@@ -344,6 +373,13 @@ int main(void) {
     advance(&poly,poly.play_length-poly.position);
     assert(poly.mode==ECHO_IDLE);
     assert(echo_seq_track_count(&poly.sequencer,ECHO_TRACK_CHORDS)==3);
+    assert(poly.keys_pass_context_valid && !echo_memory_harmony_warning_mask(&poly));
+    uint8_t exact_chord_pitch=poly.sequencer.events[0].value;
+    echo_memory_set_harmony(&poly,2,ECHO_SCALE_NATURAL_MINOR);
+    assert(echo_memory_harmony_warning_mask(&poly)==ECHO_HARMONY_WARN_KEYS);
+    assert(poly.sequencer.events[0].value==exact_chord_pitch);
+    echo_memory_set_harmony(&poly,0,ECHO_SCALE_MAJOR);
+    assert(!echo_memory_harmony_warning_mask(&poly));
     assert(echo_memory_replay(&poly)); advance(&poly,1);
     assert(echo_keys_active(&poly.keys)==3);
     echo_memory_stop(&poly);
@@ -422,8 +458,9 @@ int main(void) {
     echo_memory_set_keys(&poly,99,999);
     assert(poly.keys_mode==ECHO_KEYS_OFF && poly.keys_volume==100);
 
-    puts("PASS memory: 0.12.1 chord handoff and beat-one capture plus all regressions");
+    puts("PASS memory: 0.12.2 automatic shared harmonic context plus all regressions");
 }
+
 
 
 
