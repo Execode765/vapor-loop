@@ -30,7 +30,9 @@ const assert=require('node:assert/strict');
     await page.getByRole('button',{name:'Enable sound',exact:true}).click();
     await page.waitForFunction(()=>{const t=document.getElementById('status').textContent;return t.startsWith('Ready') || t!=='Sound is off.';});
     assert((await page.locator('#status').textContent()).startsWith('Ready'),await page.locator('#status').textContent());
-    assert.equal(await page.locator('#build-status').textContent(),'Build 0.12.1 · if the selected and active engines ever disagree, reload this page.');
+    assert.equal(await page.locator('#build-status').textContent(),'Build 0.12.2 · if the selected and active engines ever disagree, reload this page.');
+    assert.equal(await page.locator('#harmony-mode').inputValue(),'0');
+    assert(await page.locator('#root').isDisabled());
     assert.equal(await page.locator('#lead-engine').inputValue(),'1');
     for (const [value,label] of [['0','Sine Diagnostic'],['1','FM Glass'],['2','Virtual Analog Warm'],['3','Karplus–Strong String']]) {
       await page.locator('#lead-engine').selectOption(value);
@@ -93,6 +95,8 @@ const assert=require('node:assert/strict');
     await page.waitForTimeout(80); await page.keyboard.down('j'); await page.waitForTimeout(160); await page.keyboard.up('j');
     await page.getByRole('button',{name:'Finish',exact:true}).click();
     await page.waitForFunction(()=>document.getElementById('phrase-status').textContent.startsWith('Phrase ready · 3 notes'));
+    await page.waitForFunction(()=>document.getElementById('harmony-status').textContent.startsWith('Shared context · Auto '));
+    assert((await page.locator('#harmony-status').textContent()).includes('confidence'));
     // Chord Companion: Root holds the key-center triad; Phrase follows Lead events.
     await page.locator('#keys-mode').selectOption('2');
     await page.getByRole('button',{name:'Replay',exact:true}).click();
@@ -156,9 +160,12 @@ const assert=require('node:assert/strict');
     await page.waitForFunction(()=>document.getElementById('sequencer-status').textContent.includes('keys 3'));
     await page.locator('#input-track').selectOption('0');
     await page.locator('#drum-mode').selectOption('2');
+    await page.locator('#harmony-mode').selectOption('1');
+    assert(!(await page.locator('#root').isDisabled()));
     await page.locator('#root').selectOption('2');
     await page.locator('#scale').selectOption('1');
-    await page.waitForFunction(()=>document.getElementById('harmony-status').textContent==='Reply context · D natural minor');
+    await page.waitForFunction(()=>document.getElementById('harmony-status').textContent==='Shared context · Manual D natural minor');
+    await page.waitForFunction(()=>document.getElementById('harmony-warning').textContent.includes('recorded bass and recorded chords'));
     await page.locator('#adventure').fill('80');
     await page.waitForFunction(()=>document.getElementById('adventure-value').textContent==='80 · Bold');
     await page.locator('#bpm').fill('128');
@@ -186,7 +193,7 @@ const assert=require('node:assert/strict');
     await page.locator('#input-track').selectOption('0');
     await page.getByRole('button',{name:'Keep latest Reply',exact:true}).click();
     await page.waitForFunction(()=>document.getElementById('candidate-status').textContent.includes('Kept candidates · A'));
-    assert.equal(await page.locator('#candidate-slot').locator('option').first().textContent(),'A · 10 notes');
+    assert.equal(await page.locator('#candidate-slot').locator('option').first().textContent(),'A · 10 notes · D natural minor');
     await page.waitForFunction(()=>document.getElementById('phrase-status').textContent.startsWith('Phrase ready · 3 notes'));
     await page.getByRole('button',{name:'Reply',exact:true}).click();
     await page.waitForFunction(()=>document.getElementById('phrase-status').textContent.startsWith('Replying · Trap Pocket 100 · 10 notes · variation 2'));
@@ -236,9 +243,10 @@ const assert=require('node:assert/strict');
     assert(await page.locator('#midi-input').isDisabled());
     await page.waitForFunction(()=>{const a=window.__audioProbe,x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return x.every(v=>Math.abs(v)<.00001);});
     assert.deepEqual(errors,[]);
-    console.log('PASS Chromium: 0.12.1 chord handoff and beat-one capture plus all regressions');
+    console.log('PASS Chromium: 0.12.2 shared harmonic context plus all regressions');
   } finally {await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1);});
+
 
 
 
