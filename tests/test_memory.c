@@ -489,7 +489,7 @@ int main(void) {
         assert(preserved.voice.engine==engine);
     }
 
-    puts("PASS memory: 0.12.3 engine preservation plus all regressions");
+    puts("PASS memory: 0.12.4 browser gain leaves 0.12.3 engine preservation and all core regressions intact");
 }
 
 

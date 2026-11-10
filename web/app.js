@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 const $ = id => document.getElementById(id);
 const bindings = ['a','w','s','e','d','f','t','g','y','h','u','j','k'];
-let ctx, node, ready = false;
+let ctx, node, outputGain, outputLimiter, ready = false;
 let midiAccess = null, midiInput = null;
 const held = new Map();
 const keyButtons = [];
@@ -352,6 +352,13 @@ addEventListener('blur',releaseAll);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)releaseAll();});
 $('stop').onclick=releaseAll;
 $('volume').oninput=e=>send({type:'master',value:Number(e.target.value)});
+const outputBoostLabels={1:'0 dB',2:'+6 dB',4:'+12 dB',8:'+18 dB'};
+function syncOutputBoost() {
+  const value=Number($('output-boost').value);
+  if(outputGain)outputGain.gain.setTargetAtTime(value,ctx.currentTime,.015);
+  $('output-gain-status').textContent=`Browser output ${outputBoostLabels[value]} · safety limiter −3 dBFS`;
+}
+$('output-boost').onchange=syncOutputBoost;
 function draw(fb){
   const c=$('screen').getContext('2d'), im=c.createImageData(240,240);
   for(let i=0;i<fb.length;i++){const v=((fb[i]&255)<<8)|(fb[i]>>>8);im.data[4*i]=((v>>>11)&31)*255/31;im.data[4*i+1]=((v>>>5)&63)*255/63;im.data[4*i+2]=(v&31)*255/31;im.data[4*i+3]=255;}
@@ -373,7 +380,16 @@ $('start').onclick=async()=>{
       if(m.type==='crash'){ready=false;$('status').textContent='Audio stopped: '+m.message;node.disconnect();}
     };
     node.onprocessorerror=()=>{ready=false;$('status').textContent='Audio processor failed. Reload to retry.';};
-    node.connect(ctx.destination);
+    outputGain=ctx.createGain();
+    outputGain.gain.value=Number($('output-boost').value);
+    outputLimiter=ctx.createDynamicsCompressor();
+    outputLimiter.threshold.value=-3;
+    outputLimiter.knee.value=0;
+    outputLimiter.ratio.value=20;
+    outputLimiter.attack.value=.003;
+    outputLimiter.release.value=.12;
+    node.connect(outputGain).connect(outputLimiter).connect(ctx.destination);
+    syncOutputBoost();
     node.port.postMessage({type:'load',wasm,master:Number($('volume').value)},[wasm]);
   }catch(error){$('status').textContent=error.message;node?.disconnect();await ctx?.close();$('start').disabled=false;}
 };

@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: Vapor Loop 0.12.3 repairs the transport-related Lead-engine reset exposed during 0.12.2 owner testing. Capture, Replay, Reply, Keep, candidate playback, Clear, and manual-track recording now preserve Sine, FM Glass, Virtual Analog, or Karplus–Strong selection. The next planned release is the 0.13.0 Vapor Loop Workbench interface reset. No hardware firmware build or flashing has occurred.**
+**Status: Vapor Loop 0.12.4 adds protected browser gain staging after the owner validated the 0.12.3 FM Glass reset repair. Browser playback defaults to +12 dB, offers +18 dB for recording, and uses a −3 dBFS safety limiter without changing the shared synthesis core or future hardware gain model. The next planned release is the 0.13.0 Vapor Loop Workbench interface reset. No hardware firmware build or flashing has occurred.**
 
 **Vapor Loop** is the project and instrument name. ECHOLOG is the original melodic-conversation experiment that established its capture, Reply, and candidate-memory core.
 
@@ -16,6 +16,10 @@ This project is separate from the completed Local LLM Infrastructure Lab.
 ## Current development checkpoint
 
 The [0.12.2 owner-test checkpoint](docs/V0.12.2_TEST_CHECKPOINT.md) records the evidence that exposed the FM Glass-to-Sine Diagnostic reset and motivated the focused 0.12.3 repair. The timing observation remains unclassified until the planned Workbench exposes a clearer multi-lane timeline.
+
+## Browser gain staging — prototype 0.12.4
+
+A Web Audio output stage now follows the compiled FM-1 simulation. The recommended +12 dB setting improves normal listening and screen recording, while an optional +18 dB setting supports unusually quiet capture paths. A fast 20:1 limiter with a −3 dBFS threshold protects mixed Lead, Bass, Keys, and Drum playback. This stage is browser-only: it does not alter synthesis amplitude, per-track balance, the FM-1 master control, or the portable C core.
 
 ## Engine-state preservation — prototype 0.12.3
 

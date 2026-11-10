@@ -1,17 +1,18 @@
 # Project plan
 
-Status: Vapor Loop 0.12.3 engine-state repair implemented and locally regression-tested. Updated: 2026-11-09.
+Status: Vapor Loop 0.12.4 protected browser gain staging implemented for validation. Updated: 2026-11-10.
 
-Current implementation milestone: 0.12.3 preserves the selected Lead synthesis engine through transport and memory operations while retaining the 0.12.2 automatic key/scale detection, shared harmonic context, explicit manual override, exact manual accompaniment passes, and candidate-specific context storage.
+Current implementation milestone: 0.12.4 adds a browser-only +12 dB default output stage, optional +18 dB recording boost, and −3 dBFS safety limiter while retaining the 0.12.3 engine-state repair and all prior musical behavior.
 
-Owner testing confirmed the main harmonic, candidate, companion, manual-track, drum-grid, and MIDI control paths. It also exposed a selected/active engine mismatch: FM Glass reverted to Sine Diagnostic after transport activity. Version 0.12.3 repairs that reset at the C memory/voice boundary. The present scrolling interface has still reached its usability limit.
+Owner testing confirmed the 0.12.3 FM Glass repair through Capture, Replay, Reply, Keep, and kept-candidate playback. The test video again captured much quieter audio than the live MPC monitoring path, so 0.12.4 repairs browser gain staging without increasing synthesis amplitude or changing the future hardware path. The present scrolling interface has still reached its usability limit.
 
 Immediate next milestones:
 
-1. **0.12.3 Engine-state repair — implemented** — preserve the selected synthesis engine through all transport and memory operations and add native, WASM, and browser regression coverage.
-2. **0.13.0 Vapor Loop Workbench** — reorganize the browser app into Play, Shape, Companions, and Setup pages with persistent transport/status and a visual multi-lane timeline.
-3. Use the Workbench timeline, playhead, and lane mute/solo controls to investigate the owner's unresolved timing observation.
-4. Build a standalone desktop wrapper around the shared C core only after the browser instrument is stable; follow with VST3 and DAW integration.
+1. **0.12.3 Engine-state repair — owner validated** — preserve the selected synthesis engine through all transport and memory operations and add native, WASM, and browser regression coverage.
+2. **0.12.4 Gain-staging repair — implemented for validation** — raise browser listening/recording level behind a protected output stage while leaving the portable C core unchanged.
+3. **0.13.0 Vapor Loop Workbench** — reorganize the browser app into Play, Shape, Companions, and Setup pages with persistent transport/status and a visual multi-lane timeline.
+4. Use the Workbench timeline, playhead, and lane mute/solo controls to investigate the owner's unresolved timing observation.
+5. Build a standalone desktop wrapper around the shared C core only after the browser instrument is stable; follow with VST3 and DAW integration.
 
 The detailed evidence, cautions, acceptance criteria, and restart procedure are recorded in [V0.12.2_TEST_CHECKPOINT.md](V0.12.2_TEST_CHECKPOINT.md).
 

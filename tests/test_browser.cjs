@@ -13,7 +13,17 @@ const assert=require('node:assert/strict');
     await page.addInitScript(()=>{
       const Original=window.AudioWorkletNode;
       window.AudioWorkletNode=class extends Original {
-        constructor(ctx,...args){super(ctx,...args);window.__audioProbe=ctx.createAnalyser();this.connect(window.__audioProbe);}
+        constructor(ctx,...args){super(ctx,...args);window.__rawAudioProbe=ctx.createAnalyser();this.connect(window.__rawAudioProbe);}
+      };
+      const originalGain=BaseAudioContext.prototype.createGain;
+      BaseAudioContext.prototype.createGain=function(...args){
+        const gain=originalGain.apply(this,args);window.__outputGain=gain;return gain;
+      };
+      const originalCompressor=BaseAudioContext.prototype.createDynamicsCompressor;
+      BaseAudioContext.prototype.createDynamicsCompressor=function(...args){
+        const limiter=originalCompressor.apply(this,args);
+        window.__audioLimiter=limiter;window.__audioProbe=this.createAnalyser();limiter.connect(window.__audioProbe);
+        return limiter;
       };
       const input={id:'smk-pro-elite',name:'SMK Pro Elite',manufacturer:'M-VAVE',state:'connected',onmidimessage:null};
       const access={inputs:new Map([[input.id,input]]),onstatechange:null};
@@ -30,7 +40,22 @@ const assert=require('node:assert/strict');
     await page.getByRole('button',{name:'Enable sound',exact:true}).click();
     await page.waitForFunction(()=>{const t=document.getElementById('status').textContent;return t.startsWith('Ready') || t!=='Sound is off.';});
     assert((await page.locator('#status').textContent()).startsWith('Ready'),await page.locator('#status').textContent());
-    assert.equal(await page.locator('#build-status').textContent(),'Build 0.12.3 · selected Lead engine is preserved across transport and memory operations.');
+    assert.equal(await page.locator('#build-status').textContent(),'Build 0.12.4 · browser output gain repair with protected −3 dBFS ceiling.');
+    assert.equal(await page.locator('#output-boost').inputValue(),'4');
+    assert.equal(await page.locator('#output-gain-status').textContent(),'Browser output +12 dB · safety limiter −3 dBFS');
+    assert.equal(await page.evaluate(()=>window.__outputGain.gain.value),4);
+    assert.deepEqual(await page.evaluate(()=>({
+      threshold:window.__audioLimiter.threshold.value,
+      knee:window.__audioLimiter.knee.value,
+      ratio:window.__audioLimiter.ratio.value,
+      attack:Math.round(window.__audioLimiter.attack.value*1000),
+      release:Math.round(window.__audioLimiter.release.value*1000)
+    })),{threshold:-3,knee:0,ratio:20,attack:3,release:120});
+    await page.locator('#output-boost').selectOption('8');
+    await page.waitForFunction(()=>window.__outputGain.gain.value>7.9);
+    assert.equal(await page.locator('#output-gain-status').textContent(),'Browser output +18 dB · safety limiter −3 dBFS');
+    await page.locator('#output-boost').selectOption('4');
+    await page.waitForFunction(()=>Math.abs(window.__outputGain.gain.value-4)<.1);
     assert.equal(await page.locator('#harmony-mode').inputValue(),'0');
     assert(await page.locator('#root').isDisabled());
     assert.equal(await page.locator('#lead-engine').inputValue(),'1');
@@ -57,6 +82,11 @@ const assert=require('node:assert/strict');
     await page.waitForFunction(()=>{
       const a=window.__audioProbe,x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return x.some(v=>Math.abs(v)>.01);
     });
+    const peaks=await page.evaluate(()=>{
+      const peak=a=>{const x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return Math.max(...x.map(Math.abs));};
+      return {raw:peak(window.__rawAudioProbe),post:peak(window.__audioProbe)};
+    });
+    assert(peaks.post>peaks.raw*2.5,`expected browser gain after core output: ${JSON.stringify(peaks)}`);
     await page.screenshot({path:'build/browser-desktop.png',fullPage:true});
     await page.keyboard.up('a');
     await page.waitForFunction(()=>{const a=window.__audioProbe,x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return x.every(v=>Math.abs(v)<.00001);});
@@ -246,7 +276,7 @@ const assert=require('node:assert/strict');
     assert(await page.locator('#midi-input').isDisabled());
     await page.waitForFunction(()=>{const a=window.__audioProbe,x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return x.every(v=>Math.abs(v)<.00001);});
     assert.deepEqual(errors,[]);
-    console.log('PASS Chromium: 0.12.3 engine preservation plus shared harmonic context and all regressions');
+    console.log('PASS Chromium: 0.12.4 protected browser gain plus engine preservation and all regressions');
   } finally {await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1);});
 

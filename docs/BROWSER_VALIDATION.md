@@ -474,7 +474,20 @@ Version 0.7.2 derives Follow anchors from the final playback onsets after the up
 | Native engine preservation | PASS locally | FM, Virtual Analog, and Karplus–Strong remain selected through Capture, Finish, Replay, Reply, Keep, candidate playback, Clear, and manual-track recording |
 | Compiled WASM engine preservation | PASS locally | FM Glass remains active across the real exported transport and candidate API |
 | Existing native/WASM/worklet regressions | PASS locally | Voice, memory, timing, sequencer, harmony, keys, drums, candidates, and worklet checks pass |
-| Served and standalone Chromium | PENDING CI | Browser test now requires FM Glass readback after Capture and Finish |
-| Owner listening validation | PENDING | Packaged 0.12.3 standalone build requires a short targeted retest |
+| Served and standalone Chromium | PASS | Pull-request run 42734920470 and main run 42735300413 passed the FM Glass readback assertions |
+| Owner listening validation | PASS | Owner video confirms FM Glass remains active and audible through transport, Reply, Keep, and kept-candidate playback |
+| Plugin / FM-1 hardware | NOT TESTED | Browser simulation only; no firmware image was built or flashed |
+
+# Vapor Loop 0.12.4 validation — 2026-11-10
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Default browser output | IMPLEMENTED | +12 dB post-core gain is selected at sound startup |
+| Recording boost | IMPLEMENTED | UI can select +18 dB without changing the FM-1 master value |
+| Safety limiter | IMPLEMENTED | Web Audio compressor uses −3 dBFS threshold, zero knee, 20:1 ratio, 3 ms attack, and 120 ms release |
+| Core/hardware isolation | PASS by inspection | Gain and limiting exist only in `web/app.js`; C synthesis and the foma FM-1 platform remain unchanged |
+| Real post-core level increase | PENDING CI | Chromium compares raw AudioWorklet and protected post-gain analyser peaks |
+| Existing regressions | PENDING CI | Native, WASM, AudioWorklet, MIDI, transport, engine-state, served-page, and standalone-file gates remain required |
+| Owner level validation | PENDING | Packaged 0.12.4 requires a short playback and screen-recording comparison |
 | Plugin / FM-1 hardware | NOT TESTED | Browser simulation only; no firmware image was built or flashed |
 

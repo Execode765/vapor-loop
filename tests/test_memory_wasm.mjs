@@ -75,6 +75,6 @@ e.web_keys(0);command(8);command(13);
 for(let i=0;i<128;i++){e.web_keys(1);advance(1);e.web_keys(0);advance(1);}
 assert.equal(e.echo_count(),128);assert.equal(e.echo_mode(),0);assert.equal(e.echo_limit(),1);
 e.echo_set_capture_clock(16,1,1,1);assert.equal(e.echo_capture_bars(),16);assert.equal(e.echo_count_in_bars(),1);
-console.log('PASS WASM: 0.12.3 engine preservation plus split/poly keys, rhythm, capture, bass, candidates, replay and limits');
+console.log('PASS WASM: 0.12.4 browser gain leaves engine preservation, split/poly keys, rhythm, capture, bass, candidates, replay and limits intact');
 
 
