@@ -458,7 +458,38 @@ int main(void) {
     echo_memory_set_keys(&poly,99,999);
     assert(poly.keys_mode==ECHO_KEYS_OFF && poly.keys_volume==100);
 
-    puts("PASS memory: 0.12.2 automatic shared harmonic context plus all regressions");
+    /* v0.12.3: every non-default Lead engine survives transport and memory resets. */
+    for(int engine=ECHO_ENGINE_FM;engine<ECHO_ENGINE_COUNT;engine++) {
+        EchoMemory preserved; echo_memory_init(&preserved);
+        echo_voice_set_engine(&preserved.voice,engine);
+        echo_memory_capture(&preserved); assert(preserved.voice.engine==engine);
+        echo_memory_finish(&preserved); assert(preserved.voice.engine==engine);
+
+        preserved.count=2; preserved.length=1000;
+        preserved.events[0].pitch=60; preserved.events[0].velocity=100;
+        preserved.events[0].onset=0; preserved.events[0].duration=400;
+        preserved.events[1].pitch=64; preserved.events[1].velocity=96;
+        preserved.events[1].onset=500; preserved.events[1].duration=400;
+
+        assert(echo_memory_replay(&preserved)); assert(preserved.voice.engine==engine);
+        echo_memory_stop(&preserved); assert(preserved.voice.engine==engine);
+        assert(echo_memory_reply(&preserved)); assert(preserved.voice.engine==engine);
+        echo_memory_stop(&preserved); assert(preserved.voice.engine==engine);
+        assert(echo_memory_keep(&preserved,0)); assert(preserved.voice.engine==engine);
+        assert(echo_memory_play_candidate(&preserved,0)); assert(preserved.voice.engine==engine);
+        echo_memory_stop(&preserved); assert(preserved.voice.engine==engine);
+
+        echo_memory_set_capture_clock(&preserved,1,1,ECHO_QUANTIZE_OFF,0);
+        echo_memory_set_bass(&preserved,ECHO_BASS_MANUAL,ECHO_BASS_HALF,1,70);
+        assert(echo_memory_record_track(&preserved,ECHO_TRACK_BASS));
+        assert(preserved.voice.engine==engine);
+        advance(&preserved,preserved.count_in_length);
+        assert(preserved.mode==ECHO_PLAYING && preserved.voice.engine==engine);
+        echo_memory_stop(&preserved); echo_memory_clear(&preserved);
+        assert(preserved.voice.engine==engine);
+    }
+
+    puts("PASS memory: 0.12.3 engine preservation plus all regressions");
 }
 
 

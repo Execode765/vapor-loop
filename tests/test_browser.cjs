@@ -30,7 +30,7 @@ const assert=require('node:assert/strict');
     await page.getByRole('button',{name:'Enable sound',exact:true}).click();
     await page.waitForFunction(()=>{const t=document.getElementById('status').textContent;return t.startsWith('Ready') || t!=='Sound is off.';});
     assert((await page.locator('#status').textContent()).startsWith('Ready'),await page.locator('#status').textContent());
-    assert.equal(await page.locator('#build-status').textContent(),'Build 0.12.2 · if the selected and active engines ever disagree, reload this page.');
+    assert.equal(await page.locator('#build-status').textContent(),'Build 0.12.3 · selected Lead engine is preserved across transport and memory operations.');
     assert.equal(await page.locator('#harmony-mode').inputValue(),'0');
     assert(await page.locator('#root').isDisabled());
     assert.equal(await page.locator('#lead-engine').inputValue(),'1');
@@ -80,9 +80,12 @@ const assert=require('node:assert/strict');
     // Empty take is safe, then record two notes with a rest between them.
     await page.getByRole('button',{name:'Capture',exact:true}).click();
     await page.waitForFunction(()=>document.getElementById('phrase-status').textContent.startsWith('Count-in'));
+    assert.equal(await page.locator('#engine-status').textContent(),'Active in audio core · FM Glass · fixed musical preset');
+    assert(!(await page.locator('#lead-engine').evaluate(e=>e.classList.contains('engine-mismatch'))));
     await page.waitForFunction(()=>{const a=window.__audioProbe,x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return x.some(v=>Math.abs(v)>.001);});
     await page.getByRole('button',{name:'Finish',exact:true}).click();
     await page.waitForFunction(()=>document.getElementById('phrase-status').textContent.startsWith('No phrase'));
+    assert.equal(await page.locator('#engine-status').textContent(),'Active in audio core · FM Glass · fixed musical preset');
     assert(await page.getByRole('button',{name:'Replay',exact:true}).isDisabled());
     await page.getByRole('button',{name:'Capture',exact:true}).click();
     await page.waitForFunction(()=>document.getElementById('phrase-status').textContent.startsWith('Count-in'));
@@ -243,7 +246,7 @@ const assert=require('node:assert/strict');
     assert(await page.locator('#midi-input').isDisabled());
     await page.waitForFunction(()=>{const a=window.__audioProbe,x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return x.every(v=>Math.abs(v)<.00001);});
     assert.deepEqual(errors,[]);
-    console.log('PASS Chromium: 0.12.2 shared harmonic context plus all regressions');
+    console.log('PASS Chromium: 0.12.3 engine preservation plus shared harmonic context and all regressions');
   } finally {await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1);});
 

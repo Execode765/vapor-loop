@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: Vapor Loop 0.12.2 completed owner testing of the shared harmonic-context milestone. The test confirmed the major control paths and exposed a transport-related engine-state defect plus an interface-usability limit. The next releases are the focused 0.12.3 engine-preservation repair and the 0.13.0 Vapor Loop Workbench interface reset. No hardware firmware build or flashing has occurred.**
+**Status: Vapor Loop 0.12.3 repairs the transport-related Lead-engine reset exposed during 0.12.2 owner testing. Capture, Replay, Reply, Keep, candidate playback, Clear, and manual-track recording now preserve Sine, FM Glass, Virtual Analog, or Karplus–Strong selection. The next planned release is the 0.13.0 Vapor Loop Workbench interface reset. No hardware firmware build or flashing has occurred.**
 
 **Vapor Loop** is the project and instrument name. ECHOLOG is the original melodic-conversation experiment that established its capture, Reply, and candidate-memory core.
 
@@ -15,7 +15,11 @@ This project is separate from the completed Local LLM Infrastructure Lab.
 
 ## Current development checkpoint
 
-The [0.12.2 owner-test checkpoint](docs/V0.12.2_TEST_CHECKPOINT.md) records confirmed behavior, the FM Glass-to-Sine Diagnostic engine reset, the unresolved timing observation, the decision to replace the scrolling prototype with a four-page Workbench, and the exact restart checklist. Read this checkpoint before beginning the next change.
+The [0.12.2 owner-test checkpoint](docs/V0.12.2_TEST_CHECKPOINT.md) records the evidence that exposed the FM Glass-to-Sine Diagnostic reset and motivated the focused 0.12.3 repair. The timing observation remains unclassified until the planned Workbench exposes a clearer multi-lane timeline.
+
+## Engine-state preservation — prototype 0.12.3
+
+Lead-voice reinitialization now snapshots and restores the selected synthesis engine instead of silently returning to Sine Diagnostic. Native and compiled-WASM regressions exercise all three non-default engines through Capture, Finish, Replay, Reply, Keep, candidate playback, Clear, and manual-track recording. The independent selected/active readback remains in place so future mismatches stay visible.
 
 ## Shared Harmonic Context — prototype 0.12.2
 
