@@ -21,3 +21,6 @@
 
 
 .harmony-panel #harmony-warning{flex-basis:100%;margin:0;color:#b6efca;font-size:12px}.harmony-panel #harmony-warning:not(:empty){color:#f5d794;border-left:3px solid #f5d794;padding-left:10px}
+
+/* 0.12.4 browser-only output gain stage */
+.controls{flex-wrap:wrap}.controls select{padding:8px;border:1px solid #4b6c63;border-radius:7px;background:#0f1c21;color:#effff7}.controls #output-gain-status{flex-basis:100%;color:#b6efca;font:12px ui-monospace,monospace}select:focus-visible{outline:3px solid #f5d794;outline-offset:3px}

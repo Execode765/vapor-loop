@@ -418,3 +418,12 @@ Never record a planned test as a passed test.
 - Updated the standalone build identity and visible diagnostic copy to 0.12.3. Selected and active engine readbacks remain independent so later regressions remain observable.
 - The unresolved timing observation remains deferred to the 0.13.0 Workbench timeline. No FM-1 firmware image was built and no hardware was accessed or flashed.
 
+# 2026-11-10 — Owner validation and 0.12.4 browser gain staging
+
+- Owner video confirms FM Glass remains selected and active through Capture, Replay, Reply, Keep, and kept-candidate playback; the 0.12.3 reset regression is closed.
+- The recording again contains a much quieter signal than the owner's live MPC monitoring path. This repeated capture problem justified a browser-output repair even though the live amplified path remained audible.
+- Added a browser-only output stage after the compiled AudioWorklet: +12 dB recommended by default, 0/+6/+12/+18 dB choices, and a fast 20:1 limiter at −3 dBFS.
+- Kept the FM-1 master emulation, portable C synthesis core, track balance, velocity behavior, and future hardware path unchanged.
+- Added Chromium assertions for default gain, selectable recording boost, limiter configuration, and a measured post-core level increase.
+- No plugin build, FM-1 firmware image, hardware access, or flashing occurred.
+

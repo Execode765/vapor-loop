@@ -3,10 +3,10 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Vapor Loop · Engine Preservation 0.12.3</title>
+<title>Vapor Loop · Gain Staging 0.12.4</title>
 <link rel="stylesheet" href="style.css">
 <main>
-  <header><p class="eyebrow">EXECODE765 / VAPOR-LOOP / DEVELOPMENT 0.12.3</p><h1>Catch it before<br>it disappears.</h1><p class="intro">The selected Lead engine now survives Capture, Replay, Reply, Keep, candidate playback, and manual-track recording.</p></header>
+  <header><p class="eyebrow">EXECODE765 / VAPOR-LOOP / DEVELOPMENT 0.12.4</p><h1>Catch it before<br>it disappears.</h1><p class="intro">A browser-only gain stage raises listening and recording level without changing the FM-1 synthesis or hardware gain model.</p></header>
   <section class="instrument" aria-label="Vapor Loop browser prototype">
     <div class="top"><div><p class="eyebrow">VAPOR LOOP</p><p class="hint">A melodic memory instrument, in development.</p><button id="start">Enable sound</button><p id="status" role="status">Sound is off.</p></div><canvas id="screen" width="240" height="240" aria-label="Simulated FM-1 display"></canvas></div>
     <div class="engine-panel" aria-label="Lead synthesis engine">
@@ -14,7 +14,7 @@
         <select id="lead-engine"><option value="0">Sine · Diagnostic</option><option value="1" selected>FM · Glass</option><option value="2">Virtual Analog · Warm</option><option value="3">Karplus–Strong · String</option></select>
       </label>
       <p id="engine-status" role="status">Selected · FM Glass · enable sound to verify audio core</p>
-      <p id="build-status">Build 0.12.3 · selected Lead engine is preserved across transport and memory operations.</p>
+      <p id="build-status">Build 0.12.4 · browser output gain repair with protected −3 dBFS ceiling.</p>
       <p class="hint">This first engine lab compares stable low-cost synthesis models. Operator, filter, envelope, damping, and brightness controls follow after listening validation.</p>
     </div>
     <div class="harmony-panel" aria-label="Reply harmony">
@@ -150,7 +150,14 @@
       <p id="midi-status" class="route-idle" role="status">Connect a USB MIDI controller, then enable MIDI.</p>
       <p class="midi-hint">Split rule: notes below the split point route to Bass; the split note and everything above it route to Lead. MIDI numbers remain exact even when a controller displays a different octave name.</p>
     </div>
-    <div class="controls"><button id="stop" disabled>Stop all notes</button><label>Volume <input id="volume" type="range" min="0" max="900" value="600"></label></div>
+    <div class="controls">
+      <button id="stop" disabled>Stop all notes</button>
+      <label>FM-1 master <input id="volume" type="range" min="0" max="900" value="600"></label>
+      <label for="output-boost">Browser output
+        <select id="output-boost"><option value="1">0 dB</option><option value="2">+6 dB</option><option value="4" selected>+12 dB · Recommended</option><option value="8">+18 dB · Recording</option></select>
+      </label>
+      <output id="output-gain-status" for="output-boost">Browser output +12 dB · safety limiter −3 dBFS</output>
+    </div>
     <div id="keys" aria-label="Playable keys"></div>
     <p class="hint">Click and hold a key, or use A W S E D F T G Y H U J K. Release to stop.</p>
   </section>
