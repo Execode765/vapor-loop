@@ -427,3 +427,10 @@ Never record a planned test as a passed test.
 - Added Chromium assertions for default gain, selectable recording boost, limiter configuration, and a measured post-core level increase.
 - No plugin build, FM-1 firmware image, hardware access, or flashing occurred.
 
+## 2026-11-10 — Owner listening follow-up: freeze 0.12.4
+
+- Owner confirmed the +12 dB browser-only output boost in 0.12.4 makes live playback through the MPC speakers significantly louder, without being excessively loud.
+- The Windows Snipping Tool screen recording remains unusually quiet. Capture-path attenuation is suspected but not confirmed; no conclusion about its cause is claimed.
+- Decision: freeze the 0.12.4 code and avoid further synthesis or output-gain changes without evidence of an application-side defect.
+- Future recording comparison will use OBS Studio or another capture application; this verification is deferred and does not block development.
+- Next milestone: 0.13.0 Workbench. No FM-1 firmware image was built or flashed.
