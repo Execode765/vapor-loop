@@ -466,3 +466,15 @@ Version 0.7.2 derives Follow anchors from the final playback onsets after the up
 - Verified standalone artifact: `vapor-loop-standalone-0.12.2`, SHA-256 `1772e080fa40b4d231bce614dbbe93b93c65d5b2f5a64daa7fcd7613d119052c` for the workflow ZIP.
 - Browser simulation only. No FM-1 firmware image was built and no hardware was accessed or flashed.
 
+# Vapor Loop 0.12.3 validation — 2026-11-09
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| 0.12.2 Capture reset reproduction | PASS | Compiled 0.12.2 WASM changes FM Glass to Sine Diagnostic when Capture begins |
+| Native engine preservation | PASS locally | FM, Virtual Analog, and Karplus–Strong remain selected through Capture, Finish, Replay, Reply, Keep, candidate playback, Clear, and manual-track recording |
+| Compiled WASM engine preservation | PASS locally | FM Glass remains active across the real exported transport and candidate API |
+| Existing native/WASM/worklet regressions | PASS locally | Voice, memory, timing, sequencer, harmony, keys, drums, candidates, and worklet checks pass |
+| Served and standalone Chromium | PENDING CI | Browser test now requires FM Glass readback after Capture and Finish |
+| Owner listening validation | PENDING | Packaged 0.12.3 standalone build requires a short targeted retest |
+| Plugin / FM-1 hardware | NOT TESTED | Browser simulation only; no firmware image was built or flashed |
+

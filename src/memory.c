@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: GPL-3.0-only */
 #include "memory.h"
 static void prepare_bass(EchoMemory *m);
+static void reset_lead_voice(EchoMemory *m);
 void echo_memory_init(EchoMemory *m) {
     echo_voice_init(&m->voice);
     echo_voice_init(&m->bass_voice);
@@ -36,6 +37,11 @@ void echo_memory_init(EchoMemory *m) {
     for (int i = 0; i < 128; ++i) m->keys_held[i] = m->keys_held_velocity[i] = 0;
     for (uint32_t i = 0; i < ECHO_SEQ_MAX_EVENTS; ++i) m->keys_event_active[i] = 0;
     m->rhythm_beat = m->rhythm_next = m->rhythm_step = 0;
+}
+static void reset_lead_voice(EchoMemory *m) {
+    int engine = m->voice.engine;
+    echo_voice_init(&m->voice);
+    echo_voice_set_engine(&m->voice, engine);
 }
 static void close_event(EchoMemory *m) {
     if (m->active < 0) return;
@@ -128,7 +134,7 @@ void echo_memory_clear(EchoMemory *m) {
     m->bass_pass_context_valid = m->keys_pass_context_valid = 0;
 }
 void echo_memory_capture(EchoMemory *m) {
-    echo_memory_clear(m); m->variation = 0; echo_voice_init(&m->voice); echo_voice_init(&m->click_voice);
+    echo_memory_clear(m); m->variation = 0; reset_lead_voice(m); echo_voice_init(&m->click_voice);
     if (!m->capture_bars) { m->mode = ECHO_ARMED; return; }
     int bpm = m->bpm; if (bpm < 40) bpm = 40; if (bpm > 240) bpm = 240;
     m->tempo_beat = 2646000u / (uint32_t)bpm;
@@ -150,7 +156,7 @@ static void start_rhythm_reference(EchoMemory *m, int bpm) {
 int echo_memory_replay(EchoMemory *m) {
     echo_memory_stop(m);
     if (!m->count || !m->length) return 0;
-    echo_voice_init(&m->voice);
+    reset_lead_voice(m);
     m->mode = ECHO_PLAYING; m->position = m->next = 0; m->playing = -1;
     m->play_length = m->length;
     m->playback = ECHO_EXACT_PLAYBACK;
@@ -183,7 +189,7 @@ int echo_memory_reply(EchoMemory *m) {
     echo_groove_apply(phrase_onset, phrase_duration, m->reply_onset, m->reply_duration,
                       m->reply_count, phrase_length, m->bpm, m->groove_style,
                       m->groove_amount, &m->reply_length);
-    echo_voice_init(&m->voice);
+    reset_lead_voice(m);
     m->mode = ECHO_PLAYING; m->position = m->next = 0; m->playing = -1;
     m->play_length = m->reply_length;
     m->playback = ECHO_REPLY_PLAYBACK;
@@ -212,7 +218,7 @@ int echo_memory_play_candidate(EchoMemory *m, int slot) {
     echo_memory_stop(m);
     if (slot < 0 || slot >= (int)ECHO_CANDIDATE_SLOTS || !m->candidates[slot].filled) return 0;
     m->candidate_slot = slot;
-    echo_voice_init(&m->voice);
+    reset_lead_voice(m);
     m->mode = ECHO_PLAYING; m->position = m->next = 0; m->playing = -1;
     m->play_length = m->candidates[slot].length;
     m->playback = ECHO_CANDIDATE_PLAYBACK;
@@ -628,7 +634,7 @@ static uint32_t next_keys_boundary(const EchoMemory *m, uint32_t boundary) {
 }
 static void start_track_recording(EchoMemory *m) {
     int track = m->track_record_pending - 1;
-    echo_voice_init(&m->voice); echo_voice_init(&m->bass_voice); echo_keys_stop(&m->keys);
+    reset_lead_voice(m); echo_voice_init(&m->bass_voice); echo_keys_stop(&m->keys);
     m->mode = ECHO_PLAYING; m->position = m->next = 0; m->playing = -1;
     m->play_length = m->length; m->playback = ECHO_EXACT_PLAYBACK;
     m->track_record_pending = 0;

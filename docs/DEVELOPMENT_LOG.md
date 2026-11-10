@@ -409,3 +409,12 @@ Never record a planned test as a passed test.
 - Confirmed kept candidates store and restore their own key/scale context.
 - Clean GitHub Actions run 42684662979 passed native, sanitizer, WASM, AudioWorklet, Chromium, Web MIDI, served-page, and standalone-file validation before the owner-test build was packaged.
 
+# 2026-11-09 — 0.12.3 Engine-state preservation
+
+- Reproduced the owner-reported defect in the compiled 0.12.2 core: starting Capture reinitialized the Lead voice and changed FM Glass back to Sine Diagnostic.
+- Added one bounded Lead-voice reset path that snapshots the selected engine, initializes voice state, and restores that engine immediately.
+- Applied the preserving reset to Capture, Replay, Reply, kept-candidate playback, and manual-track recording. Finish, Stop, Keep, Clear, and candidate management retain the same engine by construction.
+- Added native regression coverage for FM Glass, Virtual Analog Warm, and Karplus–Strong String across every transport/memory operation, plus compiled-WASM and browser assertions for FM Glass.
+- Updated the standalone build identity and visible diagnostic copy to 0.12.3. Selected and active engine readbacks remain independent so later regressions remain observable.
+- The unresolved timing observation remains deferred to the 0.13.0 Workbench timeline. No FM-1 firmware image was built and no hardware was accessed or flashed.
+

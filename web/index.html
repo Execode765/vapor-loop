@@ -3,10 +3,10 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Vapor Loop · Harmonic Context 0.12.2</title>
+<title>Vapor Loop · Engine Preservation 0.12.3</title>
 <link rel="stylesheet" href="style.css">
 <main>
-  <header><p class="eyebrow">PSYCHIC-OCTO-SPORK / DEVELOPMENT 0.12.2</p><h1>Catch it before<br>it disappears.</h1><p class="intro">Captured Lead notes now establish one shared harmonic context for Reply, Bass, and Chord companions.</p></header>
+  <header><p class="eyebrow">EXECODE765 / VAPOR-LOOP / DEVELOPMENT 0.12.3</p><h1>Catch it before<br>it disappears.</h1><p class="intro">The selected Lead engine now survives Capture, Replay, Reply, Keep, candidate playback, and manual-track recording.</p></header>
   <section class="instrument" aria-label="Vapor Loop browser prototype">
     <div class="top"><div><p class="eyebrow">VAPOR LOOP</p><p class="hint">A melodic memory instrument, in development.</p><button id="start">Enable sound</button><p id="status" role="status">Sound is off.</p></div><canvas id="screen" width="240" height="240" aria-label="Simulated FM-1 display"></canvas></div>
     <div class="engine-panel" aria-label="Lead synthesis engine">
@@ -14,7 +14,7 @@
         <select id="lead-engine"><option value="0">Sine · Diagnostic</option><option value="1" selected>FM · Glass</option><option value="2">Virtual Analog · Warm</option><option value="3">Karplus–Strong · String</option></select>
       </label>
       <p id="engine-status" role="status">Selected · FM Glass · enable sound to verify audio core</p>
-      <p id="build-status">Build 0.12.2 · if the selected and active engines ever disagree, reload this page.</p>
+      <p id="build-status">Build 0.12.3 · selected Lead engine is preserved across transport and memory operations.</p>
       <p class="hint">This first engine lab compares stable low-cost synthesis models. Operator, filter, envelope, damping, and brightness controls follow after listening validation.</p>
     </div>
     <div class="harmony-panel" aria-label="Reply harmony">
