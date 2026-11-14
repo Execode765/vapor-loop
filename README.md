@@ -2,7 +2,7 @@
 
 Development of an original musical instrument firmware for the M-VAVE FM-1, with AI-assisted coding and documented hardware testing.
 
-**Status: Vapor Loop 0.12.4 adds protected browser gain staging after the owner validated the 0.12.3 FM Glass reset repair. Browser playback defaults to +12 dB, offers +18 dB for recording, and uses a −3 dBFS safety limiter without changing the shared synthesis core or future hardware gain model. The next planned release is the 0.13.0 Vapor Loop Workbench interface reset. No hardware firmware build or flashing has occurred.**
+**Status: Vapor Loop v0.12.4 remains the current browser prototype, with protected browser gain staging and the validated FM Glass reset repair. Development priority has shifted to preparing the M-VAVE FM-1 for original firmware development. Recovery preparation is documented through Diagnostic 34; ROM-mode access and the original V16 firmware backup remain pending. No hardware firmware build or flashing has occurred. The previously planned v0.13.0 Workbench remains a future browser milestone.**
 
 **Vapor Loop** is the project and instrument name. ECHOLOG is the original melodic-conversation experiment that established its capture, Reply, and candidate-memory core.
 
@@ -12,6 +12,24 @@ Create something creative, unusual, and musically useful that FM-1 owners want t
 Initial concepts included GENOME, ECHOLOG, and GRAVITY. ECHOLOG's musical-memory experiment evolved into Vapor Loop: a melodic looper whose generated ideas disappear unless the player captures them. Originality and feasibility remain engineering and community-research questions rather than marketing claims.
 
 This project is separate from the completed Local LLM Infrastructure Lab.
+
+## Hardware Firmware Development — Recovery Preparation
+
+Vapor Loop is transitioning from browser-based prototyping toward physical FM-1 firmware development.
+
+Before deploying custom firmware, the project is establishing a backup and recovery procedure for the designated development controller, DEV-01.
+
+**Current checkpoint: Diagnostics 01–34**
+
+- Recovery tooling installed and evaluated using offline simulations.
+- 69 automated test executions passed, five were skipped, and two encountered documented Windows test-environment errors.
+- Normal FM-1 USB identification verified on Windows.
+- ROM recovery access and original V16 flash backup remain unverified.
+- No firmware has been flashed.
+
+Hardware testing is paused after Diagnostic 34. The next milestone is reviewing ROM-mode entry and its risks before any device-state-changing command is authorized.
+
+[Read the FM-1 Recovery Preparation report](docs/FM1_RECOVERY_PREPARATION.md).
 
 ## Current development checkpoint
 
@@ -125,6 +143,7 @@ Version 0.3.0 separates pitch generation from rhythm shaping. Original preserves
 - [First prototype specification](docs/PROTOTYPE_SPEC.md)
 - [Project plan and milestones](docs/PROJECT_PLAN.md)
 - [Development log](docs/DEVELOPMENT_LOG.md)
+- [FM-1 Recovery Preparation — Diagnostics 01–34](docs/FM1_RECOVERY_PREPARATION.md)
 - [0.12.2 owner-test checkpoint and restart plan](docs/V0.12.2_TEST_CHECKPOINT.md)
 - [Hardware testing and recovery record](docs/HARDWARE_TESTING.md)
 - [Future Chord Companion concept](docs/CHORD_COMPANION_CONCEPT.md)
